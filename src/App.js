@@ -13,6 +13,7 @@ import userContext from './utils/userContext';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
+import Signup from './components/Signup';
 
 function App() {
   const [user, setUser] = useState({});
@@ -47,6 +48,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/orders" component={Orders} />
           <Route path="/wishlist" component={ProductWishlist} />
+          <Route path="/signup" component={Signup} />
           <Route component={Default} />
         </Switch>
         <Modal />

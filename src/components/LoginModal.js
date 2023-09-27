@@ -1,7 +1,8 @@
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import React from 'react'
 import Login from "../components/Login"
+import { ButtonContainer } from './Button';
+import Signup from './Signup';
 
 const LoginModal = (props) => {
     return (
@@ -11,16 +12,19 @@ const LoginModal = (props) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
+
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Login
+                    {props.name}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Login />
+                {props.name == "Login" ? <Login /> : <Signup />}
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
+                <ButtonContainer onClick={props.onHide}>
+                    <i className="fa fa-close">Close</i>
+                </ButtonContainer>
             </Modal.Footer>
         </Modal>
     );

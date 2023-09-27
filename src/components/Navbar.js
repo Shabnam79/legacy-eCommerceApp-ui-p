@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import styled from 'styled-components';
@@ -53,6 +53,7 @@ const Navbar = () => {
                             </ButtonContainer>
 
                             <LoginModal
+                                name="Login"
                                 show={modalShow}
                                 onHide={() => setModalShow(false)}
                             />
@@ -87,9 +88,9 @@ const Navbar = () => {
                                 </ButtonContainer>
                             </Link>
                         </>
-                        
+
                 }
-              
+
                 <Link to="/cart" className="ml-auto">
                     <ButtonContainer>
                         <i className="fas fa-cart-plus">my cart</i>
