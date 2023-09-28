@@ -1,5 +1,5 @@
 import React, { Component,useContext, useEffect, useState } from 'react';
-import { collection, addDoc, writeBatch, doc, where, query ,getDocs} from "firebase/firestore";
+import { collection, addDoc, writeBatch, doc, where,deleteDoc, query ,getDocs} from "firebase/firestore";
 import userContext from '../../utils/userContext';
 import { db } from '../../config/firebase.config';
 import Title from "../Title";
@@ -11,10 +11,9 @@ const ProductWishlist = () => {
     debugger
     const [wishlist, setWishlist] = useState([]);
     const { user } = useContext(userContext);
-
-      useEffect(() => {
+    useEffect(() => {
         fetchWishlist();
-    }, []);
+    }, user.userId);
 
     const fetchWishlist = async () => {
         if (user.userId) {
@@ -26,11 +25,18 @@ const ProductWishlist = () => {
                 //     console.log(doc.id, " => ", doc.data());
                 const newData = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }));
-                    setWishlist(newData);
+                setWishlist(newData);
             });
         } else {
             console.log("Please login to see past wishlist");
         }
+    }
+    const removeWishlist = async (id) => {
+        console.log(id,"Id");
+        const wishlistDoc = doc(db, "storeWishlist", id);
+        await deleteDoc(wishlistDoc);   
+        alert("Product removed from the wishlist");
+        fetchWishlist();
     }
     return (
         <section>
@@ -41,7 +47,7 @@ const ProductWishlist = () => {
                             <React.Fragment>
                                 <Title name="your" title="wishlist" />
                                 <WishlistColumns />
-                                <FavouriteList wishlist={wishlist} />
+                                <FavouriteList wishlist={wishlist} removeWishlist={removeWishlist} />
                             </React.Fragment>
                         );
                     } else {
