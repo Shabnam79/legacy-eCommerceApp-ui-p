@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { collection, where, query, getDocs } from "firebase/firestore";
+import React, { Component,useContext, useEffect, useState } from 'react';
+import { collection, addDoc, writeBatch, doc, where,deleteDoc, query ,getDocs} from "firebase/firestore";
 import userContext from '../../utils/userContext';
 import { db } from '../../config/firebase.config';
 import Title from "../Title";
@@ -14,7 +14,7 @@ const ProductWishlist = () => {
 
     useEffect(() => {
         fetchWishlist();
-    }, []);
+    }, user.userId);
 
     const fetchWishlist = async () => {
         if (user.userId) {
@@ -32,6 +32,13 @@ const ProductWishlist = () => {
             console.log("Please login to see past wishlist");
         }
     }
+    const removeWishlist = async (id) => {
+        console.log(id,"Id");
+        const wishlistDoc = doc(db, "storeWishlist", id);
+        await deleteDoc(wishlistDoc);   
+        alert("Product removed from the wishlist");
+        fetchWishlist();
+    }
     return (
         <section>
             <ProductConsumer>
@@ -41,7 +48,7 @@ const ProductWishlist = () => {
                             <React.Fragment>
                                 <Title name="your" title="wishlist" />
                                 <WishlistColumns />
-                                <FavouriteList wishlist={wishlist} />
+                                <FavouriteList wishlist={wishlist} removeWishlist={removeWishlist} />
                             </React.Fragment>
                         );
                     } else {
