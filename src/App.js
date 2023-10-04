@@ -13,6 +13,8 @@ import userContext from './utils/userContext';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 function App() {
   const [user, setUser] = useState({});
@@ -33,24 +35,26 @@ function App() {
 
   return (
     <React.Fragment>
-      <userContext.Provider
-        value={{
-          user: user,
-          setUser: setUser
-        }}
-      >
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={ProductList} />
-          <Route path="/details" component={Details} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/login" component={Login} />
-          <Route path="/orders" component={Orders} />
-          <Route path="/wishlist" component={ProductWishlist} />
-          <Route component={Default} />
-        </Switch>
-        <Modal />
-      </userContext.Provider>
+      <Provider store={store}>
+        <userContext.Provider
+          value={{
+            user: user,
+            setUser: setUser
+          }}
+        >
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={ProductList} />
+            <Route path="/details" component={Details} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/login" component={Login} />
+            <Route path="/orders" component={Orders} />
+            <Route path="/wishlist" component={ProductWishlist} />
+            <Route component={Default} />
+          </Switch>
+          <Modal />
+        </userContext.Provider>
+      </Provider>
     </React.Fragment>
   );
 }

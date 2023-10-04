@@ -4,9 +4,14 @@ import userContext from "../../utils/userContext";
 import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
 import { db } from '../../config/firebase.config';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTotals, removeAll } from '../../utils/cartSlice';
 
 export default function CartTotals({ value }) {
-    const { cartSubTotal, cartTax, cartTotal, clearCart, cart } = value;
+    const dispatch = useDispatch();
+    const cartItems = useSelector((store) => store);
+
+    const { cartSubTotal, cartTax, cartTotal, cart } = value;
     const { user } = useContext(userContext)
     const collectionRef = collection(db, "productOrders");
 
@@ -50,6 +55,10 @@ export default function CartTotals({ value }) {
         }
     }
 
+    const clearCart = () => {
+        dispatch(removeAll());
+    }
+
     return <React.Fragment>
         <div className="container">
             <div className="row">
@@ -64,15 +73,15 @@ export default function CartTotals({ value }) {
                     </button>
                     <h5>
                         <span className="text-title">subtotal :</span>
-                        <strong>{cartSubTotal}</strong>
+                        <strong>{cartItems.cart.subTotal}</strong>
                     </h5>
                     <h5>
                         <span className="text-title">subtotal :</span>
-                        <strong>{cartTax}</strong>
+                        <strong>{cartItems.cart.tax}</strong>
                     </h5>
                     <h5>
                         <span className="text-title">subtotal :</span>
-                        <strong>{cartTotal}</strong>
+                        <strong>{cartItems.cart.total}</strong>
                     </h5>
                 </div>
             </div>

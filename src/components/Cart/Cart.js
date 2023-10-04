@@ -5,20 +5,23 @@ import EmptyCart from './EmptyCart';
 import { ProductConsumer } from '../../utils/context';
 import CartList from './CartList';
 import CartTotals from "./CartTotals";
+import { useSelector } from 'react-redux';
 
 const Store = ({ history }) => {
+    const cartItems = useSelector((store) => store.cart);
+
     return (
         <section>
             <ProductConsumer>
                 {value => {
-                    const { cart } = value;
+                    const { cart } = cartItems;
                     if (cart.length > 0) {
                         return (
                             <React.Fragment>
                                 <Title name="your" title="cart" />
                                 <CartColumns />
-                                <CartList value={value} />
-                                <CartTotals value={value} history={history} />
+                                <CartList value={cartItems} />
+                                <CartTotals value={cartItems} history={history} />
                             </React.Fragment>
                         );
                     } else {
