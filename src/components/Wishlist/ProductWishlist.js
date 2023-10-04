@@ -1,9 +1,8 @@
-import React, { Component,useContext, useEffect, useState } from 'react';
-import { collection, addDoc, writeBatch, doc, where,deleteDoc, query ,getDocs} from "firebase/firestore";
+import React, { useContext, useEffect, useState } from 'react';
+import { collection, doc, where, deleteDoc, query, getDocs } from "firebase/firestore";
 import userContext from '../../utils/userContext';
 import { db } from '../../config/firebase.config';
 import Title from "../Title";
-import { ProductConsumer } from '../../utils/context';
 import WishlistColumns from './WishlistColumns';
 import EmptyWishlist from './EmptyWishlist';
 import FavouriteList from "./FavouriteList";
@@ -32,30 +31,28 @@ const ProductWishlist = () => {
             console.log("Please login to see past wishlist");
         }
     }
+
     const removeWishlist = async (id) => {
-        console.log(id,"Id");
+        console.log(id, "Id");
         const wishlistDoc = doc(db, "storeWishlist", id);
-        await deleteDoc(wishlistDoc);   
+        await deleteDoc(wishlistDoc);
         alert("Product removed from the wishlist");
         fetchWishlist();
     }
+
     return (
         <section>
-            <ProductConsumer>
-                {value => {
-                    if (wishlist.length > 0) {
-                        return (
-                            <React.Fragment>
-                                <Title name="your" title="wishlist" />
-                                <WishlistColumns />
-                                <FavouriteList wishlist={wishlist} removeWishlist={removeWishlist} />
-                            </React.Fragment>
-                        );
-                    } else {
-                        return <EmptyWishlist />;
-                    }
-                }}
-            </ProductConsumer>
+            {
+                wishlist.length > 0
+                    ?
+                    <React.Fragment>
+                        <Title name="your" title="wishlist" />
+                        <WishlistColumns />
+                        <FavouriteList wishlist={wishlist} removeWishlist={removeWishlist} />
+                    </React.Fragment>
+                    :
+                    <EmptyWishlist />
+            }
         </section>
     );
 }
