@@ -1,25 +1,16 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Product from "./Product";
 import Title from "./Title";
-import { ProductConsumer } from '../utils/context';
-import { db } from '../config/firebase.config';
-import { collection, getDocs } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../utils/productSlice';
 
 const ProductList = () => {
-    // const [storeProductList, setstoreProductList] = useState([]);
-    // const collectionRef = collection(db, 'storeProducts');
+    const dispatch = useDispatch();
+    const { allproducts } = useSelector((state) => state.allproducts);
 
-    // useEffect(() => {
-    //      const setProducts = async () => {
-    //         await getDocs(collectionRef).then((storeProduct) => {
-    //             let storeProductData = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    //             setstoreProductList(storeProductData)
-    //         })
-    //     }
-    //     setProducts();
-    // }, [])
-
-    // console.log('DataList',storeProductList)
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, []);
 
     return (
         <>
@@ -27,13 +18,11 @@ const ProductList = () => {
                 <div className="container">
                     <Title name="our" title="products" />
                     <div className="row">
-                        <ProductConsumer>
-                            {value => {
-                                return value.products.map(product => {
-                                    return <Product key={product.id} product={product} />;
-                                });
-                            }}
-                        </ProductConsumer>
+                        {
+                            allproducts.map(product => {
+                                return <Product key={product.id} product={product} />;
+                            })
+                        }
                     </div>
                 </div>
             </div>
