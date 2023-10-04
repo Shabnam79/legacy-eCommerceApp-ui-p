@@ -8,8 +8,10 @@ import { db } from '../config/firebase.config';
 
 const Details = () => {
     const { user } = useContext(userContext);
+    //const isAnonymous = false;
     const addToWishlist = async (value) => {
         debugger      
+        //isAnonymous = true;
         if (user.userId) {
             try {
                 const docRef = await addDoc(collection(db, "storeWishlist"), {

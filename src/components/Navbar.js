@@ -1,4 +1,6 @@
-import React, { Component, useContext, useState } from 'react'
+import React, { Component,useContext, useEffect, useState } from 'react';
+import { collection, addDoc, writeBatch, doc, where,deleteDoc, query ,getDocs} from "firebase/firestore";
+import { db } from '../config/firebase.config';
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import styled from 'styled-components';
@@ -8,16 +10,39 @@ import { auth } from "../config/firebase.config";
 import { signOut } from "firebase/auth";
 import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { ProductConsumer } from '../utils/context';
 
 const Navbar = () => {
     const { user, setUser } = useContext(userContext)
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
-
+    const [dropdown, setDropdown] = useState([]);
     // if (auth != null)
     //     if (auth.currentUser != null)
     //         if (auth.currentUser.uid != null)
     //             console.log("myauth1", auth.currentUser.uid);
+
+    useEffect(() => {
+        fetchCategorylist();
+    }, user.userId);
+
+    const fetchCategorylist = async () => {
+        debugger
+        if (user.userId) {
+            const q = query(
+                collection(db, "productCategory")
+            )
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                //     console.log(doc.id, " => ", doc.data());
+                const newData = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }));
+                    setDropdown(newData);
+            });
+        } else {
+            console.log("Please login to see category list");
+        }
+    }
 
     const logout = async () => {
         try {
@@ -26,7 +51,7 @@ const Navbar = () => {
             console.error(err);
         }
     };
-
+    
     return (
         <NavWrapper className="navbar nav-bar-expand-sm navbar-dark px-sm-5">
             <div className="navbar">
@@ -40,6 +65,22 @@ const Navbar = () => {
                         </Link>
                     </li>
                 </ul>
+                &nbsp;&nbsp;&nbsp;
+                <div>
+                    <ProductConsumer>
+                        { value => 
+                    // <select className="dropdown" onChange={(e) => handleSelect(e.target.value)}>
+                    <select className="dropdown" onChange={(e) => value.fetchProductCategorylist(e.target.value)}>
+                    <option value="">All Category</option>
+                        {dropdown.map((item) => (
+                            <option value={item.id}>{item.Category}</option>
+                        ))}
+                    </select>
+                        }
+
+                    </ProductConsumer>
+                </div>             
+                &nbsp;&nbsp;&nbsp;
             </div>
             <div className="navbar-right">
                 <span style={{ color: "white" }}>{user.email}</span>&nbsp;&nbsp;&nbsp;
