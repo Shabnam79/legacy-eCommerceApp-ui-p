@@ -12,7 +12,7 @@ const Store = ({ history }) => {
     return (
         <section>
             {
-                cartItems.length > 0
+                cartItems.cart.length > 0
                     ?
                     <React.Fragment>
                         <Title name="your" title="cart" />
