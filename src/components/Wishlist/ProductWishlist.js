@@ -7,10 +7,11 @@ import { ProductConsumer } from '../../utils/context';
 import WishlistColumns from './WishlistColumns';
 import EmptyWishlist from './EmptyWishlist';
 import FavouriteList from "./FavouriteList";
+
 const ProductWishlist = () => {
-    debugger
     const [wishlist, setWishlist] = useState([]);
     const { user } = useContext(userContext);
+
     useEffect(() => {
         fetchWishlist();
     }, user.userId);

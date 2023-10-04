@@ -3,9 +3,16 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProductConsumer } from '../utils/context';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../utils/cartSlice';
 
 const Product = ({ product }) => {
     const { id, title, img, price, inCart } = product;
+    const dispatch = useDispatch();
+
+    const addProductIntoCart = (item) => {
+        dispatch(addToCart(item));
+    }
 
     return (
         <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
@@ -17,7 +24,8 @@ const Product = ({ product }) => {
                         </Link>
                         <button className="cart-btn" disabled={inCart ? true : false}
                             onClick={() => {
-                                value.addToCart(id);
+                                // value.addToCart(id);
+                                addProductIntoCart(product);
                                 value.openModal(id);
                             }}>
                             {inCart ? (<p className="text-capitalize mb-0" disabled>{""}in Cart</p>)

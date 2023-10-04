@@ -3,9 +3,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useContext, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import userContext from "../utils/userContext";
-import { auth } from "../config/firebase.config";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';
@@ -20,44 +19,20 @@ const schema = yup.object().shape({
         .required(),
 });
 
-const Login = () => {
-    const { user, setUser } = useContext(userContext);
-    const { setItem } = useLocalStorage();
+const Signup = () => {
     const [modalShow, setModalShow] = useState(false);
 
-    // if (auth != null)
-    //     if (auth.currentUser != null)
-    //         if (auth.currentUser.uid != null)
-    //             console.log("myauth2", auth.currentUser.uid);
-
-    const authentication = (values) => {
+    const authentication = (values, { resetForm }) => {
         const getAuthentication = getAuth();
-        signInWithEmailAndPassword(getAuthentication, values.email, values.password)
+        createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
             .then((res) => {
-                // console.log("login success");
-                // console.log("Auth Token", res._tokenResponse.refreshToken);
-
-                let userData = {
-                    userId: auth.currentUser.uid,
-                    email: values.email
-                };
-
-                setItem("user", JSON.stringify(userData));
-
-                setUser({
-                    ...user,
-                    userId: auth.currentUser.uid,
-                    email: values.email
-                });
+                alert("Signup successfully");
+                resetForm();
             })
             .catch((error) => {
                 // console.log(error.code);
-                if (error.code === "auth/wrong-password") {
-                    alert("Please check the password");
-                } else if (error.code === "auth/user-not-found") {
-                    alert("Please check the email");
-                } else if (error.code === "auth/invalid-login-credentials") {
-                    alert("invalid-login-credentials");
+                if (error.code === "auth/email-already-in-use") {
+                    alert("auth/email-already-in-use");
                 }
             });
     }
@@ -67,17 +42,12 @@ const Login = () => {
             <Row>
                 <Col></Col>
                 <Col>
-                    {/* <h2>Login</h2> */}
                     <Formik
                         validationSchema={schema}
                         onSubmit={authentication}
-                        // onSubmit={(e) => {
-                        //     const data = { email: e.email, password: e.password };
-                        //     alert(JSON.stringify(data));
-                        // }}
                         initialValues={{
-                            email: 'Test1234@gmail.com',
-                            password: 'Test1234',
+                            email: '',
+                            password: '',
                         }}
                     >
                         {({
@@ -133,18 +103,18 @@ const Login = () => {
                                 >Login</Button> */}
 
                                 <ButtonContainer type="submit">
-                                    <i className="fas fa-user">Login</i>
+                                    <i className="fas fa-user">Signup</i>
                                 </ButtonContainer>
 
                                 <ButtonContainer onClick={(e) => {
                                     e.preventDefault();
                                     setModalShow(true);
                                 }}>
-                                    <i className="fas fa-user">Signup</i>
+                                    <i className="fas fa-user">Login</i>
                                 </ButtonContainer>
 
                                 <LoginModal
-                                    name="Signup"
+                                    name="Login"
                                     show={modalShow}
                                     onHide={() => setModalShow(false)}
                                 />
@@ -158,4 +128,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Signup;

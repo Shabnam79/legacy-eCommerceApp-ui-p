@@ -1,17 +1,18 @@
-import React, { Component, useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { ProductConsumer } from '../utils/context';
 import { Link } from 'react-router-dom';
 import { ButtonContainer } from './Button';
 import userContext from "../utils/userContext";
-import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from '../config/firebase.config';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../utils/cartSlice';
 
 const Details = () => {
     const { user } = useContext(userContext);
-    //const isAnonymous = false;
+    const dispatch = useDispatch();
+
     const addToWishlist = async (value) => {
-        debugger      
-        //isAnonymous = true;
         if (user.userId) {
             try {
                 const docRef = await addDoc(collection(db, "storeWishlist"), {
@@ -21,7 +22,7 @@ const Details = () => {
                     info: value.info,
                     price: value.price,
                     productId: value.id,
-                    userId:user.userId,
+                    userId: user.userId,
                     title: value.title,
                 });
                 console.log("Document written with ID: ", docRef.id);
@@ -33,6 +34,11 @@ const Details = () => {
             alert("To make order you need to login first");
         }
     }
+
+    const addProductIntoCart = (item) => {
+        dispatch(addToCart(item));
+    }
+
     return (
         <ProductConsumer>
             {value => {
@@ -77,7 +83,8 @@ const Details = () => {
                                     </Link>
                                     <ButtonContainer cart disabled={inCart ? true : false}
                                         onClick={() => {
-                                            value.addToCart(id);
+                                            // value.addToCart(id);
+                                            addProductIntoCart(value.detailProduct);
                                             value.openModal(id);
                                         }}>
                                         {inCart ? "inCart" : "add to cart"}

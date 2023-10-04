@@ -94,6 +94,7 @@ const Navbar = () => {
                             </ButtonContainer>
 
                             <LoginModal
+                                name="Login"
                                 show={modalShow}
                                 onHide={() => setModalShow(false)}
                             />
@@ -128,9 +129,9 @@ const Navbar = () => {
                                 </ButtonContainer>
                             </Link>
                         </>
-                        
+
                 }
-              
+
                 <Link to="/cart" className="ml-auto">
                     <ButtonContainer>
                         <i className="fas fa-cart-plus">my cart</i>
