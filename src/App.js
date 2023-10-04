@@ -15,6 +15,7 @@ import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
 import { Provider } from 'react-redux';
 import store from './utils/store';
+import Signup from './components/Signup';
 
 function App() {
   const [user, setUser] = useState({});
@@ -50,6 +51,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/orders" component={Orders} />
             <Route path="/wishlist" component={ProductWishlist} />
+            <Route path="/signup" component={Signup} />
             <Route component={Default} />
           </Switch>
           <Modal />

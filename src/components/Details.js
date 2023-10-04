@@ -1,9 +1,9 @@
-import React, { Component, useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { ProductConsumer } from '../utils/context';
 import { Link } from 'react-router-dom';
 import { ButtonContainer } from './Button';
 import userContext from "../utils/userContext";
-import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from '../config/firebase.config';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../utils/cartSlice';
