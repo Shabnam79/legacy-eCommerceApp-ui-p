@@ -25,7 +25,7 @@ export default function CartItem({ item, value }) {
                 <div className="d-flex justify-content-center">
                     <div>
                         <span className="btn btn-black mx-1" onClick={() => dispatch(reduceProduct(item))}>-</span>
-                        <span className="btn btn-black mx-1">{quantity}</span>
+                        <span className="btn btn-black mx-1">{count}</span>
                         <span className="btn btn-black mx-1" onClick={() => dispatch(incrementProduct(item))}>+</span>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ export default function CartItem({ item, value }) {
                 </div>
             </div>
             <div className="col-10 mx-auto col-lg-2">
-                <strong>item total : $ {price * quantity}</strong>
+                <strong>item total : $ {price * count}</strong>
             </div>
         </div>
     )
