@@ -53,15 +53,15 @@ const Product = ({ product }) => {
     );
 }
 
-Product.propTypes = {
-    product: PropTypes.shape({
-        id: PropTypes.number,
-        img: PropTypes.string,
-        title: PropTypes.string,
-        price: PropTypes.number,
-        inCart: PropTypes.bool
-    }).isRequired
-}
+// Product.propTypes = {
+//     product: PropTypes.shape({
+//         id: PropTypes.number,
+//         img: PropTypes.string,
+//         title: PropTypes.string,
+//         price: PropTypes.number,
+//         inCart: PropTypes.bool
+//     }).isRequired
+// }
 
 const ProducrWrapper = styled.div`
 .card{

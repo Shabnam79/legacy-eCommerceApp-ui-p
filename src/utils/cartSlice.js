@@ -15,9 +15,9 @@ const cartSlice = createSlice({
                 (item) => item.id === action.payload.id
             );
             if (itemIndex >= 0) {
-                state.cart[itemIndex].quantity += 1;
+                state.cart[itemIndex].count += 1;
             } else {
-                const product = { ...action.payload, quantity: 1 };
+                const product = { ...action.payload, count: 1 };
                 state.cart.push(product);
             }
 
@@ -43,9 +43,9 @@ const cartSlice = createSlice({
                 (item) => item.id === action.payload.id
             );
 
-            if (state.cart[itemIndex].quantity > 1) {
-                state.cart[itemIndex].quantity -= 1;
-            } else if (state.cart[itemIndex].quantity === 1) {
+            if (state.cart[itemIndex].count > 1) {
+                state.cart[itemIndex].count -= 1;
+            } else if (state.cart[itemIndex].count === 1) {
                 const updatedCart = state.cart.filter(
                     (p) => p.id !== action.payload.id
                 );
@@ -59,8 +59,8 @@ const cartSlice = createSlice({
             const itemIndex = state.cart.findIndex(
                 (item) => item.id === action.payload.id
             );
-            if (state.cart[itemIndex].quantity >= 1) {
-                state.cart[itemIndex].quantity += 1;
+            if (state.cart[itemIndex].count >= 1) {
+                state.cart[itemIndex].count += 1;
             }
             getTotals(state);
             localStorage.setItem("cart", JSON.stringify(state.cart));
@@ -74,17 +74,19 @@ export default cartSlice.reducer;
 
 function getTotals(state) {
     // let subTotal = 0;
+    // this.state.cart.map(item => (subTotal += item.total));
     // const tempTax = subTotal * 0.1;
+    // const tax = parseFloat(tempTax.toFixed(2));
+    // const total = subTotal + tax;
 
     const totalPrice = state.cart.reduce(
-        (a, c) => a + c.quantity * c.price,
+        (a, c) => a + c.count * c.price,
         0
     );
 
     state.subTotal = totalPrice;
     state.tax = totalPrice;
-    // state.tax = parseFloat(tempTax.toFixed(2));
-    state.total = state.subTotal + state.tax;
+    state.total = totalPrice;
 
     localStorage.setItem("subTotal", state.subTotal);
     localStorage.setItem("tax", state.tax);
