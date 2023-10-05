@@ -11,12 +11,16 @@ import { signOut } from "firebase/auth";
 import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ProductConsumer } from '../utils/context';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../utils/productSlice';
 
 const Navbar = () => {
     const { user, setUser } = useContext(userContext)
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
     const [dropdown, setDropdown] = useState([]);
+    const dispatch = useDispatch();
+    // const { allproducts } = useSelector((state) => state.allproducts);
     // if (auth != null)
     //     if (auth.currentUser != null)
     //         if (auth.currentUser.uid != null)
@@ -44,6 +48,10 @@ const Navbar = () => {
         }
     }
 
+    const fetchProductCategorylist = (id) => {
+        dispatch(fetchProducts(id));
+    }
+    
     const logout = async () => {
         try {
             await signOut(auth);
@@ -67,18 +75,14 @@ const Navbar = () => {
                 </ul>
                 &nbsp;&nbsp;&nbsp;
                 <div>
-                    <ProductConsumer>
-                        { value => 
-                    // <select className="dropdown" onChange={(e) => handleSelect(e.target.value)}>
-                    <select className="dropdown" onChange={(e) => value.fetchProductCategorylist(e.target.value)}>
+                  
+                    <select className="dropdown" onChange={(e) => fetchProductCategorylist(e.target.value)}>
+                    {/* <select className="dropdown" onChange={(e) => value.fetchProductCategorylist(e.target.value)}> */}
                     <option value="">All Category</option>
                         {dropdown.map((item) => (
                             <option value={item.id}>{item.Category}</option>
                         ))}
                     </select>
-                        }
-
-                    </ProductConsumer>
                 </div>             
                 &nbsp;&nbsp;&nbsp;
             </div>

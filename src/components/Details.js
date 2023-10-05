@@ -33,7 +33,7 @@ const Details = () => {
                 console.error("Error adding document: ", e);
             }
         } else {
-            alert("To make order you need to login first");
+            alert("To make wishlist you need to login first");
         }
     }
 

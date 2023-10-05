@@ -9,7 +9,7 @@ const ProductList = () => {
     const { allproducts } = useSelector((state) => state.allproducts);
 
     useEffect(() => {
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(''));
     }, []);
 
     return (
