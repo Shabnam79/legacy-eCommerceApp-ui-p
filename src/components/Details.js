@@ -7,6 +7,7 @@ import { db } from '../config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
+import { async } from 'q';
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -20,7 +21,7 @@ const Details = () => {
                 const docRef = await addDoc(collection(db, "storeWishlist"), {
                     company: value.company,
                     img: value.img,
-                    inWishlist: true,
+                    inCart: true,
                     info: value.info,
                     price: value.price,
                     productId: value.id,
@@ -28,16 +29,39 @@ const Details = () => {
                     title: value.title,
                 });
                 console.log("Document written with ID: ", docRef.id);
-                alert("Product added to wishlist");
+                alert("Product added to cart");
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
         } else {
-            alert("To make order you need to login first");
+            alert("To add your order in cart you need to login first");
         }
     }
 
-    const addProductIntoCart = (item) => {
+    const addProductIntoCart = async (item) => {
+        if (user.userId) {
+            try {
+                const docRef = await addDoc(collection(db, "addToCartStore"), {
+                    company: item.company,
+                    img: item.img,
+                    inWishlist: true,
+                    info: item.info,
+                    price: item.price,
+                    productId: item.id,
+                    userId: user.userId,
+                    title: item.title,
+                    count:item.count+1
+
+                });
+                console.log("Document written with ID: ", docRef.id);
+                alert("Product added to Cart");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        } else {
+            alert("To add your order in cart you need to login first");
+        }
+
         dispatch(addToCart(item));
     }
 
