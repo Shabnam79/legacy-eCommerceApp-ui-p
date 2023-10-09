@@ -7,6 +7,7 @@ import { db } from '../config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
+import { addToWishlist } from '../utils/wishlistSlice';
 import { async } from 'q';
 
 const Details = () => {
@@ -15,7 +16,7 @@ const Details = () => {
     const { detailProduct } = useSelector((state) => state.allproducts);
     const { id, company, img, info, price, title, inCart, inWishlist } = detailProduct;
 
-    const addToWishlist = async (value) => {
+    const addProductToWishlist = async (value) => {
         if (user.userId) {
             try {
                 const docRef = await addDoc(collection(db, "storeWishlist"), {
@@ -29,13 +30,14 @@ const Details = () => {
                     title: value.title,
                 });
                 console.log("Document written with ID: ", docRef.id);
-                alert("Product added to cart");
+                alert("Product added to wishlist");
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
         } else {
-            alert("To add your order in cart you need to login first");
+            alert("To add your product in wishlist you need to login first.");
         }
+        dispatch(addToWishlist(value));
     }
 
     const addProductIntoCart = async (item) => {
@@ -117,7 +119,7 @@ const Details = () => {
                         </ButtonContainer>
                         <ButtonContainer cart disabled={inWishlist ? true : false}
                             onClick={() => {
-                                addToWishlist(detailProduct);
+                                addProductToWishlist(detailProduct);
                             }}>
                             {inWishlist ? "inWishlist" : "add to wishlist"}
                         </ButtonContainer>
