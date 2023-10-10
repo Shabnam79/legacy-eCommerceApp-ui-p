@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { storeProducts, detailProduct } from "../data";
 import { db } from '../config/firebase.config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs ,doc, where,deleteDoc, query } from 'firebase/firestore';
 const ProductContext = React.createContext();
-
 class ProductProvider extends Component {
 
     state = {
@@ -41,7 +40,26 @@ class ProductProvider extends Component {
             }, this.checkCartItems);
         })
     };
-
+  fetchProductCategorylist = async (id) => {
+        if (id != '') {
+            const q = query(
+                collection(db, "storeProducts"), where("categoryId", "==", id)
+            )
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                //     console.log(doc.id, " => ", doc.data());
+                const products = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }));
+                //setWishlist(newData);
+                this.setState(() => {
+                    return { products };
+                }, this.checkCartItems);
+            });
+        }
+        else{
+            this.setProducts();
+        }
+    }
     getItem = id => {
         const product = this.state.products.find(item => item.id === id);
         return product;
@@ -189,7 +207,8 @@ class ProductProvider extends Component {
                     increment: this.increment,
                     decrement: this.decrement,
                     removeItem: this.removeItem,
-                    clearCart: this.clearCart
+                    clearCart: this.clearCart,
+                    fetchProductCategorylist: this.fetchProductCategorylist
                 }}
             >
                 {this.props.children}

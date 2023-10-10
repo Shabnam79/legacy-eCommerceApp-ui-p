@@ -1,13 +1,25 @@
-import React from 'react'
+import React,{ useEffect,useContext } from 'react'
 import Title from '../Title';
 import CartColumns from './CartColumns';
 import EmptyCart from './EmptyCart';
 import CartList from './CartList';
 import CartTotals from "./CartTotals";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import userContext from "../../utils/userContext";
+
+import {fetchCartProducts} from '../../utils/cartSlice'
+
+
+
 
 const Store = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
+    const dispatch = useDispatch();
+    const { user } = useContext(userContext);
+
+    useEffect(() => {
+        dispatch(fetchCartProducts(user.userId));
+    }, []);
 
     return (
         <section>

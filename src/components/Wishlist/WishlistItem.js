@@ -2,23 +2,28 @@ import React, { Component,useContext, useEffect, useState } from 'react';
 import { collection, addDoc,deleteDoc, writeBatch, doc, where, query ,getDocs} from "firebase/firestore";
 import userContext from '../../utils/userContext';
 import { db } from '../../config/firebase.config';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
 
-export default function WishlistItem({ item, value, removeWishlist }) {
+export default function WishlistItem({ item, value,fetchAddToWishlistData, removeWishlist }) {
     const { id, company,title, img, price, } = item;
     const { user } = useContext(userContext);
-    //debugger
-    // const refresh = async() =>{
-    //     window.location.reload(true);
-    // }
+    const dispatch = useDispatch();
 
-    // const handleRemove = async (id) => {
-    //     let tempWishlist = [...this.removeWishlist];
-    //     let index = tempWishlist.findIndex((i) => i.id === id);
-    //     const product = this.state.products.find(item => item.id === id);
-    //     const newList = tempWishlist.filter((item) => item.id !== id);
-    //     tempWishlist.splice(index, 1);
-    //     await this.setState({ setWishlist: newList });
-    // }  
+    const removeProductHandler = async (item) => {
+        try {
+            const addToWishlistDoc = doc(db, "storeWishlist", item.id);
+            await deleteDoc(addToWishlistDoc);
+            alert("Product removed from the Wishlist");
+            fetchAddToWishlistData();
+            dispatch(removeFromWishlist(item));
+
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+    
     return (
         <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">
@@ -35,7 +40,7 @@ export default function WishlistItem({ item, value, removeWishlist }) {
             </div>
             {/**/}
             <div className="col-10 mx-auto col-lg-2">
-                <div className="cart-icon" onClick={() => removeWishlist(id)}>
+                <div className="cart-icon" onClick={() => removeProductHandler(item)}>
                     <i className="fas fa-trash"></i>
                 </div>
             </div>
