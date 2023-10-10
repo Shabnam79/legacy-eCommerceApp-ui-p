@@ -27,7 +27,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
         debugger
         const addToCartDoc = doc(db, "addToCartStore", item.id);
         await updateDoc(addToCartDoc, {
-            count: count+1
+            count: count + 1
         });
         fetchAddToCartData();
 
@@ -36,11 +36,16 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const decrement = async (item) => {
         debugger
         const addToCartDoc = doc(db, "addToCartStore", item.id);
-        await updateDoc(addToCartDoc, {
-            count: count- 1
-        });
-        fetchAddToCartData();
-        dispatch(reduceProduct(item))
+        if (count != 1) {
+            await updateDoc(addToCartDoc, {
+                count: count - 1
+            });
+            fetchAddToCartData();
+            dispatch(reduceProduct(item))
+        }
+        else{
+            removeProductHandler(item)
+        }
     }
 
     return (
