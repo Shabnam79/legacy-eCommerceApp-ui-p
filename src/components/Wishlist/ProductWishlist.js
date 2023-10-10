@@ -17,7 +17,7 @@ const ProductWishlist = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchWishlistProducts());
+        dispatch(fetchWishlistProducts(user.userId));
     }, []);
 
     // useEffect(() => {

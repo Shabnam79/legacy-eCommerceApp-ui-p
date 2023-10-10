@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs,where,query } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
 const wishlistSlice = createSlice({
@@ -54,9 +54,11 @@ const wishlistSlice = createSlice({
 });
 
 
-export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async () => {
+export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
     debugger
-    const collectionRef = collection(db, 'storeWishlist');
+    const collectionRef = query(
+        collection(db, "storeWishlist"), where("userId", "==", userId)
+    )
     return await getDocs(collectionRef).then((storeProduct) => {
         debugger
         const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -67,4 +69,7 @@ export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", 
 export const { addToWishlist, removeFromWishlist, removeAll } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;
+
+
+
 
