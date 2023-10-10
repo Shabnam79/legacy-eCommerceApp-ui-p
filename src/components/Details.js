@@ -16,7 +16,8 @@ const Details = () => {
     const { detailProduct } = useSelector((state) => state.allproducts);
     const { id, company, img, info, price, title, inCart, inWishlist } = detailProduct;
     const [CartData, setCartData] = useState([]);
-
+    // const { wishlist } = useSelector((state) => state.wishlist);
+    // console.log(wishlist,'wishlist')
     useEffect(() => {
         fetchAddToCartData();
     }, [user.userId]);
@@ -28,7 +29,7 @@ const Details = () => {
                 const docRef = await addDoc(collection(db, "storeWishlist"), {
                     company: value.company,
                     img: value.img,
-                    inCart: true,
+                    inWishlist: true,
                     info: value.info,
                     price: value.price,
                     productId: value.id,

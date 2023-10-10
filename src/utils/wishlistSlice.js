@@ -26,16 +26,18 @@ const wishlistSlice = createSlice({
         addToWishlist(state, action) {
             //if that action product has already in wishlist then if block will work
             const itemIndex = state.wishlist.findIndex(
-                (item) => item.id === action.payload.id
+                (item) => item.inWishlist === action.payload.inWishlist
             );
-            if (itemIndex >= 0) {
-                state.wishlist[itemIndex].count += 1;
-            } else {
-                const product = { ...action.payload, count: 1 };
-                state.wishlist.push(product);
-            }
-
+            state.wishlist.push(action.payload);
             localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+            // if (itemIndex >= 0) {
+            //     state.wishlist[itemIndex].count += 1;
+            //     state.wishlist[itemIndex].inWishlist = true;
+            // } else {
+            //     const product = { ...action.payload, count: 1 };
+            //     state.wishlist.push(product);
+            // }
+            //localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
         },
 
         removeFromWishlist(state, action) {
