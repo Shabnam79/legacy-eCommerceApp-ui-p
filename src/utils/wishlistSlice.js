@@ -1,12 +1,12 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs,where,query } from "firebase/firestore";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
 const wishlistSlice = createSlice({
     name: "wishlist",
     initialState: {
         wishlist: localStorage.getItem("wishlist") != null ? JSON.parse(localStorage.getItem("wishlist")) : [],
-        status:""
+        status: ""
     },
     extraReducers: (builder) => {
         builder
@@ -14,7 +14,6 @@ const wishlistSlice = createSlice({
                 state.status = "LOADING";
             })
             .addCase(fetchWishlistProducts.fulfilled, (state, action) => {
-                debugger
                 state.wishlist = action.payload;
                 state.status = "IDLE";
             })
@@ -55,12 +54,10 @@ const wishlistSlice = createSlice({
 
 
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    debugger
     const collectionRef = query(
         collection(db, "storeWishlist"), where("userId", "==", userId)
     )
     return await getDocs(collectionRef).then((storeProduct) => {
-        debugger
         const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
         return wishlistProducts;
     })

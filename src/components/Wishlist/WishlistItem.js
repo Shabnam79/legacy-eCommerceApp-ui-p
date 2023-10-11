@@ -1,12 +1,13 @@
-import React, { Component,useContext, useEffect, useState } from 'react';
-import { collection, addDoc,deleteDoc, writeBatch, doc, where, query ,getDocs} from "firebase/firestore";
+import React, { Component, useContext, useEffect, useState } from 'react';
+import { collection, addDoc, deleteDoc, writeBatch, doc, where, query, getDocs } from "firebase/firestore";
 import userContext from '../../utils/userContext';
 import { db } from '../../config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
+import { toast } from "react-toastify";
 
-export default function WishlistItem({ item, value,fetchAddToWishlistData, removeWishlist }) {
-    const { id, company,title, img, price, } = item;
+export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
+    const { id, company, title, img, price, } = item;
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
 
@@ -14,7 +15,14 @@ export default function WishlistItem({ item, value,fetchAddToWishlistData, remov
         try {
             const addToWishlistDoc = doc(db, "storeWishlist", item.id);
             await deleteDoc(addToWishlistDoc);
-            alert("Product removed from the Wishlist");
+            // alert("Product removed from the Wishlist");
+            toast.warning(
+                `Product removed from the Wishlist`,
+                {
+                    autoClose: 1000,
+                }
+            );
+
             fetchAddToWishlistData();
             dispatch(removeFromWishlist(item));
 
@@ -23,7 +31,7 @@ export default function WishlistItem({ item, value,fetchAddToWishlistData, remov
             console.log(e);
         }
     };
-    
+
     return (
         <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">

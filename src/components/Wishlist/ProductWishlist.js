@@ -6,8 +6,9 @@ import Title from "../Title";
 import WishlistColumns from './WishlistColumns';
 import EmptyWishlist from './EmptyWishlist';
 import FavouriteList from "./FavouriteList";
-import {fetchWishlistProducts } from '../../utils/wishlistSlice';
+import { fetchWishlistProducts } from '../../utils/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 
 const ProductWishlist = () => {
     //const [wishlist, setWishlist] = useState([]);
@@ -45,7 +46,14 @@ const ProductWishlist = () => {
         console.log(id, "Id");
         const wishlistDoc = doc(db, "storeWishlist", id);
         await deleteDoc(wishlistDoc);
-        alert("Product removed from the wishlist");
+        // alert("Product removed from the wishlist");
+        toast.warning(
+            `Product removed from the wishlist`,
+            {
+                autoClose: 1000,
+            }
+        );
+
         //fetchWishlist();
     }
 
