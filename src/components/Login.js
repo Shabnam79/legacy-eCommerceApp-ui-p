@@ -9,6 +9,7 @@ import { auth } from "../config/firebase.config";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -53,11 +54,20 @@ const Login = () => {
             .catch((error) => {
                 // console.log(error.code);
                 if (error.code === "auth/wrong-password") {
-                    alert("Please check the password");
+                    // alert("Please check the password");
+                    toast.error("Please check the password", {
+                        autoClose: 1000,
+                    });
                 } else if (error.code === "auth/user-not-found") {
-                    alert("Please check the email");
+                    // alert("Please check the email");
+                    toast.error("Please check the email", {
+                        autoClose: 1000,
+                    });
                 } else if (error.code === "auth/invalid-login-credentials") {
-                    alert("invalid-login-credentials");
+                    // alert("invalid-login-credentials");
+                    toast.error("invalid-login-credentials", {
+                        autoClose: 1000,
+                    });
                 }
             });
     }

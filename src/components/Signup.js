@@ -8,6 +8,7 @@ import userContext from "../utils/userContext";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -26,13 +27,19 @@ const Signup = () => {
         const getAuthentication = getAuth();
         createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
             .then((res) => {
-                alert("Signup successfully");
+                // alert("Signup successfully");
+                toast.success(`Signup successfully`, {
+                    autoClose: 1000,
+                });
                 resetForm();
             })
             .catch((error) => {
                 // console.log(error.code);
                 if (error.code === "auth/email-already-in-use") {
-                    alert("auth/email-already-in-use");
+                    // alert("auth/email-already-in-use");
+                    toast.error("auth/email-already-in-use", {
+                        autoClose: 1000,
+                    });
                 }
             });
     }

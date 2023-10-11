@@ -1,5 +1,5 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs,query,where } from "firebase/firestore";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
 const cartSlice = createSlice({
@@ -9,7 +9,7 @@ const cartSlice = createSlice({
         subTotal: localStorage.getItem("subTotal") != null ? localStorage.getItem("subTotal") : 0,
         tax: localStorage.getItem("tax") != null ? localStorage.getItem("tax") : 0,
         total: localStorage.getItem("total") != null ? localStorage.getItem("total") : 0,
-        status:""
+        status: ""
     },
     extraReducers: (builder) => {
         builder
@@ -17,7 +17,6 @@ const cartSlice = createSlice({
                 state.status = "LOADING";
             })
             .addCase(fetchCartProducts.fulfilled, (state, action) => {
-                debugger
                 state.cart = action.payload;
                 state.status = "IDLE";
                 getTotals(state);
@@ -74,7 +73,7 @@ const cartSlice = createSlice({
         },
 
         incrementProduct(state, action) {
-                        const itemIndex = state.cart.findIndex(
+            const itemIndex = state.cart.findIndex(
                 (item) => item.id === action.payload.id
             );
             if (state.cart[itemIndex].count >= 1) {
@@ -92,7 +91,6 @@ export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (u
         collection(db, "addToCartStore"), where("userId", "==", userId)
     )
     return await getDocs(collectionRef).then((storeProduct) => {
-        debugger
         const cartProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
         return cartProducts;
     })
@@ -103,7 +101,7 @@ export const { addToCart, removeFromCart, removeAll, reduceProduct, incrementPro
 export default cartSlice.reducer;
 
 function getTotals(state) {
-        // let subTotal = 0;
+    // let subTotal = 0;
     // this.state.cart.map(item => (subTotal += item.total));
     // const tempTax = subTotal * 0.1;
     // const tax = parseFloat(tempTax.toFixed(2));

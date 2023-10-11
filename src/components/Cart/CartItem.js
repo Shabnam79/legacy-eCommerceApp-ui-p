@@ -3,9 +3,9 @@ import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../.
 import { collection, doc, where, deleteDoc, updateDoc, query, getDocs } from "firebase/firestore";
 import { db } from '../../config/firebase.config';
 import React from 'react';
+import { toast } from "react-toastify";
 
 export default function CartItem({ item, value, fetchAddToCartData }) {
-
 
     const dispatch = useDispatch();
     const { id, title, img, price, total, count, quantity } = item;
@@ -14,7 +14,13 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
         try {
             const addToCartDoc = doc(db, "addToCartStore", item.id);
             await deleteDoc(addToCartDoc);
-            alert("Product removed from the Cart");
+            // alert("Product removed from the Cart");
+            toast.warning(
+                `Product removed from the Cart`,
+                {
+                    autoClose: 1000,
+                }
+            );
             fetchAddToCartData();
             dispatch(removeFromCart(item));
 
@@ -24,7 +30,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
         }
     };
     const increment = async (item) => {
-        debugger
         const addToCartDoc = doc(db, "addToCartStore", item.id);
         await updateDoc(addToCartDoc, {
             count: count + 1
@@ -34,7 +39,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
         dispatch(incrementProduct(item))
     }
     const decrement = async (item) => {
-        debugger
         const addToCartDoc = doc(db, "addToCartStore", item.id);
         if (count != 1) {
             await updateDoc(addToCartDoc, {
@@ -43,7 +47,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
             fetchAddToCartData();
             dispatch(reduceProduct(item))
         }
-        else{
+        else {
             removeProductHandler(item)
         }
     }
