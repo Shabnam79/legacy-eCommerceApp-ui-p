@@ -1,14 +1,14 @@
-import React, { useContext,useEffect,useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ButtonContainer } from './Button';
 import userContext from "../utils/userContext";
 import { collection, addDoc, query, getDocs, where, doc, updateDoc } from "firebase/firestore";
 import { db } from '../config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart,incrementProduct } from '../utils/cartSlice';
+import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
 import { addToWishlist } from '../utils/wishlistSlice';
-import { async } from 'q';
+import { toast } from "react-toastify";
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -37,12 +37,21 @@ const Details = () => {
                     title: value.title,
                 });
                 console.log("Document written with ID: ", docRef.id);
-                alert("Product added to wishlist");
+                // alert("Product added to wishlist");
+                toast.success(`${value.title} is added to wishlist`, {
+                    autoClose: 1000,
+                });
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
         } else {
-            alert("To add your product in wishlist you need to login first.");
+            // alert("To add your product in wishlist you need to login first.");
+            toast.warning(
+                `To add your product in wishlist you need to login first.`,
+                {
+                    autoClose: 1000,
+                }
+            );
         }
         dispatch(addToWishlist(value));
     }
@@ -52,7 +61,7 @@ const Details = () => {
                 collection(db, "addToCartStore"), where("userId", "==", user.userId)
             )
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc,key) => {
+            querySnapshot.forEach((doc, key) => {
                 const newData = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }));
                 setCartData(newData);
@@ -63,7 +72,6 @@ const Details = () => {
     }
 
     const addProductIntoCart = async (item) => {
-        debugger
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -92,7 +100,10 @@ const Details = () => {
                     });
                     dispatch(addToCart(item));
                     console.log("Document written with ID: ", docRef.id);
-                    alert("Product added to Cart");
+                    // alert("Product added to Cart");
+                    toast.success(`${item.title} is added to cart`, {
+                        autoClose: 1000,
+                    });
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
@@ -108,7 +119,13 @@ const Details = () => {
                 }
             }
         } else {
-            alert("To add your order in cart you need to login first");
+            // alert("To add your order in cart you need to login first");
+            toast.warning(
+                `To add your order in cart you need to login first`,
+                {
+                    autoClose: 1000,
+                }
+            );
         }
 
     }

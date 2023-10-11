@@ -16,6 +16,8 @@ import ProductWishlist from './components/Wishlist/ProductWishlist';
 import { Provider } from 'react-redux';
 import store from './utils/store';
 import Signup from './components/Signup';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user, setUser] = useState({});
@@ -57,6 +59,8 @@ function App() {
           <Modal />
         </userContext.Provider>
       </Provider>
+      {/* <ToastContainer position="top-right" /> */}
+      <ToastContainer />
     </React.Fragment>
   );
 }

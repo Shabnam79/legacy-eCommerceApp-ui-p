@@ -3104,6 +3104,11 @@ clone-deep@^2.0.1:
     kind-of "^6.0.0"
     shallow-clone "^1.0.0"
 
+clsx@^1.1.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.npmjs.org/co/-/co-4.6.0.tgz"
@@ -8713,7 +8718,7 @@ react-dev-utils@^9.0.1:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^16.8.6, "react-dom@>= 16.3.0", react-dom@>=16.14.0, react-dom@>=16.6.0:
+"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^16.8.6, "react-dom@>= 16.3.0", react-dom@>=16, react-dom@>=16.14.0, react-dom@>=16.6.0:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
   integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
@@ -8849,6 +8854,13 @@ react-scripts@3.0.1:
   optionalDependencies:
     fsevents "2.0.6"
 
+react-toastify@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.npmjs.org/react-toastify/-/react-toastify-8.2.0.tgz"
+  integrity sha512-Pg2Ju7NngAamarFvLwqrFomJ57u/Ay6i6zfLurt/qPynWkAkOthu6vxfqYpJCyNhHRhR4hu7+bySSeWWJu6PAg==
+  dependencies:
+    clsx "^1.1.1"
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -8859,7 +8871,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", react@^16.14.0, "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", react@^16.8.6, "react@^16.9.0 || ^17.0.0 || ^18", "react@>= 16.3.0", react@>=0.14.0, react@>=15, react@>=15.0.0, react@>=16.14.0, react@>=16.6.0, react@>=16.8.0:
+"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", react@^16.14.0, "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", react@^16.8.6, "react@^16.9.0 || ^17.0.0 || ^18", "react@>= 16.3.0", react@>=0.14.0, react@>=15, react@>=15.0.0, react@>=16, react@>=16.14.0, react@>=16.6.0, react@>=16.8.0:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==

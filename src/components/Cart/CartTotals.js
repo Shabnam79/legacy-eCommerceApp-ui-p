@@ -6,6 +6,7 @@ import { db } from '../../config/firebase.config';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotals, removeAll } from '../../utils/cartSlice';
+import { toast } from "react-toastify";
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
@@ -43,15 +44,27 @@ export default function CartTotals({ value }) {
                 .commit()
                 .then(() => {
                     console.log("batch write operation completed");
-                    alert("order placed successfully");
+                    // alert("order placed successfully");
+                    toast.success(`order placed successfully`, {
+                        autoClose: 1000,
+                    });
                     clearCart();
                 })
                 .catch((error) => {
                     console.error("batch write operation failed: ", error);
-                    alert(error);
+                    // alert(error);
+                    toast.error(`${error}`, {
+                        autoClose: 1000,
+                    });
                 });
         } else {
-            alert("To make order you need to login first");
+            // alert("To make order you need to login first");
+            toast.warning(
+                `To make order you need to login first`,
+                {
+                    autoClose: 1000,
+                }
+            );
         }
     }
 

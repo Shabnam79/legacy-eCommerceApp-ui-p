@@ -8,6 +8,7 @@ import { handleDetail, openModal } from '../utils/productSlice';
 import userContext from "../utils/userContext";
 import { collection, addDoc, query, getDocs, where, doc, updateDoc } from "firebase/firestore";
 import { db } from '../config/firebase.config';
+import { toast } from "react-toastify";
 
 const Product = ({ product }) => {
     const { id, title, img, price, inCart } = product;
@@ -38,7 +39,6 @@ const Product = ({ product }) => {
     }
 
     const addProductIntoCart = async (item) => {
-        debugger
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -67,7 +67,10 @@ const Product = ({ product }) => {
                     });
                     dispatch(addToCart(item));
                     console.log("Document written with ID: ", docRef.id);
-                    alert("Product added to Cart");
+                    // alert("Product added to Cart");
+                    toast.success(`${item.title} is added to cart`, {
+                        autoClose: 1000,
+                    });
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
@@ -83,7 +86,13 @@ const Product = ({ product }) => {
                 }
             }
         } else {
-            alert("To add your order in cart you need to login first");
+            // alert("To add your order in cart you need to login first");
+            toast.warning(
+                `To add your order in cart you need to login first`,
+                {
+                    autoClose: 1000,
+                }
+            );
         }
 
     }
