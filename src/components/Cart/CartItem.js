@@ -3,7 +3,7 @@ import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../.
 import React from 'react';
 import { toast } from "react-toastify";
 import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-import { incrementProductIntoCartService, decrementProductIntoCartService, productByIdService } from '../../firebase/services/cart.service';
+import { incrementCartProductsService, decrementCartProductsService, getProductByIdService } from '../../firebase/services/cart.service';
 
 export default function CartItem({ item, value, fetchAddToCartData }) {
 
@@ -12,7 +12,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const removeProductHandler = async (item) => {
         try {
-            const addToCartDoc = await productByIdService(item.id);
+            const addToCartDoc = await getProductByIdService(item.id);
             await deleteRecordFromFirebaseService(addToCartDoc);
 
             toast.warning(
@@ -31,8 +31,8 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     };
 
     const increment = async (item) => {
-        const addToCartDoc = await productByIdService(item.id);
-        await incrementProductIntoCartService(addToCartDoc, count);
+        const addToCartDoc = await getProductByIdService(item.id);
+        await incrementCartProductsService(addToCartDoc, count);
 
         fetchAddToCartData();
 
@@ -40,9 +40,9 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     }
 
     const decrement = async (item) => {
-        const addToCartDoc = await productByIdService(item.id);
+        const addToCartDoc = await getProductByIdService(item.id);
         if (count != 1) {
-            await decrementProductIntoCartService(addToCartDoc, count);
+            await decrementCartProductsService(addToCartDoc, count);
 
             fetchAddToCartData();
 

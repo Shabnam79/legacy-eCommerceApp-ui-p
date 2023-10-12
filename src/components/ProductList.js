@@ -3,7 +3,7 @@ import Product from "./Product";
 import Title from "./Title";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
-import { categoryListService } from '../firebase/services/product.service';
+import { getCategoryService } from '../firebase/services/product.service';
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const ProductList = () => {
     }, []);
 
     const fetchCategorylist = async () => {
-        let data = await categoryListService();
+        let data = await getCategoryService();
         if (data != undefined) {
             setDropdown(data);
         }

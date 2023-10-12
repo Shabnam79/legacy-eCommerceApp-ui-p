@@ -3,7 +3,7 @@ import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
 import Title from '../Title';
 import userContext from '../../utils/userContext';
-import { OrderService } from '../../firebase/services/cart.service';
+import { getOrderService } from '../../firebase/services/order.service';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -15,7 +15,7 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         if (user.userId) {
-            let data = await OrderService(user.userId);
+            let data = await getOrderService(user.userId);
             if (data != undefined) {
                 setOrders(data);
             }

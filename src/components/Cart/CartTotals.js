@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotals, removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
-import { placeProductOrderService } from '../../firebase/services/cart.service';
+import { saveCartOrderService } from '../../firebase/services/order.service';
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function CartTotals({ value }) {
                 })
             });
 
-            await placeProductOrderService(dataArray);
+            await saveCartOrderService(dataArray);
             clearCart();
         } else {
             toast.warning(

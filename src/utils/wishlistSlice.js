@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { wishlistByUserIdService } from "../firebase/services/wishlist.service";
+import { getWishlistByUserIdService } from "../firebase/services/wishlist.service";
 
 const wishlistSlice = createSlice({
     name: "wishlist",
@@ -52,7 +52,7 @@ const wishlistSlice = createSlice({
 });
 
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    return wishlistByUserIdService(userId);
+    return getWishlistByUserIdService(userId);
 
     // const collectionRef = query(
     //     collection(db, "storeWishlist"), where("userId", "==", userId)

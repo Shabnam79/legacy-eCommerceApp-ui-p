@@ -7,8 +7,8 @@ import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
 import { addToWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
-import { addProductIntoCartService, addToCartService, incrementProductIntoCartService, productByIdService } from '../firebase/services/cart.service';
-import { addProductToWishlistService } from '../firebase/services/wishlist.service';
+import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
+import { saveProductToWishlistService } from '../firebase/services/wishlist.service';
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -36,7 +36,7 @@ const Details = () => {
                     title: value.title,
                 }
 
-                const docRef = await addProductToWishlistService(productObj);
+                const docRef = await saveProductToWishlistService(productObj);
 
                 dispatch(addToWishlist(value));
 
@@ -60,7 +60,7 @@ const Details = () => {
 
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            let data = addToCartService(user.userId);
+            let data = getCartProductsService(user.userId);
             if (data != undefined) {
                 setCartData(data);
             }
@@ -97,7 +97,7 @@ const Details = () => {
                         count: item.count + 1
                     }
 
-                    let docRef = await addProductIntoCartService(addToCartProductObj);
+                    let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
                     console.log("Document written with ID: ", docRef.id);
@@ -110,8 +110,8 @@ const Details = () => {
                 }
             } else {
                 try {
-                    const addToCartDoc = await productByIdService(productIds);
-                    await incrementProductIntoCartService(addToCartDoc, Counts);
+                    const addToCartDoc = await getProductByIdService(productIds);
+                    await incrementCartProductsService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
                     console.error("Error adding document: ", e);

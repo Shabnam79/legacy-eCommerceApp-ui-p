@@ -1,13 +1,13 @@
 import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
-export const addProductToWishlistService = async (product) => {
+export const saveProductToWishlistService = async (product) => {
     return await addDoc(collection(db, "storeWishlist"), {
         product
     });
 }
 
-export const wishlistService = async (userId) => {
+export const getWishlistService = async (userId) => {
     const q = query(
         collection(db, "storeWishlist"), where("userId", "==", userId)
     )
@@ -17,11 +17,11 @@ export const wishlistService = async (userId) => {
         .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-export const wishlistByIdService = async (productId) => {
+export const getWishlistByIdService = async (productId) => {
     return doc(db, "storeWishlist", productId);
 }
 
-export const wishlistByUserIdService = async (userId) => {
+export const getWishlistByUserIdService = async (userId) => {
     const q = query(
         collection(db, "storeWishlist"), where("userId", "==", userId)
     )

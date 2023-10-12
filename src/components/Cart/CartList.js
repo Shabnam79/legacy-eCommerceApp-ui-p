@@ -1,7 +1,7 @@
 import CartItem from './CartItem';
 import userContext from '../../utils/userContext';
 import React, { useContext, useEffect, useState } from 'react';
-import { addToCartService } from '../../firebase/services/cart.service';
+import { getCartProductsService } from '../../firebase/services/cart.service';
 
 export default function CartList({ value }) {
     const { cart } = value;
@@ -15,7 +15,7 @@ export default function CartList({ value }) {
 
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            let data = await addToCartService(user.userId);
+            let data = await getCartProductsService(user.userId);
             if (data != undefined) {
                 setCartData(data);
             }

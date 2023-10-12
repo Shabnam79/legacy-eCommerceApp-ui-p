@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import userContext from '../../utils/userContext';
 import WishlistItem from './WishlistItem';
-import { wishlistService } from '../../firebase/services/wishlist.service';
+import { getWishlistService } from '../../firebase/services/wishlist.service';
 
 const FavouriteList = ({ wishlist, removeWishlist }) => {
     const [WishlistData, setWishlistData] = useState([]);
@@ -13,7 +13,7 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
 
     const fetchAddToWishlistData = async () => {
         if (user.userId) {
-            let data = await wishlistService(user.userId);
+            let data = await getWishlistService(user.userId);
             if (data != undefined) {
                 setWishlistData(data);
             }

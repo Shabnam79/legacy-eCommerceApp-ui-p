@@ -1,7 +1,7 @@
 import { collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
-export const categoryListService = async () => {
+export const getCategoryService = async () => {
     const q = query(
         collection(db, "productCategory")
     )
@@ -11,7 +11,7 @@ export const categoryListService = async () => {
         .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-export const productsByCategoryIdService = async (categoryId) => {
+export const getProductsByCategoryIdService = async (categoryId) => {
     const q = query(
         collection(db, "storeProducts"), where("categoryId", "==", categoryId)
     )
@@ -21,7 +21,7 @@ export const productsByCategoryIdService = async (categoryId) => {
         .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-export const productsService = async () => {
+export const getProductsService = async () => {
     const q = query(
         collection(db, "storeProducts")
     )

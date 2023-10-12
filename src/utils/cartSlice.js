@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addToCartService } from "../firebase/services/cart.service";
+import { getCartProductsService } from "../firebase/services/cart.service";
 
 const cartSlice = createSlice({
     name: "cart",
@@ -85,7 +85,7 @@ const cartSlice = createSlice({
 });
 
 export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (userId) => {
-    return await addToCartService(userId);
+    return await getCartProductsService(userId);
 
     // const collectionRef = query(
     //     collection(db, "addToCartStore"), where("userId", "==", userId)
