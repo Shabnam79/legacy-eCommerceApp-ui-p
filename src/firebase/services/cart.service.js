@@ -13,7 +13,7 @@ export const getCartProductsService = async (userId) => {
 
 export const saveProductIntoCartService = async (product) => {
     return await addDoc(collection(db, "addToCartStore"), {
-        product
+        ...product
     });
 }
 

@@ -3,7 +3,7 @@ import { db } from "../config/firebase.config";
 
 export const saveProductToWishlistService = async (product) => {
     return await addDoc(collection(db, "storeWishlist"), {
-        product
+        ...product
     });
 }
 
