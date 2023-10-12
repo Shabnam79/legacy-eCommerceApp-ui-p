@@ -1,8 +1,7 @@
 import CartItem from './CartItem';
 import userContext from '../../utils/userContext';
 import React, { useContext, useEffect, useState } from 'react';
-import { db } from '../../config/firebase.config';
-import { collection, doc, where, deleteDoc, query, getDocs } from "firebase/firestore";
+import { addToCartService } from '../../firebase/services/cart.service';
 
 export default function CartList({ value }) {
     const { cart } = value;
@@ -12,19 +11,14 @@ export default function CartList({ value }) {
 
     useEffect(() => {
         fetchAddToCartData();
-    }, user.userId,[]);
+    }, user.userId, []);
 
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            const q = query(
-                collection(db, "addToCartStore"), where("userId", "==", user.userId)
-            )
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                const newData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }));
-                setCartData(newData);
-            });
+            let data = await addToCartService(user.userId);
+            if (data != undefined) {
+                setCartData(data);
+            }
         } else {
             console.log("Please login to see past Cart products");
         }

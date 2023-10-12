@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ButtonContainer } from './Button';
 import userContext from "../utils/userContext";
-import { collection, addDoc, query, getDocs, where, doc, updateDoc } from "firebase/firestore";
-import { db } from '../config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
 import { addToWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
+import { addProductIntoCartService, addToCartService, incrementProductIntoCartService, productByIdService } from '../firebase/services/cart.service';
+import { addProductToWishlistService } from '../firebase/services/wishlist.service';
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -22,11 +22,10 @@ const Details = () => {
         fetchAddToCartData();
     }, [user.userId]);
 
-
     const addProductToWishlist = async (value) => {
         if (user.userId) {
             try {
-                const docRef = await addDoc(collection(db, "storeWishlist"), {
+                let productObj = {
                     company: value.company,
                     img: value.img,
                     inWishlist: true,
@@ -35,9 +34,14 @@ const Details = () => {
                     productId: value.id,
                     userId: user.userId,
                     title: value.title,
-                });
+                }
+
+                const docRef = await addProductToWishlistService(productObj);
+
+                dispatch(addToWishlist(value));
+
                 console.log("Document written with ID: ", docRef.id);
-                // alert("Product added to wishlist");
+
                 toast.success(`${value.title} is added to wishlist`, {
                     autoClose: 1000,
                 });
@@ -45,7 +49,6 @@ const Details = () => {
                 console.error("Error adding document: ", e);
             }
         } else {
-            // alert("To add your product in wishlist you need to login first.");
             toast.warning(
                 `To add your product in wishlist you need to login first.`,
                 {
@@ -53,19 +56,14 @@ const Details = () => {
                 }
             );
         }
-        dispatch(addToWishlist(value));
     }
+
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            const q = query(
-                collection(db, "addToCartStore"), where("userId", "==", user.userId)
-            )
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc, key) => {
-                const newData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }));
-                setCartData(newData);
-            });
+            let data = addToCartService(user.userId);
+            if (data != undefined) {
+                setCartData(data);
+            }
         } else {
             console.log("Please login to see past Cart products");
         }
@@ -87,7 +85,7 @@ const Details = () => {
         if (user.userId) {
             if (!iscart) {
                 try {
-                    const docRef = await addDoc(collection(db, "addToCartStore"), {
+                    let addToCartProductObj = {
                         company: item.company,
                         img: item.img,
                         inCart: true,
@@ -97,10 +95,13 @@ const Details = () => {
                         userId: user.userId,
                         title: item.title,
                         count: item.count + 1
-                    });
+                    }
+
+                    let docRef = await addProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
+
                     console.log("Document written with ID: ", docRef.id);
-                    // alert("Product added to Cart");
+
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -109,17 +110,14 @@ const Details = () => {
                 }
             } else {
                 try {
-                    const addToCartDoc = doc(db, "addToCartStore", productIds);
-                    await updateDoc(addToCartDoc, {
-                        count: Counts + 1
-                    });
+                    const addToCartDoc = await productByIdService(productIds);
+                    await incrementProductIntoCartService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
             }
         } else {
-            // alert("To add your order in cart you need to login first");
             toast.warning(
                 `To add your order in cart you need to login first`,
                 {
@@ -133,7 +131,6 @@ const Details = () => {
     const openCartModal = (item) => {
         dispatch(openModal(item));
     }
-
 
     return (
         <div className="container py-5">

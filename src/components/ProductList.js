@@ -1,17 +1,14 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
-import { collection, addDoc, writeBatch, doc, where, deleteDoc, query, getDocs } from "firebase/firestore";
-import { db } from '../config/firebase.config';
-import userContext from "../utils/userContext";
+import React, { useEffect, useState } from 'react';
 import Product from "./Product";
 import Title from "./Title";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
+import { categoryListService } from '../firebase/services/product.service';
 
 const ProductList = () => {
     const dispatch = useDispatch();
     const { allproducts } = useSelector((state) => state.allproducts);
     const [dropdown, setDropdown] = useState([]);
-    const { user, setUser } = useContext(userContext);
 
     useEffect(() => {
         fetchCategorylist();
@@ -19,20 +16,10 @@ const ProductList = () => {
     }, []);
 
     const fetchCategorylist = async () => {
-        // if (user.userId) {
-        const q = query(
-            collection(db, "productCategory")
-        )
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            //     console.log(doc.id, " => ", doc.data());
-            const newData = querySnapshot.docs
-                .map((doc) => ({ ...doc.data(), id: doc.id }));
-            setDropdown(newData);
-        });
-        // } else {
-        //     console.log("Please login to see category list");
-        // }
+        let data = await categoryListService();
+        if (data != undefined) {
+            setDropdown(data);
+        }
     }
 
     const fetchProductCategorylist = (id) => {

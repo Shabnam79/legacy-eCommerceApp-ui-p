@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { collection, doc, where, deleteDoc, query, getDocs } from "firebase/firestore";
 import userContext from '../../utils/userContext';
-import { db } from '../../config/firebase.config';
 import Title from "../Title";
 import WishlistColumns from './WishlistColumns';
 import EmptyWishlist from './EmptyWishlist';
@@ -32,7 +30,6 @@ const ProductWishlist = () => {
     //         )
     //         const querySnapshot = await getDocs(q);
     //         querySnapshot.forEach((doc) => {
-    //             //     console.log(doc.id, " => ", doc.data());
     //             const newData = querySnapshot.docs
     //                 .map((doc) => ({ ...doc.data(), id: doc.id }));
     //             setWishlist(newData);
@@ -42,20 +39,18 @@ const ProductWishlist = () => {
     //     }
     // }
 
-    const removeWishlist = async (id) => {
-        console.log(id, "Id");
-        const wishlistDoc = doc(db, "storeWishlist", id);
-        await deleteDoc(wishlistDoc);
-        // alert("Product removed from the wishlist");
-        toast.warning(
-            `Product removed from the wishlist`,
-            {
-                autoClose: 1000,
-            }
-        );
+    // const removeWishlist = async (id) => {
+    //     console.log(id, "Id");
+    //     const wishlistDoc = doc(db, "storeWishlist", id);
+    //     await deleteDoc(wishlistDoc);
+    //     toast.warning(
+    //         `Product removed from the wishlist`,
+    //         {
+    //             autoClose: 1000,
+    //         }
+    //     );
 
-        //fetchWishlist();
-    }
+    // }
 
     return (
         <section>

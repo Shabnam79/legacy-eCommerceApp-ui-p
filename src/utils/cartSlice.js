@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../config/firebase.config";
+import { addToCartService } from "../firebase/services/cart.service";
 
 const cartSlice = createSlice({
     name: "cart",
@@ -85,20 +84,17 @@ const cartSlice = createSlice({
     }
 });
 
-
 export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (userId) => {
-    const collectionRef = query(
-        collection(db, "addToCartStore"), where("userId", "==", userId)
-    )
-    return await getDocs(collectionRef).then((storeProduct) => {
-        const cartProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        return cartProducts;
-    })
+    return await addToCartService(userId);
+
+    // const collectionRef = query(
+    //     collection(db, "addToCartStore"), where("userId", "==", userId)
+    // )
+    // return await getDocs(collectionRef).then((storeProduct) => {
+    //     const cartProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //     return cartProducts;
+    // })
 });
-
-export const { addToCart, removeFromCart, removeAll, reduceProduct, incrementProduct } = cartSlice.actions;
-
-export default cartSlice.reducer;
 
 function getTotals(state) {
     // let subTotal = 0;
@@ -120,3 +116,7 @@ function getTotals(state) {
     localStorage.setItem("tax", state.tax);
     localStorage.setItem("total", state.total);
 }
+
+export const { addToCart, removeFromCart, removeAll, reduceProduct, incrementProduct } = cartSlice.actions;
+
+export default cartSlice.reducer;
