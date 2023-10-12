@@ -1,20 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { handleDetail, openModal } from '../utils/productSlice';
 import userContext from "../utils/userContext";
-import { collection, addDoc, query, getDocs, where, doc, updateDoc } from "firebase/firestore";
-import { db } from '../config/firebase.config';
 import { toast } from "react-toastify";
+import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
 
 const Product = ({ product }) => {
-    const { id, title, img, price, inCart } = product;
+    const { title, img, price, inCart } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
-
 
     const dispatch = useDispatch();
 
@@ -24,15 +21,10 @@ const Product = ({ product }) => {
 
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            const q = query(
-                collection(db, "addToCartStore"), where("userId", "==", user.userId)
-            )
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                const newData = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }));
-                setCartData(newData);
-            });
+            let data = await getCartProductsService(user.userId);
+            if (data != undefined) {
+                setCartData(data);
+            }
         } else {
             console.log("Please login to see past Cart products");
         }
@@ -54,7 +46,7 @@ const Product = ({ product }) => {
         if (user.userId) {
             if (!iscart) {
                 try {
-                    const docRef = await addDoc(collection(db, "addToCartStore"), {
+                    let addToCartProductObj = {
                         company: item.company,
                         img: item.img,
                         inCart: true,
@@ -64,10 +56,13 @@ const Product = ({ product }) => {
                         userId: user.userId,
                         title: item.title,
                         count: item.count + 1
-                    });
+                    }
+
+                    let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
+
                     console.log("Document written with ID: ", docRef.id);
-                    // alert("Product added to Cart");
+
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -76,17 +71,14 @@ const Product = ({ product }) => {
                 }
             } else {
                 try {
-                    const addToCartDoc = doc(db, "addToCartStore", productIds);
-                    await updateDoc(addToCartDoc, {
-                        count: Counts + 1
-                    });
+                    const addToCartDoc = await getProductByIdService(productIds);
+                    await incrementCartProductsService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
             }
         } else {
-            // alert("To add your order in cart you need to login first");
             toast.warning(
                 `To add your order in cart you need to login first`,
                 {

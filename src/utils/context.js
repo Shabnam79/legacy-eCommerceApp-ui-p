@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { storeProducts, detailProduct } from "../data";
-import { db } from '../config/firebase.config';
-import { collection, getDocs ,doc, where,deleteDoc, query } from 'firebase/firestore';
+import { db } from '../firebase/config/firebase.config';
+import { collection, getDocs, doc, where, deleteDoc, query } from 'firebase/firestore';
 const ProductContext = React.createContext();
 class ProductProvider extends Component {
 
@@ -40,7 +40,7 @@ class ProductProvider extends Component {
             }, this.checkCartItems);
         })
     };
-  fetchProductCategorylist = async (id) => {
+    fetchProductCategorylist = async (id) => {
         if (id != '') {
             const q = query(
                 collection(db, "storeProducts"), where("categoryId", "==", id)
@@ -56,7 +56,7 @@ class ProductProvider extends Component {
                 }, this.checkCartItems);
             });
         }
-        else{
+        else {
             this.setProducts();
         }
     }

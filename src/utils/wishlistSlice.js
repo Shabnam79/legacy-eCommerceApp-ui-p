@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs, where, query } from "firebase/firestore";
-import { db } from "../config/firebase.config";
+import { getWishlistByUserIdService } from "../firebase/services/wishlist.service";
 
 const wishlistSlice = createSlice({
     name: "wishlist",
@@ -52,21 +51,18 @@ const wishlistSlice = createSlice({
     }
 });
 
-
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    const collectionRef = query(
-        collection(db, "storeWishlist"), where("userId", "==", userId)
-    )
-    return await getDocs(collectionRef).then((storeProduct) => {
-        const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        return wishlistProducts;
-    })
+    return getWishlistByUserIdService(userId);
+
+    // const collectionRef = query(
+    //     collection(db, "storeWishlist"), where("userId", "==", userId)
+    // )
+    // return await getDocs(collectionRef).then((storeProduct) => {
+    //     const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //     return wishlistProducts;
+    // })
 });
 
 export const { addToWishlist, removeFromWishlist, removeAll } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;
-
-
-
-

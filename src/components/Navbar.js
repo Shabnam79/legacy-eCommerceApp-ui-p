@@ -1,12 +1,10 @@
-import React, { Component,useContext, useEffect, useState } from 'react';
-import { collection, addDoc, writeBatch, doc, where,deleteDoc, query ,getDocs} from "firebase/firestore";
-import { db } from '../config/firebase.config';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import styled from 'styled-components';
 import { ButtonContainer } from './Button';
 import userContext from "../utils/userContext";
-import { auth } from "../config/firebase.config";
+import { auth } from "../firebase/config/firebase.config";
 import { signOut } from "firebase/auth";
 import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -15,11 +13,12 @@ const Navbar = () => {
     const { user, setUser } = useContext(userContext)
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
+
     // if (auth != null)
     //     if (auth.currentUser != null)
     //         if (auth.currentUser.uid != null)
     //             console.log("myauth1", auth.currentUser.uid);
-    
+
     const logout = async () => {
         try {
             await signOut(auth);
@@ -27,7 +26,7 @@ const Navbar = () => {
             console.error(err);
         }
     };
-    
+
     return (
         <NavWrapper className="navbar nav-bar-expand-sm navbar-dark px-sm-5">
             <div className="navbar">

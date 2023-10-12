@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import userContext from "../utils/userContext";
-import { auth } from "../config/firebase.config";
+import { auth } from "../firebase/config/firebase.config";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';

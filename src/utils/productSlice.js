@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { collection,where,deleteDoc, query, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase.config";
 import { detailProduct } from "../data";
+import { getProductsByCategoryIdService, getProductsService } from "../firebase/services/product.service";
 
 const initialState = {
     allproducts: [],
@@ -45,21 +44,24 @@ const productSlice = createSlice({
 
 export const fetchProducts = createAsyncThunk("fetch/prodcuts", async (id) => {
     if (id != '') {
-        const q = query(
-            collection(db, "storeProducts"), where("categoryId", "==", id)
-        )
-        // const collectionRef = collection(db, 'storeProducts');
-        return await getDocs(q).then((storeProduct) => {
-            const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            return allproducts;
-        })
+        return await getProductsByCategoryIdService(id);
+
+        // const q = query(
+        //     collection(db, "storeProducts"), where("categoryId", "==", id)
+        // )
+        // // const collectionRef = collection(db, 'storeProducts');
+        // return await getDocs(q).then((storeProduct) => {
+        //     const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        //     return allproducts;
+        // })
     }
     else {
-        const collectionRef = collection(db, 'storeProducts');
-        return await getDocs(collectionRef).then((storeProduct) => {
-            const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            return allproducts;
-        })
+        return await getProductsService();
+        // const collectionRef = collection(db, 'storeProducts');
+        // return await getDocs(collectionRef).then((storeProduct) => {
+        //     const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        //     return allproducts;
+        // })
     }
 });
 

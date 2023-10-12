@@ -1,12 +1,11 @@
 import React, { Component, useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
-import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
-import { db } from '../../config/firebase.config';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotals, removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
+import { saveCartOrderService } from '../../firebase/services/order.service';
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
@@ -14,7 +13,6 @@ export default function CartTotals({ value }) {
 
     const { cartSubTotal, cartTax, cartTotal, cart } = value;
     const { user } = useContext(userContext)
-    const collectionRef = collection(db, "productOrders");
 
     const placeProductOrder = async (e) => {
         if (user.userId) {
@@ -33,32 +31,9 @@ export default function CartTotals({ value }) {
                 })
             });
 
-            const batch = writeBatch(db);
-
-            dataArray.forEach((data) => {
-                const docref = doc(collectionRef);
-                batch.set(docref, data);
-            });
-
-            batch
-                .commit()
-                .then(() => {
-                    console.log("batch write operation completed");
-                    // alert("order placed successfully");
-                    toast.success(`order placed successfully`, {
-                        autoClose: 1000,
-                    });
-                    clearCart();
-                })
-                .catch((error) => {
-                    console.error("batch write operation failed: ", error);
-                    // alert(error);
-                    toast.error(`${error}`, {
-                        autoClose: 1000,
-                    });
-                });
+            await saveCartOrderService(dataArray);
+            clearCart();
         } else {
-            // alert("To make order you need to login first");
             toast.warning(
                 `To make order you need to login first`,
                 {
