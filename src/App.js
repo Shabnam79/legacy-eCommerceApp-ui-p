@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Routes, Outlet } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
@@ -46,16 +46,18 @@ function App() {
           }}
         >
           <Navbar />
-          <Switch>
-            <Route exact path="/" component={ProductList} />
-            <Route path="/details" component={Details} />
-            <Route path="/cart" component={Cart} />
-            <Route path="/login" component={Login} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/wishlist" component={ProductWishlist} />
-            <Route path="/signup" component={Signup} />
-            <Route component={Default} />
-          </Switch>
+          <Outlet />
+
+          <Routes>
+            <Route exact path="/" element={<ProductList />} />
+            <Route path="/details" element={<Details />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/wishlist" element={<ProductWishlist />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route element={<Default />} />
+          </Routes>
           <Modal />
         </userContext.Provider>
       </Provider>
