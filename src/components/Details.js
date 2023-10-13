@@ -5,10 +5,13 @@ import userContext from "../utils/userContext";
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
-import { addToWishlist } from '../utils/wishlistSlice';
+import { addToWishlist ,removeFromWishlist} from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-import { saveProductToWishlistService } from '../firebase/services/wishlist.service';
+import { saveProductToWishlistService,getWishlistByIdService } from '../firebase/services/wishlist.service';
+import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase/config/firebase.config';
+import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -16,38 +19,86 @@ const Details = () => {
     const { detailProduct } = useSelector((state) => state.allproducts);
     const { id, company, img, info, price, title, inCart, inWishlist } = detailProduct;
     const [CartData, setCartData] = useState([]);
-    // const { wishlist } = useSelector((state) => state.wishlist);
-    // console.log(wishlist,'wishlist')
+    const [wishlist, setWishlist] = useState({});
+    const [isProductWishlisted, setIsProductWishlisted] = useState(false);
+
     useEffect(() => {
         fetchAddToCartData();
     }, [user.userId]);
 
+    useEffect(() => {
+        checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+    }, []);
+
+    const checkIsProductAvailableInWishlist = async (userId, productId) => {
+        if (userId && productId) {
+            console.log("userId", userId);
+            console.log("productId", productId);
+
+            const collectionRef = query(
+                collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
+            )
+            return await getDocs(collectionRef).then((storeProduct) => {
+                const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+                setWishlist(wishlistProducts[0]);
+                if (wishlistProducts.length > 0)
+                    setIsProductWishlisted(true);
+                else
+                    setIsProductWishlisted(false);
+            })
+        }
+    }
+
     const addProductToWishlist = async (value) => {
         if (user.userId) {
-            try {
-                let productObj = {
-                    company: value.company,
-                    img: value.img,
-                    inWishlist: true,
-                    info: value.info,
-                    price: value.price,
-                    productId: value.id,
-                    userId: user.userId,
-                    title: value.title,
+            if (isProductWishlisted) {
+                try {
+                    const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
+                    await deleteRecordFromFirebaseService(addToWishlistDoc);
+
+                    toast.warning(
+                        `Product removed from the Wishlist`,
+                        {
+                            autoClose: 1000,
+                        }
+                    );
+                    
+                    dispatch(removeFromWishlist(wishlist));
+                    setIsProductWishlisted(false);
+
                 }
-
-                const docRef = await saveProductToWishlistService(productObj);
-
-                dispatch(addToWishlist(value));
-
-                console.log("Document written with ID: ", docRef.id);
-
-                toast.success(`${value.title} is added to wishlist`, {
-                    autoClose: 1000,
-                });
-            } catch (e) {
-                console.error("Error adding document: ", e);
+                catch (e) {
+                    console.log(e);
+                }
             }
+            else {
+                try {
+                    let productObj = {
+                        company: value.company,
+                        img: value.img,
+                        inWishlist: true,
+                        info: value.info,
+                        price: value.price,
+                        productId: value.id,
+                        userId: user.userId,
+                        title: value.title,
+                    }
+
+                    const docRef = await saveProductToWishlistService(productObj);
+
+                    dispatch(addToWishlist(value));
+                    setIsProductWishlisted(true);
+
+                    console.log("Document written with ID: ", docRef.id);
+
+                    toast.success(`${value.title} is added to wishlist`, {
+                        autoClose: 1000,
+                    });
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            }
+
         } else {
             toast.warning(
                 `To add your product in wishlist you need to login first.`,
@@ -57,7 +108,6 @@ const Details = () => {
             );
         }
     }
-
     const fetchAddToCartData = async () => {
         if (user.userId) {
             let data = getCartProductsService(user.userId);
@@ -177,11 +227,11 @@ const Details = () => {
                             }}>
                             {inCart ? "inCart" : "add to cart"}
                         </ButtonContainer>
-                        <ButtonContainer cart disabled={inWishlist ? true : false}
+                        <ButtonContainer cart 
                             onClick={() => {
                                 addProductToWishlist(detailProduct);
                             }}>
-                            {inWishlist ? "inWishlist" : "add to wishlist"}
+                            {isProductWishlisted ? "remove from wishlist" : "add to wishlist"}
                         </ButtonContainer>
                     </div>
                 </div>
