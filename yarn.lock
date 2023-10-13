@@ -825,7 +825,7 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.3.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.21.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.21.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.22.15"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.15.tgz"
   integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
@@ -1564,6 +1564,11 @@
     redux "^4.2.1"
     redux-thunk "^2.4.2"
     reselect "^4.1.8"
+
+"@remix-run/router@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.9.0.tgz"
+  integrity sha512-bV63itrKBC0zdT27qYm6SDZHlkXwFL1xMBuhkn+X7l0+IIhNaH5wuuvZKp6eKhCD4KFhujhfhCT1YxXW6esUIA==
 
 "@restart/hooks@^0.4.9":
   version "0.4.11"
@@ -5199,18 +5204,6 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-history@^4.9.0:
-  version "4.10.1"
-  resolved "https://registry.npmjs.org/history/-/history-4.10.1.tgz"
-  integrity sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    loose-envify "^1.2.0"
-    resolve-pathname "^3.0.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
-    value-equal "^1.0.1"
-
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz"
@@ -5220,7 +5213,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -5861,11 +5854,6 @@ isarray@^1.0.0, isarray@~1.0.0, isarray@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz"
   integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
-
-isarray@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
-  integrity sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -6717,7 +6705,7 @@ long@^5.0.0:
   resolved "https://registry.npmjs.org/long/-/long-5.2.3.tgz"
   integrity sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -6920,14 +6908,6 @@ mimic-fn@^2.0.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/mimic-fn/-/mimic-fn-2.1.0.tgz"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
-
-mini-create-react-context@^0.3.0:
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/mini-create-react-context/-/mini-create-react-context-0.3.3.tgz"
-  integrity sha512-TtF6hZE59SGmS4U8529qB+jJFeW6asTLDIpPgvPLSCsooAwJS7QprHIFTqv9/Qh3NdLwQxFYgiHX5lqb6jqzPA==
-  dependencies:
-    "@babel/runtime" "^7.12.1"
-    tiny-warning "^1.0.3"
 
 mini-css-extract-plugin@0.5.0:
   version "0.5.0"
@@ -7591,13 +7571,6 @@ path-parse@^1.0.6:
   version "1.0.7"
   resolved "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
-
-path-to-regexp@^1.7.0:
-  version "1.8.0"
-  resolved "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-1.8.0.tgz"
-  integrity sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
-  dependencies:
-    isarray "0.0.1"
 
 path-to-regexp@0.1.7:
   version "0.1.7"
@@ -8479,7 +8452,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.5.4, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8718,7 +8691,7 @@ react-dev-utils@^9.0.1:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^16.8.6, "react-dom@>= 16.3.0", react-dom@>=16, react-dom@>=16.14.0, react-dom@>=16.6.0:
+"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^16.8.6, "react-dom@>= 16.3.0", react-dom@>=16, react-dom@>=16.14.0, react-dom@>=16.6.0, react-dom@>=16.8:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
   integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
@@ -8765,34 +8738,20 @@ react-lifecycles-compat@^3.0.4:
     react-is "^18.0.0"
     use-sync-external-store "^1.0.0"
 
-react-router-dom@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-5.0.1.tgz"
-  integrity sha512-zaVHSy7NN0G91/Bz9GD4owex5+eop+KvgbxXsP/O+iW1/Ln+BrJ8QiIR5a6xNPtrdTvLkxqlDClx13QO1uB8CA==
+react-router-dom@^6.16.0:
+  version "6.16.0"
+  resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.16.0.tgz"
+  integrity sha512-aTfBLv3mk/gaKLxgRDUPbPw+s4Y/O+ma3rEN1u8EgEpLpPe6gNjIsWt9rxushMHHMb7mSwxRGdGlGdvmFsyPIg==
   dependencies:
-    "@babel/runtime" "^7.1.2"
-    history "^4.9.0"
-    loose-envify "^1.3.1"
-    prop-types "^15.6.2"
-    react-router "5.0.1"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
+    "@remix-run/router" "1.9.0"
+    react-router "6.16.0"
 
-react-router@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/react-router/-/react-router-5.0.1.tgz"
-  integrity sha512-EM7suCPNKb1NxcTZ2LEOWFtQBQRQXecLxVpdsP4DW4PbbqYWeRiLyV/Tt1SdCrvT2jcyXAXmVTmzvSzrPR63Bg==
+react-router@6.16.0:
+  version "6.16.0"
+  resolved "https://registry.npmjs.org/react-router/-/react-router-6.16.0.tgz"
+  integrity sha512-VT4Mmc4jj5YyjpOi5jOf0I+TYzGpvzERy4ckNSvSh2RArv8LLoCxlsZ2D+tc7zgjxcY34oTz2hZaeX5RVprKqA==
   dependencies:
-    "@babel/runtime" "^7.1.2"
-    history "^4.9.0"
-    hoist-non-react-statics "^3.1.0"
-    loose-envify "^1.3.1"
-    mini-create-react-context "^0.3.0"
-    path-to-regexp "^1.7.0"
-    prop-types "^15.6.2"
-    react-is "^16.6.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
+    "@remix-run/router" "1.9.0"
 
 react-scripts@3.0.1:
   version "3.0.1"
@@ -8871,7 +8830,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", react@^16.14.0, "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", react@^16.8.6, "react@^16.9.0 || ^17.0.0 || ^18", "react@>= 16.3.0", react@>=0.14.0, react@>=15, react@>=15.0.0, react@>=16, react@>=16.14.0, react@>=16.6.0, react@>=16.8.0:
+react@^16.14.0, "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", react@^16.8.6, "react@^16.9.0 || ^17.0.0 || ^18", "react@>= 16.3.0", react@>=0.14.0, react@>=15.0.0, react@>=16, react@>=16.14.0, react@>=16.6.0, react@>=16.8, react@>=16.8.0:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
@@ -9187,11 +9146,6 @@ resolve-from@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz"
   integrity sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
-
-resolve-pathname@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/resolve-pathname/-/resolve-pathname-3.0.0.tgz"
-  integrity sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng==
 
 resolve-url@^0.2.1:
   version "0.2.1"
@@ -10155,12 +10109,7 @@ tiny-case@^1.0.3:
   resolved "https://registry.npmjs.org/tiny-case/-/tiny-case-1.0.3.tgz"
   integrity sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==
 
-tiny-invariant@^1.0.2:
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.3.1.tgz"
-  integrity sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==
-
-tiny-warning@^1.0.0, tiny-warning@^1.0.2, tiny-warning@^1.0.3:
+tiny-warning@^1.0.2:
   version "1.0.3"
   resolved "https://registry.npmjs.org/tiny-warning/-/tiny-warning-1.0.3.tgz"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
@@ -10591,11 +10540,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-value-equal@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/value-equal/-/value-equal-1.0.1.tgz"
-  integrity sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==
 
 vary@~1.1.2:
   version "1.1.2"
