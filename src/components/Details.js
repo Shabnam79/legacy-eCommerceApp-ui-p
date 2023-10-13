@@ -60,7 +60,7 @@ const Details = () => {
 
     const fetchAddToCartData = async () => {
         if (user.userId) {
-            let data = getCartProductsService(user.userId);
+            let data = await getCartProductsService(user.userId);
             if (data != undefined) {
                 setCartData(data);
             }
