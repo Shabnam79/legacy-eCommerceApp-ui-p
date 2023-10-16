@@ -2,14 +2,14 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 
 const OrdersItem = ({ item }) => {
     return (
         <div className="container mt-5">
             <div className="row">
                 <div className="col-10 mx-auto">
-                    <Link to="/review/123" className="order-card">
+                    <Link to={`/review/${item.orderId}`} className="order-card">
                         <Card>
                             <Card.Header>
                                 <Row>
@@ -63,6 +63,9 @@ const OrdersItem = ({ item }) => {
                                         <Card.Text>
                                             {item.name}
                                         </Card.Text>
+                                        <Link to={`/review/${item.orderId}`}>
+                                            &#9733; Rate and Review Product
+                                        </Link>
                                     </Col>
                                 </Row>
                             </Card.Body>
