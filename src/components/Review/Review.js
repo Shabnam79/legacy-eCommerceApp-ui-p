@@ -33,11 +33,11 @@ const Review = () => {
         }
     }
 
-    const submitProductReview = async (values) => {
+    const addUpdateProductReview = async (values) => {
         let reviewObj = {
             userId: user.userId,
             orderId: orderId,
-            orderDate: Date(),
+            reviewDate: Date(),
             title: values.title,
             description: values.description,
             rating: productReviewDetails.rating
@@ -68,7 +68,7 @@ const Review = () => {
                         ?
                         <Formik
                             validationSchema={schema}
-                            onSubmit={submitProductReview}
+                            onSubmit={addUpdateProductReview}
                             // onSubmit={(e) => {
                             //     const data = { title: e.title, description: e.description };
                             //     alert(JSON.stringify(data));

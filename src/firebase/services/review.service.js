@@ -1,11 +1,6 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
-
-export const saveProductReview = async (productReview) => {
-    return await addDoc(collection(db, "productReview"), {
-        ...productReview
-    });
-}
+import { toast } from "react-toastify";
 
 export const getProductReviewByOrderIdService = async (orderId) => {
     const q = query(
@@ -23,3 +18,30 @@ export const getProductReviewByOrderIdService = async (orderId) => {
     // console.log(data2);
 }
 
+export const saveProductReview = async (productReview) => {
+    try {
+        // Define the collection and document data
+        const myCollection = collection(db, 'productReview');
+
+        // Define the document reference
+        const myDocRef = doc(myCollection, productReview.orderId);
+
+        // Add or update the document
+        await setDoc(myDocRef, productReview);
+    }
+    catch (error) {
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
+    }
+
+    // return await addDoc(collection(db, "productReview"), {
+    //     ...productReview
+    // });
+}
+
+export const updateProductReview = async (productReviewDoc, productReview) => {
+    await updateDoc(productReviewDoc, {
+        ...productReview
+    });
+}
