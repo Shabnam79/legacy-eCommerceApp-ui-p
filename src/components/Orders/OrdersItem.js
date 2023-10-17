@@ -33,7 +33,7 @@ const OrdersItem = ({ item }) => {
                                         </Row>
                                         <Row>
                                             <Card.Text>
-                                                {item.total}
+                                                ${item.total}
                                             </Card.Text>
                                         </Row>
                                     </Col>
