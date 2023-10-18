@@ -57,7 +57,7 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/wishlist" element={<ProductWishlist />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/review/:orderId" element={<Review />} />
+            <Route path="/review/:productId/:orderId" element={<Review />} />
             <Route element={<Default />} />
           </Routes>
           <Modal />

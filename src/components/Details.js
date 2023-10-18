@@ -5,13 +5,15 @@ import userContext from "../utils/userContext";
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { openModal } from '../utils/productSlice';
-import { addToWishlist ,removeFromWishlist} from '../utils/wishlistSlice';
+import { addToWishlist, removeFromWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-import { saveProductToWishlistService,getWishlistByIdService } from '../firebase/services/wishlist.service';
+import { saveProductToWishlistService, getWishlistByIdService } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
 import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
+import ReviewCards from './Review/ReviewCards';
+import ReviewModal from './ReviewModal';
 
 const Details = () => {
     const { user } = useContext(userContext);
@@ -21,6 +23,7 @@ const Details = () => {
     const [CartData, setCartData] = useState([]);
     const [wishlist, setWishlist] = useState({});
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         fetchAddToCartData();
@@ -62,7 +65,7 @@ const Details = () => {
                             autoClose: 1000,
                         }
                     );
-                    
+
                     dispatch(removeFromWishlist(wishlist));
                     setIsProductWishlisted(false);
 
@@ -89,7 +92,7 @@ const Details = () => {
                     dispatch(addToWishlist(value));
                     setIsProductWishlisted(true);
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
-                    
+
                     console.log("Document written with ID: ", docRef.id);
 
                     toast.success(`${value.title} is added to wishlist`, {
@@ -109,6 +112,7 @@ const Details = () => {
             );
         }
     }
+
     const fetchAddToCartData = async () => {
         if (user.userId) {
             let data = await getCartProductsService(user.userId);
@@ -228,16 +232,30 @@ const Details = () => {
                             }}>
                             {inCart ? "inCart" : "add to cart"}
                         </ButtonContainer>
-                        <ButtonContainer cart 
+                        <ButtonContainer cart
                             onClick={() => {
                                 addProductToWishlist(detailProduct);
                             }}>
                             {isProductWishlisted ? "remove from wishlist" : "add to wishlist"}
                         </ButtonContainer>
+                        <ButtonContainer
+                            onClick={() => {
+                                setModalShow(true)
+                            }}>
+                            Review
+                        </ButtonContainer>
+                        <ReviewModal
+                            name="Review"
+                            show={modalShow}
+                            onHide={() => setModalShow(false)}
+                            productId={id}
+                        />
                     </div>
                 </div>
             </div>
         </div>
+
+
     )
 }
 

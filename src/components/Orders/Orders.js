@@ -3,7 +3,10 @@ import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
 import Title from '../Title';
 import userContext from '../../utils/userContext';
-import { getOrderService } from '../../firebase/services/order.service';
+import { getAllOrdersService, getOrderService } from '../../firebase/services/order.service';
+import { doc } from 'firebase/firestore';
+import { db } from '../../firebase/config/firebase.config';
+import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -22,6 +25,13 @@ const Orders = () => {
         } else {
             console.log("Please login to see past orders");
         }
+
+        //delete all orders
+        // let orders = await getAllOrdersService();
+        // orders.forEach((data) => {
+        //     const addToCartDoc = doc(db, "productOrders", data.id);
+        //     deleteRecordFromFirebaseService(addToCartDoc)
+        // });
     }
 
     return (

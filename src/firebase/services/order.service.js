@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, query, updateDoc, where, writeBatch } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, where, writeBatch } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
 import { deleteRecordFromFirebaseService } from "./product.service";
@@ -34,7 +34,18 @@ export const saveCartOrderService = async (cartArray) => {
 
 export const getOrderService = async (userId) => {
     const q = query(
+        // collection(db, "productOrders"), where("userId", "==", userId)
         collection(db, "productOrders"), where("userId", "==", userId)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
+
+export const getAllOrdersService = async () => {
+    const q = query(
+        collection(db, "productOrders")
     )
 
     const querySnapshot = await getDocs(q);
