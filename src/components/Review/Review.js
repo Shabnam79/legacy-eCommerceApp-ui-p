@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { ButtonContainer } from '../Button';
-import StarRating from '../StarRating';
+import StarRating from './StarRating';
 import { getProductReviewByOrderIdService, saveProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';

@@ -12,8 +12,7 @@ import { saveProductToWishlistService, getWishlistByIdService } from '../firebas
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
 import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
-import ReviewCards from './Review/ReviewCards';
-import ReviewModal from './ReviewModal';
+import ReviewModal from './Review/ReviewModal';
 
 const Details = () => {
     const { user } = useContext(userContext);

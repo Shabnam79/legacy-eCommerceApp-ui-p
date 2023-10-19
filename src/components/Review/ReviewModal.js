@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { ButtonContainer } from './Button';
-import ReviewCards from './Review/ReviewCards';
+import { ButtonContainer } from '../Button';
+import ReviewCards from './ReviewCards';
 import Modal from 'react-bootstrap/Modal';
-import { getProductReviewByProductIdService } from '../firebase/services/review.service';
+import { getProductReviewByProductIdService } from '../../firebase/services/review.service';
 
 const ReviewModal = (props) => {
+    debugger
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
@@ -12,6 +13,7 @@ const ReviewModal = (props) => {
     }, reviews);
 
     const fetchProductReviews = async () => {
+        debugger
         let data = await getProductReviewByProductIdService(props.productId);
         if (data != undefined)
             setReviews(data);
@@ -31,9 +33,13 @@ const ReviewModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 {
-                    reviews.map(review => {
-                        return <ReviewCards key={review.id} review={review} />;
-                    })
+                    reviews.length > 0
+                        ?
+                        reviews.map(review => {
+                            return <ReviewCards key={review.id} review={review} />;
+                        })
+                        :
+                        "No review has been published yet for the product"
                 }
             </Modal.Body>
             <Modal.Footer>
