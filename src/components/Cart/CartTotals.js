@@ -27,7 +27,7 @@ export default function CartTotals({ value }) {
                     orderDate: Date(),
                     orderId: uuidv4(),
                     price: element.price,
-                    productId: element.id,
+                    productId: element.productId,
                     quantity: element.count,
                     total: element.price * element.count,
                     userId: user.userId,
