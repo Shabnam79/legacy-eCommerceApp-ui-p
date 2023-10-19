@@ -8,6 +8,8 @@ import { auth } from "../firebase/config/firebase.config";
 import { signOut } from "firebase/auth";
 import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const Navbar = () => {
     const { user, setUser } = useContext(userContext)
@@ -20,6 +22,12 @@ const Navbar = () => {
     //             console.log("myauth1", auth.currentUser.uid);
 
     const logout = async () => {
+        setModalShow(false);
+        setUser({
+            userId: null,
+            email: null
+        });
+        removeItem("user");
         try {
             await signOut(auth);
         } catch (err) {
@@ -41,27 +49,25 @@ const Navbar = () => {
                     </li>
                 </ul>
                 &nbsp;&nbsp;&nbsp;
-                {/* <div>                  
-                    <select className="dropdown" onChange={(e) => fetchProductCategorylist(e.target.value)}>
-                    <select className="dropdown" onChange={(e) => value.fetchProductCategorylist(e.target.value)}>
-                    <option value="">All Category</option>
-                        {dropdown.map((item) => (
-                            <option value={item.id}>{item.Category}</option>
-                        ))}
-                    </select>
-                </div>             
-                &nbsp;&nbsp;&nbsp; */}
             </div>
             <div className="navbar-right">
-                <span style={{ color: "white" }}>{user.email}</span>&nbsp;&nbsp;&nbsp;
+                {/* <span style={{ color: "white" }}>{user.email}</span>&nbsp;&nbsp;&nbsp; */}
                 {
                     user.userId == null
                         ?
-                        // <Link to="/login" className="ml-auto">
                         <>
-                            <ButtonContainer onClick={() => setModalShow(true)}>
+                            <Dropdown className="d-inline mx-2">
+                                <Dropdown.Toggle id="dropdown-autoclose-true">
+                                Hello Sign in
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                <Dropdown.Item as="button" onClick={() => setModalShow(true)}>
+                                    Login</Dropdown.Item>
+                                </Dropdown.Menu>                              
+                            </Dropdown>
+                            {/* <ButtonContainer onClick={() => setModalShow(true)}>
                                 <i className="fas fa-user">Login</i>
-                            </ButtonContainer>
+                            </ButtonContainer> */}
 
                             <LoginModal
                                 name="Login"
@@ -69,9 +75,21 @@ const Navbar = () => {
                                 onHide={() => setModalShow(false)}
                             />
                         </>
-                        // </Link>
                         : <>
-                            <Link to="/" className="ml-auto">
+                            <Dropdown className="d-inline mx-2">
+                            <Dropdown.Toggle id="dropdown-autoclose-true">
+                                Hello {user.email}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                <Dropdown.Item onClick={()=> logout()} href="/">
+                                Logout</Dropdown.Item>
+                                <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                <Dropdown.Item onClick={()=> setModalShow(false)} href="/orders">
+                                    Your Orders</Dropdown.Item>
+                                <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                </Dropdown.Menu>                      
+                            </Dropdown>
+                            {/* <Link to="/" className="ml-auto">
                                 <ButtonContainer onClick={() => setModalShow(false)}>
                                     <i className="fas fa-user"
                                         onClick={
@@ -92,12 +110,12 @@ const Navbar = () => {
                                         >Orders</i>
                                     </ButtonContainer>
                                 </Link>
-                            </Link>
-                            <Link to="/wishlist" className="ml-auto">
+                            </Link> */}
+                            {/* <Link to="/wishlist" className="ml-auto">
                                 <ButtonContainer>
                                     <i className="fas fa fa-heart">my wishlist</i>
                                 </ButtonContainer>
-                            </Link>
+                            </Link> */}
                         </>
 
                 }

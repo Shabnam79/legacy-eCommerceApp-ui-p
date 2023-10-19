@@ -2,6 +2,16 @@ import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, whe
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
 
+export const getProductReviewsService = async (orderId) => {
+    const q = query(
+        collection(db, "productReview")
+    )
+
+    const querysnapshot = await getDocs(q);
+    return querysnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
+
 export const getProductReviewByOrderIdService = async (orderId) => {
     const q = query(
         collection(db, "productReview"), where("orderId", "==", orderId)
@@ -16,6 +26,16 @@ export const getProductReviewByOrderIdService = async (orderId) => {
     // console.log(data1.exists());
     // const data2 = data1.exists() ? data1.data() : null
     // console.log(data2);
+}
+
+export const getProductReviewByProductIdService = async (productId) => {
+    const q = query(
+        collection(db, "productReview"), where("productId", "==", productId)
+    )
+
+    const querysnapshot = await getDocs(q);
+    return querysnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
 export const saveProductReview = async (productReview) => {

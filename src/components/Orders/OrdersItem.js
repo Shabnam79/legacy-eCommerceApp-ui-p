@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 const OrdersItem = ({ item }) => {
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -63,7 +64,7 @@ const OrdersItem = ({ item }) => {
                                     <Card.Text>
                                         {item.name}
                                     </Card.Text>
-                                    <Link to={`/review/${item.orderId}`}>
+                                    <Link to={`/review/${item.productId}/${item.orderId}`}>
                                         &#9733; Rate and Review Product
                                     </Link>
                                 </Col>

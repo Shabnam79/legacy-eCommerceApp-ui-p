@@ -17,8 +17,8 @@ const schema = yup.object().shape({
         .required(),
 });
 
-const Review = () => {
-    let { orderId } = useParams();
+const Review = (props) => {
+    let { productId, orderId } = useParams();
     const { user } = useContext(userContext);
     const [productReviewDetails, setProductReviewDetails] = useState({});
 
@@ -37,6 +37,7 @@ const Review = () => {
         let reviewObj = {
             userId: user.userId,
             orderId: orderId,
+            productId: productId,
             reviewDate: Date(),
             title: values.title,
             description: values.description,
