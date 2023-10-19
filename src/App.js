@@ -13,6 +13,7 @@ import userContext from './utils/userContext';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
+import Dashboard from './components/Admin/dashboard';
 import { Provider } from 'react-redux';
 import store from './utils/store';
 import Signup from './components/Signup';
@@ -56,6 +57,7 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/wishlist" element={<ProductWishlist />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Dashboard/>} />
             <Route element={<Default />} />
           </Routes>
           <Modal />
