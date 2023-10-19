@@ -12,10 +12,12 @@ import { saveProductToWishlistService,getWishlistByIdService } from '../firebase
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
 import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
+import LoginModal from './LoginModal';
 
 const Details = () => {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
+    const [modalShow, setModalShow] = useState(false);
     const { detailProduct } = useSelector((state) => state.allproducts);
     const { id, company, img, info, price, title, inCart, inWishlist } = detailProduct;
     const [CartData, setCartData] = useState([]);
@@ -101,12 +103,14 @@ const Details = () => {
             }
 
         } else {
-            toast.warning(
-                `To add your product in wishlist you need to login first.`,
-                {
-                    autoClose: 1000,
-                }
-            );
+            // toast.warning(
+            //     `To add your product in wishlist you need to login first.`,
+            //     {
+            //         autoClose: 1000,
+            //     }
+            // );
+            setModalShow(true);
+            //checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
         }
     }
     const fetchAddToCartData = async () => {
@@ -134,6 +138,7 @@ const Details = () => {
             return false;
         });
         if (user.userId) {
+            openCartModal(detailProduct);
             if (!iscart) {
                 try {
                     let addToCartProductObj = {
@@ -169,12 +174,13 @@ const Details = () => {
                 }
             }
         } else {
-            toast.warning(
-                `To add your order in cart you need to login first`,
-                {
-                    autoClose: 1000,
-                }
-            );
+            // toast.warning(
+            //     `To add your order in cart you need to login first`,
+            //     {
+            //         autoClose: 1000,
+            //     }
+            // );
+            setModalShow(true);
         }
 
     }
@@ -224,7 +230,7 @@ const Details = () => {
                         <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
-                                openCartModal(detailProduct);
+                                //openCartModal(detailProduct);
                             }}>
                             {inCart ? "inCart" : "add to cart"}
                         </ButtonContainer>
@@ -237,6 +243,13 @@ const Details = () => {
                     </div>
                 </div>
             </div>
+            {user.userId == null
+                ?
+                <LoginModal name="Login"
+                    show={modalShow}
+                    onHide={() => setModalShow(false)} />
+                : null 
+            }
         </div>
     )
 }
