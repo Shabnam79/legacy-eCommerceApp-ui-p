@@ -4,11 +4,13 @@ import Title from "./Title";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
 import { getCategoryService } from '../firebase/services/product.service';
-
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 const ProductList = () => {
     const dispatch = useDispatch();
     const { allproducts } = useSelector((state) => state.allproducts);
     const [dropdown, setDropdown] = useState([]);
+    const [selectedValue, setSelectedValue] = useState('');
 
     useEffect(() => {
         fetchCategorylist();
@@ -23,15 +25,29 @@ const ProductList = () => {
     }
 
     const fetchProductCategorylist = (id) => {
+        debugger
+        setSelectedValue(id);
         dispatch(fetchProducts(id));
     }
 
     return (
         <>
-            <div className="py-12 mt-2" style={{ textAlign: "right" }}>
+            <div className="py-12 mt-2" style={{ textAlign: "right"}}>
                 <div className="container">
+                    {/* <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                        <Dropdown.Toggle  id="dropdown-basic">
+                            {selectedValue || 'All Category'}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        <Dropdown.Item eventKey="">All Category</Dropdown.Item>
+                        {dropdown.map((item) => (
+                            <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                        ))}
+                        </Dropdown.Menu>
+                        </Dropdown> */}
+                        
+                  
                     <select className="dropdown" onChange={(e) => fetchProductCategorylist(e.target.value)}>
-                        {/* <select className="dropdown" onChange={(e) => value.fetchProductCategorylist(e.target.value)}> */}
                         <option value="">All Category</option>
                         {dropdown.map((item) => (
                             <option value={item.id}>{item.Category}</option>
