@@ -10,6 +10,7 @@ import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Button from 'react-bootstrap/Button';
 
 const Navbar = () => {
     const { user, setUser } = useContext(userContext)
@@ -56,8 +57,8 @@ const Navbar = () => {
                     user.userId == null
                         ?
                         <>
-                            <Dropdown className="d-inline mx-2">
-                                <Dropdown.Toggle id="dropdown-autoclose-true">
+                            <Dropdown className="d-inline mx-2" >
+                                <Dropdown.Toggle id="dropdown-autoclose-true" style={{ backgroundColor: "transparent" }}>
                                 Hello Sign in
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -77,7 +78,7 @@ const Navbar = () => {
                         </>
                         : <>
                             <Dropdown className="d-inline mx-2">
-                            <Dropdown.Toggle id="dropdown-autoclose-true">
+                            <Dropdown.Toggle id="dropdown-autoclose-true" style={{ backgroundColor: "transparent" }}>
                                 Hello {user.email}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -121,9 +122,9 @@ const Navbar = () => {
                 }
 
                 <Link to="/cart" className="ml-auto">
-                    <ButtonContainer>
-                        <i className="fas fa-cart-plus">my cart</i>
-                    </ButtonContainer>
+                    <Button  style={{ backgroundColor: "transparent" }}>
+                        <i className="fas fa-cart-plus">My Cart</i>
+                    </Button>
                 </Link>
             </div>
         </NavWrapper>
