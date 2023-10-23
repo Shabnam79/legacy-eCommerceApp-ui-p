@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card';
-import StaticStarRating from '../StaticStarRating';
+import StaticStarRating from './StaticStarRating';
 
 const ReviewCards = ({ review }) => {
     const { rating, title, description } = review;
