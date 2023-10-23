@@ -5,10 +5,19 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { ButtonContainer } from '../Button';
-import StarRating from '../StarRating';
+import StarRating from './StarRating';
 import { getProductReviewByOrderIdService, saveProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
+// import {
+//     ref,
+//     uploadBytes,
+//     getDownloadURL,
+//     listAll,
+//     list,
+// } from "firebase/storage";
+// import { storage } from '../../firebase/config/firebase.config';
+// import { Col, Image, Row } from 'react-bootstrap';
 
 const schema = yup.object().shape({
     title: yup.string()
@@ -21,9 +30,12 @@ const Review = (props) => {
     let { productId, orderId } = useParams();
     const { user } = useContext(userContext);
     const [productReviewDetails, setProductReviewDetails] = useState({});
+    // const [imageUpload, setImageUpload] = useState(null);
+    // const [imageUrls, setImageUrls] = useState([]);
 
     useEffect(() => {
         fetchProductReview(orderId);
+        // fetchImages();
     }, []);
 
     const fetchProductReview = async (orderId) => {
@@ -46,6 +58,8 @@ const Review = (props) => {
 
         await saveProductReview(reviewObj);
 
+        // uploadFile();
+
         toast.success(`review submitted successfully`, {
             autoClose: 1000,
         });
@@ -54,6 +68,29 @@ const Review = (props) => {
     const setRating = (rating) => {
         setProductReviewDetails({ rating: rating });
     }
+
+    // const imagesListRef = ref(storage, `${productReviewDetails.orderId}/`);
+    // const uploadFile = () => {
+    //     if (imageUpload.length == 0) return;
+    //     for (let index = 0; index < imageUpload.length; index++) {
+    //         const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
+    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
+    //             getDownloadURL(snapshot.ref).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //             });
+    //         });
+    //     }
+    // };
+
+    // const fetchImages = () => {
+    //     listAll(imagesListRef).then((response) => {
+    //         response.items.forEach((item) => {
+    //             getDownloadURL(item).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //             });
+    //         });
+    //     });
+    // }
 
     return (
         <>
@@ -70,13 +107,7 @@ const Review = (props) => {
                         <Formik
                             validationSchema={schema}
                             onSubmit={addUpdateProductReview}
-                            // onSubmit={(e) => {
-                            //     const data = { title: e.title, description: e.description };
-                            //     alert(JSON.stringify(data));
-                            // }}
                             initialValues={{
-                                // title: '',
-                                // description: '',
                                 ...productReviewDetails
                             }}
                         >
@@ -126,9 +157,28 @@ const Review = (props) => {
                                     </Form.Group>
 
                                     {/* <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
-                                <Form.Label>Photos</Form.Label>
-                                <Form.Control type="file" multiple />
-                            </Form.Group> */}
+                                        <Form.Label>Photos</Form.Label>
+                                        <Form.Control
+                                            type="file"
+                                            multiple
+                                            onChange={(event) => {
+                                                setImageUpload(event.target.files);
+                                            }}
+                                        />
+                                    </Form.Group> */}
+
+                                    {/* <Row>
+                                        <Col xs={6} md={4}>
+                                            {
+                                                imageUrls.map((url) => {
+                                                    return <Image
+                                                        src={url}
+                                                        rounded style={{ height: "200px", width: "200px" }}
+                                                    />
+                                                })
+                                            }
+                                        </Col>
+                                    </Row> */}
 
                                     <ButtonContainer type="submit" style={{ "float": "right" }}>
                                         <i className="fas fa-user">Submit</i>

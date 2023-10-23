@@ -14,7 +14,7 @@ import { db } from '../firebase/config/firebase.config';
 import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
 import LoginModal from './LoginModal';
 import ReviewCards from './Review/ReviewCards';
-import ReviewModal from './ReviewModal';
+import ReviewModal from './Review/ReviewModal';
 
 const Details = () => {
     const { user } = useContext(userContext);

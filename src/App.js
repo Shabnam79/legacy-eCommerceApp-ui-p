@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import { Switch, Route, Routes, Outlet } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,6 +21,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Review from './components/Review/Review';
 import AddProducts from './components/Admin/AddProducts';
+import Checkout from "./components/Cart/Checkout";
+
+// const ProductList = lazy(() => import("./components/ProductList"));
+// const Details = lazy(() => import("./components/Details"));
+// const Cart = lazy(() => import("./components/Cart/Cart"));
+// const Login = lazy(() => import("./components/Login"));
+// const Orders = lazy(() => import("./components/Orders/Orders"));
+// const Signup = lazy(() => import("./components/Signup"));
+// const Review = lazy(() => import("./components/Review/Review"));
 
 function App() {
   const [user, setUser] = useState({});
@@ -63,6 +72,70 @@ function App() {
             <Route path="/review/:productId/:orderId" element={<Review />} />
             <Route path="/admin/addproduct" element={<AddProducts/>} />
 
+            <Route exact
+              path="/"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <ProductList />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/details"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Details />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Cart />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Login />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Orders />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <ProductWishlist />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Signup />
+                // </React.Suspense>
+              }
+            />
+            <Route
+              path="/review/:productId/:orderId"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Review />
+                // </React.Suspense>
+              }
+            />
             <Route element={<Default />} />
           </Routes>
           <Modal />
