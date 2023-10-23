@@ -25,8 +25,8 @@ const ProductList = () => {
     }
 
     const fetchProductCategorylist = (id) => {
-        debugger
-        setSelectedValue(id);
+        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
+        setSelectedValue(filterCategoryName);
         dispatch(fetchProducts(id));
     }
 
@@ -34,7 +34,7 @@ const ProductList = () => {
         <>
             <div className="py-12 mt-2" style={{ textAlign: "right"}}>
                 <div className="container">
-                    {/* <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                    <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                         <Dropdown.Toggle  id="dropdown-basic">
                             {selectedValue || 'All Category'}
                         </Dropdown.Toggle>
@@ -44,15 +44,14 @@ const ProductList = () => {
                             <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
                         ))}
                         </Dropdown.Menu>
-                        </Dropdown> */}
-                        
+                        </Dropdown>                        
                   
-                    <select className="dropdown" onChange={(e) => fetchProductCategorylist(e.target.value)}>
+                    {/* <select className="dropdown" onChange={(e) => fetchProductCategorylist(e.target.value)}>
                         <option value="">All Category</option>
                         {dropdown.map((item) => (
                             <option value={item.id}>{item.Category}</option>
                         ))}
-                    </select>
+                    </select> */}
                 </div>
             </div>
             <div className="py-5">

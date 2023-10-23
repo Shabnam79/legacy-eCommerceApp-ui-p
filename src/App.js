@@ -123,6 +123,14 @@ function App() {
                 // </React.Suspense>
               }
             />
+            <Route
+              path="/checkout"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <Checkout />
+                // </React.Suspense>
+              }
+            />
             <Route element={<Default />} />
           </Routes>
           <Modal />
