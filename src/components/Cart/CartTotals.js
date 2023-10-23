@@ -83,14 +83,22 @@ export default function CartTotals({ value }) {
             </div>
             <div className="row">
                 <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
-                    <button
+                <Link to="/checkout">
+                <button
+                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
+                        type="button">
+                        Place Order
+                    </button>
+                </Link>
+               
+                    {/* <button
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                         type="button"
                         onClick={() => {
                             placeProductOrder();
                         }}>
                         Place Order
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>
