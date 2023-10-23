@@ -87,7 +87,7 @@ export default function CartTotals({ value }) {
                 <button
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                         type="button">
-                        Place Order
+                        Proceed To Checkout
                     </button>
                 </Link>
                
