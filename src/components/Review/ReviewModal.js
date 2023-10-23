@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 import { getProductReviewByProductIdService } from '../../firebase/services/review.service';
 
 const ReviewModal = (props) => {
-    debugger
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
@@ -13,7 +12,6 @@ const ReviewModal = (props) => {
     }, reviews);
 
     const fetchProductReviews = async () => {
-        debugger
         let data = await getProductReviewByProductIdService(props.productId);
         if (data != undefined)
             setReviews(data);
