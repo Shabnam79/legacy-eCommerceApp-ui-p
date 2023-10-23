@@ -1,22 +1,110 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
+import { Button, button, Table } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { storeProducts } from '../../data.js'
+import React, { useContext, useEffect, useState } from 'react'
+import userContext from "../../utils/userContext.js";
+import { getCartProductsService, getProductByIdService } from '../../firebase/services/cart.service.js';
+import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { useDispatch } from 'react-redux';
+import { toast } from "react-toastify";
+import { removeFromCart } from '../../utils/cartSlice';
+import AdminColumns from './AdminColumns.js';
+import { Link } from 'react-router-dom';
 
 
-const dashboard = () => {
+
+
+
+
+
+
+
+
+function Dashboard() {
+    const { user } = useContext(userContext);
+    const dispatch = useDispatch();
+
+    const [CartData, setCartData] = useState([]);
+    useEffect(() => {
+        fetchAddToCartData();
+    }, [user.userId]);
+
+    const fetchAddToCartData = async () => {
+        if (user.userId) {
+            let data = await getCartProductsService(user.userId);
+            if (data != undefined) {
+                setCartData(data);
+            }
+        } else {
+            console.log("Please login to see past Cart products");
+        }
+    }
+
+    const removeProductHandler = async (item) => {
+        debugger
+        try {
+            const addToCartDoc = await getProductByIdService(item.id);
+            await deleteRecordFromFirebaseService(addToCartDoc);
+
+            toast.warning(
+                `Product removed from the Cart`,
+                {
+                    autoClose: 1000,
+                }
+            );
+
+            fetchAddToCartData();
+            dispatch(removeFromCart(item));
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
 
 
     return (
         <>
-            <Form>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="name@example.com" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Example textarea</Form.Label>
-                    <Form.Control as="textarea" rows={3} />
-                </Form.Group>
-            </Form>
+            <div style={{ margin: "10rem" }}>
+                <Table striped bordered hover size='sm'>
+                    <AdminColumns />
+                    <tbody>
+                        {
+                            CartData && CartData.length > 0 ?
+
+                                CartData.map((item) => {
+                                    return (
+                                        <tr>
+                                            <td>
+                                                {item.title}
+                                            </td>
+                                            <td>
+                                                {item.img}
+                                            </td><td>
+                                                {item.title}
+                                            </td><td>
+                                                {item.price}
+                                            </td><td>
+                                                {item.count}
+                                            </td><td>
+                                                {item.info}
+                                            </td>
+                                            <td>
+                                                <Button onClick={() => alert(item.id)}>EDIT</Button>
+                                                <Button onClick={() => removeProductHandler(item)}>DELETE</Button>
+                                            </td>
+
+                                        </tr>
+                                    )
+
+                                }) : null
+                        }
+                    </tbody>
+                </Table>
+                <br></br>
+                <Link className='d-grid gap-2' to='/admin/addproduct'>
+                    <Button size="lg">Add Product</Button>
+                </Link>
+            </div>
         </>
     );
 
@@ -24,4 +112,4 @@ const dashboard = () => {
 
 
 
-export default dashboard;
+export default Dashboard;

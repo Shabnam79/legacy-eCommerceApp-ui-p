@@ -20,6 +20,7 @@ import Signup from './components/Signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Review from './components/Review/Review';
+import AddProducts from './components/Admin/AddProducts';
 
 function App() {
   const [user, setUser] = useState({});
@@ -60,6 +61,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Dashboard/>} />
             <Route path="/review/:productId/:orderId" element={<Review />} />
+            <Route path="/admin/addproduct" element={<AddProducts/>} />
+
             <Route element={<Default />} />
           </Routes>
           <Modal />
