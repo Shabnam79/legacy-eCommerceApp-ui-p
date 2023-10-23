@@ -19,6 +19,7 @@ import Signup from './components/Signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Review from './components/Review/Review';
+import Checkout from "./components/Cart/Checkout";
 
 // const ProductList = lazy(() => import("./components/ProductList"));
 // const Details = lazy(() => import("./components/Details"));
