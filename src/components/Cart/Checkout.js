@@ -1,15 +1,12 @@
 import React,{ useEffect,useContext } from 'react'
 import Title from '../Title';
-import CartColumns from './CartColumns';
+import CheckoutColumns from './CheckoutColumns';
 import EmptyCart from './EmptyCart';
-import CartList from './CartList';
-import CartTotals from "./CartTotals";
+import CheckoutList from './CheckoutList';
+import CheckoutForm from "./CheckoutForm";
 import { useDispatch, useSelector } from 'react-redux';
 import userContext from "../../utils/userContext";
-
 import {fetchCartProducts} from '../../utils/cartSlice'
-
-
 
 
 const Store = ({ history }) => {
@@ -27,10 +24,11 @@ const Store = ({ history }) => {
                 cartItems.cart.length > 0
                     ?
                     <React.Fragment>
-                        <Title name="your" title="cart" />
-                        <CartColumns />
-                        <CartList value={cartItems} />
-                        <CartTotals value={cartItems} history={history} />
+                        <Title name="your" title="orderSummary" />
+                        <CheckoutColumns />
+                        <CheckoutList value={cartItems} />
+                        {/* <CartTotals value={cartItems} history={history} /> */}
+                        <CheckoutForm value={cartItems}/>
                     </React.Fragment>
                     :
                     <EmptyCart />
