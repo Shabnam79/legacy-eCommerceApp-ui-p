@@ -1,21 +1,18 @@
-import React, { useState, useContext,useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { saveProductIntoCartService } from '../../firebase/services/cart.service';
+import { getCartProductByProductIdService, saveProductIntoCartService } from '../../firebase/services/cart.service';
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { getCartProductsService, getProductByIdService } from '../../firebase/services/cart.service.js';
-
-
-
+import { useParams } from 'react-router-dom';
+import { getProductReviewByProductIdService } from '../../firebase/services/review.service';
 
 const schema = yup.object().shape({
     title: yup.string()
-        .required(),
-    description: yup.string()
         .required(),
 });
 
@@ -23,11 +20,12 @@ function EditProducts() {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
 
-    const [CartData, setCartData] = useState([]);
-
+    const [CartData, setCartData] = useState({});
+    let { productId } = useParams();
 
 
     useEffect(() => {
+        debugger
         fetchAddToCartData();
     }, [user.userId]);
 
@@ -40,11 +38,11 @@ function EditProducts() {
         description: '',
         userId: user.userId
     });
-    
+
     const fetchAddToCartData = async (item) => {
         debugger
         if (user.userId) {
-            let data = await getCartProductsService(item.id);
+            let data = await getCartProductByProductIdService(productId);
             if (data != undefined) {
                 setCartData(data[0]);
                 debugger
@@ -55,13 +53,13 @@ function EditProducts() {
         }
     }
     console.log(CartData);
-  
+
 
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        
+
 
         setName((prevName) => ({
 
@@ -106,7 +104,7 @@ function EditProducts() {
             validationSchema={schema}
             // onSubmit={addUpdateProductReview}
             initialValues={{
-                ...CartData
+                // ...CartData
             }}
         >
             {({
@@ -119,7 +117,7 @@ function EditProducts() {
                 errors,
             }) => (
                 <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                    <Form.Group className='mb-3' controlId='FormCategory'>
+                    {/* <Form.Group className='mb-3' controlId='FormCategory'>
                         <Form.Control
                             type='text'
                             name="category"
@@ -138,18 +136,18 @@ function EditProducts() {
                             required
                             onChange={handleInputChange}
                         />
-                    </Form.Group>
+                    </Form.Group> */}
                     <Form.Group className='mb-3' controlId='FormName'>
                         <Form.Control
                             type='text'
-                            name="name"
-                            value={CartData.name}
+                            name="title"
+                            value={CartData.title}
                             placeholder='Enter Product Name'
                             required
                             onChange={handleInputChange}
                         />
                     </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormPrice'>
+                    {/* <Form.Group className='mb-3' controlId='FormPrice'>
                         <Form.Control
                             type='number'
                             name="price"
@@ -168,12 +166,12 @@ function EditProducts() {
                             required
                             onChange={handleInputChange}
                         />
-                    </Form.Group>
+                    </Form.Group> */}
                     <Form.Group className='mb-3' controlId='FormDescription'>
                         <Form.Control
                             type='text'
-                            name="description"
-                            value={CartData.description}
+                            name="info"
+                            value={CartData.info}
                             placeholder='Enter Product Description'
                             required
                             onChange={handleInputChange}

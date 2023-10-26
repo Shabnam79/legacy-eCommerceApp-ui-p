@@ -11,15 +11,6 @@ import { removeFromCart } from '../../utils/cartSlice';
 import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
 
-
-
-
-
-
-
-
-
-
 function Dashboard() {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
@@ -41,7 +32,7 @@ function Dashboard() {
     }
 
     const removeProductHandler = async (item) => {
-        
+
         debugger
         try {
             const addToCartDoc = await getProductByIdService(item.id);
@@ -80,7 +71,7 @@ function Dashboard() {
                                             </td>
                                             <td>
                                                 {/* <div className="col-10 mx-auto col-lg-2"> */}
-                                                    <img src={item.img} style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
+                                                <img src={item.img} style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
                                                 {/* </div> */}
                                             </td><td>
                                                 {item.title}
@@ -92,8 +83,8 @@ function Dashboard() {
                                                 {item.info}
                                             </td>
                                             <td>
-                                                <Link to={`/admin/editproduct`}>
-                                                <Button>EDIT</Button>
+                                                <Link to={`/admin/editproduct/${item.productId}`}>
+                                                    <Button>EDIT</Button>
                                                 </Link>
                                                 <Button onClick={() => removeProductHandler(item)}>DELETE</Button>
                                             </td>

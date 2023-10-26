@@ -69,10 +69,10 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/wishlist" element={<ProductWishlist />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/admin" element={<Dashboard/>} />
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="/review/:productId/:orderId" element={<Review />} />
-            <Route path="/admin/addproduct" element={<AddProducts/>} />
-            <Route path="/admin/editproduct" element={<EditProducts/>} />
+            <Route path="/admin/addproduct" element={<AddProducts />} />
+            <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
 
             <Route exact
               path="/"
