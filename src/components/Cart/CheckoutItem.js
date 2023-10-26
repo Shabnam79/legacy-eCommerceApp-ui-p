@@ -30,29 +30,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
         }
     };
 
-    const increment = async (item) => {
-        const addToCartDoc = await getProductByIdService(item.id);
-        await incrementCartProductsService(addToCartDoc, count);
-
-        fetchAddToCartData();
-
-        dispatch(incrementProduct(item))
-    }
-
-    const decrement = async (item) => {
-        const addToCartDoc = await getProductByIdService(item.id);
-        if (count != 1) {
-            await decrementCartProductsService(addToCartDoc, count);
-
-            fetchAddToCartData();
-
-            dispatch(reduceProduct(item))
-        }
-        else {
-            removeProductHandler(item)
-        }
-    }
-
+   
     return (
         <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">

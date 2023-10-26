@@ -10,7 +10,11 @@ import { getTotals, removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
 import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import { FormControl } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 const CheckoutForm = ({ value }) => {
     const dispatch = useDispatch();
@@ -19,6 +23,7 @@ const CheckoutForm = ({ value }) => {
     const { user } = useContext(userContext);
 
     const placeProductOrder = async (e) => {
+        debugger
         if (user.userId) {
             const dataArray = [];
             cart.forEach(element => {
@@ -50,78 +55,71 @@ const CheckoutForm = ({ value }) => {
     return (
         <section>
             {
-                <div className="container-fluid">
-                    <><Form>
-                        <h4>Customer Info</h4>
-                        <div className='row'>
-                        <Form.Group className="col-md-4 mb-6" controlId="exampleForm.ControlInput1">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control type="firstName" placeholder="" />
-                        </Form.Group>
-                        <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="lastName" placeholder="" />
-                        </Form.Group>
-                        <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="" />
-                        </Form.Group>
-                        </div>
-                       
-                    </Form>
-                        <Form>
+                
+                <div className="checkout-container">
+                    <>
+                        <div className="shipping-info mt-2">
                             <h4>Shipping Details</h4>
-                            <div className='row'>
-                            <Form.Group className="col-md-4 mb-6" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Billing Name</Form.Label>
-                                <Form.Control type="firstName" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-6" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Select Country</Form.Label>
-                                <Form.Control type="firstName" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-6" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address 1</Form.Label>
-                                <Form.Control type="firstName" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address 2</Form.Label>
-                                <Form.Control type="lastName" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>City</Form.Label>
-                                <Form.Control type="email" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>State</Form.Label>
-                                <Form.Control type="email" placeholder="" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Pincode</Form.Label>
-                                <Form.Control type="email" placeholder="" />
-                            </Form.Group>
-                            </div>
-                        </Form>
-                        <Form>
+                            <Card style={{ width: '25rem' }}>
+                                {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+                                <Card.Body>
+                                    <Card.Title>Billing Address</Card.Title>
+                                    <Card.Text>
+                                        <div className="billing-info">
+                                            <p>
+                                                <strong>Name:</strong> John Doe
+                                            </p>
+                                            <p>
+                                                <strong>Email:</strong> johndoe@gmail.com
+                                            </p>
+                                            <p>
+                                                <strong>Address 1:</strong> 11th Street , Palm Olympia
+                                            </p>
+                                            <p>
+                                                <strong>Address 1:</strong> Boston Road 
+                                            </p>
+                                            <p>
+                                                <strong>City:</strong> New Jersey City
+                                            </p>
+                                            <p>
+                                                <strong>State:</strong> Newyork
+                                            </p>
+                                            <p>
+                                                <strong>Country:</strong> USA, 111100
+                                            </p>
+                                        </div>
+                                    </Card.Text>
+                                    <Button variant="primary">Add New Address</Button>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                        <div className="payment-info mt-2">
                             <h4>Payment Info</h4>
-                            {['radio'].map((type) => (
-                                <div key={`default-${type}`} className="mb-3">
+                            <Card style={{ width: '25rem' }}>
+                                <Card.Body>
+                                    <Card.Title>Choose Payment Option</Card.Title>
+                                    <Card.Text>
+                                        {['radio'].map((type) => (
+                                            <div key={`default-${type}`} className="mb-3">
+                                                <Form.Check
+                                                    type={type}
+                                                    label="Cash On Delivery"
+                                                    id={`disabled-default-${type}`}
+                                                />
+                                                <Form.Check
+                                                    disabled
+                                                    type={type}
+                                                    label="Credit Card"
+                                                    id={`disabled-default-${type}`}
+                                                />
+                                            </div>
+                                        ))}
+                                    </Card.Text>
+                                    <Button variant="primary">Add New Card</Button>
+                                </Card.Body>
+                            </Card>
 
-                                    <Form.Check
-                                        
-                                        type={type}
-                                        label="Cash On Delivery"
-                                        id={`disabled-default-${type}`}
-                                    />
-                                    <Form.Check
-                                        disabled
-                                        type={type}
-                                        label="Credit Card"
-                                        id={`disabled-default-${type}`}
-                                    />
-                                </div>
-                            ))}
-                        </Form>
+                        </div>
                     </>
                     <div className="row">
                         <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
