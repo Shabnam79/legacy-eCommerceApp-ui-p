@@ -41,6 +41,7 @@ function Dashboard() {
     }
 
     const removeProductHandler = async (item) => {
+        
         debugger
         try {
             const addToCartDoc = await getProductByIdService(item.id);
@@ -78,7 +79,9 @@ function Dashboard() {
                                                 {item.title}
                                             </td>
                                             <td>
-                                                {item.img}
+                                                {/* <div className="col-10 mx-auto col-lg-2"> */}
+                                                    <img src={item.img} style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
+                                                {/* </div> */}
                                             </td><td>
                                                 {item.title}
                                             </td><td>
@@ -89,7 +92,9 @@ function Dashboard() {
                                                 {item.info}
                                             </td>
                                             <td>
-                                                <Button onClick={() => alert(item.id)}>EDIT</Button>
+                                                <Link to={`/admin/editproduct`}>
+                                                <Button>EDIT</Button>
+                                                </Link>
                                                 <Button onClick={() => removeProductHandler(item)}>DELETE</Button>
                                             </td>
 

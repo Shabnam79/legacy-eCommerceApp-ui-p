@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Review from './components/Review/Review';
 import AddProducts from './components/Admin/AddProducts';
 import Checkout from "./components/Cart/Checkout";
+import EditProducts from './components/Admin/EditProducts';
 
 // const ProductList = lazy(() => import("./components/ProductList"));
 // const Details = lazy(() => import("./components/Details"));
@@ -71,6 +72,7 @@ function App() {
             <Route path="/admin" element={<Dashboard/>} />
             <Route path="/review/:productId/:orderId" element={<Review />} />
             <Route path="/admin/addproduct" element={<AddProducts/>} />
+            <Route path="/admin/editproduct" element={<EditProducts/>} />
 
             <Route exact
               path="/"

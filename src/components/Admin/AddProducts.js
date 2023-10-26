@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { saveProductIntoCartService } from '../../firebase/services/cart.service';
 import { toast } from "react-toastify";
+import userContext from '../../utils/userContext';
+
 
 
 
 function AddProducts() {
+    const { user } = useContext(userContext);
+
     const [name, setName] = useState({
         category: '',
         img: '',
         name: '',
         price: '',
         quantity: '',
-        description: ''
+        description: '',
+        userId:user.userId
     });
 
 
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
         setName((prevName) => ({
+
             ...prevName,
+        
             [name]: value
         }));
     };
 
 
+    
 
     const handleSubmit = async (e) => {
         debugger
@@ -70,7 +79,7 @@ function AddProducts() {
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='FormImage'>
                     <Form.Control
-                        type='text'
+                        type='file'
                         name="img"
                         value={name.img}
                         placeholder='Upload image'
@@ -90,7 +99,7 @@ function AddProducts() {
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='FormPrice'>
                     <Form.Control
-                        type='text'
+                        type='number'
                         name="price"
                         value={name.price}
                         placeholder='Enter product Price'
@@ -100,7 +109,7 @@ function AddProducts() {
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='FormQuantity'>
                     <Form.Control
-                        type='text'
+                        type='number'
                         name="quantity"
                         value={name.quantity}
                         placeholder='Enter Quantity of Product'
