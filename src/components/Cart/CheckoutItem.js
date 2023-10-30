@@ -58,7 +58,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
                 </div>
             </div> */}
             <div className="col-10 mx-auto col-lg-2">
-                <strong>sub total : $ {price * count}</strong>
+                <strong> $ {price * count}</strong>
             </div>
         </div>
     )

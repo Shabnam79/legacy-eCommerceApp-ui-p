@@ -58,3 +58,7 @@ body {
 .star-rating-off {
   color: #ccc;
 }
+.wrapper {
+  padding: 5px 20px;
+}
+
