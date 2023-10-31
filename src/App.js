@@ -23,6 +23,7 @@ import Review from './components/Review/Review';
 import AddProducts from './components/Admin/AddProducts';
 import Checkout from "./components/Cart/Checkout";
 import EditProducts from './components/Admin/EditProducts';
+import BillingAddress from "./components/Cart/BillingAddress";
 
 // const ProductList = lazy(() => import("./components/ProductList"));
 // const Details = lazy(() => import("./components/Details"));
@@ -143,6 +144,14 @@ function App() {
               element={
                 // <React.Suspense fallback={<>...</>}>
                 <Checkout />
+                // </React.Suspense>
+              }
+            />
+              <Route
+              path="/billingAddress"
+              element={
+                // <React.Suspense fallback={<>...</>}>
+                <BillingAddress />
                 // </React.Suspense>
               }
             />

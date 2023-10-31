@@ -88,6 +88,7 @@ const Navbar = () => {
                                 <Dropdown.Item onClick={()=> setModalShow(false)} href="/orders">
                                     Your Orders</Dropdown.Item>
                                 <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
                                 </Dropdown.Menu>                      
                             </Dropdown>
                             {/* <Link to="/" className="ml-auto">
