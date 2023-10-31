@@ -1,4 +1,4 @@
-import { collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, getDocs, query, where,addDoc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
 export const getCategoryService = async () => {
@@ -33,4 +33,29 @@ export const getProductsService = async () => {
 
 export const deleteRecordFromFirebaseService = async (doc) => {
     await deleteDoc(doc);
+}
+export const getProductsServiceByUserId = async (userId) => {
+    const q = query(
+        collection(db, "storeProducts"), where("userId", "==", userId)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
+
+export const getProductByProductIdService = async (productId) => {
+    const q = query(
+        collection(db, "storeProducts"), where("productId", "==", productId)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
+
+export const saveProductIntoStoreProductService = async (product) => {
+    return await addDoc(collection(db, "storeProducts"), {
+        ...product
+    });
 }

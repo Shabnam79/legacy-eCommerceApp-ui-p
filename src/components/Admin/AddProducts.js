@@ -1,27 +1,36 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { saveProductIntoCartService } from '../../firebase/services/cart.service';
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
+import { saveProductIntoStoreProductService } from '../../firebase/services/product.service';
 
 
 
 
 function AddProducts() {
     const { user } = useContext(userContext);
+    const [selectedOption, setSelectedOption] = useState('option1');
 
     const [name, setName] = useState({
         category: '',
+        categoryId: '',
+        company: '',
+        count: '',
         img: '',
-        name: '',
+        inCart: '',
+        inWishlist: '',
+        info: '',
         price: '',
-        quantity: '',
-        description: '',
-        userId:user.userId
+        title: '',
+        total: '',
+        userId: user.userId,
+        productId:''
     });
 
-
+    const handleDropdownChange = (e) => {
+        setSelectedOption(e.target.value);
+      };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -29,27 +38,27 @@ function AddProducts() {
         setName((prevName) => ({
 
             ...prevName,
-        
+
             [name]: value
         }));
     };
 
 
-    
+
 
     const handleSubmit = async (e) => {
         debugger
         e.preventDefault();
 
 
-
+debugger
         let addToCartProductObj = {
             ...name
         };
 
 
 
-        let docRef = await saveProductIntoCartService(addToCartProductObj);
+        let docRef = await saveProductIntoStoreProductService(addToCartProductObj);
 
 
 
@@ -67,16 +76,17 @@ function AddProducts() {
     return (
         <>
             <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                <Form.Group className='mb-3' controlId='FormCategory'>
-                    <Form.Control
-                        type='text'
-                        name="category"
-                        value={name.category}
-                        placeholder='Enter category'
-                        required
-                        onChange={handleInputChange}
-                    />
-                </Form.Group>
+                <label htmlFor="dropdown">Select Category</label>
+                <select
+                    id="dropdown"
+                    name="dropdown"
+                    value={selectedOption}
+                    onChange={handleDropdownChange}
+                >
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
                 <Form.Group className='mb-3' controlId='FormImage'>
                     <Form.Control
                         type='file'

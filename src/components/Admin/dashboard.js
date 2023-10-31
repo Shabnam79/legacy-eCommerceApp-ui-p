@@ -3,8 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { storeProducts } from '../../data.js'
 import React, { useContext, useEffect, useState } from 'react'
 import userContext from "../../utils/userContext.js";
-import { getCartProductsService, getProductByIdService } from '../../firebase/services/cart.service.js';
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { getProductByIdService } from '../../firebase/services/cart.service.js';
+import { deleteRecordFromFirebaseService, getProductsServiceByUserId } from '../../firebase/services/product.service';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
@@ -17,12 +17,13 @@ function Dashboard() {
 
     const [CartData, setCartData] = useState([]);
     useEffect(() => {
-        fetchAddToCartData();
+        fetchStoreProductData();
     }, [user.userId]);
 
-    const fetchAddToCartData = async () => {
+    const fetchStoreProductData = async () => {
+        
         if (user.userId) {
-            let data = await getCartProductsService(user.userId);
+            let data = await getProductsServiceByUserId(user.userId);
             if (data != undefined) {
                 setCartData(data);
             }
@@ -45,7 +46,7 @@ function Dashboard() {
                 }
             );
 
-            fetchAddToCartData();
+            fetchStoreProductData();
             dispatch(removeFromCart(item));
         }
         catch (e) {

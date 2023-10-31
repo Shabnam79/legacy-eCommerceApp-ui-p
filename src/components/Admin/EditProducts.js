@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { getCartProductsService, getProductByIdService } from '../../firebase/services/cart.service.js';
 import { useParams } from 'react-router-dom';
-import { getProductReviewByProductIdService } from '../../firebase/services/review.service';
+import { getProductByProductIdService } from '../../firebase/services/product.service';
 
 const schema = yup.object().shape({
     title: yup.string()
@@ -26,7 +26,7 @@ function EditProducts() {
 
     useEffect(() => {
         debugger
-        fetchAddToCartData();
+        fetchStoreProductData();
     }, [user.userId]);
 
     const [name, setName] = useState({
@@ -39,10 +39,10 @@ function EditProducts() {
         userId: user.userId
     });
 
-    const fetchAddToCartData = async (item) => {
+    const fetchStoreProductData = async (item) => {
         debugger
         if (user.userId) {
-            let data = await getCartProductByProductIdService(productId);
+            let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 setCartData(data[0]);
                 debugger
