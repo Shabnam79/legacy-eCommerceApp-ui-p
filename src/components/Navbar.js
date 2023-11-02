@@ -79,17 +79,17 @@ const Navbar = () => {
                         : <>
                             <Dropdown className="d-inline mx-2">
                                 <Dropdown.Toggle id="dropdown-autoclose-true" style={{ backgroundColor: "transparent" }}>
-                                    Hello {user?.email}
+                                    Hello {user.email}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                <Dropdown.Item onClick={()=> logout()} href="/">
-                                Logout</Dropdown.Item>
-                                <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
-                                <Dropdown.Item onClick={()=> setModalShow(false)} href="/orders">
-                                    Your Orders</Dropdown.Item>
-                                <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
-                                <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
-                                </Dropdown.Menu>                      
+                                    <Dropdown.Item onClick={() => logout()} href="/">
+                                        Logout</Dropdown.Item>
+                                    <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">
+                                        Your Orders</Dropdown.Item>
+                                    <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                    <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
+                                </Dropdown.Menu>
                             </Dropdown>
                             {/* <Link to="/" className="ml-auto">
                                 <ButtonContainer onClick={() => setModalShow(false)}>
@@ -123,7 +123,7 @@ const Navbar = () => {
                 }
 
                 <Link to="/cart" className="ml-auto">
-                    <Button  style={{ backgroundColor: "transparent" }}>
+                    <Button style={{ backgroundColor: "transparent" }}>
                         <i className="fas fa-cart-plus">My Cart</i>
                     </Button>
                 </Link>
