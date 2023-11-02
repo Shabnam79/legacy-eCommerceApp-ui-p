@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { addDoc,doc,query,where,getDocs, collection } from "firebase/firestore";
+import {query,where,getDocs, collection } from "firebase/firestore";
 
 const CheckoutForm = ({ value }) => {
     const dispatch = useDispatch();
@@ -24,7 +24,6 @@ const CheckoutForm = ({ value }) => {
     }, [user.userId]);
 
     const placeProductOrder = async (e) => {
-        debugger
         if (user.userId) {
             const dataArray = [];
             cart.forEach(element => {
@@ -43,7 +42,7 @@ const CheckoutForm = ({ value }) => {
             });
             await saveCartOrderService(dataArray);
            // clearCart();
-           toast.success(` your order is placed successfully.`, {
+           toast.success(`Your order has been successfully placed!`, {
             autoClose: 1000,
         });
         } else {
@@ -91,19 +90,19 @@ const CheckoutForm = ({ value }) => {
                                                 </p>
                                             ))} */}
                                             <><p>
-                                                <strong>Name:</strong> {address ? address.firstName + ' ' + address.lastName : ''}
+                                                <strong>Name : </strong> {address ? address.firstName + ' ' + address.lastName : ''}
                                             </p><p>
-                                                    <strong>Address 1:</strong> {address ? address.address : ''}
+                                                    <strong>Address 1 : </strong> {address ? address.address : ''}
                                                 </p><p>
-                                                    <strong>Address 1:</strong> {address ? address.address2 : ''}
+                                                    <strong>Address 2 : </strong> {address ? address.address2 : ''}
                                                 </p><p>
-                                                    <strong>City:</strong> {address ? address.city : ''}
+                                                    <strong>City : </strong> {address ? address.city : ''}
                                                 </p><p>
-                                                    <strong>State:</strong> {address ? address.state : ''}
+                                                    <strong>State : </strong> {address ? address.state : ''}
                                                 </p><p>
-                                                    <strong>Country:</strong> {address ? address.country : ''}
+                                                    <strong>Country : </strong> {address ? address.country : ''}
                                                 </p><p>
-                                                    <strong>ZipCode:</strong> {address ? address.zipCode : ''}
+                                                    <strong>ZipCode : </strong> {address ? address.zipCode : ''}
                                                 </p></>
                                         </div>
                                     </Card.Text>
