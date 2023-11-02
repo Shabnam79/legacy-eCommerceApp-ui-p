@@ -192,6 +192,15 @@ const Details = () => {
         dispatch(openModal(item));
     }
 
+    const openReviewModal = () => {
+        if (user.userId) {
+            setModalShow(true);
+        }
+        else {
+            setLoginModalShow(true);
+        }
+    }
+
     return (
         <div className="container py-5">
             {/*title*/}
@@ -245,7 +254,7 @@ const Details = () => {
                         </ButtonContainer>
                         <ButtonContainer
                             onClick={() => {
-                                setModalShow(true)
+                                openReviewModal()
                             }}>
                             Review
                         </ButtonContainer>
