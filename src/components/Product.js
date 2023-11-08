@@ -104,7 +104,7 @@ const Product = ({ product }) => {
                     <Link to="/details">
                         <img src={img} alt="product" className="card-img-top" />
                     </Link>
-                    <button className="cart-btn" disabled={inCart ? true : false}
+                    <button data-testid="add-to-cart-button" className="cart-btn" disabled={inCart ? true : false}
                         onClick={() => {
                             addProductIntoCart(product);
                             openCartModal(product);
@@ -114,7 +114,7 @@ const Product = ({ product }) => {
                     </button>
                 </div>
 
-                <div className="card-footer d-flex justify-content-between">
+                <div data-testid='product-price' className="card-footer d-flex justify-content-between">
                     <p className="align-self-center mb-0">
                         {title}
                     </p>
