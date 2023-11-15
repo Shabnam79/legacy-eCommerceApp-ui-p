@@ -78,7 +78,7 @@ describe('ProductList Component', () => {
             { id: 'bzolv9xdDoqZwEIjl78z', Category: "All Category" },
             { id: 'swoxKYVH3rbzPfeC1lhq', Category: 'Clothing' },
         ];
-        jest.spyOn(global, 'fetch').mockResolvedValue({
+        global.fetch = jest.fn().mockResolvedValue({
             json: jest.fn().mockResolvedValue(mockCategoryList),
         });
 

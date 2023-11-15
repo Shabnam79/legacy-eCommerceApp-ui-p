@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import Login from '../Login'
+import 'mutationobserver-shim';
 import userEvent from '@testing-library/user-event';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
