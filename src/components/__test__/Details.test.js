@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import userContext from "../../utils/userContext";
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import 'regenerator-runtime/runtime';
 
 const userDetails = {
     userId: 'DYLnWFX3d2MU6pdnu059AHN2KFm2',

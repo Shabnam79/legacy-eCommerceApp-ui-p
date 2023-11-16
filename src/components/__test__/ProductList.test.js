@@ -6,6 +6,7 @@ import store from '../../utils/store'
 import { fetchProducts } from '../../utils/productSlice'
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import 'regenerator-runtime/runtime';
 
 
 describe('ProductList Component', () => {
