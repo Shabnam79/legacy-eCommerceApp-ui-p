@@ -25,7 +25,26 @@ const Login = () => {
     const { user, setUser } = useContext(userContext);
     const { setItem } = useLocalStorage();
     const [modalShow, setModalShow] = useState(false);
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
+    const borderHello={border:"none"};
+    const stylingLoginButton={
+        color: 'white',
+        backgroundColor: 'black',
+        border: '1px solid #6855e0'
+      };
+    const loginButtonTrans= {
+        cursor: 'pointer',
+        border: '0',
+        borderradius: '4px',
+        fontweight: '600',
+        margin: '14px 16px',
+        height:'30px',
+        width: '200px',
+        padding: '0px 10px',
+        boxshadow: '0 0 20px #6855e0',
+        transition: '0.4s',
+      }
     // if (auth != null)
     //     if (auth.currentUser != null)
     //         if (auth.currentUser.uid != null)
@@ -101,9 +120,9 @@ const Login = () => {
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group controlId="validationFormik01">
-                                    <Form.Label>Email</Form.Label>
+                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Email</Form.Label>
 
-                                    <Form.Control
+                                    <Form.Control style={{...fontsize,...fontfamily}}
                                         type="email"
                                         placeholder="jane@formik.com"
                                         name="email"
@@ -112,17 +131,17 @@ const Login = () => {
                                         isInvalid={!!errors.email}
                                     />
 
-                                    <Form.Control.Feedback type="invalid">
+                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
                                         {errors.email}
                                     </Form.Control.Feedback>
 
                                 </Form.Group>
 
                                 <Form.Group controlId="validationFormik02">
-                                    <Form.Label>Password</Form.Label>
+                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Password</Form.Label>
 
                                     <Form.Control
-                                        type="text"
+                                        type="text" style={{...fontsize,...fontfamily}}
                                         placeholder="******"
                                         name="password"
                                         value={values.password}
@@ -131,7 +150,7 @@ const Login = () => {
                                     />
 
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.password}
+                                        { errors.password}
                                     </Form.Control.Feedback>
 
                                 </Form.Group>
@@ -140,24 +159,26 @@ const Login = () => {
                                     type="submit"
                                     style={{ marginTop: "10px", background: "#fc8019", border: "#fc8019" }}
                                 // onClick={() => authentication()}
-                                >Login</Button> */}
+                                >Login</
+                                Button> */}
 
-                                <ButtonContainer type="submit">
-                                    <i className="fas fa-user">Login</i>
-                                </ButtonContainer>
-
-                                <ButtonContainer onClick={(e) => {
-                                    e.preventDefault();
-                                    setModalShow(true);
-                                }}>
-                                    <i className="fas fa-user">Signup</i>
-                                </ButtonContainer>
+                                <button style={{...fontfamily,marginLeft:'50x',...stylingLoginButton,...loginButtonTrans}} type="submit">
+                                    <span style={{...fontfamily}}>Login</span>
+                                </button>                         
 
                                 <LoginModal
                                     name="Signup"
                                     show={modalShow}
-                                    onHide={() => setModalShow(false)}
-                                />
+                                    onHide={() => setModalShow(false)} 
+                                    
+                                /><br></br>
+                                <br></br>
+                                   <span style={{fontSize:'14px',...fontfamily,margin:'45px'}}>New User ? </span>
+                                 <span onClick={(e) => {
+                                    e.preventDefault();
+                                    setModalShow(true);
+                                }}><span style={{fontSize:'15px',...fontfamily,margin:'-45px',color:'blue',fontWeight:'lightblue',cursor:'pointer'}}>Click Here</span>
+                                </span>
                             </Form>
                         )}
                     </Formik >
