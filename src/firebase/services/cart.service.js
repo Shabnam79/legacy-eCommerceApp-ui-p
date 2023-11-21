@@ -32,3 +32,13 @@ export const decrementCartProductsService = async (product, counts) => {
         count: counts - 1
     });
 }
+
+export const getCartProductByProductIdService = async (productId) => {
+    const q = query(
+        collection(db, "addToCartStore"), where("productId", "==", productId)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
