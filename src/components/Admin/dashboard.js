@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { storeProducts } from '../../data.js'
 import React, { useContext, useEffect, useState } from 'react'
 import userContext from "../../utils/userContext.js";
-import { getProductByIdService } from '../../firebase/services/cart.service.js';
+import { getProductByIdService } from '../../firebase/services/product.service.js';
 import { deleteRecordFromFirebaseService, getProductsServiceByUserId } from '../../firebase/services/product.service';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
@@ -36,8 +36,8 @@ function Dashboard() {
 
         debugger
         try {
-            const addToCartDoc = await getProductByIdService(item.id);
-            await deleteRecordFromFirebaseService(addToCartDoc);
+            const deleteStroeProcduct= await getProductByIdService(item.id);
+            await deleteRecordFromFirebaseService(deleteStroeProcduct);
 
             toast.warning(
                 `Product removed from the Cart`,

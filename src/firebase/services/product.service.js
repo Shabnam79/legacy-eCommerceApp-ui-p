@@ -1,4 +1,4 @@
-import { collection, deleteDoc, getDocs, query, where,addDoc } from "firebase/firestore";
+import { collection, doc,deleteDoc, getDocs, query, where,addDoc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 
 export const getCategoryService = async () => {
@@ -58,4 +58,7 @@ export const saveProductIntoStoreProductService = async (product) => {
     return await addDoc(collection(db, "storeProducts"), {
         ...product
     });
+}
+export const getProductByIdService = async (productId) => {
+    return doc(db, "storeProducts", productId);
 }
