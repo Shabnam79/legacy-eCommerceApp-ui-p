@@ -6,6 +6,7 @@ import store from '../../utils/store'
 import { fetchProducts } from '../../utils/productSlice'
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import 'regenerator-runtime/runtime';
 
 
 describe('ProductList Component', () => {
@@ -78,7 +79,7 @@ describe('ProductList Component', () => {
             { id: 'bzolv9xdDoqZwEIjl78z', Category: "All Category" },
             { id: 'swoxKYVH3rbzPfeC1lhq', Category: 'Clothing' },
         ];
-        jest.spyOn(global, 'fetch').mockResolvedValue({
+        global.fetch = jest.fn().mockResolvedValue({
             json: jest.fn().mockResolvedValue(mockCategoryList),
         });
 

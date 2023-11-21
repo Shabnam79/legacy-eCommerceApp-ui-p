@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import 'regenerator-runtime/runtime';
 import BillingAddressForm from '../Cart/BillingAddress';
 
 describe('BillingAddressForm Component', () => {
