@@ -9,15 +9,15 @@ import StarRating from './StarRating';
 import { getProductReviewByOrderIdService, saveProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
-// import {
-//     ref,
-//     uploadBytes,
-//     getDownloadURL,
-//     listAll,
-//     list,
-// } from "firebase/storage";
-// import { storage } from '../../firebase/config/firebase.config';
-// import { Col, Image, Row } from 'react-bootstrap';
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    listAll,
+    list,
+} from "firebase/storage";
+import { storage } from '../../firebase/config/firebase.config';
+import { Col, Image, Row } from 'react-bootstrap';
 
 const schema = yup.object().shape({
     title: yup.string()
@@ -30,13 +30,30 @@ const Review = (props) => {
     let { productId, orderId } = useParams();
     const { user } = useContext(userContext);
     const [productReviewDetails, setProductReviewDetails] = useState({});
-    // const [imageUpload, setImageUpload] = useState(null);
-    // const [imageUrls, setImageUrls] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUrls, setImageUrls] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
     useEffect(() => {
         fetchProductReview(orderId);
-        // fetchImages();
+        fetchImages();
     }, []);
+
+    const handleMediaChange = (e) => {
+        debugger
+        const file = e.target.files;
+        setImageUpload(e.target.files);
+        //setProductReviewDetails({ ...productReviewDetails, media: file });
+        const files = Array.from(e.target.files);
+        setSelectedFiles([...selectedFiles, ...files]);
+        //e.target.value = null;
+    };
+
+    const handleFileRemove = (index) => {
+        const newFiles = [...selectedFiles];
+        newFiles.splice(index, 1);
+        setSelectedFiles(newFiles);
+    };
 
     const fetchProductReview = async (orderId) => {
         const data = await getProductReviewByOrderIdService(orderId);
@@ -58,7 +75,7 @@ const Review = (props) => {
 
         await saveProductReview(reviewObj);
 
-        // uploadFile();
+        uploadFile();
 
         toast.success(`review submitted successfully`, {
             autoClose: 1000,
@@ -69,28 +86,29 @@ const Review = (props) => {
         setProductReviewDetails({ rating: rating });
     }
 
-    // const imagesListRef = ref(storage, `${productReviewDetails.orderId}/`);
-    // const uploadFile = () => {
-    //     if (imageUpload.length == 0) return;
-    //     for (let index = 0; index < imageUpload.length; index++) {
-    //         const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
-    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-    //             getDownloadURL(snapshot.ref).then((url) => {
-    //                 setImageUrls((prev) => [...prev, url]);
-    //             });
-    //         });
-    //     }
-    // };
+    const imagesListRef = ref(storage, `${orderId}/`);
+    
+    const uploadFile = () => {
+        if (imageUpload.length == 0) return;
+        for (let index = 0; index < imageUpload.length; index++) {
+            const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
+            uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    setImageUrls((prev) => [...prev, url]);
+                });
+            });
+        }
+    };
 
-    // const fetchImages = () => {
-    //     listAll(imagesListRef).then((response) => {
-    //         response.items.forEach((item) => {
-    //             getDownloadURL(item).then((url) => {
-    //                 setImageUrls((prev) => [...prev, url]);
-    //             });
-    //         });
-    //     });
-    // }
+    const fetchImages = () => {
+        listAll(imagesListRef).then((response) => {
+            response.items.forEach((item) => {
+                getDownloadURL(item).then((url) => {
+                    setImageUrls((prev) => [...prev, url]);
+                });
+            });
+        });
+    }
 
     return (
         <>
@@ -156,18 +174,32 @@ const Review = (props) => {
 
                                     </Form.Group>
 
-                                    {/* <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
                                         <Form.Label>Photos</Form.Label>
                                         <Form.Control
                                             type="file"
-                                            multiple
-                                            onChange={(event) => {
-                                                setImageUpload(event.target.files);
-                                            }}
+                                            multiple accept="image/*, video/*"
+                                            onChange={handleMediaChange}
+                                            // onChange={(event) => {
+                                            //     setImageUpload(event.target.files);
+                                            // }}
                                         />
-                                    </Form.Group> */}
-
-                                    {/* <Row>
+                                        {selectedFiles.map((file, index) => (
+                                            <div key={index}>
+                                                <p>Selected File {index + 1}:</p>
+                                                {file.type.startsWith('image/') ? (
+                                                    <img src={URL.createObjectURL(file)} alt="Selected"  rounded style={{ height: "200px", width: "200px" }} />
+                                                ) : file.type.startsWith('video/') ? (
+                                                    <video src={URL.createObjectURL(file)} controls  rounded style={{ height: "200px", width: "200px" }} />
+                                                ) : null}
+                                                <button onClick={() => handleFileRemove(index)}>Remove</button>
+                                            </div>
+                                        ))}
+                                    </Form.Group>
+                                    <ButtonContainer type="submit" style={{ "float": "right" }}>
+                                        <i className="fas fa-user">Submit</i>
+                                    </ButtonContainer>
+                                    <Row>
                                         <Col xs={6} md={4}>
                                             {
                                                 imageUrls.map((url) => {
@@ -178,11 +210,9 @@ const Review = (props) => {
                                                 })
                                             }
                                         </Col>
-                                    </Row> */}
+                                    </Row>
 
-                                    <ButtonContainer type="submit" style={{ "float": "right" }}>
-                                        <i className="fas fa-user">Submit</i>
-                                    </ButtonContainer>
+                                    
                                 </Form>
                             )}
                         </Formik >
