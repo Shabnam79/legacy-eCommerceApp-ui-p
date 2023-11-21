@@ -32,7 +32,7 @@ const ProductList = () => {
 
     return (
         <>
-            <div className="py-12 mt-2" style={{ textAlign: "right"}}>
+            <div className="py-12 mt-2">
                 <div className="container">
                     <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                         <Dropdown.Toggle  id="dropdown-basic">

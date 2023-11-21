@@ -72,11 +72,11 @@ export default function CartTotals({ value }) {
                         <strong>{cartItems.cart.subTotal}</strong>
                     </h5>
                     <h5>
-                        <span className="text-title">subtotal :</span>
+                        <span className="text-title">tax :</span>
                         <strong>{cartItems.cart.tax}</strong>
                     </h5>
                     <h5>
-                        <span className="text-title">subtotal :</span>
+                        <span className="text-title">total Amount :</span>
                         <strong>{cartItems.cart.total}</strong>
                     </h5>
                 </div>
