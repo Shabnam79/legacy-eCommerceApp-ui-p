@@ -1,16 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
-import { saveProductIntoStoreProductService } from '../../firebase/services/product.service';
-
-
+import { saveProductIntoStoreProductService, getCategoryService } from '../../firebase/services/product.service';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 
 function AddProducts() {
     const { user } = useContext(userContext);
-    const [selectedOption, setSelectedOption] = useState('option1');
 
     const [name, setName] = useState({
         category: '',
@@ -28,9 +26,9 @@ function AddProducts() {
         productId:''
     });
 
-    const handleDropdownChange = (e) => {
-        setSelectedOption(e.target.value);
-      };
+     {/* Added code for Category dropdown bind - By noor */}
+    const [dropdown, setDropdown] = useState([]);
+    const [selectedValue, setSelectedValue] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -43,50 +41,57 @@ function AddProducts() {
         }));
     };
 
-
-
-
     const handleSubmit = async (e) => {
         debugger
         e.preventDefault();
-
-
 debugger
         let addToCartProductObj = {
             ...name
         };
 
-
-
         let docRef = await saveProductIntoStoreProductService(addToCartProductObj);
-
-
-
         console.log("Document written with ID: ", docRef.id);
-
-
-
         toast.success('Product added in admin list ', {
             autoClose: 1000,
         });
     }
 
+    {/* Added code for Category dropdown bind - By Noor */}
+    useEffect(() => {
+        fetchCategorylist();
+    }, []);
 
+    const fetchCategorylist = async () => {
+        let data = await getCategoryService();
+        console.log(data);
+        if (data != undefined) {
+            setDropdown(data);
+        }
+    }
+    const fetchProductCategorylist = (id) => {
+        let filterCategoryName = dropdown.map(x => x.Category)[0];
+        setSelectedValue(filterCategoryName);
+        
+    }
 
     return (
         <>
             <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                <label htmlFor="dropdown">Select Category</label>
-                <select
-                    id="dropdown"
-                    name="dropdown"
-                    value={selectedOption}
-                    onChange={handleDropdownChange}
-                >
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
+                <div className="container my-3">
+                    {/* Added code for Category dropdown bind - By noor */}
+                    
+                    <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                        <Dropdown.Toggle  id="dropdown-basic">
+                            {selectedValue || 'Select Category'}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        {dropdown.map((item) => (
+                            <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                        ))}
+                        </Dropdown.Menu>
+                    </Dropdown>     
+                </div>
+
                 <Form.Group className='mb-3' controlId='FormImage'>
                     <Form.Control
                         type='file'
