@@ -24,6 +24,9 @@ import AddProducts from './components/Admin/AddProducts';
 import Checkout from "./components/Cart/Checkout";
 import EditProducts from './components/Admin/EditProducts';
 import BillingAddress from "./components/Cart/BillingAddress";
+import CategoryList from './components/Admin/CategoryList';
+import addCategory from './components/Admin/addCategory';
+import EditCategory from './components/Admin/EditCategory';
 
 // const ProductList = lazy(() => import("./components/ProductList"));
 // const Details = lazy(() => import("./components/Details"));
@@ -74,6 +77,9 @@ function App() {
             <Route path="/review/:productId/:orderId" element={<Review />} />
             <Route path="/admin/addproduct" element={<AddProducts />} />
             <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
+            <Route path="/admin/CategoryList" element={<CategoryList />} />
+            <Route path="/admin/addCategory" element={<addCategory />} />
+            <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
 
             <Route exact
               path="/"

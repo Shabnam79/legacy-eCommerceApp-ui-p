@@ -8,8 +8,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 
 function AddProducts() {
-    const { user } = useContext(userContext);
 
+    const { user } = useContext(userContext);
     const [name, setName] = useState({
         category: '',
         categoryId: '',
@@ -44,7 +44,7 @@ function AddProducts() {
     const handleSubmit = async (e) => {
         debugger
         e.preventDefault();
-debugger
+        debugger
         let addToCartProductObj = {
             ...name
         };

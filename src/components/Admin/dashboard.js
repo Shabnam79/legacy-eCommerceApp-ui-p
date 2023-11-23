@@ -12,10 +12,11 @@ import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {
+
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
-
     const [CartData, setCartData] = useState([]);
+
     useEffect(() => {
         fetchStoreProductData();
     }, [user.userId]);
