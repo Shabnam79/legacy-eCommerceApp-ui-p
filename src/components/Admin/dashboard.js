@@ -85,7 +85,7 @@ function Dashboard() {
                                                 {item.info}
                                             </td>
                                             <td>
-                                                <Link to={`/admin/editproduct/${item.productId}`}>
+                                                <Link to={`/admin/editproduct/${item.id}`}>
                                                     <Button>EDIT</Button>
                                                 </Link>
                                                 <Button onClick={() => removeProductHandler(item)}>DELETE</Button>

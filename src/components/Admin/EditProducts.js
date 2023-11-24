@@ -26,7 +26,7 @@ function EditProducts() {
 
     useEffect(() => {
         debugger
-        fetchStoreProductData();
+        fetchStoreProductData(productId);
     }, [user.userId]);
 
     const [name, setName] = useState({
@@ -39,7 +39,7 @@ function EditProducts() {
         userId: user.userId
     });
 
-    const fetchStoreProductData = async (item) => {
+    const fetchStoreProductData = async (productId) => {
         debugger
         if (user.userId) {
             let data = await getProductByProductIdService(productId);
