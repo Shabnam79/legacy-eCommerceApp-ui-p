@@ -17,12 +17,12 @@ describe('CartItem Component', () => {
     };
 
     it('renders without crashing', () => {
-        const { container } = render(<Provider store={store}><CartItem item={item} value={{}} fetchAddToCartData={fetchAddToCartData} /> </Provider>);
+        const { container } = render(<Provider store={store}><CartItem item={item} value={{}} /> </Provider>);
         expect(container).toBeInTheDocument();
     });
 
     it('able to click on trash icon click to delete item from the cart', () => {
-        const { getByTestId } = render(<Provider store={store}><CartItem item={item} value={{}} fetchAddToCartData={fetchAddToCartData} /></Provider>);
+        const { getByTestId } = render(<Provider store={store}><CartItem item={item} value={{}} /></Provider>);
         const trashIcon = getByTestId('trash-icon');
 
         fireEvent.click(trashIcon);
@@ -30,14 +30,14 @@ describe('CartItem Component', () => {
     });
 
     it('able to click "+" button on increasing quantity of an item', () => {
-        const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} fetchAddToCartData={fetchAddToCartData} /> </Provider>);
+        const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} /> </Provider>);
         const incrementButton = getByText('+');
 
         fireEvent.click(incrementButton);
     });
 
     it('able to click on "-" button on decreasing quantity of an item ', () => {
-        const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} fetchAddToCartData={fetchAddToCartData} /></Provider>);
+        const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} /></Provider>);
         const decrementButton = getByText('-');
 
         fireEvent.click(decrementButton);
