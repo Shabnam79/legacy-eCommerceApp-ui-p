@@ -40,7 +40,7 @@ export default function CategoryList() {
             toast.warning(
                 `Ctaegory removed from the List`,
                 {
-                    autoClose: 3000,
+                    autoClose: 1000,
                 }
             );
 

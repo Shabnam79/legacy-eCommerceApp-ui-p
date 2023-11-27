@@ -43,8 +43,8 @@ export default function EditCategory() {
       e.preventDefault();
       let docRef = await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
       //console.log("Document written with ID: ", docRef.id);
-      toast.success('Category updated in Category list', {
-          autoClose: 3000,
+      toast.success('Category updated in admin list', {
+          autoClose: 1000,
       });
   }
 

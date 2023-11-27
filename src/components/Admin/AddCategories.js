@@ -29,11 +29,11 @@ export default function AddCategories() {
         let addToCategoryObj = {
             ...name
         };
-        console.log(addToCategoryObj);
+        //console.log(addToCategoryObj);
         let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
         console.log("Document written with ID: ", docRef.id);
         toast.success('Category added in admin list ', {
-            autoClose: 3000,
+            autoClose: 1000,
         });
         name.category = '';
     }
