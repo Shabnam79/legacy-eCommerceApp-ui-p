@@ -36,16 +36,40 @@ export default function EditCategory() {
 
   const handleInputChange = (event) => {
         setCategoryData(event.target.value);
+        // setCategoryData(() => ({
+        
+        //     CategoryData : event.target.value,
+
+        // }));
   };
 
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-      let docRef = await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
-      //console.log("Document written with ID: ", docRef.id);
-      toast.success('Category updated in admin list', {
-          autoClose: 1000,
-      });
+
+      if (user.userId) {
+        let data = await getCategoryServiceByUserId(user.userId);
+        if (data != undefined) {
+           
+        let filteredCategoryData = data.filter(x => x.category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
+           if (filteredCategoryData == undefined) {
+            
+               await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
+                toast.success('Category updated in admin list', {
+                    autoClose: 1000,
+                });
+            }
+            else{
+
+                toast.warning('Category already added in admin list ', {
+                    autoClose: 3000,
+                });
+                return;
+            }
+        }
+    } else {
+        console.log("Please login to see past Cart category");
+    } 
   }
 
   return (

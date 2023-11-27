@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
-import { saveCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
+import { saveCategoryIntoProductCategoryService, getCategoryServiceByUserId } from '../../firebase/services/category.service';
 import { Link } from 'react-router-dom';
 
 export default function AddCategories() {
@@ -29,13 +29,32 @@ export default function AddCategories() {
         let addToCategoryObj = {
             ...name
         };
-        //console.log(addToCategoryObj);
-        let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
-        console.log("Document written with ID: ", docRef.id);
-        toast.success('Category added in admin list ', {
-            autoClose: 1000,
-        });
-        name.category = '';
+        
+        if (user.userId) {
+            let data = await getCategoryServiceByUserId(user.userId);
+            if (data != undefined) {
+            let filteredCategoryData = data.filter(x => x.category.toUpperCase() == addToCategoryObj.category.toUpperCase()).map(x => x.id)[0];
+               if (filteredCategoryData == undefined) {
+
+                    let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
+                    console.log("Document written with ID: ", docRef.id);
+                    toast.success('Category added in admin list ', {
+                                autoClose: 1000,
+                        });
+                    name.category = '';
+                }
+                else{
+
+                    toast.warning('Category already added in admin list ', {
+                        autoClose: 3000,
+                    });
+                    return;
+                }
+            }
+        } else {
+            console.log("Please login to see past Cart category");
+        }
+        
     }
   
     return (
