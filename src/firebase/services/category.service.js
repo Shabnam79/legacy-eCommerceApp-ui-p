@@ -2,16 +2,16 @@ import { collection, deleteDoc, doc, getDocs, query, where, addDoc, updateDoc } 
 import { db } from "../config/firebase.config";
 
 
-export const saveCategoryIntoProductCategoryService = async (category) => {
+export const saveCategoryIntoProductCategoryService = async (Category) => {
     return await addDoc(collection(db, "productCategory"), {
-        ...category
+        ...Category
     });
 }
 
-export const updateCategoryIntoProductCategoryService = async (category, categoryId, userId) => {
+export const updateCategoryIntoProductCategoryService = async (Category, categoryId, userId) => {
     const categoryDoc = doc(db, "productCategory", categoryId);
     await updateDoc(categoryDoc, {
-        category: category,
+        Category: Category,
         userId:userId
     });
 }

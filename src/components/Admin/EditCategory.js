@@ -24,8 +24,7 @@ export default function EditCategory() {
           let data = await getCategoryServiceByUserId(user.userId);
           if (data != undefined) {
            
-          let filteredCategoryData = data.filter(x => x.id == categoryId).map(x => x.category)[0];
-          //console.log(filteredCategoryData);
+          let filteredCategoryData = data.filter(x => x.id == categoryId).map(x => x.Category)[0];
             setCategoryData(filteredCategoryData);
           }
       } else {
@@ -36,11 +35,6 @@ export default function EditCategory() {
 
   const handleInputChange = (event) => {
         setCategoryData(event.target.value);
-        // setCategoryData(() => ({
-        
-        //     CategoryData : event.target.value,
-
-        // }));
   };
 
 
@@ -51,16 +45,14 @@ export default function EditCategory() {
         let data = await getCategoryServiceByUserId(user.userId);
         if (data != undefined) {
            
-        let filteredCategoryData = data.filter(x => x.category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
+        let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
            if (filteredCategoryData == undefined) {
-            
                await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
                 toast.success('Category updated in admin list', {
                     autoClose: 1000,
                 });
             }
             else{
-
                 toast.warning('Category already added in admin list ', {
                     autoClose: 3000,
                 });

@@ -10,7 +10,7 @@ export default function AddCategories() {
   
     const { user } = useContext(userContext);
     const [name, setName] = useState({
-        category: ''
+        Category: ''
     });
    
     
@@ -33,7 +33,7 @@ export default function AddCategories() {
         if (user.userId) {
             let data = await getCategoryServiceByUserId(user.userId);
             if (data != undefined) {
-            let filteredCategoryData = data.filter(x => x.category.toUpperCase() == addToCategoryObj.category.toUpperCase()).map(x => x.id)[0];
+            let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == addToCategoryObj.Category.toUpperCase()).map(x => x.id)[0];
                if (filteredCategoryData == undefined) {
 
                     let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
@@ -41,7 +41,7 @@ export default function AddCategories() {
                     toast.success('Category added in admin list ', {
                                 autoClose: 1000,
                         });
-                    name.category = '';
+                    name.Category = '';
                 }
                 else{
 
@@ -64,8 +64,8 @@ export default function AddCategories() {
                 <Form.Group className='mb-3' controlId='FormCategory'>
                     <Form.Control
                         type='text'
-                        name="category"
-                        value={name.category}
+                        name="Category"
+                        value={name.Category}
                         placeholder='Enter Category Name'
                         required
                         onChange={handleInputChange}

@@ -31,8 +31,6 @@ export default function CategoryList() {
     }
 
     const removeCategoryHandler = async (item) => {
-
-        debugger
         try {
             const deleteStroeProcduct= await getCategoryByIdService(item.id);
             await deleteRecordFromFirebaseService(deleteStroeProcduct);
@@ -73,7 +71,7 @@ export default function CategoryList() {
                                     return (
                                         <tr>
                                             <td>
-                                                {item.category}
+                                                {item.Category}
                                             </td>
                                             <td>
                                                 <Link to={`/admin/EditCategory/${item.id}`}>

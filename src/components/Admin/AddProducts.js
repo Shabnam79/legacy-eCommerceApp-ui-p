@@ -16,8 +16,8 @@ function AddProducts() {
         company: '',
         count: '',
         img: '',
-        inCart: '',
-        inWishlist: '',
+        inCart: false,
+        inWishlist: false,
         info: '',
         price: '',
         title: '',
@@ -63,12 +63,14 @@ function AddProducts() {
 
     const fetchCategorylist = async () => {
         let data = await getCategoryService();
+        debugger;
         console.log(data);
         if (data != undefined) {
             setDropdown(data);
         }
     }
-    const fetchProductCategorylist = (id) => {
+    const fetchProductCategorylist = () => {
+        debugger;
         let filterCategoryName = dropdown.map(x => x.Category)[0];
         setSelectedValue(filterCategoryName);
         
@@ -82,7 +84,7 @@ function AddProducts() {
                     
                     <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                         <Dropdown.Toggle  id="dropdown-basic">
-                            {selectedValue || 'Select Category'}
+                            {selectedValue || 'Select Categories'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                         {dropdown.map((item) => (
