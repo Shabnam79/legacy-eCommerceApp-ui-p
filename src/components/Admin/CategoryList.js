@@ -19,7 +19,7 @@ export default function CategoryList() {
     }, [user.userId]);
 
     const fetchStoreCategoryData = async () => {
-        
+        debugger
         if (user.userId) {
             let data = await getCategoryServiceByUserId(user.userId);
             if (data != undefined) {
