@@ -11,7 +11,8 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
 
     useEffect(() => {
         fetchAddToWishlistData();
-    }, [userId]);
+        document.title = "Favourite List";
+    }, user.userId, []);
 
     const fetchAddToWishlistData = async () => {
         if (userId) {
