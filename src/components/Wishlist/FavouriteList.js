@@ -7,13 +7,15 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
     const [WishlistData, setWishlistData] = useState([]);
     const { user } = useContext(userContext);
 
+    const userId = user && Object.keys(user).length > 0 ? user.userId : null
+
     useEffect(() => {
         fetchAddToWishlistData();
-    }, user.userId, []);
+    }, [userId]);
 
     const fetchAddToWishlistData = async () => {
-        if (user.userId) {
-            let data = await getWishlistService(user.userId);
+        if (userId) {
+            let data = await getWishlistService(userId);
             if (data != undefined) {
                 setWishlistData(data);
             }
