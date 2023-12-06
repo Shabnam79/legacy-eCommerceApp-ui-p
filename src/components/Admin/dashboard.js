@@ -26,6 +26,7 @@ function Dashboard() {
     useEffect(() => {
         debugger
         fetchStoreProductData();
+        document.title = "Admin - Product Management"
     }, [user.userId]);
 
     const fetchStoreProductData = async () => {

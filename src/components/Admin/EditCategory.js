@@ -17,6 +17,7 @@ export default function EditCategory() {
 
   useEffect(() => {
       fetchProductCategoryData(categoryId);
+      document.title = "Admin - Edit Category"
   }, [user.userId]);
 
   const fetchProductCategoryData = async (categoryId) => {

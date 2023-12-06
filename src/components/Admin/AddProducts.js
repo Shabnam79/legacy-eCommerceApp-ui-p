@@ -47,6 +47,7 @@ function AddProducts() {
       useEffect(() => {
         fetchCategorylist();
         GetProductGUID();
+        document.title = "Admin - Add Product"
     }, [user.userId]);
     
 

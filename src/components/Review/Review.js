@@ -37,6 +37,7 @@ const Review = (props) => {
     useEffect(() => {
         fetchProductReview(orderId);
         fetchImages();
+        document.title = "Ratings & Reviews";
     }, []);
 
     const handleMediaChange = (e) => {

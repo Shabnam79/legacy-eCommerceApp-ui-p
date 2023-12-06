@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
@@ -13,7 +13,11 @@ export default function AddCategories() {
         Category: ''
     });
    
-    
+    useEffect(() => {
+        document.title = "Admin - Add Category"
+    }, [user.userId]);
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setName(() => ({

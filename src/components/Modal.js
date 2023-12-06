@@ -30,7 +30,7 @@ const Modal = () => {
                                     <h5 className="text-muted">price : $ {modalProduct.price}</h5>
                                     <Link to='/'>
                                         <ButtonContainer onClick={() => closeCartModal()}>
-                                            continue shopiing
+                                            continue shopping
                                         </ButtonContainer>
                                     </Link>
                                     <Link to='/cart'>

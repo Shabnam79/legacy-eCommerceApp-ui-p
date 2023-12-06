@@ -16,6 +16,7 @@ export default function CategoryList() {
 
     useEffect(() => {
         fetchStoreCategoryData();
+        document.title = "Admin - Category List"
     }, [user.userId]);
 
     const fetchStoreCategoryData = async () => {

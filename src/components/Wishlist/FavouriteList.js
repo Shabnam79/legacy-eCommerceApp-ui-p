@@ -9,6 +9,7 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
 
     useEffect(() => {
         fetchAddToWishlistData();
+        document.title = "Favourite List"; 
     }, user.userId, []);
 
     const fetchAddToWishlistData = async () => {

@@ -19,6 +19,7 @@ const Store = ({ history }) => {
 
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
+        document.title = "Shopping Cart";  
     }, []);
 
     return (

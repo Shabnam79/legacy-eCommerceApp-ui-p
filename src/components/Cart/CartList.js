@@ -11,6 +11,7 @@ export default function CartList({ value }) {
 
     useEffect(() => {
         fetchAddToCartData();
+        document.title = "Cart List"; 
     }, user.userId, []);
 
     const fetchAddToCartData = async () => {

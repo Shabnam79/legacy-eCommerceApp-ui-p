@@ -46,6 +46,7 @@ function EditProducts() {
         fetchStoreProductData(productId);
         fetchCategorylist();
         GetProductGUID();
+        document.title = "Admin - Edit Product"
     }, [user.userId]);
 
     const [name, setName] = useState({
