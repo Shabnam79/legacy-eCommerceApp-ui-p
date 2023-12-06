@@ -21,6 +21,7 @@ const Store = ({ history }) => {
 
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
+        document.title = "CheckOut";  
     }, []);
 
     return (

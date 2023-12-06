@@ -10,22 +10,33 @@ import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
 import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
+import { storage } from "../../firebase/config/firebase.config"
+import {ref, getDownloadURL, listAll} from "firebase/storage";
+import { Col, Image, Row } from 'react-bootstrap';
 
 function Dashboard() {
+
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
+    const [ProductData, setProductData] = useState([]);
+    const [ProductIdValue, setProductIdValue] = useState('');
 
-    const [CartData, setCartData] = useState([]);
+    const [imageUrls, setImageUrls] = useState([]);
+
     useEffect(() => {
+        debugger
         fetchStoreProductData();
+        document.title = "Admin - Product Management"
     }, [user.userId]);
 
     const fetchStoreProductData = async () => {
-        
         if (user.userId) {
             let data = await getProductsServiceByUserId(user.userId);
+            console.log(data);
             if (data != undefined) {
-                setCartData(data);
+                debugger
+                setProductData(data);
+                console.log(data);
             }
         } else {
             console.log("Please login to see past Cart products");
@@ -33,19 +44,16 @@ function Dashboard() {
     }
 
     const removeProductHandler = async (item) => {
-
-        debugger
+  
         try {
             const deleteStroeProcduct= await getProductByIdService(item.id);
             await deleteRecordFromFirebaseService(deleteStroeProcduct);
-
             toast.warning(
                 `Product removed from the Cart`,
                 {
                     autoClose: 1000,
                 }
             );
-
             fetchStoreProductData();
             dispatch(removeFromCart(item));
         }
@@ -54,7 +62,6 @@ function Dashboard() {
         }
     };
 
-
     return (
         <>
             <div style={{ margin: "10rem" }}>
@@ -62,25 +69,29 @@ function Dashboard() {
                     <AdminColumns />
                     <tbody>
                         {
-                            CartData && CartData.length > 0 ?
+                            ProductData && ProductData.length > 0 ?
 
-                                CartData.map((item) => {
+                            ProductData.map((item) => {
                                     return (
                                         <tr>
+                                            <td>
+                                                {item.category}
+                                            </td>
+                                            <td>
+                                            
+                                                <img src={item.img} style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
+                                                    
+                                            </td>
                                             <td>
                                                 {item.title}
                                             </td>
                                             <td>
-                                                {/* <div className="col-10 mx-auto col-lg-2"> */}
-                                                <img src={item.img} style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
-                                                {/* </div> */}
-                                            </td><td>
-                                                {item.title}
-                                            </td><td>
                                                 {item.price}
-                                            </td><td>
+                                            </td>
+                                            <td>
                                                 {item.count}
-                                            </td><td>
+                                            </td>
+                                            <td>
                                                 {item.info}
                                             </td>
                                             <td>

@@ -15,6 +15,7 @@ const ProductList = () => {
     useEffect(() => {
         fetchCategorylist();
         dispatch(fetchProducts(''));
+        document.title = "Our Products"; 
     }, []);
 
     const fetchCategorylist = async () => {

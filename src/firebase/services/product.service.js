@@ -1,5 +1,6 @@
-import { collection, doc,deleteDoc, getDocs, query, where,addDoc } from "firebase/firestore";
+import { collection, doc,deleteDoc, getDocs, query, where, addDoc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
+import { toast } from "react-toastify";
 
 export const getCategoryService = async () => {
     const q = query(
@@ -61,4 +62,26 @@ export const saveProductIntoStoreProductService = async (product) => {
 }
 export const getProductByIdService = async (productId) => {
     return doc(db, "storeProducts", productId);
+}
+
+export const saveUpdateProductStore = async (addToProductObj) => {
+    try {
+        // Define the collection and document data
+        const myCollection = collection(db, 'storeProducts');
+
+        // Define the document reference
+        const myDocRef = doc(myCollection, addToProductObj.id);
+
+        // Add or update the document
+        await setDoc(myDocRef, addToProductObj);
+    }
+    catch (error) {
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
+    }
+
+    // return await addDoc(collection(db, "productReview"), {
+    //     ...productReview
+    // });
 }

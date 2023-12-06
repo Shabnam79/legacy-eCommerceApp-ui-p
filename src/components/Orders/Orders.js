@@ -14,6 +14,7 @@ const Orders = () => {
 
     useEffect(() => {
         fetchOrders();
+        document.title = "Your Orders";
     }, user.userId);
 
     const fetchOrders = async () => {

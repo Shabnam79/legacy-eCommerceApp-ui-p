@@ -52,7 +52,7 @@ const wishlistSlice = createSlice({
 });
 
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    return getWishlistByUserIdService(userId);
+    return await getWishlistByUserIdService(userId);
 
     // const collectionRef = query(
     //     collection(db, "storeWishlist"), where("userId", "==", userId)
