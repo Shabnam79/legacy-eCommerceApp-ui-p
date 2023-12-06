@@ -9,13 +9,14 @@ export default function CartList({ value }) {
     const [CartData, setCartData] = useState([]);
     const { user } = useContext(userContext);
 
+    const userId = user && Object.keys(user).length > 0 ? user.userId : null
+
     useEffect(() => {
         fetchAddToCartData();
-        document.title = "Cart List"; 
-    }, user.userId, []);
+    }, [userId]);
 
     const fetchAddToCartData = async () => {
-        if (user.userId) {
+        if (userId) {
             let data = await getCartProductsService(user.userId);
             if (data != undefined) {
                 setCartData(data);

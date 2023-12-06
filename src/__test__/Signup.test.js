@@ -1,10 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Signup from '../Signup';
+import Signup from '../../src/components/Signup';
 import { toast } from 'react-toastify';
-import 'mutationobserver-shim';
-import 'regenerator-runtime/runtime';
+
 
 // Mocking the Firebase functions
 jest.mock('firebase/auth', () => ({

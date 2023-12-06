@@ -88,16 +88,29 @@ const Review = (props) => {
     }
 
     const imagesListRef = ref(storage, `${orderId}/`);
-    
+
     const uploadFile = () => {
         if (imageUpload.length == 0) return;
         for (let index = 0; index < imageUpload.length; index++) {
             const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
-            uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
+            uploadBytes(imageRef, imageUpload[index])
+                .then((snapshot) => {
+                    return getDownloadURL(snapshot.ref).catch((error) => {
+                        console.error('Error fetching download URL:', error);
+                        return null; // Return a default value or handle the error as needed
+                    });
+                })
+                .then((url) => {
+                    if (url) {
+                        setImageUrls((prev) => [...prev, url]);
+                    } else {
+                        console.error('URL is undefined or null');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error uploading file:', error);
                 });
-            });
+
         }
     };
 
@@ -181,17 +194,17 @@ const Review = (props) => {
                                             type="file"
                                             multiple accept="image/*, video/*"
                                             onChange={handleMediaChange}
-                                            // onChange={(event) => {
-                                            //     setImageUpload(event.target.files);
-                                            // }}
+                                        // onChange={(event) => {
+                                        //     setImageUpload(event.target.files);
+                                        // }}
                                         />
                                         {selectedFiles.map((file, index) => (
                                             <div key={index}>
                                                 <p>Selected File {index + 1}:</p>
                                                 {file.type.startsWith('image/') ? (
-                                                    <img src={URL.createObjectURL(file)} alt="Selected"  rounded style={{ height: "200px", width: "200px" }} />
+                                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "200px", width: "200px" }} />
                                                 ) : file.type.startsWith('video/') ? (
-                                                    <video src={URL.createObjectURL(file)} controls  rounded style={{ height: "200px", width: "200px" }} />
+                                                    <video src={URL.createObjectURL(file)} controls rounded style={{ height: "200px", width: "200px" }} />
                                                 ) : null}
                                                 <button onClick={() => handleFileRemove(index)}>Remove</button>
                                             </div>
@@ -213,7 +226,6 @@ const Review = (props) => {
                                         </Col>
                                     </Row>
 
-                                    
                                 </Form>
                             )}
                         </Formik >
