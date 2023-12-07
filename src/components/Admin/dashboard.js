@@ -10,9 +10,6 @@ import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
 import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
-import { storage } from "../../firebase/config/firebase.config"
-import {ref, getDownloadURL, listAll} from "firebase/storage";
-import { Col, Image, Row } from 'react-bootstrap';
 
 function Dashboard() {
 
