@@ -17,6 +17,7 @@ const Product = ({ product }) => {
 
     useEffect(() => {
         fetchAddToCartData();
+        document.title = "Our Products";
     }, [user.userId]);
 
     const fetchAddToCartData = async () => {

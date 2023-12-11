@@ -8,7 +8,7 @@ const StaticStarRating = ({ myProductRating }) => {
     }, myProductRating);
 
     return (
-        <div className="star-rating">
+        <div className="star-rating" data-testid="star-rating" data-rating={myProductRating}>
             {[...Array(5)].map((star, index) => {
                 index += 1;
                 return (

@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import ProductList from '../ProductList';
-import store from '../../utils/store'
-import { fetchProducts } from '../../utils/productSlice'
+import ProductList from '../../src/components/ProductList';
+import store from '../../src/utils/store'
+import { fetchProducts } from '../../src/utils/productSlice'
 import { BrowserRouter } from 'react-router-dom';
-import '@testing-library/jest-dom';
+
 
 
 describe('ProductList Component', () => {
@@ -46,8 +46,8 @@ describe('ProductList Component', () => {
         },
     };
 
-    jest.mock('../../utils/productSlice', () => ({
-        ...jest.requireActual('../../utils/productSlice'),
+    jest.mock('../../src/utils/productSlice', () => ({
+        ...jest.requireActual('../../src/utils/productSlice'),
         fetchProducts: jest.fn(),
     }));
 
@@ -78,7 +78,7 @@ describe('ProductList Component', () => {
             { id: 'bzolv9xdDoqZwEIjl78z', Category: "All Category" },
             { id: 'swoxKYVH3rbzPfeC1lhq', Category: 'Clothing' },
         ];
-        jest.spyOn(global, 'fetch').mockResolvedValue({
+        global.fetch = jest.fn().mockResolvedValue({
             json: jest.fn().mockResolvedValue(mockCategoryList),
         });
 

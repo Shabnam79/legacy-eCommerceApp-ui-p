@@ -33,6 +33,7 @@ const Details = () => {
 
     useEffect(() => {
         checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+        document.title = detailProduct.title;  
     }, [user.userId]);
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {

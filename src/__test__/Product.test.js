@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Product from '../Product';
-import store from '../../utils/store'
+import Product from '../../src/components/Product';
+import store from '../../src/utils/store'
 import { Provider } from 'react-redux';
-import userContext from "../../utils/userContext";
+import userContext from "../../src/utils/userContext";
 import { BrowserRouter } from 'react-router-dom';
-import '@testing-library/jest-dom';
+
 
 const sampleProduct = {
     id: 1,

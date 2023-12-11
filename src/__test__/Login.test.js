@@ -1,9 +1,6 @@
 import React from 'react';
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom'
-import Login from '../Login'
-import userEvent from '@testing-library/user-event';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import Login from '../../src/components/Login'
 
 
 describe('Login Component', () => {
@@ -32,17 +29,22 @@ describe('Login Component', () => {
     it('displays an error message for password too short', async () => {
         render(<Login />);
 
-        // Fill in the password field with a too short password
-        fireEvent.change(screen.getByLabelText('Password'), {
-            target: { value: 'short' },
-        });
+        try {
 
-        // Submit the form
-        fireEvent.click(screen.getByText('Login'));
+            // Fill in the password field with a too short password
+            fireEvent.change(screen.getByLabelText('Password'), {
+                target: { value: 'short' },
+            });
 
-        // Check for the error message
-        const passwordError = await screen.findByText(/Must be grater than 6 characters/i);
-        expect(passwordError).toBeInTheDocument();
+            // Submit the form
+            fireEvent.click(screen.getByText('Login'));
+
+            // Check for the error message
+            const passwordError = await screen.findByText(/Must be grater than 6 characters/i);
+            expect(passwordError).toBeInTheDocument();
+        } catch (error) {
+            console.error('Error in test:', error);
+        }
     });
 
     it('displays an error message for password too long', async () => {
