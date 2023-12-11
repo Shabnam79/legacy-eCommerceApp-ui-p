@@ -2,15 +2,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { deleteRecordFromFirebaseService, 
-    getCategoryServiceByUserId, 
-    getCategoryByIdService } from '../../firebase/services/category.service';
+import {
+    deleteRecordFromFirebaseService,
+    getCategoryServiceByUserId,
+    getCategoryByIdService
+} from '../../firebase/services/category.service';
 import userContext from "../../utils/userContext.js";
 import { toast } from "react-toastify";
 
 
 export default function CategoryList() {
-  
     const { user } = useContext(userContext);
     const [CategoryData, setCategoryData] = useState([]);
 
@@ -33,7 +34,7 @@ export default function CategoryList() {
 
     const removeCategoryHandler = async (item) => {
         try {
-            const deleteStroeProcduct= await getCategoryByIdService(item.id);
+            const deleteStroeProcduct = await getCategoryByIdService(item.id);
             await deleteRecordFromFirebaseService(deleteStroeProcduct);
 
             toast.warning(
@@ -49,26 +50,25 @@ export default function CategoryList() {
             console.log(e);
         }
     };
-  
     return (
         <>
             <div style={{ margin: "10rem" }}>
                 <Table striped bordered hover size='sm'>
-                <thead>
-                    <tr>
-                        <th>
-                            CATEGORY
-                        </th>
-                        <th>
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th>
+                                CATEGORY
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {
                             CategoryData && CategoryData.length > 0 ?
 
-                            CategoryData.map((item) => {
+                                CategoryData.map((item) => {
                                     return (
                                         <tr>
                                             <td>
@@ -78,7 +78,7 @@ export default function CategoryList() {
                                                 <Link to={`/admin/EditCategory/${item.id}`}>
                                                     <Button className="btn btn-primary mx-3">EDIT</Button>
                                                 </Link>
-                                                <Button className="btn btn-primary" onClick={() => removeCategoryHandler(item)}>DELETE</Button>
+                                                <Button className="btn btn-primary" data-testid={`delete-button-${item.id}`} onClick={() => removeCategoryHandler(item)}>DELETE</Button>
                                             </td>
 
                                         </tr>
@@ -95,5 +95,5 @@ export default function CategoryList() {
             </div>
         </>
 
-  )
+    )
 }
