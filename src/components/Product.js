@@ -99,7 +99,7 @@ const Product = ({ product }) => {
     }
 
     return (
-        <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
+        <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3" style={{display:"flex"}}>
             <div className="card">
                 <div className="img-container p-5" onClick={() => handleProductDetails(product)}>
                     <Link to="/details">
