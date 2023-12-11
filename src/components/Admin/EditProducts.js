@@ -127,7 +127,7 @@ function EditProducts() {
     };
 
     const uploadFile = () => {
-        if (imageUpload.length == 0) return;
+        if (!imageUpload || imageUpload.length == 0) return;
         for (let index = 0; index < imageUpload.length; index++) {
             const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
             debugger
