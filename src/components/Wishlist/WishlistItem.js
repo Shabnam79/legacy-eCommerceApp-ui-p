@@ -9,6 +9,8 @@ import { getWishlistByIdService } from '../../firebase/services/wishlist.service
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
     const { user } = useContext(userContext);
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     const dispatch = useDispatch();
 
     const removeProductHandler = async (item) => {
@@ -35,20 +37,22 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     return (
         <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "5rem", height: "5rem" }} className="img-fluid" alt="product" />
+                <img src={img} style={{ width: "15rem", height: "12rem" }} className="img-fluid" alt="product" />
             </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">company : </span>{company}
+            <div style={{marginTop:'30px',width: '200px'}}>
+                <span style={{...fontfamily}}> </span><span style={{...fontfamily,fontSize:'14px',fontWeight:'bold',color:'#12499E'}}>{title}</span><div></div>
+                <span style={{...fontfamily,...fontsize}}>by </span><span style={{...fontfamily,...fontsize}}>{company}</span><div></div>
+                <span  style={{...fontfamily,...fontsize}}>$</span><span style={{...fontfamily,fontSize:'15px'}}>{price}</span>
             </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">product : </span>{title}
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">price : </span>{price}
-            </div>
+            {/* <div className="col-10 mx-auto col-lg-2">
+                <span className="d-lg-none" style={{...fontfamily}}>product : </span>{title}
+            </div> */}
+            {/* <div className="col-10 mx-auto col-lg-2">
+                <span className="d-lg-none" style={{...fontfamily}}>price : </span>{price}
+            </div> */}
             {/**/}
-            <div className="col-10 mx-auto col-lg-2">
-                <div className="cart-icon" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
+            <div className="col-10 mx-auto col-lg-2" style={{marginTop:'30px'}}>
+                <div className="cart-icon" onClick={() => removeProductHandler(item)}>
                     <i className="fas fa-trash"></i>
                 </div>
             </div>
