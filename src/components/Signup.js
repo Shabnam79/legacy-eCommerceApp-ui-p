@@ -22,7 +22,25 @@ const schema = yup.object().shape({
 
 const Signup = () => {
     const [modalShow, setModalShow] = useState(false);
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
+    const stylingSignupButton={
+        color: 'white',
+        backgroundColor: 'black',
+        border: '1px solid #6855e0'
+      };
+    const SignupButtonTrans= {
+        cursor: 'pointer',
+        border: '0',
+        borderradius: '4px',
+        fontweight: '600',
+        margin: '14px 16px',
+        height:'30px',
+        width: '200px',
+        padding: '0px 10px',
+        boxshadow: '0 0 20px #6855e0',
+        transition: '0.4s',
+      }
     const authentication = (values, { resetForm }) => {
         const getAuthentication = getAuth();
         createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
@@ -68,9 +86,9 @@ const Signup = () => {
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group controlId="validationFormik01">
-                                    <Form.Label>Email</Form.Label>
+                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Email</Form.Label>
 
-                                    <Form.Control
+                                    <Form.Control  style={{...fontsize,...fontfamily}}
                                         type="email"
                                         placeholder="jane@formik.com"
                                         name="email"
@@ -79,25 +97,25 @@ const Signup = () => {
                                         isInvalid={!!errors.email}
                                     />
 
-                                    <Form.Control.Feedback type="invalid">
+                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
                                         {errors.email}
                                     </Form.Control.Feedback>
 
                                 </Form.Group>
 
                                 <Form.Group controlId="validationFormik02">
-                                    <Form.Label>Password</Form.Label>
+                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Password</Form.Label>
 
-                                    <Form.Control
+                                    <Form.Control style={{...fontsize,...fontfamily}}
                                         type="text"
                                         placeholder="******"
                                         name="password"
                                         value={values.password}
                                         onChange={handleChange}
-                                        isInvalid={!!errors.password}
+                                        isInvalid={!!errors.password} 
                                     />
 
-                                    <Form.Control.Feedback type="invalid">
+                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
                                         {errors.password}
                                     </Form.Control.Feedback>
 
@@ -108,17 +126,26 @@ const Signup = () => {
                                     style={{ marginTop: "10px", background: "#fc8019", border: "#fc8019" }}
                                 // onClick={() => authentication()}
                                 >Login</Button> */}
-
+{/* 
                                 <ButtonContainer type="submit">
                                     <i className="fas fa-user">Signup</i>
-                                </ButtonContainer>
-
-                                <ButtonContainer onClick={(e) => {
+                                </ButtonContainer> */}
+                                <button style={{...fontfamily,marginLeft:'50x',...stylingSignupButton,...SignupButtonTrans}} type="submit">
+                                    <span style={{...fontfamily}}>Signup</span>
+                                </button> <br></br>
+                                <br></br>
+                                   <span style={{fontSize:'14px',...fontfamily,margin:'45px'}}>Exisiting User? </span>
+                                 <span onClick={(e) => {
+                                    e.preventDefault();
+                                    setModalShow(true);
+                                }}><span style={{fontSize:'15px',...fontfamily,margin:'-45px',color:'blue',fontWeight:'lightblue',cursor:'pointer'}}>Click Here</span>
+                                </span>  
+                                {/* <ButtonContainer onClick={(e) => {
                                     e.preventDefault();
                                     setModalShow(true);
                                 }}>
                                     <i className="fas fa-user">Login</i>
-                                </ButtonContainer>
+                                </ButtonContainer> */}
 
                                 <LoginModal
                                     name="Login"
