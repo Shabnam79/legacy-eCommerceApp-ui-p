@@ -1,12 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Details from '../Details';
-import store from '../../utils/store'
+import Details from '../../src/components/Details';
+import store from '../../src/utils/store'
 import { Provider } from 'react-redux';
-import userContext from "../../utils/userContext";
+import userContext from "../../src/utils/userContext";
 import { BrowserRouter } from 'react-router-dom';
-import '@testing-library/jest-dom';
-import 'regenerator-runtime/runtime';
+
 
 const userDetails = {
     userId: 'DYLnWFX3d2MU6pdnu059AHN2KFm2',

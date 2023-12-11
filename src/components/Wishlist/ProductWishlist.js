@@ -17,6 +17,7 @@ const ProductWishlist = () => {
 
     useEffect(() => {
         dispatch(fetchWishlistProducts(user.userId));
+        document.title = "Product Wishlist";
     }, [user.userId]);
 
     // useEffect(() => {

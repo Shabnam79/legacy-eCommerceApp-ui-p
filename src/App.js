@@ -13,14 +13,20 @@ import userContext from './utils/userContext';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
+import Dashboard from './components/Admin/dashboard';
 import { Provider } from 'react-redux';
 import store from './utils/store';
 import Signup from './components/Signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Review from './components/Review/Review';
+import AddProducts from './components/Admin/AddProducts';
 import Checkout from "./components/Cart/Checkout";
+import EditProducts from './components/Admin/EditProducts';
 import BillingAddress from "./components/Cart/BillingAddress";
+import AddCategories from './components/Admin/AddCategories';
+import CategoryList from './components/Admin/CategoryList';
+import EditCategory from './components/Admin/EditCategory';
 
 // const ProductList = lazy(() => import("./components/ProductList"));
 // const Details = lazy(() => import("./components/Details"));
@@ -60,6 +66,21 @@ function App() {
           <Outlet />
 
           <Routes>
+            <Route exact path="/" element={<ProductList />} />
+            <Route path="/details" element={<Details />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/wishlist" element={<ProductWishlist />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/review/:productId/:orderId" element={<Review />} />
+            <Route path="/admin/addproduct" element={<AddProducts />} />
+            <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
+            <Route path="/admin/CategoryList" element={<CategoryList />} />
+            <Route path="/admin/AddCategories" element={<AddCategories />} />
+            <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
+
             <Route exact
               path="/"
               element={

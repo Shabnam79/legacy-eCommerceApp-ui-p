@@ -48,7 +48,7 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
             </div>
             {/**/}
             <div className="col-10 mx-auto col-lg-2">
-                <div className="cart-icon" onClick={() => removeProductHandler(item)}>
+                <div className="cart-icon" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
                     <i className="fas fa-trash"></i>
                 </div>
             </div>

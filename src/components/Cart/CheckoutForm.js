@@ -21,6 +21,7 @@ const CheckoutForm = ({ value }) => {
 
     useEffect(() => {
         fetchAddShippingDetails();
+        document.title = "Checkout"
     }, [user.userId]);
 
     const placeProductOrder = async (e) => {

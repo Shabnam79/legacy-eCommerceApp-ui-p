@@ -11,6 +11,7 @@ export default function CheckoutList({ value }) {
 
     useEffect(() => {
         fetchAddToCartData();
+        document.title = "Check Out List";
     }, user.userId, []);
 
     const fetchAddToCartData = async () => {
