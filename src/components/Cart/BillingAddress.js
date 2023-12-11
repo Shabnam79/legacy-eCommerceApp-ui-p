@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { db } from "../../firebase/config/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -17,6 +17,10 @@ const BillingAddressForm = () => {
     country: 'USA',
     zipCode: '123456',
   });
+
+  useEffect(() => {
+    document.title = "Shipping Address";  
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

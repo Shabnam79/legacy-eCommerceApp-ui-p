@@ -1,10 +1,10 @@
 import React from 'react';
 
 function OrderSummary(props) {
-  const { cartItems, subtotal ,shippingCost,totalAmount} = props;
-  
+    const { cartItems, subtotal, shippingCost, totalAmount } = props;
+
     return (
-        <div className="order-summary">
+        <div className="order-summary" data-testid="order-summary">
             {/* <h3>Order Summary</h3> */}
             {/* <ul className="order-items">
                 {cartItems.map((item, index) => (

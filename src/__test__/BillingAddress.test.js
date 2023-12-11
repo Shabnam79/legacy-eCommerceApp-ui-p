@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import 'regenerator-runtime/runtime';
-import BillingAddressForm from '../Cart/BillingAddress';
+import BillingAddressForm from '../../src/components/Cart/BillingAddress';
 
 describe('BillingAddressForm Component', () => {
     it('renders with default values', () => {
@@ -45,7 +43,7 @@ describe('BillingAddressForm Component', () => {
 
         fireEvent.change(firstNameInput, { target: { value: 'John' } });
         fireEvent.change(lastNameInput, { target: { value: 'Doe' } });
-        
+
         fireEvent.click(submitButton);
     });
 

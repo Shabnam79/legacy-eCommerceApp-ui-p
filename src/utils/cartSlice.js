@@ -107,10 +107,12 @@ function getTotals(state) {
         (a, c) => a + c.count * c.price,
         0
     );
+    const tempTax = totalPrice * 0.1;
+    const total = totalPrice + tempTax;
 
     state.subTotal = totalPrice;
-    state.tax = totalPrice;
-    state.total = totalPrice;
+    state.tax = tempTax;
+    state.total = total;
 
     localStorage.setItem("subTotal", state.subTotal);
     localStorage.setItem("tax", state.tax);
