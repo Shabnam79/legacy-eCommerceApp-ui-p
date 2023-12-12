@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import Title from '../../src/components/Title';
 
 describe('Title', () => {
-    test('renders Title component with name and title', () => {
+    test('Renders Title component with name and title', () => {
         const testName = 'our';
         const testTitle = 'products';
 
