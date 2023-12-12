@@ -28,8 +28,8 @@ jest.mock('../../src/firebase/services/product.service.js', () => ({
     deleteRecordFromFirebaseService: jest.fn(() => Promise.resolve()),
 }));
 
-describe('Dashboard Component', () => {
-    test('renders product data correctly', async () => {
+describe('Admin.Dashboard', () => {
+    test('Renders product data correctly', async () => {
         // Arrange
         const mockUser = { userId: '123' };
         jest.spyOn(React, 'useContext').mockReturnValueOnce({ user: mockUser });
@@ -42,7 +42,7 @@ describe('Dashboard Component', () => {
         expect(screen.getByText('Add Product')).toBeInTheDocument();
     });
 
-    test('renders product columns after fetching', async () => {
+    test('Renders product columns after fetching', async () => {
         // Arrange
         const mockUser = { userId: '123' };
         jest.spyOn(React, 'useContext').mockReturnValueOnce({ user: mockUser });

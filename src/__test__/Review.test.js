@@ -94,16 +94,16 @@ Object.defineProperty(global, 'DataTransfer', {
 });
 
 // Test Suite for Review component
-describe('Review Component', () => {
-    // Test Case 1: Renders without crashing
-    it('renders Review component', () => {
+describe('Review.Review', () => {
+
+    it('Renders Review component', () => {
         render(<MockUserProvider value={{ user: mockUser }}><Review /></MockUserProvider>);
         // Check if the component renders without crashing
         expect(screen.getByText('Ratings & Reviews')).toBeInTheDocument();
     });
 
-    // Test Case 2: User can submit a review
-    it('submits a review', async () => {
+
+    it('Submits a review', async () => {
         // Mocking getProductReviewByOrderIdService to return a data array with length > 0
         getProductReviewByOrderIdService.mockResolvedValue([{ rating: 1 }]);
 

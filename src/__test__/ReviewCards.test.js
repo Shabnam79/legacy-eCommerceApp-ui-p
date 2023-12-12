@@ -8,8 +8,8 @@ const mockReview = {
     description: 'This product exceeded my expectations.',
 };
 
-describe('ReviewCards Component', () => {
-    test('renders review card with correct title and description', () => {
+describe('Review.ReviewCards', () => {
+    test('Renders review card with correct title and description', () => {
         render(<ReviewCards review={mockReview} />);
 
         // Check if the title and description are rendered correctly
@@ -17,7 +17,7 @@ describe('ReviewCards Component', () => {
         expect(screen.getByText('This product exceeded my expectations.')).toBeInTheDocument();
     });
 
-    test('renders star rating component with correct rating', () => {
+    test('Renders star rating component with correct rating', () => {
         render(<ReviewCards review={mockReview} />);
 
         // Assuming StaticStarRating renders the correct star elements based on the rating prop

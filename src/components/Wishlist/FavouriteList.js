@@ -25,7 +25,7 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
         }
     }
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" data-testid="wishlist-items">
             {WishlistData.map(item => {
                 return <WishlistItem key={item.id} item={item} wishlist={wishlist} fetchAddToWishlistData={fetchAddToWishlistData} />
             })}

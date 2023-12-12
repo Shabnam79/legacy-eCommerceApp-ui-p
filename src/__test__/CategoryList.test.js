@@ -41,8 +41,8 @@ const MockUserProvider = ({ children, value }) => {
     );
 };
 
-describe('CategoryList Component', () => {
-    it('renders category list with data', async () => {
+describe('Admin.CategoryList', () => {
+    it('Renders category list with data', async () => {
         // Mock category data
         const mockCategoryData = [
             { userId: '1', Category: 'Category 1', id: '1' },
@@ -69,7 +69,7 @@ describe('CategoryList Component', () => {
         expect(screen.getByText('Category 2')).toBeInTheDocument();
     });
 
-    it('renders category list with data and performs delete action', async () => {
+    it('Renders category list with data and performs delete action', async () => {
         // Mock category data
         const mockCategoryData = [
             { userId: '1', Category: 'Category 1', id: '1' },

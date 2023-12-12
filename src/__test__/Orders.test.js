@@ -26,8 +26,8 @@ jest.mock('../../src/firebase/services/order.service', () => ({
 }));
 
 
-describe('Orders component', () => {
-    it('renders EmptyOrders when there are no orders', async () => {
+describe('Orders.Orders', () => {
+    it('Renders EmptyOrders when there are no orders', async () => {
         render(<MockUserProvider value={{ user: mockUser }}><Orders /></MockUserProvider>);
 
         // Wait for the component to fetch orders
@@ -36,7 +36,7 @@ describe('Orders component', () => {
         });
     });
 
-    it('renders OrdersList when there are orders', async () => {
+    it('Renders OrdersList when there are orders', async () => {
         const mockOrders = [{
             id: "1FB9cUcCJfJY1kBTSFcE",
             image: "img/product-4.png",

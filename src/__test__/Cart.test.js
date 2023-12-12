@@ -6,7 +6,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux'
 import userContext from "../../src/utils/userContext";
 import Cart from '../../src/components/Cart/Cart';
-import {fetchCartProducts} from '../../src/utils/cartSlice'
+import { fetchCartProducts } from '../../src/utils/cartSlice'
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../../src/utils/cartSlice', () => ({
@@ -44,9 +44,9 @@ const sampleCartItem = {
             userId: "DYLnWFX3d2MU6pdnu059AHN2KFm2"
         }
     ],
-    subTotal:15,
-    tax:1.5,
-    total:16.5,
+    subTotal: 15,
+    tax: 1.5,
+    total: 16.5,
 };
 
 const mockStore = configureStore({
@@ -60,12 +60,12 @@ const mockStore = configureStore({
     },
 });
 
-describe('Cart component', () => {
+describe('Cart.Cart', () => {
     beforeEach(() => {
-    useSelector.mockImplementation((selector) => selector({ cart: sampleCartItem }));
-    useDispatch.mockReturnValue(jest.fn());
-  });
-    it('renders emptycart no items in the cart', () => {
+        useSelector.mockImplementation((selector) => selector({ cart: sampleCartItem }));
+        useDispatch.mockReturnValue(jest.fn());
+    });
+    it('Renders emptycart no items in the cart', () => {
         useSelector.mockImplementationOnce(() => ({ cart: [] }));
 
         render(
@@ -79,16 +79,15 @@ describe('Cart component', () => {
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument();
     });
 
-    it('renders cart items when there are items in the cart', async () => {
-        //useSelector.mockImplementationOnce(() => ({ cart: [sampleCartItem] }));
+    it('Renders cart items when there are items in the cart', async () => {
 
         render(
             <BrowserRouter>
-            <Provider store={mockStore}>
-                <MockUserProvider value={{ user: mockUserId }}>
-                    <Cart />
-                </MockUserProvider>
-            </Provider>
+                <Provider store={mockStore}>
+                    <MockUserProvider value={{ user: mockUserId }}>
+                        <Cart />
+                    </MockUserProvider>
+                </Provider>
             </BrowserRouter>
 
         );

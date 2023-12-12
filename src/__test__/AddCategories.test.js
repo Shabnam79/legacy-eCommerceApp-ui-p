@@ -25,8 +25,8 @@ jest.mock('../../src/firebase/services/category.service', () => ({
 }));
 
 
-describe('AddCategories component', () => {
-    test('renders the component', () => {
+describe('Admin.AddCategories', () => {
+    test('Renders the Add categories component of Admin', () => {
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: mockUser }}>
