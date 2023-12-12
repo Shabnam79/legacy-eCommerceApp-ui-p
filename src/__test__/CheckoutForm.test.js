@@ -16,7 +16,7 @@ jest.mock('react-toastify', () => ({
     },
 }));
 
-describe('CheckoutForm component', () => {
+describe('Cart.CheckoutForm', () => {
     const mockUserContextValue = {
         user: {
             userId: 'mockUserId',
@@ -37,7 +37,7 @@ describe('CheckoutForm component', () => {
             }
         );
 
-    test('renders shipping address when user is logged in', async () => {
+    test('Renders shipping address when user is logged in', async () => {
         const mockValue = {
             cartSubTotal: 100,
             cartTax: 10,

@@ -20,8 +20,8 @@ const MockUserProvider = ({ children, value }) => {
     );
 };
 
-describe('Details Component', () => {
-    test('renders product details', () => {
+describe('Details', () => {
+    test('Renders product details', () => {
         const detailProduct = {
             id: 1,
             company: 'Company A',
@@ -49,7 +49,7 @@ describe('Details Component', () => {
         expect(screen.getByText('some info about product')).toBeInTheDocument();
     });
 
-    test('adds product to cart when "add to cart" button is clicked', () => {
+    test('Adds product to cart when "add to cart" button is clicked', () => {
 
         // Mock the detailProduct with inCart set to false
         const detailProduct = {
@@ -100,7 +100,7 @@ describe('Details Component', () => {
 
     });
 
-    test('adds product to wishlist when "add to wishlist" button is clicked', () => {
+    test('Adds product to wishlist when "add to wishlist" button is clicked', () => {
 
         // Mock the detailProduct with inWishlist set to false
         const detailProduct = {

@@ -2,15 +2,15 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import StaticStarRating from '../../src/components/Review/StaticStarRating';
 
-describe('StaticStarRating', () => {
-    it('renders the component with the correct rating', () => {
+describe('Review.StaticStarRating', () => {
+    it('Renders the component with the correct rating', () => {
         const { getByTestId } = render(<StaticStarRating myProductRating={3} />);
         const starRatingElement = getByTestId('star-rating');
 
         expect(starRatingElement).toHaveAttribute('data-rating', '3');
     });
 
-    it('renders the correct number of stars highlighted based on the rating', () => {
+    it('Renders the correct number of stars highlighted based on the rating', () => {
         const { container } = render(<StaticStarRating myProductRating={2} />);
         const starButtons = container.querySelectorAll('.star-rating-button');
 
@@ -21,7 +21,7 @@ describe('StaticStarRating', () => {
         expect(starButtons[4]).toHaveClass('star-rating-off');
     });
 
-    it('displays the correct number of stars based on the given rating', () => {
+    it('Displays the correct number of stars based on the given rating', () => {
         const { container } = render(<StaticStarRating myProductRating={4} />);
         const starButtons = container.querySelectorAll('.star-rating-button');
 

@@ -19,42 +19,44 @@ const initialState = {
 };
 const store = mockStore(initialState);
 
-test('renders Modal component with correct content', () => {
-    render(
-        <Provider store={store}>
-            <Router> {/* Add this line */}
-                <Modal />
-            </Router> {/* Add this line */}
-        </Provider>
-    );
+describe('Modal', () => {
+    test('Renders Modal component with correct content', () => {
+        render(
+            <Provider store={store}>
+                <Router> {/* Add this line */}
+                    <Modal />
+                </Router> {/* Add this line */}
+            </Provider>
+        );
 
-    // Rest of your test...
-});
+        // Rest of your test...
+    });
 
-test('triggers closeCartModal when continue shopping button is clicked', () => {
-    const closeCartModalMock = jest.fn();
+    test('Triggers closeCartModal when continue shopping button is clicked', () => {
+        const closeCartModalMock = jest.fn();
 
-    render(
-        <Provider store={store}>
-            <Router> {/* Add this line */}
-                <Modal closeCartModal={closeCartModalMock} />
-            </Router> {/* Add this line */}
-        </Provider>
-    );
+        render(
+            <Provider store={store}>
+                <Router> {/* Add this line */}
+                    <Modal closeCartModal={closeCartModalMock} />
+                </Router> {/* Add this line */}
+            </Provider>
+        );
 
-    // Rest of your test...
-});
+        // Rest of your test...
+    });
 
-test('triggers closeCartModal when go to cart button is clicked', () => {
-    const closeCartModalMock = jest.fn();
+    test('Triggers closeCartModal when go to cart button is clicked', () => {
+        const closeCartModalMock = jest.fn();
 
-    render(
-        <Provider store={store}>
-            <Router> {/* Add this line */}
-                <Modal closeCartModal={closeCartModalMock} />
-            </Router> {/* Add this line */}
-        </Provider>
-    );
+        render(
+            <Provider store={store}>
+                <Router> {/* Add this line */}
+                    <Modal closeCartModal={closeCartModalMock} />
+                </Router> {/* Add this line */}
+            </Provider>
+        );
 
-    // Rest of your test...
+        // Rest of your test...
+    });
 });

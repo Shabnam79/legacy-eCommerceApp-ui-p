@@ -38,8 +38,8 @@ jest.mock('../../src/firebase/services/cart.service', () => ({
     getCartProductsService: jest.fn(() => Promise.resolve([mockedGetCartData])),
 }));
 
-describe('Cart List component', () => {
-    it('renders CartList component with CartItem', async () => {
+describe('Cart.CartList', () => {
+    it('Renders CartList component with CartItem', async () => {
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -54,7 +54,7 @@ describe('Cart List component', () => {
         });
     });
 
-    it('renders "Please login" message when user is not logged in', async () => {
+    it('Renders "Please login" message when user is not logged in', async () => {
 
         // Mock console.log to spy on the log message
         const consoleSpy = jest.spyOn(console, 'log');
@@ -68,7 +68,7 @@ describe('Cart List component', () => {
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Cart products');
     });
 
-    it('doesnt calls fetchAddToCartData when user is not logged in', async () => {
+    it('Doesnt calls fetchAddToCartData when user is not logged in', async () => {
         const fetchAddToCartDataMock = jest.fn();
 
 

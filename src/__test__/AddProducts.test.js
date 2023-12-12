@@ -12,8 +12,8 @@ jest.mock('react-toastify', () => ({
 }));
 
 
-describe('AddProducts Component', () => {
-    it('renders form elements', () => {
+describe('Admin.AddProducts', () => {
+    it('Renders form elements of Add Product component', () => {
         render(<AddProducts />);
 
         // Ensure that form elements are rendered
@@ -21,7 +21,7 @@ describe('AddProducts Component', () => {
         expect(screen.getByPlaceholderText(/Enter Product Name/i)).toBeInTheDocument();
     });
 
-    it('submits the form correctly', async () => {
+    it('Submits the form correctly', async () => {
         render(<AddProducts />);
 
         jest.mock('../../src/components/Admin/AddProducts', () => ({

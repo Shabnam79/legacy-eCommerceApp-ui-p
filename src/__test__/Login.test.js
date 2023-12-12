@@ -3,22 +3,22 @@ import { render, screen, act, fireEvent, waitFor } from '@testing-library/react'
 import Login from '../../src/components/Login'
 
 
-describe('Login Component', () => {
+describe('Login', () => {
 
 
-    it('renders the Login component', () => {
+    it('Renders the Login component', () => {
         render(<Login />);
         const loginText = screen.getByText('Login');
         expect(loginText).toBeInTheDocument();
     });
 
-    it('renders login form with email and password inputs', () => {
+    it('Renders login form with email and password inputs', () => {
         const { getByLabelText } = render(<Login />);
         expect(getByLabelText('Email')).toBeInTheDocument();
         expect(getByLabelText('Password')).toBeInTheDocument();
     });
 
-    it('renders the Login component with initial values', () => {
+    it('Renders the Login component with initial values', () => {
         render(<Login />);
 
         // Check that the initial email and password values are displayed
@@ -26,7 +26,7 @@ describe('Login Component', () => {
         expect(screen.getByLabelText('Password')).toHaveValue('Test1234');
     });
 
-    it('displays an error message for password too short', async () => {
+    it('Displays an error message for password too short', async () => {
         render(<Login />);
 
         try {
@@ -47,7 +47,7 @@ describe('Login Component', () => {
         }
     });
 
-    it('displays an error message for password too long', async () => {
+    it('Displays an error message for password too long', async () => {
         render(<Login />);
 
         // Fill in the password field with a too long password
@@ -63,7 +63,7 @@ describe('Login Component', () => {
         expect(passwordError).toBeInTheDocument();
     });
 
-    it('does not display error messages with valid email and password', async () => {
+    it('Does not display error messages with valid email and password', async () => {
         render(<Login />);
 
         // Fill in the email and password fields with valid data

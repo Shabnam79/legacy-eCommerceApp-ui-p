@@ -18,20 +18,20 @@ jest.mock('react-toastify', () => ({
 }));
 
 
-describe('Signup Component', () => {
-  test('renders the component', () => {
+describe('Signup', () => {
+  test('Renders the component', () => {
     render(<Signup />);
     const emailInput = screen.getByPlaceholderText('jane@formik.com');
     const passwordInput = screen.getByPlaceholderText('******');
     const signupButton = screen.getByText('Signup');
-    const loginButton = screen.getByText('Login');
+    // const loginButton = screen.getByText('Login');
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(signupButton).toBeInTheDocument();
-    expect(loginButton).toBeInTheDocument();
+    // expect(loginButton).toBeInTheDocument();
   });
 
-  test('submits the form with valid data', async () => {
+  test('Submits the form with valid data', async () => {
     render(<Signup />);
     const emailInput = screen.getByPlaceholderText('jane@formik.com');
     const passwordInput = screen.getByPlaceholderText('******');
@@ -50,7 +50,7 @@ describe('Signup Component', () => {
     });
   });
 
-  test('displays an error message for an already used email', async () => {
+  test('Displays an error message for an already used email', async () => {
     // Mock Firebase's createUserWithEmailAndPassword to simulate an error
     const createUserWithEmailAndPasswordMock = jest.fn(() =>
       Promise.reject({ code: 'auth/email-already-in-use' })

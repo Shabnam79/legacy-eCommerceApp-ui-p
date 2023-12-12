@@ -20,8 +20,8 @@ const MockUserProvider = ({ children, value }) => {
     );
 };
 
-describe('CartTotals', () => {
-    test('renders CartTotals component', () => {
+describe('Cart.CartTotals', () => {
+    test('Renders CartTotals component', () => {
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -40,7 +40,7 @@ describe('CartTotals', () => {
         expect(screen.getByText('Proceed To Checkout')).toBeInTheDocument();
     });
 
-    test('able to click "clear cart" button to remove an item from cart', () => {
+    test('Able to click "clear cart" button to remove an item from cart', () => {
 
         render(
             <BrowserRouter>
@@ -58,7 +58,7 @@ describe('CartTotals', () => {
 
     });
 
-    test('navigates to /checkout when "Proceed To Checkout" button is clicked', () => {
+    test('Navigates to /checkout when "Proceed To Checkout" button is clicked', () => {
         render(
             <BrowserRouter>
                 <Provider store={store}>

@@ -66,12 +66,12 @@ const mockStore = configureStore({
         },
     },
 });
-describe('Store Component', () => {
+describe('Cart.Checkout', () => {
     beforeEach(() => {
         useSelector.mockImplementation((selector) => selector(mockStore.getState()));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('renders Store component with empty cart and Empty cart component render', () => {
+    it('Renders Checkout component with empty cart and Empty cart component render', () => {
         useSelector.mockImplementationOnce(() => ({ cart: [] }));
         render(
             <Provider store={mockStore}>
@@ -85,7 +85,7 @@ describe('Store Component', () => {
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument();
     });
 
-    it('renders Store component with items in the cart and Order Summary component render', () => {
+    it('Renders Checkout component with items in the cart and Order Summary component render', () => {
 
         useSelector.mockImplementationOnce(() => ({ cart: [sampleCartItem] }));
 

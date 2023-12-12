@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import OrderSummary from '../../src/components/Cart/OrderSummary';
 
-describe('OrderSummary Component', () => {
+describe('Cart.OrderSummary', () => {
 
-    test('renders OrderSummary component without crashing', () => {
+    test('Renders OrderSummary component without crashing', () => {
         const cartItems = [
             {
                 categoryId: "vxxbw52EaQnb6aCDwJAd",
@@ -50,7 +50,7 @@ describe('OrderSummary Component', () => {
 
     });
 
-    test('renders OrderSummary component with correct values', () => {
+    test('Renders OrderSummary component with correct values', () => {
         const cartItems = [
             {
                 categoryId: "vxxbw52EaQnb6aCDwJAd",

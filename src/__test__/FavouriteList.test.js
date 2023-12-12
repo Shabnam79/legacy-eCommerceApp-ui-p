@@ -24,8 +24,8 @@ jest.mock('../../src/firebase/services/wishlist.service', () => ({
     getWishlistService: jest.fn(() => Promise.resolve([{ id: 1, title: 'Mock Product' }])),
 }));
 
-describe('FavouriteList Component', () => {
-    it('renders the component with wishlist items', async () => {
+describe('Wishlist.FavouriteList', () => {
+    it('Renders the component with wishlist items', async () => {
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: userDetails }}>
@@ -41,7 +41,7 @@ describe('FavouriteList Component', () => {
         expect(screen.getByText('Mock Product')).toBeInTheDocument();
     });
 
-    it('handles the case when the user is not logged in', async () => {
+    it('Handles the case when the user is not logged in', async () => {
         // Mocking the user context for a scenario when the user is not logged in
         const defaultUser = {
             userId: null,
@@ -61,7 +61,7 @@ describe('FavouriteList Component', () => {
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Wishlist products');
     });
 
-    it('handles the case when the component is initially rendered with an empty wishlist', async () => {
+    it('Handles the case when the component is initially rendered with an empty wishlist', async () => {
         // Mocking the wishlist service to return an empty array
         jest.mock('../../src/firebase/services/wishlist.service', () => ({
             getWishlistService: jest.fn(() => Promise.resolve([])),

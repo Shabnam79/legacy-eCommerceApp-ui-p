@@ -23,7 +23,7 @@ jest.mock('react-toastify', () => ({
     },
 }));
 
-describe('WishlistItem Component', () => {
+describe('Wishlist.WishlistItem', () => {
     const item = {
         id: 1,
         company: 'Test Company',
@@ -36,7 +36,7 @@ describe('WishlistItem Component', () => {
     const fetchAddToWishlistData = jest.fn();
     const removeWishlist = jest.fn();
 
-    it('renders WishlistItem component', () => {
+    it('Renders WishlistItem component', () => {
         render(
             <WishlistItem
                 item={item}
