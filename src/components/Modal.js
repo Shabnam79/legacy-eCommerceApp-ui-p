@@ -24,10 +24,10 @@ const Modal = () => {
                             <div className="row">
                                 <div id="modal" className=
                                     "col-8 mx-auto col-md-6 col-lg-4 text-capitalize text-center p-5">
-                                    <h5>item added to the cart</h5>
+                                    <h5 id="hdItemCart">item added to the cart</h5>
                                     <img src={modalProduct.img} className="img-fluid" alt="product" />
-                                    <h5>{modalProduct.title}</h5>
-                                    <h5 className="text-muted">price : $ {modalProduct.price}</h5>
+                                    <h5 id="hdItemCartTitle">{modalProduct.title}</h5>
+                                    <h5 id="hdItemCartPrice" className="text-muted">price : $ {modalProduct.price}</h5>
                                     <Link id="lnkshopping" to='/'>
                                         <ButtonContainer onClick={() => closeCartModal()}>
                                             continue shopping
