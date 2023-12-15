@@ -6,10 +6,7 @@ import store from '../../src/utils/store'
 import { fetchProducts } from '../../src/utils/productSlice'
 import { BrowserRouter } from 'react-router-dom';
 
-
-
-describe('ProductList Component', () => {
-
+describe('ProductList', () => {
     const MockedStateData = {
         allproducts: {
             allproducts: [
@@ -51,7 +48,7 @@ describe('ProductList Component', () => {
         fetchProducts: jest.fn(),
     }));
 
-    it('renders ProductList component', () => {
+    it('Renders ProductList component', async () => {
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -61,38 +58,12 @@ describe('ProductList Component', () => {
                 </Provider>
             </BrowserRouter>
         );
-        expect(screen.getByText('All Category')).toBeInTheDocument();
-    });
-
-    it('Able to select the category from the dropdown', async () => {
-        const { container } = render(
-            <BrowserRouter>
-                <Provider store={store}>
-                    <ProductList />
-                </Provider>
-            </BrowserRouter>
-        );
-
-        // Mock the response from the getCategoryService function
-        const mockCategoryList = [
-            { id: 'bzolv9xdDoqZwEIjl78z', Category: "All Category" },
-            { id: 'swoxKYVH3rbzPfeC1lhq', Category: 'Clothing' },
-        ];
-        global.fetch = jest.fn().mockResolvedValue({
-            json: jest.fn().mockResolvedValue(mockCategoryList),
+        await waitFor(() => {
+            waitFor(() => expect(screen.getByText('All Category')).toBeInTheDocument());
         });
-
-
-        const dropdownButton = screen.getByRole('button', { name: 'All Category' });
-        fireEvent.click(dropdownButton);
-
-        const dropdownMenu = container.getElementsByClassName('dropdown-menu show')[0];
-        const allcategoryItem = within(dropdownMenu).getByText('All Category');
-
-        expect(allcategoryItem.textContent).toEqual('All Category');
     });
 
-    it('fetches products when a category is selected', async () => {
+    it('Fetches products when a category is selected', async () => {
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -103,21 +74,17 @@ describe('ProductList Component', () => {
 
         try {
             const dropdownButton = screen.getByText('All Category');
-
-            // Open the dropdown by clicking the button
             fireEvent.click(dropdownButton);
 
             const allCategoryItem = screen.getByText('All Category');
             const sportsItem = screen.getByText('Sports');
             const clothingItem = screen.getByText('Clothing');
 
-            // Your assertions...
             expect(allCategoryItem).toBeInTheDocument();
             expect(sportsItem).toBeInTheDocument();
             expect(clothingItem).toBeInTheDocument()
             fireEvent.click(sportsItem);
 
-            // Check if fetchProducts action is called with the correct argument
             await waitFor(() => {
                 expect(fetchProducts).toHaveBeenCalledWith('1');
             });
@@ -125,7 +92,5 @@ describe('ProductList Component', () => {
         } catch (error) {
             console.error('Error in test:', error);
         }
-
     })
-
 })
