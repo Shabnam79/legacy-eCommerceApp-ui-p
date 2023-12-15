@@ -3,13 +3,11 @@ module.exports = {
     collectCoverageFrom: ['src/**/*.{js,jsx}'],
     coverageDirectory: 'coverage',
     testEnvironment: 'jsdom',
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.js', "jest-allure/dist/setup"],
     moduleNameMapper: { "\\.(css|less)$": "<rootDir>/styleMock.js", "^.+\\.svg$": "<rootDir>/svgTransform.js" },
     reporters: [
         "default",
-        ["./node_modules/jest-html-reporter", {
-            "pageTitle": "Test Report",
-            "includeFailureMsg": true,
-        }]
-    ]
+        "jest-allure"
+    ],
+    testRunner: 'jest-jasmine2',
 };
