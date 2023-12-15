@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from '../../src/utils/store'
 
 
-describe('CheckoutItem Component', () => {
+describe('Cart.CheckoutItem', () => {
     const mockItem = {
         company: "Mock Product",
         count: 1,
@@ -21,7 +21,7 @@ describe('CheckoutItem Component', () => {
 
     const mockFetchAddToCartData = jest.fn();
 
-    test('renders the Checkout Item component without crashing', () => {
+    test('Renders the Checkout Item component without crashing', () => {
         render(
             <Provider store={store}>
                 <CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} />
@@ -30,7 +30,7 @@ describe('CheckoutItem Component', () => {
     });
 
 
-    test('renders product details correctly', () => {
+    test('Renders product details correctly', () => {
         render(<Provider store={store}><CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} /> </Provider>);
 
         // Check if product details are rendered

@@ -59,8 +59,8 @@ jest.mock('../firebase/config/firebase.config', () => ({
     },
 }));
 
-describe('EditProducts component', () => {
-    test('renders EditProducts component', async () => {
+describe('Admin.EditProducts', () => {
+    test('Renders EditProducts component', async () => {
         render(<EditProducts />);
 
         // Wait for async data fetching
@@ -70,7 +70,7 @@ describe('EditProducts component', () => {
         });
     });
 
-    test('handles input change', async () => {
+    test('Handles input change', async () => {
         render(<EditProducts />);
 
         await act(async () => {
@@ -80,7 +80,7 @@ describe('EditProducts component', () => {
         expect(screen.getByLabelText('Enter Product Name :')).toHaveValue('NewProduct');
     });
 
-    test('handles checkbox change', async () => {
+    test('Handles checkbox change', async () => {
         render(<EditProducts />);
 
         await act(async () => {
@@ -90,14 +90,12 @@ describe('EditProducts component', () => {
         expect(screen.getByLabelText('In Stock :')).toBeChecked();
     });
 
-    test('handles form submission', async () => {
+    test('Handles form submission', async () => {
         render(<EditProducts />);
 
         await act(async () => {
             fireEvent.submit(screen.getByRole('button', { name: 'Update' }));
         });
 
-        // Add assertions for the expected behavior after form submission
-        // e.g., expect(saveUpdateProductStore).toHaveBeenCalledWith(expectedProductData);
     });
 });

@@ -29,8 +29,8 @@ const MockUserProvider = ({ children, value }) => {
     );
 };
 
-describe('Product Component', () => {
-    it('renders the product details', () => {
+describe('Product', () => {
+    it('Renders the product details', () => {
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -48,7 +48,7 @@ describe('Product Component', () => {
         expect(productPrice).toBeInTheDocument();
     });
 
-    it('checking if Add to Cart button is visible to add items to the cart', () => {
+    it('Checking if Add to Cart button is visible to add items to the cart', () => {
         const addProductIntoCart = jest.fn();
         const openCartModal = jest.fn();
         render(
@@ -74,7 +74,7 @@ describe('Product Component', () => {
 
     })
 
-    it('disables the Add to Cart button when inCart is true', () => {
+    it('Disables the Add to Cart button when inCart is true', () => {
         const productInCart = {
             ...sampleProduct,
             inCart: true,

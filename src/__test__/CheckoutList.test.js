@@ -52,8 +52,8 @@ jest.mock('../../src/firebase/services/cart.service', () => ({
     }])
 }));
 
-describe('CheckoutList Component', () => {
-    it('renders the component', async () => {
+describe('Cart.CheckoutList', () => {
+    it('Renders the component', async () => {
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -71,7 +71,7 @@ describe('CheckoutList Component', () => {
         });
     });
 
-    it('renders a message when the user is not logged in', async () => {
+    it('Renders a message when the user is not logged in', async () => {
         const consoleSpy = jest.spyOn(console, 'log');
         await act(async () => {
             render(
@@ -87,7 +87,7 @@ describe('CheckoutList Component', () => {
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Cart products');
     });
 
-    it('calls fetchAddToCartData when mounted', async () => {
+    it('Calls fetchAddToCartData when mounted', async () => {
         //const fetchAddToCartData = jest.fn();
 
         await act(async () => {
@@ -105,7 +105,7 @@ describe('CheckoutList Component', () => {
         });
     });
 
-    it('calls fetchAddToCartData when the user is logged in', async () => {
+    it('Calls fetchAddToCartData when the user is logged in', async () => {
         await act(async () => {
             render(
                 <Provider store={store}>

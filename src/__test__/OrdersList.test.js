@@ -25,8 +25,8 @@ const mockOrders = [
 
 ];
 
-describe('Orders component', () => {
-    it('renders the orders list correctly', () => {
+describe('Orders.OrdersList', () => {
+    it('Renders the orders list correctly', () => {
         render(<Router><Orders orders={mockOrders} /> </Router>);
 
         const ordersList = screen.getByTestId('orders-list');
@@ -43,7 +43,7 @@ describe('Orders component', () => {
 
     });
 
-    it('passes correct props to OrdersItem component', () => {
+    it('Passes correct props to OrdersItem component', () => {
         render(<Router><Orders orders={mockOrders} /> </Router>);
 
         mockOrders.forEach(order => {

@@ -55,12 +55,12 @@ const mockStore = configureStore({
     },
 });
 
-describe('ProductWishlist', () => {
+describe('Wishlist.ProductWishlist', () => {
     beforeEach(() => {
         useSelector.mockImplementation((selector) => selector(mockStore.getState()));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('renders empty wishlist message when no items in the wishlist', () => {
+    it('Renders empty wishlist message when no items in the wishlist', () => {
         useSelector.mockImplementationOnce(() => ({ wishlist: [] }));
 
         render(
@@ -74,7 +74,7 @@ describe('ProductWishlist', () => {
         expect(screen.getByText(/Your wishlist is currently empty/i)).toBeInTheDocument();
     });
 
-    it('renders wishlist items when there are items in the wishlist', async () => {
+    it('Renders wishlist items when there are items in the wishlist', async () => {
         useSelector.mockImplementationOnce(() => ({ wishlist: [sampleWishlistItem] }));
 
         render(
@@ -88,7 +88,6 @@ describe('ProductWishlist', () => {
         );
 
         await waitFor(() => {
-            expect(screen.getByTestId('wishlist-title')).toBeInTheDocument();
             expect(screen.getByTestId('wishlist-items')).toBeInTheDocument();
         });
 

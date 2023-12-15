@@ -5,7 +5,7 @@ import store from '../../src/utils/store'
 import { Provider } from 'react-redux';
 
 
-describe('CartItem Component', () => {
+describe('Cart.CartItem', () => {
     const item = {
         id: "8PqVbtoUlX5s9XGAdfLp",
         title: 'Product 1',
@@ -16,12 +16,12 @@ describe('CartItem Component', () => {
         quantity: 5,
     };
 
-    it('renders without crashing', () => {
+    it('Renders the component without crashing', () => {
         const { container } = render(<Provider store={store}><CartItem item={item} value={{}} /> </Provider>);
         expect(container).toBeInTheDocument();
     });
 
-    it('able to click on trash icon click to delete item from the cart', () => {
+    it('Able to click on trash icon click to delete item from the cart', () => {
         const { getByTestId } = render(<Provider store={store}><CartItem item={item} value={{}} /></Provider>);
         const trashIcon = getByTestId('trash-icon');
 
@@ -29,14 +29,14 @@ describe('CartItem Component', () => {
 
     });
 
-    it('able to click "+" button on increasing quantity of an item', () => {
+    it('Able to click "+" button on increasing quantity of an item', () => {
         const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} /> </Provider>);
         const incrementButton = getByText('+');
 
         fireEvent.click(incrementButton);
     });
 
-    it('able to click on "-" button on decreasing quantity of an item ', () => {
+    it('Able to click on "-" button on decreasing quantity of an item ', () => {
         const { getByText } = render(<Provider store={store}><CartItem item={item} value={{}} /></Provider>);
         const decrementButton = getByText('-');
 

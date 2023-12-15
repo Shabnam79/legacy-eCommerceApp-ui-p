@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import CheckoutColumns from '../../src/components/Cart/CheckoutColumns';
 
-describe('CheckoutColumns Component', () => {
-    it('renders correctly', () => {
+describe('Cart.CheckoutColumns', () => {
+    it('Renders the CheckoutColumns correctly', () => {
         const { getByText } = render(<CheckoutColumns />);
 
         expect(getByText('products')).toBeInTheDocument();
@@ -13,7 +13,7 @@ describe('CheckoutColumns Component', () => {
         expect(getByText('total')).toBeInTheDocument();
     });
 
-    it('applies the correct classes to columns', () => {
+    it('Applies the correct classes to columns', () => {
         const { getByText } = render(<CheckoutColumns />);
 
         expect(getByText('products').closest('.col-lg-2')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('CheckoutColumns Component', () => {
         expect(getByText('total').closest('.col-lg-2')).toBeInTheDocument();
     });
 
-    it('renders the container with the correct class', () => {
+    it('Renders the container with the correct class', () => {
         const { container } = render(<CheckoutColumns />);
 
         expect(container.firstChild).toHaveClass('container-fluid');

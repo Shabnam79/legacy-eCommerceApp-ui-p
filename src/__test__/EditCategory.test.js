@@ -34,8 +34,8 @@ jest.mock('../../src/firebase/services/category.service', () => ({
     updateCategoryIntoProductCategoryService: jest.fn(() => Promise.resolve()),
 }));
 
-describe('EditCategory Component', () => {
-    it('renders EditCategory component', () => {
+describe('Admin.EditCategory', () => {
+    it('Renders EditCategory component', () => {
         // Mock the useParams
         jest.mock('react-router-dom', () => ({
             useParams: jest.fn(() => ({ categoryId: 'mockCategoryId' })),
@@ -57,7 +57,7 @@ describe('EditCategory Component', () => {
         expect(screen.getByPlaceholderText('Enter Category Name')).toBeInTheDocument();
     });
 
-    it('handles input change', () => {
+    it('Handles input change', () => {
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: userDetails }}>
@@ -72,7 +72,7 @@ describe('EditCategory Component', () => {
         expect(input.value).toBe('NewCategory');
     });
 
-    it('submits the form and updates category', async () => {
+    it('Submits the form and updates category', async () => {
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: userDetails }}>
@@ -94,7 +94,7 @@ describe('EditCategory Component', () => {
         });
     });
 
-    it('displays warning when category already exists', async () => {
+    it('Displays warning when category already exists', async () => {
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: userDetails }}>
