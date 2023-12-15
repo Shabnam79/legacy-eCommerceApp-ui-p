@@ -79,7 +79,7 @@ const Navbar = () => {
                         <Dropdown.Menu>
                         <Dropdown.Item eventKey=""></Dropdown.Item>
                         {dropdown.map((item) => (
-                            <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                            <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
                         ))}
                         </Dropdown.Menu>
                         </Dropdown>
@@ -118,7 +118,7 @@ const Navbar = () => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu style={{...borderHello }}>
                                 <span style={{...fontfamily}}>
-                                    <Dropdown.Item onClick={() => logout()} href="/">
+                                    <Dropdown.Item  id="ddllogout" onClick={() => logout()} href="/">
                                         Logout</Dropdown.Item>
                                     <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
                                     <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">

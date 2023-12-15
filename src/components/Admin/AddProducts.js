@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {ref, uploadBytes, getDownloadURL, listAll} from "firebase/storage";
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
-
+import { Link } from 'react-router-dom';
 
 function AddProducts() {
 
@@ -159,7 +159,7 @@ function AddProducts() {
 
     return (
                  <>
-                        <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={handleSubmit}>
+                        <Form className='d-grid gap-2' style={{ margin: '10rem' }} onSubmit={handleSubmit}>
                             <div className="container my-3">
                                 {/* Added code for Category dropdown bind - By noor */}
                                 
@@ -264,6 +264,9 @@ function AddProducts() {
                                 </div>
                             </Form.Group>
                             <Button type='submit'>Submit</Button>
+                            <Link to={`/admin`}>
+                                    <Button className="btn btn-primary mx-3">Back to Product List</Button>
+                            </Link>
                         </Form>
                    
                 </>

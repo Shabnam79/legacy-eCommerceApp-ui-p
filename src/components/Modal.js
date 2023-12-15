@@ -28,7 +28,7 @@ const Modal = () => {
                                     <img src={modalProduct.img} className="img-fluid" alt="product" />
                                     <h5>{modalProduct.title}</h5>
                                     <h5 className="text-muted">price : $ {modalProduct.price}</h5>
-                                    <Link to='/'>
+                                    <Link id="lnkshopping" to='/'>
                                         <ButtonContainer onClick={() => closeCartModal()}>
                                             continue shopping
                                         </ButtonContainer>

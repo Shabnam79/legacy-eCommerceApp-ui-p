@@ -1,13 +1,17 @@
 import Form from 'react-bootstrap/Form';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
 import {collection, addDoc} from "firebase/firestore";
-import { db } from "../firebase/config/firebase.config";
+import { db } from "../../firebase/config/firebase.config";
+import { Button } from 'react-bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { getRolesService } from '../../firebase/services/user.service';
+import userContext from '../../utils/userContext';
+import { Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -19,28 +23,35 @@ const schema = yup.object().shape({
         .required(),
 });
 
-const Signup = () => {
-    const [modalShow, setModalShow] = useState(false);
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
-    const stylingSignupButton={
-        color: 'white',
-        backgroundColor: 'black',
-        border: '1px solid #6855e0'
-      };
-    const SignupButtonTrans= {
-        cursor: 'pointer',
-        border: '0',
-        borderradius: '4px',
-        fontweight: '600',
-        margin: '14px 16px',
-        height:'30px',
-        width: '200px',
-        padding: '0px 10px',
-        boxshadow: '0 0 20px #6855e0',
-        transition: '0.4s',
-      }
+export default function CreateUsers() {
+
+    const { user } = useContext(userContext);
+    const [dropdown, setDropdown] = useState([]);
+    const [selectedValue, setSelectedValue] = useState('');
+    const [RoleIdValue, setRoleIdValue] = useState('');
+
     const usersCollectionRef = collection(db,"userroles");
+
+    useEffect(() => {
+        fetchRolelist();
+        document.title = "Admin - Create Users"
+    }, [user.userId]);
+
+
+    const fetchRolelist = async () => {
+        let data = await getRolesService();
+        if (data != undefined) {
+            setDropdown(data);
+        }
+    }
+
+    const fetchRoleSelectlist = (id) => {
+        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.roles)[0];
+        setSelectedValue(filterRoleName);
+        setRoleIdValue(id);
+    }
+
+
     const authentication = (values, { resetForm }) => {
         const getAuthentication = getAuth();
         createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
@@ -49,8 +60,8 @@ const Signup = () => {
                 addDoc(usersCollectionRef,{
                     UID: res.user.uid,
                     email: values.email,
-                    role : "Customer",
-                    roleId : "tMcXpUvDofmo6DVMtBeD",
+                    role : selectedValue,
+                    roleId : RoleIdValue,
                     isActive :"true",
                     })
 
@@ -71,8 +82,9 @@ const Signup = () => {
             });
     }
 
-    return (
-        <>
+  return (
+    <>
+    <div style={{ margin: "3rem" }}>
             <Row>
                 <Col></Col>
                 <Col>
@@ -94,28 +106,41 @@ const Signup = () => {
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group controlId="validationFormik01">
-                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Email</Form.Label>
 
-                                    <Form.Control  style={{...fontsize,...fontfamily}}
+                                <div className="container my-3">
+                                    <Form.Group controlId="validationFormik03">
+                                        <Dropdown title="All Roles" onSelect={(e) => fetchRoleSelectlist(e)}>
+                                            <Dropdown.Toggle  id="dropdown-basic">
+                                                {selectedValue || 'Select Roles'}
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                            {dropdown.map((item) => (
+                                                <Dropdown.Item  eventKey={item.id}>{item.roles}</Dropdown.Item>
+                                            ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown> 
+                                        
+                                    </Form.Group>    
+                                </div>
+
+                                <Form.Group controlId="validationFormik01">
+                                    <Form.Label >Email</Form.Label>
+                                    <Form.Control  
                                         type="email"
-                                        placeholder="jane@formik.com"
+                                        placeholder="Enter email..."
                                         name="email"
                                         value={values.email}
                                         onChange={handleChange}
                                         isInvalid={!!errors.email}
                                     />
-
-                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
+                                    <Form.Control.Feedback type="invalid" >
                                         {errors.email}
                                     </Form.Control.Feedback>
-
                                 </Form.Group>
 
                                 <Form.Group controlId="validationFormik02">
-                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Password</Form.Label>
-
-                                    <Form.Control style={{...fontsize,...fontfamily}}
+                                    <Form.Label >Password</Form.Label>
+                                    <Form.Control 
                                         type="text"
                                         placeholder="******"
                                         name="password"
@@ -123,52 +148,26 @@ const Signup = () => {
                                         onChange={handleChange}
                                         isInvalid={!!errors.password} 
                                     />
-
-                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
+                                    <Form.Control.Feedback type="invalid" >
                                         {errors.password}
                                     </Form.Control.Feedback>
-
                                 </Form.Group>
-
-                                {/* <Button
-                                    type="submit"
-                                    style={{ marginTop: "10px", background: "#fc8019", border: "#fc8019" }}
-                                // onClick={() => authentication()}
-                                >Login</Button> */}
-{/* 
-                                <ButtonContainer type="submit">
-                                    <i className="fas fa-user">Signup</i>
-                                </ButtonContainer> */}
-                                <button style={{...fontfamily,marginLeft:'50x',...stylingSignupButton,...SignupButtonTrans}} type="submit">
-                                    <span style={{...fontfamily}}>Signup</span>
-                                </button> <br></br>
                                 <br></br>
-                                   <span style={{fontSize:'14px',...fontfamily,margin:'45px'}}>Exisiting User? </span>
-                                 <span onClick={(e) => {
-                                    e.preventDefault();
-                                    setModalShow(true);
-                                }}><span style={{fontSize:'15px',...fontfamily,margin:'-45px',color:'blue',fontWeight:'lightblue',cursor:'pointer'}}>Click Here</span>
-                                </span>  
-                                {/* <ButtonContainer onClick={(e) => {
-                                    e.preventDefault();
-                                    setModalShow(true);
-                                }}>
-                                    <i className="fas fa-user">Login</i>
-                                </ButtonContainer> */}
-
-                                <LoginModal
-                                    name="Login"
-                                    show={modalShow}
-                                    onHide={() => setModalShow(false)}
-                                />
+                                <Button  type="submit">
+                                    <span>Sign Up</span>
+                                </Button>
+                                 
+                                <Link to={`/admin/UserList`}>
+                                    <Button className="btn btn-primary mx-3">Back to User List</Button>
+                                </Link>
+                                
                             </Form>
                         )}
                     </Formik >
                 </Col>
                 <Col></Col>
             </Row>
+            </div>
         </>
-    );
+  );
 }
-
-export default Signup;
