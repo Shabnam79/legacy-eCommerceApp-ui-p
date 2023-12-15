@@ -10,6 +10,7 @@ import {ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Col, Image, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function EditProducts() {
     const { user } = useContext(userContext);
@@ -296,7 +297,9 @@ function EditProducts() {
                         </div>
                     </Form.Group>
                     <Button type='submit'>Update</Button>
-                    
+                    <Link to={`/admin`}>
+                            <Button className="btn btn-primary mx-3">Back to Product List</Button>
+                    </Link>
             </Form>
         </>
     )
