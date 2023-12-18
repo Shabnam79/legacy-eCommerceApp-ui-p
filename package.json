@@ -20,7 +20,8 @@
     "yup": "^1.2.0"
   },
   "scripts": {
-    "start": "powershell -File .\\install_dependencies.ps1 && react-scripts --openssl-legacy-provider start",
+    "start": "npm run install-deps && react-scripts --openssl-legacy-provider start",
+    "install-deps": "powershell -File .\\install_dependencies.ps1 || echo 'Dependency already installed, continuing...'",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "jest",
     "test:json": "jest --json > test-results.json",
