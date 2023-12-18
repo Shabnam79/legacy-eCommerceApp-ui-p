@@ -26,6 +26,7 @@ jest.mock('../../src/firebase/services/wishlist.service', () => ({
 
 describe('Wishlist.FavouriteList', () => {
     it('Renders the component with wishlist items', async () => {
+        await reporter.startStep('Step 1: Verifying FavouriteList component renders successfully')
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: userDetails }}>
@@ -33,12 +34,17 @@ describe('Wishlist.FavouriteList', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep()
 
         // Wait for the asynchronous data fetching
+        await reporter.startStep('Step 2: Wait for the asynchronous data fetching')
         await waitFor(() => expect(screen.getByText('Mock Product')).toBeInTheDocument());
+        await reporter.endStep()
 
         // Assert that the wishlist item is rendered
+        await reporter.startStep('Step 3: Verifying that wishlist item is rendered')
         expect(screen.getByText('Mock Product')).toBeInTheDocument();
+        await reporter.endStep()
     });
 
     it('Handles the case when the user is not logged in', async () => {
@@ -48,7 +54,7 @@ describe('Wishlist.FavouriteList', () => {
         }
 
         const consoleSpy = jest.spyOn(console, 'log');
-
+        await reporter.startStep('Step 1: Rendering the component with mocked user data when user is not logged in')
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: defaultUser }}>
@@ -56,9 +62,12 @@ describe('Wishlist.FavouriteList', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep()
 
         // Assert that the login message is displayed
+        await reporter.startStep('Step 2: Verifying login message is displayed')
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Wishlist products');
+        await reporter.endStep()
     });
 
     it('Handles the case when the component is initially rendered with an empty wishlist', async () => {
@@ -67,6 +76,7 @@ describe('Wishlist.FavouriteList', () => {
             getWishlistService: jest.fn(() => Promise.resolve([])),
         }));
 
+        await reporter.startStep('Step 1: Initiate the rendering of Favourite List component')
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: userDetails }}>
@@ -74,8 +84,11 @@ describe('Wishlist.FavouriteList', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep()
 
         // Assert that no wishlist items are rendered
+        await reporter.startStep('Step 2: Verifying that no wishlist items are rendered')
         expect(screen.queryByText('Mock Product')).toBeNull();
+        await reporter.endStep()
     });
 });
