@@ -21,7 +21,8 @@ const MockUserProvider = ({ children, value }) => {
 };
 
 describe('Details', () => {
-    test('Renders product details', () => {
+    test('Renders product details', async () => {
+        await reporter.startStep('Step 1: Rendering details of product.');
         const detailProduct = {
             id: 1,
             company: 'Company A',
@@ -42,15 +43,19 @@ describe('Details', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
         // Find the product title within an h1 element
+        await reporter.startStep('Step 2: Finding the product title within an header element.');
         const titleElement = screen.queryByText(detailProduct.title, { selector: 'h1' });
         expect(titleElement).toBeInTheDocument();
         expect(screen.getByText('some info about product')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
-    test('Adds product to cart when "add to cart" button is clicked', () => {
-
+    test('Adds product to cart when "add to cart" button is clicked', async () => {
+        await reporter.startStep('Step 1: Mocking the detailProduct with inCart set to false.');
         // Mock the detailProduct with inCart set to false
         const detailProduct = {
             categoryId: "vxxbw52EaQnb6aCDwJAd",
@@ -76,12 +81,16 @@ describe('Details', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Finding and firing click event on "add to cart" button.');
         // Find and click the "add to cart" button
         const addToCartButton = screen.getByText('add to cart');
         fireEvent.click(addToCartButton);
+        await reporter.endStep();
 
         // Verify that the product is added to the cart (e.g., check Redux store)
+        await reporter.startStep('Step 3: Verifying that product is added to the cart');
         const mockedData = [{
             price: 8,
             img: "img/product-3.png",
@@ -97,11 +106,12 @@ describe('Details', () => {
 
         expect(mockedData.length).toBe(1);
         expect(mockedData[0].id).toBe(detailProduct.id);
+        await reporter.endStep();
 
     });
 
-    test('Adds product to wishlist when "add to wishlist" button is clicked', () => {
-
+    test('Adds product to wishlist when "add to wishlist" button is clicked', async () => {
+        await reporter.startStep('Step 1: Mocking the detailProduct with inWishlist set to false.');
         // Mock the detailProduct with inWishlist set to false
         const detailProduct = {
             id: "jf82ctVzCvYD8QgopccX",
@@ -123,12 +133,16 @@ describe('Details', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
         // Find and click the "add to wishlist" button
+        await reporter.startStep('Step 2: Finding and clicking the "add to wishlist" button.');
         const addToWishlistButton = screen.getByText('add to wishlist');
         fireEvent.click(addToWishlistButton);
+        await reporter.endStep();
 
         // Verify that the product is added to the wishlist (e.g., check Redux store)
+        await reporter.startStep('Step 3: Verifying that the product is added to the wishlist.');
         const wishlistData = [{
             categoryId: "vxxbw52EaQnb6aCDwJAd",
             company: "htc",
@@ -145,5 +159,6 @@ describe('Details', () => {
         expect(wishlistData.length).toBe(1);
         expect(wishlistData[0].id).toBe(detailProduct.id);
         expect(addToWishlistButton).toHaveTextContent('add to wishlist');
+        await reporter.endStep();
     });
 });

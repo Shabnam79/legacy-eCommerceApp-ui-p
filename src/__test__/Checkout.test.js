@@ -71,8 +71,10 @@ describe('Cart.Checkout', () => {
         useSelector.mockImplementation((selector) => selector(mockStore.getState()));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('Renders Checkout component with empty cart and Empty cart component render', () => {
+    it('Renders Checkout component with empty cart and Empty cart component render', async () => {
         useSelector.mockImplementationOnce(() => ({ cart: [] }));
+
+        await reporter.startStep('Step 1: Render Checkout component with an empty cart.');
         render(
             <Provider store={mockStore}>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -80,15 +82,20 @@ describe('Cart.Checkout', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep();
 
         //Verify that EmptyCart component is rendered
+        await reporter.startStep('Step 2: Confirm that the Empty Cart component is displayed.');
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
-    it('Renders Checkout component with items in the cart and Order Summary component render', () => {
+    it('Renders Checkout component with items in the cart and Order Summary component render', async () => {
 
         useSelector.mockImplementationOnce(() => ({ cart: [sampleCartItem] }));
 
+        await reporter.startStep('Step 1: Render Checkout component with items in the cart.');
         render(
             <BrowserRouter>
                 <Provider store={mockStore}>
@@ -98,9 +105,13 @@ describe('Cart.Checkout', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
         // Verify that OrderSummary component is rendered
+        await reporter.startStep('Step 2: Ensure Order Summary component is successfully rendered.');
         expect(screen.getByTestId('order-summary')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
 });

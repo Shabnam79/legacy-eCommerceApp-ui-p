@@ -21,7 +21,9 @@ const MockUserProvider = ({ children, value }) => {
 };
 
 describe('Cart.CartTotals', () => {
-    test('Renders CartTotals component', () => {
+    test('Renders CartTotals component', async () => {
+
+        await reporter.startStep('Step 1: Render CartTotals component with mock user and values.');
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -31,17 +33,22 @@ describe('Cart.CartTotals', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
         // Ensure that the component renders properly
+        await reporter.startStep('Step 2: Ensure proper rendering of key elements in CartTotals.');
         expect(screen.getByText('clear cart')).toBeInTheDocument();
         expect(screen.getByText('subtotal :')).toBeInTheDocument();
         expect(screen.getByText('tax :')).toBeInTheDocument();
         expect(screen.getByText('total Amount :')).toBeInTheDocument();
         expect(screen.getByText('Proceed To Checkout')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
-    test('Able to click "clear cart" button to remove an item from cart', () => {
+    test('Able to click "clear cart" button to remove an item from cart', async () => {
 
+        await reporter.startStep('Step 1: Render the CartTotals component with mock data.');
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -53,12 +60,17 @@ describe('Cart.CartTotals', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Simulate a click on the "clear cart" button.');
         fireEvent.click(screen.getByText('clear cart'));
+        await reporter.endStep();
 
     });
 
-    test('Navigates to /checkout when "Proceed To Checkout" button is clicked', () => {
+    test('Navigates to /checkout when "Proceed To Checkout" button is clicked', async () => {
+
+        await reporter.startStep('Step 1: Render CartTotals component with mock user data.');
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -70,14 +82,21 @@ describe('Cart.CartTotals', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Simulate click on "Proceed To Checkout" button.');
         fireEvent.click(screen.getByText('Proceed To Checkout'));
+        await reporter.endStep();
 
         // Ensure that the navigation occurred
+        await reporter.startStep('Step 3: Check if navigation link exists after click.');
         const checkoutButton = screen.getByText('Proceed To Checkout');
         const parentAnchor = checkoutButton.closest('a');
+        await reporter.endStep();
 
+        await reporter.startStep('Step 4: Ensure the link redirects to /checkout page.');
         expect(parentAnchor).toHaveAttribute('href', '/checkout');
-    });
+        await reporter.endStep();
 
+    });
 });

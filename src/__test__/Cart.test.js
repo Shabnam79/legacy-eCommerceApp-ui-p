@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -65,9 +64,10 @@ describe('Cart.Cart', () => {
         useSelector.mockImplementation((selector) => selector({ cart: sampleCartItem }));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('Renders emptycart no items in the cart', () => {
+    it('Renders emptycart no items in the cart', async () => {
         useSelector.mockImplementationOnce(() => ({ cart: [] }));
 
+        await reporter.startStep('Step 1: Rendering cart component by providing mocked user data.');
         render(
             <Provider store={mockStore}>
                 <MockUserProvider value={{ user: mockUserId }}>
@@ -75,12 +75,15 @@ describe('Cart.Cart', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Getting an empty cart component from DOM and verifying no items in the cart.');
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument();
+        await reporter.endStep();
     });
 
     it('Renders cart items when there are items in the cart', async () => {
-
+        await reporter.startStep('Step 1: Rendering cart component by providing mocked user data and store.');
         render(
             <BrowserRouter>
                 <Provider store={mockStore}>
@@ -89,12 +92,13 @@ describe('Cart.Cart', () => {
                     </MockUserProvider>
                 </Provider>
             </BrowserRouter>
-
         );
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Getting cart component from DOM and verifying the items in the cart.');
         await waitFor(() => {
             expect(screen.getByTestId('cart-totals')).toBeInTheDocument();
         });
-
+        await reporter.endStep();
     });
 })

@@ -38,6 +38,8 @@ describe('Cart.CheckoutForm', () => {
         );
 
     test('Renders shipping address when user is logged in', async () => {
+
+        await reporter.startStep('Step 1: Initialize mock values for cart subtotal and total.');
         const mockValue = {
             cartSubTotal: 100,
             cartTax: 10,
@@ -45,6 +47,7 @@ describe('Cart.CheckoutForm', () => {
             cart: [
             ],
         };
+        await reporter.endStep();
 
         const mockGetDocs = jest.fn(() =>
             Promise.resolve({
@@ -56,8 +59,10 @@ describe('Cart.CheckoutForm', () => {
             getDocs: mockGetDocs,
         }));
 
+        await reporter.startStep('Step 2: Render component with mocked data using Firestore.');
         renderComponent({ value: mockValue });
-    });
+        await reporter.endStep();
 
+    });
 });
 

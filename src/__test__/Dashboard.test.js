@@ -31,19 +31,26 @@ jest.mock('../../src/firebase/services/product.service.js', () => ({
 describe('Admin.Dashboard', () => {
     test('Renders product data correctly', async () => {
         // Arrange
+        await reporter.startStep('Step 1: Render Dashboard with mock user.');
         const mockUser = { userId: '123' };
         jest.spyOn(React, 'useContext').mockReturnValueOnce({ user: mockUser });
         render(<Dashboard />);
+        await reporter.endStep();
 
         // Act
+        await reporter.startStep('Step 2: Wait for asynchronous actions to complete.');
         await waitFor(() => { });
+        await reporter.endStep();
 
         // Assert
+        await reporter.startStep('Step 3: Confirm "Add Product" text presence.');
         expect(screen.getByText('Add Product')).toBeInTheDocument();
+        await reporter.endStep();
     });
 
     test('Renders product columns after fetching', async () => {
         // Arrange
+        await reporter.startStep('Step 1: Set up mock data and fetch product columns.');
         const mockUser = { userId: '123' };
         jest.spyOn(React, 'useContext').mockReturnValueOnce({ user: mockUser });
         const mockProductData = [
@@ -79,14 +86,18 @@ describe('Admin.Dashboard', () => {
         global.fetch = jest.fn().mockResolvedValue({
             json: jest.fn().mockResolvedValue(mockProductData),
         });
+        await reporter.endStep();
 
         // Act
+        await reporter.startStep('Step 2: Render Dashboard and wait for data.');
         render(<Dashboard />);
         await waitFor(() => { });
+        await reporter.endStep();
 
         // Assert
+        await reporter.startStep('Step 3: Ensure two rows are present (header, product).');
         expect(screen.queryAllByRole('rowgroup')).toHaveLength(2); // Header row and data row
-
+        await reporter.endStep();
 
     });
 
