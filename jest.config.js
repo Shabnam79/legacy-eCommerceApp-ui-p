@@ -10,4 +10,5 @@ module.exports = {
         "jest-allure"
     ],
     testRunner: 'jest-jasmine2',
+    //maxWorkers: '50%',
 };
