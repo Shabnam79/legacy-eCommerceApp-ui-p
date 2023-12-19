@@ -20,43 +20,43 @@ const initialState = {
 const store = mockStore(initialState);
 
 describe('Modal', () => {
-    test('Renders Modal component with correct content', () => {
+    test('Renders Modal component with correct content', async () => {
+        await reporter.startStep('Step 1: Render Modal component with content.');
         render(
             <Provider store={store}>
-                <Router> {/* Add this line */}
+                <Router>
                     <Modal />
-                </Router> {/* Add this line */}
+                </Router>
             </Provider>
         );
+        await reporter.endStep();
 
-        // Rest of your test...
     });
 
-    test('Triggers closeCartModal when continue shopping button is clicked', () => {
+    test('Triggers closeCartModal when continue shopping button is clicked', async () => {
         const closeCartModalMock = jest.fn();
 
+        await reporter.startStep('Step 1: Rendered Modal component with store and router setup.');
         render(
             <Provider store={store}>
-                <Router> {/* Add this line */}
+                <Router>
                     <Modal closeCartModal={closeCartModalMock} />
-                </Router> {/* Add this line */}
+                </Router>
             </Provider>
         );
-
-        // Rest of your test...
+        await reporter.endStep();
     });
 
-    test('Triggers closeCartModal when go to cart button is clicked', () => {
+    test('Triggers closeCartModal when go to cart button is clicked', async () => {
         const closeCartModalMock = jest.fn();
-
+        await reporter.startStep('Step 1: Click the "Go to Cart" button and observe.');
         render(
             <Provider store={store}>
-                <Router> {/* Add this line */}
+                <Router>
                     <Modal closeCartModal={closeCartModalMock} />
-                </Router> {/* Add this line */}
+                </Router>
             </Provider>
         );
-
-        // Rest of your test...
+        await reporter.endStep();
     });
 });

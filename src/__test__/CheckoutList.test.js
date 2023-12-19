@@ -54,6 +54,8 @@ jest.mock('../../src/firebase/services/cart.service', () => ({
 
 describe('Cart.CheckoutList', () => {
     it('Renders the component', async () => {
+
+        await reporter.startStep('Step 1: Initiates rendering with mock user and empty cart.');
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -63,16 +65,22 @@ describe('Cart.CheckoutList', () => {
                 </Provider>
             );
         });
+        await reporter.endStep();
 
         //Wait for the data to be fetched
+        await reporter.startStep('Step 2: Verifies successful rendering of products in the cart.');
         await waitFor(() => {
             expect(screen.getByText('Product 1')).toBeInTheDocument();
             expect(screen.getByText('Product 2')).toBeInTheDocument();
         });
+        await reporter.endStep();
+
     });
 
     it('Renders a message when the user is not logged in', async () => {
         const consoleSpy = jest.spyOn(console, 'log');
+
+        await reporter.startStep('Step 1: Ensure rendering of CheckoutList with empty cart');
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -82,14 +90,18 @@ describe('Cart.CheckoutList', () => {
                 </Provider>
             );
         });
+        await reporter.endStep();
 
         // Check if the login message is displayed
+        await reporter.startStep('Step 2: Verify login message is displayed correctly.');
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Cart products');
+        await reporter.endStep();
+
     });
 
     it('Calls fetchAddToCartData when mounted', async () => {
         //const fetchAddToCartData = jest.fn();
-
+        await reporter.startStep('Step 1: Mounts CheckoutList component with empty cart state.');
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -99,13 +111,17 @@ describe('Cart.CheckoutList', () => {
                 </Provider>
             );
         });
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Verifies getCartProductsService is called with correct userId.');
         await waitFor(() => {
             expect(getCartProductsService).toHaveBeenCalledWith(mockUser.userId);
         });
+        await reporter.endStep();
     });
 
     it('Calls fetchAddToCartData when the user is logged in', async () => {
+        await reporter.startStep('Step 1: Render CheckoutList component with mock user.');
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -115,9 +131,12 @@ describe('Cart.CheckoutList', () => {
                 </Provider>
             );
         });
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Verify presence of Product 1 and Product 2.');
         expect(screen.getByText('Product 1')).toBeInTheDocument();
         expect(screen.getByText('Product 2')).toBeInTheDocument();
+        await reporter.endStep();
 
         // // Simulate a user login
         jest.mock('../../src/utils/userContext', () => ({
@@ -126,6 +145,7 @@ describe('Cart.CheckoutList', () => {
         }));
 
         // Rerender the component to trigger useEffect
+        await reporter.startStep('Step 3: Simulate user login and trigger useEffect.');
         await act(async () => {
             render(
                 <Provider store={store}>
@@ -135,13 +155,14 @@ describe('Cart.CheckoutList', () => {
                 </Provider>
             );
         });
-
+        await reporter.endStep();
 
         //Wait for the calling fetchAddToCartData
+        await reporter.startStep('Step 4: Ensure fetchAddToCartData is called with user ID.');
         await waitFor(() => {
             expect(getCartProductsService).toHaveBeenCalledWith(mockUser.userId);
         });
+        await reporter.endStep();
 
     });
-
 });

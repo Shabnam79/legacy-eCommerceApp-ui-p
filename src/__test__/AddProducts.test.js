@@ -13,23 +13,30 @@ jest.mock('react-toastify', () => ({
 
 
 describe('Admin.AddProducts', () => {
-    it('Renders form elements of Add Product component', () => {
+    it('Renders form elements of Add Product component', async () => {
+        await reporter.startStep('Step 1: Render the Add Product component');
         render(<AddProducts />);
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Rendering form elements');
         // Ensure that form elements are rendered
         expect(screen.getByText('Select Categories')).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Enter Product Name/i)).toBeInTheDocument();
+        await reporter.endStep();
     });
 
     it('Submits the form correctly', async () => {
+
+        await reporter.startStep('Step 1: Rendering Add Products');
         render(<AddProducts />);
+        await reporter.endStep();
 
         jest.mock('../../src/components/Admin/AddProducts', () => ({
             uploadFile: jest.fn().mockImplementation(() => { }),
             fetchStoreProductData: jest.fn().mockImplementation(() => { })
         }));
 
-
+        await reporter.startStep('Step 2: Filling out the form');
         // Fill out the form
         userEvent.upload(screen.getByPlaceholderText('Upload image'), new File(['(⌐□_□)'], 'test-image.png', { type: 'image/png' }));
         userEvent.type(screen.getByPlaceholderText(/Enter Product Name/i), 'Test Product');
@@ -37,9 +44,12 @@ describe('Admin.AddProducts', () => {
         userEvent.type(screen.getByPlaceholderText(/Enter Quantity of Product/i), '2');
         userEvent.type(screen.getByPlaceholderText(/Enter Product Description.../i), 'Testing');
         userEvent.type(screen.getByPlaceholderText(/Enter Product Company.../i), 'Testing123');
+        await reporter.endStep();
 
+        await reporter.startStep('Step 3: Submitting the form');
         // Submit the form
         fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+        await reporter.endStep();
     });
 
 });

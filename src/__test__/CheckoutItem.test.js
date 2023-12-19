@@ -21,24 +21,32 @@ describe('Cart.CheckoutItem', () => {
 
     const mockFetchAddToCartData = jest.fn();
 
-    test('Renders the Checkout Item component without crashing', () => {
+    test('Renders the Checkout Item component without crashing', async () => {
+
+        await reporter.startStep('Step 1: Render Checkout Item component with mock data.');
         render(
             <Provider store={store}>
                 <CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} />
             </Provider>
         );
+        await reporter.endStep();
+
     });
 
 
-    test('Renders product details correctly', () => {
+    test('Renders product details correctly', async () => {
+
+        await reporter.startStep('Step 1: Initiate rendering of CheckoutItem component with mock data.');
         render(<Provider store={store}><CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} /> </Provider>);
+        await reporter.endStep();
 
         // Check if product details are rendered
+        await reporter.startStep('Step 2: Verify product details display correctly on the screen.');
         expect(screen.getByAltText('product')).toBeInTheDocument();
         expect(screen.getByText(/product/i)).toBeInTheDocument();
         expect(screen.getByText(/price/i)).toBeInTheDocument();
         expect(screen.getByText(`$ ${mockItem.price * mockItem.count}`)).toBeInTheDocument();
+        await reporter.endStep();
+
     });
-
-
 });
