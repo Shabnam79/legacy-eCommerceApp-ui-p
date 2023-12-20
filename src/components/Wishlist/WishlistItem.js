@@ -40,9 +40,9 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
                 <img src={img} style={{ width: "15rem", height: "12rem" }} className="img-fluid" alt="product" />
             </div>
             <div style={{ marginTop: '30px', width: '200px' }}>
-                <span style={{ ...fontfamily }}> </span><span style={{ ...fontfamily, fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span><div></div>
-                <span style={{ ...fontfamily, ...fontsize }}>by </span><span style={{ ...fontfamily, ...fontsize }}>{company}</span><div></div>
-                <span style={{ ...fontfamily, ...fontsize }}>$</span><span style={{ ...fontfamily, fontSize: '15px' }}>{price}</span>
+                <span style={{ ...fontfamily }}> </span><span id="spWishlistTitle" style={{ ...fontfamily, fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span><div></div>
+                <span style={{ ...fontfamily, ...fontsize }}>by </span><span id="spWishlistCompany" style={{ ...fontfamily, ...fontsize }}>{company}</span><div></div>
+                <span style={{ ...fontfamily, ...fontsize }}>$</span><span id="spWishlistCompany" style={{ ...fontfamily, fontSize: '15px' }}>{price}</span>
             </div>
             {/* <div className="col-10 mx-auto col-lg-2">
                 <span className="d-lg-none" style={{...fontfamily}}>product : </span>{title}
