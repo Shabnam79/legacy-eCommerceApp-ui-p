@@ -13,18 +13,15 @@ export default function UserList() {
     useEffect(() => {
         fetchUserData();
         document.title = "Admin - User Management"
-    }, [user.userId]);
+    }, []);
 
     const fetchUserData = async () => {
-        if (user.userId) {
+      
             let data = await getUserData();
             if (data != undefined) {
                 debugger
                 setUserData(data);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const UserActive = async (item) => {

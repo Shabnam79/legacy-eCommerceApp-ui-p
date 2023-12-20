@@ -1,4 +1,4 @@
-import { collection, doc,deleteDoc, getDocs, query, where, addDoc, updateDoc, setDoc } from "firebase/firestore";
+import { collection, doc,deleteDoc, getDocs, query, where, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
 
@@ -35,9 +35,9 @@ export const getProductsService = async () => {
 export const deleteRecordFromFirebaseService = async (doc) => {
     await deleteDoc(doc);
 }
-export const getProductsServiceByUserId = async (userId) => {
+export const getProductsServiceByUserId = async () => {
     const q = query(
-        collection(db, "storeProducts"), where("userId", "==", userId)
+        collection(db, "storeProducts")
     )
 
     const querySnapshot = await getDocs(q);

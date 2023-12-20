@@ -11,7 +11,7 @@ import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -24,7 +24,7 @@ const schema = yup.object().shape({
 });
 
 export default function CreateUsers() {
-
+    const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
@@ -35,7 +35,7 @@ export default function CreateUsers() {
     useEffect(() => {
         fetchRolelist();
         document.title = "Admin - Create Users"
-    }, [user.userId]);
+    }, []);
 
 
     const fetchRolelist = async () => {
@@ -80,6 +80,7 @@ export default function CreateUsers() {
                     });
                 }
             });
+            navigate('/admin/UserList');
     }
 
   return (
