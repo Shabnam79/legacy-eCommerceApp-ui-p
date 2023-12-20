@@ -9,7 +9,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const dispatch = useDispatch();
     const { id, title, img, price, total, count, quantity } = item;
-
+    console.log(item.count);
     const removeProductHandler = async (item) => {
         try {
             const addToCartDoc = await getProductByIdService(item.id);
@@ -67,9 +67,9 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
             <div className="col-10 mx-auto col-lg-2 my-2 my-lg-2-0">
                 <div className="d-flex justify-content-center">
                     <div>
-                        <span id="spDecItem" className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
-                        <span id="spCountItem" className="btn btn-black mx-1">{count}</span>
-                        <span id="spIncItem" className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
+                        <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
+                        <span className="btn btn-black mx-1">{count}</span>
+                        <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
                     </div>
                 </div>
             </div>

@@ -4,12 +4,12 @@ import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService, getUserDataByIdService, updateRoleUsersService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useParams } from 'react-router-dom';
 
 export default function EditUsers() {
-
+    const navigate = useNavigate();
     const [UserRoleData, setUserRoleData] = useState({
         role: '',
         roleId: '',
@@ -33,7 +33,7 @@ export default function EditUsers() {
         fetchUserData(UserRoleId);
         fetchRolelist();
         document.title = "Admin - Edit Users"
-    }, [user.userId]);
+    }, []);
 
 
     const fetchRolelist = async () => {
@@ -50,7 +50,7 @@ export default function EditUsers() {
     }
 
     const fetchUserData = async (UserRoleId) => {
-        if (user.userId) {
+        
             let data = await getUserDataByIdService(UserRoleId);
             if (data != undefined) {
                 debugger
@@ -59,9 +59,6 @@ export default function EditUsers() {
                 setRoleIdValue(data[0].roleId);
                 setUserIdValue(data[0].id);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
 
@@ -77,19 +74,19 @@ export default function EditUsers() {
     };
 
     const handleSubmit = async (e) => {
-        debugger
+
         e.preventDefault();
         let addToUserRoleObj = {
             roleId: RoleIdValue,
             role: selectedValue,
             id:UserIdValue
         };
-        debugger
         await updateRoleUsersService(addToUserRoleObj);
         
         toast.success('Role Updated in admin list ', {
             autoClose: 1000,
         });
+        navigate('/admin/UserList');
     }
   
     return (

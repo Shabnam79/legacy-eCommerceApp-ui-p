@@ -16,9 +16,9 @@ export const updateCategoryIntoProductCategoryService = async (Category, categor
     });
 }
 
-export const getCategoryServiceByUserId = async (userId) => {
+export const getCategoryServiceByUserId = async () => {
     const q = query(
-        collection(db, "productCategory"), where("userId", "==", userId)
+        collection(db, "productCategory")
     )
 
     const querySnapshot = await getDocs(q);
@@ -32,4 +32,14 @@ export const getCategoryByIdService = async (categoryId) => {
 
 export const deleteRecordFromFirebaseService = async (doc) => {
     await deleteDoc(doc);
+}
+
+export const getCategoryByCategoryIdService = async (id) => {
+    const q = query(
+        collection(db, "storeProducts"), where("categoryId", "==", id)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
 }

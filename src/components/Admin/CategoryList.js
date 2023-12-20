@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import {
     deleteRecordFromFirebaseService,
     getCategoryServiceByUserId,
-    getCategoryByIdService
+    getCategoryByIdService,
+    getCategoryByCategoryIdService
 } from '../../firebase/services/category.service';
 import userContext from "../../utils/userContext.js";
 import { toast } from "react-toastify";
@@ -18,32 +19,43 @@ export default function CategoryList() {
     useEffect(() => {
         fetchStoreCategoryData();
         document.title = "Admin - Category List"
-    }, [user.userId]);
+    }, []);
 
     const fetchStoreCategoryData = async () => {
-        debugger
-        if (user.userId) {
-            let data = await getCategoryServiceByUserId(user.userId);
+       
+            let data = await getCategoryServiceByUserId();
             if (data != undefined) {
                 setCategoryData(data);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const removeCategoryHandler = async (item) => {
         try {
-            const deleteStroeProcduct = await getCategoryByIdService(item.id);
-            await deleteRecordFromFirebaseService(deleteStroeProcduct);
-
-            toast.warning(
-                `Ctaegory removed from the List`,
+            debugger
+                let CategoryAlreadyExistInProduct_Data = await getCategoryByCategoryIdService(item.id);
+                console.log(CategoryAlreadyExistInProduct_Data[0]);
+                if (CategoryAlreadyExistInProduct_Data[0] != undefined) 
                 {
-                    autoClose: 1000,
+                    toast.warning(
+                        `Ctaegory already exist into product List`,
+                        {
+                            autoClose: 1000,
+                        }
+                    );
                 }
-            );
+                else
+                {
+                    debugger
+                    const deleteCategory = await getCategoryByIdService(item.id);
+                    await deleteRecordFromFirebaseService(deleteCategory);
 
+                    toast.warning(
+                            `Ctaegory removed from the List`,
+                            {
+                                autoClose: 1000,
+                            }
+                        );
+                }
             fetchStoreCategoryData();
         }
         catch (e) {

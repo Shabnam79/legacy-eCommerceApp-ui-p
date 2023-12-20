@@ -8,10 +8,11 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {ref, uploadBytes, getDownloadURL, listAll} from "firebase/storage";
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AddProducts() {
-
+    
+    const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [name, setName] = useState({
         category: '',
@@ -24,11 +25,8 @@ function AddProducts() {
         userId: user.userId,
         productId:'',
         quantity:'',
-        img: ''
-        // count: '',
-        // inCart: false,
-        // inWishlist: false,
-        // total: '',
+        img: '',
+        count:'1'
     });
 
      {/* Added code for Category dropdown bind - By noor */}
@@ -48,7 +46,7 @@ function AddProducts() {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Add Product"
-    }, [user.userId]);
+    }, []);
     
 
     const handleInputChange = (e) => {
@@ -76,7 +74,7 @@ function AddProducts() {
         let addToProductObj = {
             ...name,
             isStock : isStockValue,
-            quantity : name.quantity,
+            quantity : name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj);
         uploadFile();
@@ -127,7 +125,7 @@ function AddProducts() {
     };
 
     const fetchStoreProductData = async (productId, url) => {
-        if (user.userId) {
+
             let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 let updateImageToProductObj ={
@@ -140,15 +138,14 @@ function AddProducts() {
                     title:data[0].title,
                     isStock:data[0].isStock,
                     id:data[0].id,
+                    count:data[0].count,
                     productId:ProductIdValue,
                     userId:user.userId,
                     img : url,
                 };
                 saveUpdateProductStore(updateImageToProductObj);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
+            navigate('/admin');
     }
        
     const handleFileRemove = (index) => {
