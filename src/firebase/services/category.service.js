@@ -33,3 +33,13 @@ export const getCategoryByIdService = async (categoryId) => {
 export const deleteRecordFromFirebaseService = async (doc) => {
     await deleteDoc(doc);
 }
+
+export const getCategoryByCategoryIdService = async (id) => {
+    const q = query(
+        collection(db, "storeProducts"), where("categoryId", "==", id)
+    )
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs
+        .map((doc) => ({ ...doc.data(), id: doc.id }));
+}

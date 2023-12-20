@@ -25,7 +25,8 @@ function AddProducts() {
         userId: user.userId,
         productId:'',
         quantity:'',
-        img: ''
+        img: '',
+        count:'1'
     });
 
      {/* Added code for Category dropdown bind - By noor */}
@@ -73,7 +74,7 @@ function AddProducts() {
         let addToProductObj = {
             ...name,
             isStock : isStockValue,
-            quantity : name.quantity,
+            quantity : name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj);
         uploadFile();
@@ -137,6 +138,7 @@ function AddProducts() {
                     title:data[0].title,
                     isStock:data[0].isStock,
                     id:data[0].id,
+                    count:data[0].count,
                     productId:ProductIdValue,
                     userId:user.userId,
                     img : url,
