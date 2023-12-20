@@ -38,7 +38,7 @@ function Dashboard() {
             const deleteStroeProcduct= await getProductByIdService(item.id);
             await deleteRecordFromFirebaseService(deleteStroeProcduct);
             toast.warning(
-                `Product removed from the Cart`,
+                `Product removed from the admin List.`,
                 {
                     autoClose: 1000,
                 }

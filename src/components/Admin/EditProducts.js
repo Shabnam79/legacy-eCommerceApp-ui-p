@@ -26,7 +26,8 @@ function EditProducts() {
         isStock:true,
         userId: user.userId,
         productId:'',
-        img:''
+        img:'',
+        count:'1'
         
     });
 
@@ -60,7 +61,8 @@ function EditProducts() {
         isStock:true,
         userId: user.userId,
         productId:'',
-        quantity:''
+        quantity:'',
+        count:'1'
     });
 
     const fetchCategorylist = async () => {
@@ -152,6 +154,7 @@ function EditProducts() {
                     title:data[0].title,
                     isStock:data[0].isStock,
                     id:data[0].id,
+                    count:data[0].count,
                     productId:ProductIdValue,
                     userId:user.userId,
                     img : url,
