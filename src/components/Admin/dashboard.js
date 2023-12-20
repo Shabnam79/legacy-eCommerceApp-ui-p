@@ -86,7 +86,7 @@ function Dashboard() {
                                                 {item.price}
                                             </td>
                                             <td>
-                                                {item.count}
+                                                {item.quantity}
                                             </td>
                                             <td>
                                                 {item.info}
