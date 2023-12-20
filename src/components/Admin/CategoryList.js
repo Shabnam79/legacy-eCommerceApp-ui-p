@@ -18,18 +18,14 @@ export default function CategoryList() {
     useEffect(() => {
         fetchStoreCategoryData();
         document.title = "Admin - Category List"
-    }, [user.userId]);
+    }, []);
 
     const fetchStoreCategoryData = async () => {
-        debugger
-        if (user.userId) {
-            let data = await getCategoryServiceByUserId(user.userId);
+       
+            let data = await getCategoryServiceByUserId();
             if (data != undefined) {
                 setCategoryData(data);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const removeCategoryHandler = async (item) => {

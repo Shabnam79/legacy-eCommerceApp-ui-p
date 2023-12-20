@@ -4,10 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
 import { saveCategoryIntoProductCategoryService, getCategoryServiceByUserId } from '../../firebase/services/category.service';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddCategories() {
   
+    const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [name, setName] = useState({
         Category: ''
@@ -15,7 +16,7 @@ export default function AddCategories() {
    
     useEffect(() => {
         document.title = "Admin - Add Category"
-    }, [user.userId]);
+    }, []);
 
 
     const handleInputChange = (e) => {
@@ -34,7 +35,6 @@ export default function AddCategories() {
             ...name
         };
         
-        if (user.userId) {
             let data = await getCategoryServiceByUserId(user.userId);
             if (data != undefined) {
             let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == addToCategoryObj.Category.toUpperCase()).map(x => x.id)[0];
@@ -55,10 +55,7 @@ export default function AddCategories() {
                     return;
                 }
             }
-        } else {
-            console.log("Please login to see past Cart category");
-        }
-        
+            navigate('/admin/CategoryList');
     }
   
     return (

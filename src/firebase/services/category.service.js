@@ -16,9 +16,9 @@ export const updateCategoryIntoProductCategoryService = async (Category, categor
     });
 }
 
-export const getCategoryServiceByUserId = async (userId) => {
+export const getCategoryServiceByUserId = async () => {
     const q = query(
-        collection(db, "productCategory"), where("userId", "==", userId)
+        collection(db, "productCategory")
     )
 
     const querySnapshot = await getDocs(q);

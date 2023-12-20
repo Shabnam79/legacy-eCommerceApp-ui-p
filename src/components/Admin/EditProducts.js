@@ -10,11 +10,11 @@ import {ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Col, Image, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function EditProducts() {
     const { user } = useContext(userContext);
-
+    const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
         category: '',
         categoryId: '',
@@ -48,7 +48,7 @@ function EditProducts() {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Edit Product"
-    }, [user.userId]);
+    }, []);
 
     const [name, setName] = useState({
         category: '',
@@ -77,7 +77,7 @@ function EditProducts() {
     }
 
     const fetchStoreProductData = async (productId) => {
-        if (user.userId) {
+        
             let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 setProductData(data[0]);
@@ -86,9 +86,6 @@ function EditProducts() {
                 setIsStockValue(data[0].isStock);
                 setProductIdValue(data[0].productId);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const handleInputChange = (event) => {
@@ -142,7 +139,7 @@ function EditProducts() {
     };
 
     const fetchProductDataForImage = async (productId, url) => {
-        if (user.userId) {
+        
             let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 let updateImageToProductObj ={
@@ -161,9 +158,7 @@ function EditProducts() {
                 };
                 saveUpdateProductStore(updateImageToProductObj);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
+            navigate('/admin');
     }
 
     const handleFileRemove = (index) => {

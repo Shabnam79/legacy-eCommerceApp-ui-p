@@ -105,8 +105,8 @@ const Login = () => {
                         //     alert(JSON.stringify(data));
                         // }}
                         initialValues={{
-                            email: 'Test1234@gmail.com',
-                            password: 'Test1234',
+                            email: 'noorsre@gmail.com',
+                            password: '12345678',
                         }}
                     >
                         {({
