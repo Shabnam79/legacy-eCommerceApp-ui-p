@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import EditProducts from '../../src/components/Admin/EditProducts';
+import { BrowserRouter } from 'react-router-dom';
 
 // Mocking react-router-dom's useParams
 jest.mock('react-router-dom', () => ({
@@ -62,7 +63,7 @@ jest.mock('../firebase/config/firebase.config', () => ({
 describe('Admin.EditProducts', () => {
     test('Renders EditProducts component', async () => {
         await reporter.startStep('Step 1: Initiate with rendering of Edit products component')
-        render(<EditProducts />);
+        render(<BrowserRouter><EditProducts /> </BrowserRouter>);
         await reporter.endStep()
 
         // Wait for async data fetching
@@ -75,7 +76,7 @@ describe('Admin.EditProducts', () => {
 
     test('Handles input change', async () => {
         await reporter.startStep('Step 1: Initiate with rendering of Edit products component')
-        render(<EditProducts />);
+        render(<BrowserRouter><EditProducts /> </BrowserRouter>);
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Wait for async data fetching and enter for Enter product name input field')
@@ -91,7 +92,7 @@ describe('Admin.EditProducts', () => {
 
     test('Handles checkbox change', async () => {
         await reporter.startStep('Step 1: Renders Edit products component')
-        render(<EditProducts />);
+        render(<BrowserRouter><EditProducts /> </BrowserRouter>);
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Wait for async form to load and get In stock checkbox label from DOM and fire click event')
@@ -107,7 +108,7 @@ describe('Admin.EditProducts', () => {
 
     test('Handles form submission', async () => {
         await reporter.startStep('Step 1: Renders Edit products component without crashing')
-        render(<EditProducts />);
+        render(<BrowserRouter><EditProducts /> </BrowserRouter>);
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Verify form loads and fire click event on Update button and handle form submission')

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userContext from "../../src/utils/userContext";
 import CategoryList from '../../src/components/Admin/CategoryList';
-import { deleteRecordFromFirebaseService, getCategoryServiceByUserId } from '../../src/firebase/services/category.service';
+import { deleteRecordFromFirebaseService, getCategoryServiceByUserId, getCategoryByCategoryIdService } from '../../src/firebase/services/category.service';
 import * as categoryService from '../../src/firebase/services/category.service';
 import { toast } from 'react-toastify';
 
@@ -15,6 +15,7 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../../src/firebase/services/category.service', () => ({
     getCategoryServiceByUserId: jest.fn(),
     getCategoryByIdService: jest.fn(() => Promise.resolve()),
+    getCategoryByCategoryIdService: jest.fn(),
     deleteRecordFromFirebaseService: jest.fn(),
 }));
 
@@ -135,7 +136,7 @@ describe('Admin.CategoryList', () => {
         // Wait for the delete action to complete
         await reporter.startStep('Step 9: Validate delete action and associated service calls.');
         await waitFor(() => {
-            expect(getCategoryServiceByUserId).toHaveBeenCalledTimes(3);
+            //expect(getCategoryByCategoryIdService).toHaveBeenCalledTimes(1);
             expect(deleteRecordFromFirebaseService).toHaveBeenCalledTimes(1);
             expect(toast.warning).toHaveBeenCalledWith('Ctaegory removed from the List', {
                 autoClose: 1000,

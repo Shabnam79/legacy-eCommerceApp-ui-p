@@ -35,8 +35,8 @@ describe('Login', () => {
 
         // Check that the initial email and password values are displayed
         await reporter.startStep('Step 2: Verifying component renders with initial values of email and password.')
-        expect(screen.getByLabelText('Email')).toHaveValue('Test1234@gmail.com');
-        expect(screen.getByLabelText('Password')).toHaveValue('Test1234');
+        expect(screen.getByLabelText('Email')).toHaveValue('noorsre@gmail.com');
+        expect(screen.getByLabelText('Password')).toHaveValue('12345678');
         await reporter.endStep()
     });
 
