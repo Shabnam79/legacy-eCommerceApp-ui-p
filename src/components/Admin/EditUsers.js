@@ -13,8 +13,8 @@ export default function EditUsers() {
     const [UserRoleData, setUserRoleData] = useState({
         role: '',
         roleId: '',
-        id:''
-        
+        id: ''
+
     });
 
     let { UserRoleId } = useParams();
@@ -50,15 +50,15 @@ export default function EditUsers() {
     }
 
     const fetchUserData = async (UserRoleId) => {
-        
-            let data = await getUserDataByIdService(UserRoleId);
-            if (data != undefined) {
-                debugger
-                setUserRoleData(data[0]);
-                setSelectedValue(data[0].role);
-                setRoleIdValue(data[0].roleId);
-                setUserIdValue(data[0].id);
-            }
+
+        let data = await getUserDataByIdService(UserRoleId);
+        if (data != undefined) {
+            debugger
+            setUserRoleData(data[0]);
+            setSelectedValue(data[0].role);
+            setRoleIdValue(data[0].roleId);
+            setUserIdValue(data[0].id);
+        }
     }
 
 
@@ -79,53 +79,57 @@ export default function EditUsers() {
         let addToUserRoleObj = {
             roleId: RoleIdValue,
             role: selectedValue,
-            id:UserIdValue
+            id: UserIdValue
         };
         await updateRoleUsersService(addToUserRoleObj);
-        
+
         toast.success('Role Updated in admin list ', {
             autoClose: 1000,
         });
-        navigate('/admin/UserList');
+        if (navigate) {
+            navigate('/admin/UserList');
+        } else {
+            console.error('Navigate is not defined or not a function');
+        }
     }
-  
+
     return (
-    <> 
-               <Form className='d-grid gap-2' style={{ margin: '10rem' }} onSubmit={(e) => handleSubmit(e)}>
-                            <div className="container my-3">
-                                    <Form.Group controlId="validationFormik03">
-                                        <Dropdown title="All Roles" onSelect={(e) => fetchRoleSelectlist(e)}>
-                                            <Dropdown.Toggle  id="dropdown-basic">
-                                                {selectedValue || 'Select Roles'}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                            {dropdown.map((item) => (
-                                                <Dropdown.Item  eventKey={item.id}>{item.roles}</Dropdown.Item>
-                                            ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown> 
-                                        
-                                    </Form.Group>    
-                                </div>
-                    
-                    <Form.Group className='mb-3' controlId='FormEmail'>
-                    <Form.Label>Email :</Form.Label>
-                        <Form.Control
-                        disabled
-                            type='text'
-                            name="email"
-                            value={UserRoleData.email}
-                            placeholder='email'
-                            required
-                            onChange={handleInputChange}
-                        />
+        <>
+            <Form className='d-grid gap-2' style={{ margin: '10rem' }} onSubmit={(e) => handleSubmit(e)}>
+                <div className="container my-3">
+                    <Form.Group controlId="validationFormik03">
+                        <Dropdown title="All Roles" onSelect={(e) => fetchRoleSelectlist(e)}>
+                            <Dropdown.Toggle id="dropdown-basic">
+                                {selectedValue || 'Select Roles'}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {dropdown.map((item) => (
+                                    <Dropdown.Item eventKey={item.id}>{item.roles}</Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+
                     </Form.Group>
-                    
-                    <Button type='submit'>Update</Button>
-                    <Link to={`/admin/UserList`}>
-                            <Button className="btn btn-primary mx-3">Back to User List</Button>
-                    </Link>
+                </div>
+
+                <Form.Group className='mb-3' controlId='FormEmail'>
+                    <Form.Label>Email :</Form.Label>
+                    <Form.Control
+                        disabled
+                        type='text'
+                        name="email"
+                        value={UserRoleData.email}
+                        placeholder='email'
+                        required
+                        onChange={handleInputChange}
+                    />
+                </Form.Group>
+
+                <Button type='submit'>Update</Button>
+                <Link to={`/admin/UserList`}>
+                    <Button className="btn btn-primary mx-3">Back to User List</Button>
+                </Link>
             </Form>
         </>
-  )
+    )
 }
