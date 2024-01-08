@@ -41,10 +41,9 @@ const Orders = () => {
                 orders.length > 0
                     ?
                     <>
-                        <Title name="your" title="orders" />
+                        <Title name="Your" title="Orders" />
                         <OrdersList orders={orders} />
-                    </>
-                    :
+                    </> :
                     <EmptyOrders />
             }
         </section>
