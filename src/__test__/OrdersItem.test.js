@@ -26,8 +26,8 @@ describe('Orders.OrdersItem', () => {
         // Assert that the rendered component contains order details
         await reporter.startStep('Step 2: Verifying rendered component contains order details ')
         expect(screen.getByText('Order Placed')).toBeInTheDocument();
-        expect(screen.getByText('Total')).toBeInTheDocument();
-        expect(screen.getByText('Order Id')).toBeInTheDocument();
+        expect(screen.getByText('Total:')).toBeInTheDocument();
+        expect(screen.getByText('Order Id:')).toBeInTheDocument();
         await reporter.endStep()
 
         // Assert that the rendered component contains product details
@@ -35,7 +35,7 @@ describe('Orders.OrdersItem', () => {
         expect(screen.getByText(mockItem.name)).toBeInTheDocument();
         expect(screen.getByText(`$${mockItem.total}`)).toBeInTheDocument();
         expect(screen.getByText(mockItem.orderId)).toBeInTheDocument();
-        expect(screen.getByText(`★ Rate and Review Product`)).toBeInTheDocument();
+        expect(screen.getByText(`★ Rate Product`)).toBeInTheDocument();
         await reporter.endStep()
     });
 
@@ -67,7 +67,7 @@ describe('Orders.OrdersItem', () => {
 
         // Assert that the rendered component contains a link to review
         await reporter.startStep('Step 2: Verifying rendered component contains a link to review ')
-        const reviewLink = screen.getByRole('link', { name: /rate and review product/i });
+        const reviewLink = screen.getByRole('link', { name: /Rate Product/i });
         expect(reviewLink).toBeInTheDocument();
         expect(reviewLink.href).toContain(`/review/${mockItem.productId}/${mockItem.orderId}`);
         await reporter.endStep()
