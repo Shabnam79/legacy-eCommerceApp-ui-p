@@ -26,7 +26,7 @@ function AddProducts() {
         productId:'',
         quantity:'',
         img: '',
-        count:'1'
+        count:0
     });
 
      {/* Added code for Category dropdown bind - By noor */}

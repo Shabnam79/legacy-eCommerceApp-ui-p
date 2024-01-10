@@ -16,9 +16,10 @@ import { Link, useNavigate } from 'react-router-dom';
 const schema = yup.object().shape({
     email: yup.string()
         .email()
+        .max(254, 'Must be less than or equal to 254 characters')
         .required(),
     password: yup.string()
-        .min(6, 'Must be grater than 6 characters')
+        .min(6, 'Must be greater than 6 characters')
         .max(10, 'Must be less than or equal to 10 characters')
         .required(),
 });
