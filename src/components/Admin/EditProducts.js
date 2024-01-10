@@ -27,7 +27,7 @@ function EditProducts() {
         userId: user.userId,
         productId:'',
         img:'',
-        count:'1'
+        count:0
         
     });
 
@@ -62,7 +62,7 @@ function EditProducts() {
         userId: user.userId,
         productId:'',
         quantity:'',
-        count:'1'
+        count:0
     });
 
     const fetchCategorylist = async () => {

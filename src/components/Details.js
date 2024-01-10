@@ -135,6 +135,7 @@ const Details = () => {
         let productIds = "";
         let Counts = "";
         CartData.map((data) => {
+            
             if (item.id === data.productId) {
                 iscart = true;
                 productIds = data.id;
@@ -145,6 +146,7 @@ const Details = () => {
         });
         if (user.userId) {
             openCartModal(detailProduct);
+            
             if (!iscart) {
                 try {
                     let addToCartProductObj = {
@@ -245,6 +247,7 @@ const Details = () => {
                         <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
+                                console.log(detailProduct);
                                 //openCartModal(detailProduct);
                             }}>
                             {inCart ? "inCart" : "add to cart"}
