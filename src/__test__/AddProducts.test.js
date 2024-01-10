@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddProducts from '../../src/components/Admin/AddProducts';
+import { BrowserRouter } from 'react-router-dom';
 
 
 // Mocking the react-toastify
@@ -15,7 +16,7 @@ jest.mock('react-toastify', () => ({
 describe('Admin.AddProducts', () => {
     it('Renders form elements of Add Product component', async () => {
         await reporter.startStep('Step 1: Render the Add Product component');
-        render(<AddProducts />);
+        render(<BrowserRouter><AddProducts /></BrowserRouter>);
         await reporter.endStep();
 
         await reporter.startStep('Step 2: Rendering form elements');
@@ -28,7 +29,7 @@ describe('Admin.AddProducts', () => {
     it('Submits the form correctly', async () => {
 
         await reporter.startStep('Step 1: Rendering Add Products');
-        render(<AddProducts />);
+        render(<BrowserRouter><AddProducts /></BrowserRouter>);
         await reporter.endStep();
 
         jest.mock('../../src/components/Admin/AddProducts', () => ({
