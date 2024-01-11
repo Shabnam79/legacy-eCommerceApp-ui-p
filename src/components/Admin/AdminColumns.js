@@ -1,36 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-
 function AdminColumns() {
 
     return (
-        <>        <thead>
-            <tr>
-                <th>
-                    CATEGORY
-                </th>
-                <th>
-                    PRODUCTS
-                </th>
-                <th>
-                    NAME OF PRODUCT
-                </th>
-                <th>
-                    PRICE
-                </th>
-                <th>
-                    QUANTITY
-                </th>
-                <th>
-                    DESCRIPTION
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
-        </thead>
+        <>
+            <thead style={{ backgroundColor: "lightgray", height: "40px" }}>
+                <tr>
+                    <th>Category</th>
+                    <th>Products</th>
+                    <th>Name of Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th className='text-center'>Actions</th>
+                </tr>
+            </thead>
         </>
-
     )
 }
 
