@@ -25,8 +25,10 @@ jest.mock('../../src/firebase/services/category.service', () => ({
 }));
 
 
-describe('AddCategories component', () => {
-    test('renders the component', () => {
+describe('Admin.AddCategories', () => {
+
+    test('Renders the Add categories component of Admin', async () => {
+        await reporter.startStep('Step 1: Rendering the component')
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -34,12 +36,20 @@ describe('AddCategories component', () => {
                 </MockUserProvider>
             </BrowserRouter>
         );
+
+        await reporter.endStep()
+
+        await reporter.startStep('Step 2: Verifying result')
         expect(screen.getByText('Submit')).toBeInTheDocument();
-    });
+        await reporter.endStep()
+
+    })
+
 
     test('User should be able to submit the form with valid data', async () => {
 
         // Render the component
+        await reporter.startStep('Step 1: Rendering the component to able to view the form')
         render(
             <BrowserRouter>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -47,13 +57,20 @@ describe('AddCategories component', () => {
                 </MockUserProvider>
             </BrowserRouter>
         );
+        await reporter.endStep()
+
+
+        await reporter.startStep('Step 2: Able to type the data into the input field of Enter Category Name')
         // Type into the input field
         fireEvent.change(screen.getByPlaceholderText('Enter Category Name'), {
             target: { value: 'TestCategory' },
         });
+        await reporter.endStep()
 
+        await reporter.startStep('Step 3: Submit the form')
         // Submit the form
         fireEvent.click(screen.getByText('Submit'));
+        await reporter.endStep()
 
         // Reset mock functions
         jest.clearAllMocks();

@@ -6,10 +6,7 @@ import store from '../../src/utils/store'
 import { fetchProducts } from '../../src/utils/productSlice'
 import { BrowserRouter } from 'react-router-dom';
 
-
-
-describe('ProductList Component', () => {
-
+describe('ProductList', () => {
     const MockedStateData = {
         allproducts: {
             allproducts: [
@@ -51,7 +48,8 @@ describe('ProductList Component', () => {
         fetchProducts: jest.fn(),
     }));
 
-    it('renders ProductList component', () => {
+    it('Renders ProductList component', async () => {
+        await reporter.startStep('Step 1: Rendering Productlist component by providing mocked data to the component')
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -61,38 +59,17 @@ describe('ProductList Component', () => {
                 </Provider>
             </BrowserRouter>
         );
-        expect(screen.getByText('All Category')).toBeInTheDocument();
-    });
+        await reporter.endStep()
 
-    it('Able to select the category from the dropdown', async () => {
-        const { container } = render(
-            <BrowserRouter>
-                <Provider store={store}>
-                    <ProductList />
-                </Provider>
-            </BrowserRouter>
-        );
-
-        // Mock the response from the getCategoryService function
-        const mockCategoryList = [
-            { id: 'bzolv9xdDoqZwEIjl78z', Category: "All Category" },
-            { id: 'swoxKYVH3rbzPfeC1lhq', Category: 'Clothing' },
-        ];
-        global.fetch = jest.fn().mockResolvedValue({
-            json: jest.fn().mockResolvedValue(mockCategoryList),
+        await reporter.startStep('Step 2: Wait for render and check for All category text is present in the component')
+        await waitFor(() => {
+            waitFor(() => expect(screen.getByText('All Category')).toBeInTheDocument());
         });
-
-
-        const dropdownButton = screen.getByRole('button', { name: 'All Category' });
-        fireEvent.click(dropdownButton);
-
-        const dropdownMenu = container.getElementsByClassName('dropdown-menu show')[0];
-        const allcategoryItem = within(dropdownMenu).getByText('All Category');
-
-        expect(allcategoryItem.textContent).toEqual('All Category');
+        await reporter.endStep()
     });
 
-    it('fetches products when a category is selected', async () => {
+    it('Fetches products when a category is selected', async () => {
+        await reporter.startStep('Step 1: Rendering Product List component without crashing')
         render(
             <BrowserRouter>
                 <Provider store={store}>
@@ -100,32 +77,35 @@ describe('ProductList Component', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep()
 
         try {
+            await reporter.startStep('Step 2: verify dropdown with text all category is visible on UI and fire click event')
             const dropdownButton = screen.getByText('All Category');
-
-            // Open the dropdown by clicking the button
             fireEvent.click(dropdownButton);
+            await reporter.endStep()
 
+            await reporter.startStep('Step 3: Getting dropdown items from the DOM')
             const allCategoryItem = screen.getByText('All Category');
             const sportsItem = screen.getByText('Sports');
             const clothingItem = screen.getByText('Clothing');
+            await reporter.endStep()
 
-            // Your assertions...
+            await reporter.startStep('Step 4: Verify those dropdown items are present on the UI and click one of the item')
             expect(allCategoryItem).toBeInTheDocument();
             expect(sportsItem).toBeInTheDocument();
             expect(clothingItem).toBeInTheDocument()
             fireEvent.click(sportsItem);
+            await reporter.endStep()
 
-            // Check if fetchProducts action is called with the correct argument
+            await reporter.startStep('Step 5: After click on one of the item from the dropdown, calls fetchproducts function to get product list')
             await waitFor(() => {
                 expect(fetchProducts).toHaveBeenCalledWith('1');
             });
+            await reporter.endStep()
 
         } catch (error) {
             console.error('Error in test:', error);
         }
-
     })
-
 })

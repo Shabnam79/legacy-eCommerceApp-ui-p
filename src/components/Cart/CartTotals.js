@@ -57,14 +57,14 @@ export default function CartTotals({ value }) {
     }
 
     return <React.Fragment>
-        <div className="container">
+        <div className="container" data-testid='cart-totals'>
             <div className="row">
                 <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
                 <h5>
                         <span style={{...fontfamily}}>subtotal :</span>
                         <strong style={{...fontfamily}}>${cartItems.cart.subTotal}</strong>
                     </h5>
-                    <button style={{...fontfamily}}
+                    <button style={{...fontfamily}} id="btnClearCart"
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                         type="button"
                         onClick={() => {
@@ -72,6 +72,18 @@ export default function CartTotals({ value }) {
                         }}>
                         clear cart
                     </button>
+                    <h5 id="hdCartSubtotal">
+                        <span className="text-title">subtotal :</span>
+                        <strong>{cartItems.cart.subTotal}</strong>
+                    </h5>
+                    <h5 id="hdCartTax">
+                        <span className="text-title">tax :</span>
+                        <strong>{cartItems.cart.tax}</strong>
+                    </h5>
+                    <h5 id="hdCartTotalAmt">
+                        <span className="text-title">total Amount :</span>
+                        <strong>{cartItems.cart.total}</strong>
+                    </h5>
                 </div>
             </div>
                                 

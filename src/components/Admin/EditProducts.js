@@ -10,10 +10,11 @@ import {ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Col, Image, Row } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 function EditProducts() {
     const { user } = useContext(userContext);
-
+    const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
         category: '',
         categoryId: '',
@@ -25,7 +26,8 @@ function EditProducts() {
         isStock:true,
         userId: user.userId,
         productId:'',
-        img:''
+        img:'',
+        count:'1'
         
     });
 
@@ -47,7 +49,7 @@ function EditProducts() {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Edit Product"
-    }, [user.userId]);
+    }, []);
 
     const [name, setName] = useState({
         category: '',
@@ -59,7 +61,8 @@ function EditProducts() {
         isStock:true,
         userId: user.userId,
         productId:'',
-        quantity:''
+        quantity:'',
+        count:'1'
     });
 
     const fetchCategorylist = async () => {
@@ -76,7 +79,7 @@ function EditProducts() {
     }
 
     const fetchStoreProductData = async (productId) => {
-        if (user.userId) {
+        
             let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 setProductData(data[0]);
@@ -85,9 +88,6 @@ function EditProducts() {
                 setIsStockValue(data[0].isStock);
                 setProductIdValue(data[0].productId);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const handleInputChange = (event) => {
@@ -127,7 +127,7 @@ function EditProducts() {
     };
 
     const uploadFile = () => {
-        if (imageUpload.length == 0) return;
+        if (!imageUpload || imageUpload.length == 0) return;
         for (let index = 0; index < imageUpload.length; index++) {
             const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
             debugger
@@ -141,7 +141,7 @@ function EditProducts() {
     };
 
     const fetchProductDataForImage = async (productId, url) => {
-        if (user.userId) {
+        
             let data = await getProductByProductIdService(productId);
             if (data != undefined) {
                 let updateImageToProductObj ={
@@ -154,15 +154,14 @@ function EditProducts() {
                     title:data[0].title,
                     isStock:data[0].isStock,
                     id:data[0].id,
+                    count:data[0].count,
                     productId:ProductIdValue,
                     userId:user.userId,
                     img : url,
                 };
                 saveUpdateProductStore(updateImageToProductObj);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
+            navigate('/admin');
     }
 
     const handleFileRemove = (index) => {
@@ -296,7 +295,9 @@ function EditProducts() {
                         </div>
                     </Form.Group>
                     <Button type='submit'>Update</Button>
-                    
+                    <Link to={`/admin`}>
+                            <Button className="btn btn-primary mx-3">Back to Product List</Button>
+                    </Link>
             </Form>
         </>
     )

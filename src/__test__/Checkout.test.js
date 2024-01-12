@@ -66,13 +66,15 @@ const mockStore = configureStore({
         },
     },
 });
-describe('Store Component', () => {
+describe('Cart.Checkout', () => {
     beforeEach(() => {
         useSelector.mockImplementation((selector) => selector(mockStore.getState()));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('renders Store component with empty cart and Empty cart component render', () => {
+    it('Renders Checkout component with empty cart and Empty cart component render', async () => {
         useSelector.mockImplementationOnce(() => ({ cart: [] }));
+
+        await reporter.startStep('Step 1: Render Checkout component with an empty cart.');
         render(
             <Provider store={mockStore}>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -80,15 +82,20 @@ describe('Store Component', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep();
 
         //Verify that EmptyCart component is rendered
+        await reporter.startStep('Step 2: Confirm that the Empty Cart component is displayed.');
         expect(screen.getByTestId('empty-cart')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
-    it('renders Store component with items in the cart and Order Summary component render', () => {
+    it('Renders Checkout component with items in the cart and Order Summary component render', async () => {
 
         useSelector.mockImplementationOnce(() => ({ cart: [sampleCartItem] }));
 
+        await reporter.startStep('Step 1: Render Checkout component with items in the cart.');
         render(
             <BrowserRouter>
                 <Provider store={mockStore}>
@@ -98,9 +105,13 @@ describe('Store Component', () => {
                 </Provider>
             </BrowserRouter>
         );
+        await reporter.endStep();
 
         // Verify that OrderSummary component is rendered
+        await reporter.startStep('Step 2: Ensure Order Summary component is successfully rendered.');
         expect(screen.getByTestId('order-summary')).toBeInTheDocument();
+        await reporter.endStep();
+
     });
 
 });

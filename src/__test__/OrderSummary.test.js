@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import OrderSummary from '../../src/components/Cart/OrderSummary';
 
-describe('OrderSummary Component', () => {
+describe('Cart.OrderSummary', () => {
 
-    test('renders OrderSummary component without crashing', () => {
+    test('Renders OrderSummary component without crashing', async () => {
         const cartItems = [
             {
                 categoryId: "vxxbw52EaQnb6aCDwJAd",
@@ -35,6 +35,7 @@ describe('OrderSummary Component', () => {
         const shippingCost = 10.00;
         const totalAmount = 60.00;
 
+        await reporter.startStep('Step 1: Rendering the Order Summary component by providing mocked data of cartitems')
         const { getByTestId, getByText } = render(
             <OrderSummary
                 cartItems={cartItems}
@@ -43,14 +44,19 @@ describe('OrderSummary Component', () => {
                 totalAmount={totalAmount}
             />
         );
+        await reporter.endStep()
 
         // Check if the component renders successfully
+        await reporter.startStep('Step 2: Getting an order summary component by test-id from DOM ')
         const orderSummaryElement = getByTestId('order-summary');
-        expect(orderSummaryElement).toBeInTheDocument();
+        await reporter.endStep()
 
+        await reporter.startStep('Step 3: Verifying component renders successfully')
+        expect(orderSummaryElement).toBeInTheDocument();
+        await reporter.endStep()
     });
 
-    test('renders OrderSummary component with correct values', () => {
+    test('Renders OrderSummary component with correct values', async () => {
         const cartItems = [
             {
                 categoryId: "vxxbw52EaQnb6aCDwJAd",
@@ -81,6 +87,7 @@ describe('OrderSummary Component', () => {
         const shippingCost = 10.00;
         const totalAmount = 60.00;
 
+        await reporter.startStep('Step 1: Rendering the Order Summary component providig mocked data to it')
         const { getByTestId, getByText } = render(
             <OrderSummary
                 cartItems={cartItems}
@@ -89,14 +96,19 @@ describe('OrderSummary Component', () => {
                 totalAmount={totalAmount}
             />
         );
+        await reporter.endStep()
 
         // Check if the component renders successfully
+        await reporter.startStep('Step 2: Verifying if component renders successfully ')
         const orderSummaryElement = getByTestId('order-summary');
         expect(orderSummaryElement).toBeInTheDocument();
+        await reporter.endStep()
 
         // Check if the subtotal, shipping, and total amount are displayed correctly
+        await reporter.startStep('Step 1: Verifying if the subtotal, shipping, and total amount are displayed correctly')
         expect(getByText(`Subtotal: $${subtotal.toFixed(2)}`)).toBeInTheDocument();
         expect(getByText(`Shipping: $${shippingCost.toFixed(2)}`)).toBeInTheDocument();
         expect(getByText(`Total Amount: $${totalAmount.toFixed(2)}`)).toBeInTheDocument();
+        await reporter.endStep()
     });
 });

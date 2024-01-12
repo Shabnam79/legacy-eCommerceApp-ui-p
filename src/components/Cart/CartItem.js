@@ -12,7 +12,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const fontsize = {fontSize: 'x-small'};
     const fontfamily = {fontFamily: "Times New Roman"};
     const { id, title, img, price, total, count, quantity } = item;
-
+    console.log(item.count);
     const removeProductHandler = async (item) => {
         try {
             const addToCartDoc = await getProductByIdService(item.id);
@@ -70,10 +70,10 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
                         <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
                     </div></span>
             </div>
-            {/* <div className="col-10 mx-auto col-lg-2">
+            {/* <div id="dvCartProductTitle" className="col-10 mx-auto col-lg-2">
                 <span className="d-lg-none">product : </span>{title}
             </div>
-            <div className="col-10 mx-auto col-lg-2">
+            <div id="dvCartProductPrice" className="col-10 mx-auto col-lg-2">
                 <span className="d-lg-none">price : </span>{price}
             </div>
             <div className="col-10 mx-auto col-lg-2 my-2 my-lg-2-0">
@@ -91,7 +91,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
                     <i className="fas fa-trash" data-testid="trash-icon"></i>
                 </div>
             </div>
-            <div className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
+            <div id="dvCartTotalPrice" className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
                 <strong style={{...fontfamily}}>item total : $ {price * count}</strong>
             </div>
         </div>

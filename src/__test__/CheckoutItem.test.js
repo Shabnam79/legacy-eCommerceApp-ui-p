@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from '../../src/utils/store'
 
 
-describe('CheckoutItem Component', () => {
+describe('Cart.CheckoutItem', () => {
     const mockItem = {
         company: "Mock Product",
         count: 1,
@@ -21,24 +21,32 @@ describe('CheckoutItem Component', () => {
 
     const mockFetchAddToCartData = jest.fn();
 
-    test('renders the Checkout Item component without crashing', () => {
+    test('Renders the Checkout Item component without crashing', async () => {
+
+        await reporter.startStep('Step 1: Render Checkout Item component with mock data.');
         render(
             <Provider store={store}>
                 <CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} />
             </Provider>
         );
+        await reporter.endStep();
+
     });
 
 
-    test('renders product details correctly', () => {
+    test('Renders product details correctly', async () => {
+
+        await reporter.startStep('Step 1: Initiate rendering of CheckoutItem component with mock data.');
         render(<Provider store={store}><CheckoutItem item={mockItem} fetchAddToCartData={mockFetchAddToCartData} /> </Provider>);
+        await reporter.endStep();
 
         // Check if product details are rendered
+        await reporter.startStep('Step 2: Verify product details display correctly on the screen.');
         expect(screen.getByAltText('product')).toBeInTheDocument();
         expect(screen.getByText(/product/i)).toBeInTheDocument();
         expect(screen.getByText(/price/i)).toBeInTheDocument();
         expect(screen.getByText(`$ ${mockItem.price * mockItem.count}`)).toBeInTheDocument();
+        await reporter.endStep();
+
     });
-
-
 });

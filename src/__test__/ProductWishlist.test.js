@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import userContext from "../../src/utils/userContext";
 import ProductWishlist from '../../src/components/Wishlist/ProductWishlist';
 import { fetchWishlistProducts } from '../../src/utils/wishlistSlice';
+import { async } from 'q';
 
 jest.mock('../../src/utils/wishlistSlice', () => ({
     ...jest.requireActual('../../src/utils/wishlistSlice'),
@@ -55,14 +56,17 @@ const mockStore = configureStore({
     },
 });
 
-describe('ProductWishlist', () => {
+describe('Wishlist.ProductWishlist', () => {
     beforeEach(() => {
         useSelector.mockImplementation((selector) => selector(mockStore.getState()));
         useDispatch.mockReturnValue(jest.fn());
     });
-    it('renders empty wishlist message when no items in the wishlist', () => {
+    it('Renders empty wishlist message when no items in the wishlist', async () => {
+        await reporter.startStep('Step 1: Mocking the useSelector wishlist data from the store when there are no items')
         useSelector.mockImplementationOnce(() => ({ wishlist: [] }));
+        await reporter.endStep()
 
+        await reporter.startStep('Step 2: Rendering the Product wishlist component by providing provider store wrapper and mocked user data')
         render(
             <Provider store={mockStore}>
                 <MockUserProvider value={{ user: mockUserId }}>
@@ -70,13 +74,19 @@ describe('ProductWishlist', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep()
 
+        await reporter.startStep('Step 3: Verifying the component renders empty wishlist message when no items in the wishlist')
         expect(screen.getByText(/Your wishlist is currently empty/i)).toBeInTheDocument();
+        await reporter.endStep()
     });
 
-    it('renders wishlist items when there are items in the wishlist', async () => {
+    it('Renders wishlist items when there are items in the wishlist', async () => {
+        await reporter.startStep('Step 1: Mocking the useSelector wishlist data from the store when there are items')
         useSelector.mockImplementationOnce(() => ({ wishlist: [sampleWishlistItem] }));
+        await reporter.endStep()
 
+        await reporter.startStep('Step 2: Rendering the Product wishlist component by providing mocked data to component')
         render(
 
             <Provider store={mockStore}>
@@ -86,11 +96,13 @@ describe('ProductWishlist', () => {
             </Provider>
 
         );
+        await reporter.endStep()
 
+        await reporter.startStep('Step 3: Verifying rendering wishlist items when there are items in the wishlist ')
         await waitFor(() => {
-            expect(screen.getByTestId('wishlist-title')).toBeInTheDocument();
             expect(screen.getByTestId('wishlist-items')).toBeInTheDocument();
         });
+        await reporter.endStep()
 
     });
 

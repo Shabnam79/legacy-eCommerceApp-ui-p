@@ -16,7 +16,7 @@ jest.mock('react-toastify', () => ({
     },
 }));
 
-describe('CheckoutForm component', () => {
+describe('Cart.CheckoutForm', () => {
     const mockUserContextValue = {
         user: {
             userId: 'mockUserId',
@@ -37,7 +37,9 @@ describe('CheckoutForm component', () => {
             }
         );
 
-    test('renders shipping address when user is logged in', async () => {
+    test('Renders shipping address when user is logged in', async () => {
+
+        await reporter.startStep('Step 1: Initialize mock values for cart subtotal and total.');
         const mockValue = {
             cartSubTotal: 100,
             cartTax: 10,
@@ -45,6 +47,7 @@ describe('CheckoutForm component', () => {
             cart: [
             ],
         };
+        await reporter.endStep();
 
         const mockGetDocs = jest.fn(() =>
             Promise.resolve({
@@ -56,8 +59,10 @@ describe('CheckoutForm component', () => {
             getDocs: mockGetDocs,
         }));
 
+        await reporter.startStep('Step 2: Render component with mocked data using Firestore.');
         renderComponent({ value: mockValue });
-    });
+        await reporter.endStep();
 
+    });
 });
 

@@ -10,9 +10,6 @@ import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
 import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
-import { storage } from "../../firebase/config/firebase.config"
-import {ref, getDownloadURL, listAll} from "firebase/storage";
-import { Col, Image, Row } from 'react-bootstrap';
 
 function Dashboard() {
 
@@ -24,23 +21,15 @@ function Dashboard() {
     const [imageUrls, setImageUrls] = useState([]);
 
     useEffect(() => {
-        debugger
         fetchStoreProductData();
         document.title = "Admin - Product Management"
-    }, [user.userId]);
+    }, []);
 
     const fetchStoreProductData = async () => {
-        if (user.userId) {
-            let data = await getProductsServiceByUserId(user.userId);
-            console.log(data);
+            let data = await getProductsServiceByUserId();
             if (data != undefined) {
-                debugger
                 setProductData(data);
-                console.log(data);
             }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
     }
 
     const removeProductHandler = async (item) => {
@@ -49,7 +38,7 @@ function Dashboard() {
             const deleteStroeProcduct= await getProductByIdService(item.id);
             await deleteRecordFromFirebaseService(deleteStroeProcduct);
             toast.warning(
-                `Product removed from the Cart`,
+                `Product removed from the admin List.`,
                 {
                     autoClose: 1000,
                 }
@@ -89,7 +78,7 @@ function Dashboard() {
                                                 {item.price}
                                             </td>
                                             <td>
-                                                {item.count}
+                                                {item.quantity}
                                             </td>
                                             <td>
                                                 {item.info}

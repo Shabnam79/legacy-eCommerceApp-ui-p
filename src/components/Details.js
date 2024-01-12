@@ -34,6 +34,7 @@ const Details = () => {
     useEffect(() => {
         checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
         document.title = detailProduct.title;  
+        console.log(detailProduct.count);
     }, [user.userId]);
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
@@ -129,6 +130,7 @@ const Details = () => {
     }
 
     const addProductIntoCart = async (item) => {
+        console.log(item.count);
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -156,7 +158,7 @@ const Details = () => {
                         title: item.title,
                         count: item.count + 1
                     }
-
+                    
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
