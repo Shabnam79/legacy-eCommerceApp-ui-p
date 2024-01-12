@@ -69,7 +69,7 @@ describe('Admin.EditProducts', () => {
         // Wait for async data fetching
         await reporter.startStep('Step 2: Wait for async data fetching')
         await waitFor(() => {
-            fireEvent.change(screen.getByLabelText('Enter Product Name :'), { target: { value: 'Product1' } });
+            fireEvent.change(screen.getByLabelText('Enter Product Name:'), { target: { value: 'Product1' } });
         });
         await reporter.endStep()
     });
@@ -81,12 +81,12 @@ describe('Admin.EditProducts', () => {
 
         await reporter.startStep('Step 2: Wait for async data fetching and enter for Enter product name input field')
         await act(async () => {
-            fireEvent.change(screen.getByLabelText('Enter Product Name :'), { target: { value: 'NewProduct' } });
+            fireEvent.change(screen.getByLabelText('Enter Product Name:'), { target: { value: 'NewProduct' } });
         });
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Verify from DOM that Enter product name input fields gets the same input field value as entered')
-        expect(screen.getByLabelText('Enter Product Name :')).toHaveValue('NewProduct');
+        expect(screen.getByLabelText('Enter Product Name:')).toHaveValue('NewProduct');
         await reporter.endStep()
     });
 
@@ -97,12 +97,12 @@ describe('Admin.EditProducts', () => {
 
         await reporter.startStep('Step 2: Wait for async form to load and get In stock checkbox label from DOM and fire click event')
         await act(async () => {
-            userEvent.click(screen.getByLabelText('In Stock :'));
+            userEvent.click(screen.getByLabelText('In Stock:'));
         });
         await reporter.endStep()
 
         await reporter.startStep('Step 3: Verify that In stock check box is checked')
-        expect(screen.getByLabelText('In Stock :')).toBeChecked();
+        expect(screen.getByLabelText('In Stock:')).toBeChecked();
         await reporter.endStep()
     });
 

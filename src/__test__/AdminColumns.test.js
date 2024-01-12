@@ -10,12 +10,12 @@ describe('Admin.AdminColumns', () => {
         await reporter.endStep();
 
         await reporter.startStep('Step 2: Rendering all columns headers');
-        expect(getByText('CATEGORY')).toBeInTheDocument();
-        expect(getByText('PRODUCTS')).toBeInTheDocument();
-        expect(getByText('NAME OF PRODUCT')).toBeInTheDocument();
-        expect(getByText('PRICE')).toBeInTheDocument();
-        expect(getByText('QUANTITY')).toBeInTheDocument();
-        expect(getByText('DESCRIPTION')).toBeInTheDocument();
+        expect(getByText('Category')).toBeInTheDocument();
+        expect(getByText('Products')).toBeInTheDocument();
+        expect(getByText('Name of Product')).toBeInTheDocument();
+        expect(getByText('Price')).toBeInTheDocument();
+        expect(getByText('Quantity')).toBeInTheDocument();
+        expect(getByText('Description')).toBeInTheDocument();
         expect(getByText('Actions')).toBeInTheDocument();
         await reporter.endStep();
     });
