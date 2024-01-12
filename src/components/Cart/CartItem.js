@@ -8,6 +8,9 @@ import { incrementCartProductsService, decrementCartProductsService, getProductB
 export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const dispatch = useDispatch();
+    
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     const { id, title, img, price, total, count, quantity } = item;
 
     const removeProductHandler = async (item) => {
@@ -56,9 +59,18 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     return (
         <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "5rem", height: "5rem" }} className="img-fluid" alt="product" />
+                <img src={img} style={{ width: "15rem", height: "12rem" }} className="img-fluid" alt="product" />
             </div>
-            <div className="col-10 mx-auto col-lg-2">
+            <div style={{marginTop:'30px',width: '200px'}}>
+                <span style={{...fontfamily}}> </span><span style={{...fontfamily,fontSize:'14px',fontWeight:'bold',color:'#12499E'}}>{title}</span><div></div>
+                <span style={{...fontfamily,...fontsize}}>$ </span><span style={{...fontfamily,...fontsize}}>{price}</span><div></div>
+                <span  style={{...fontfamily,...fontsize}}>QTY<div>
+                        <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
+                        <span className="btn btn-black mx-1">{count}</span>
+                        <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
+                    </div></span>
+            </div>
+            {/* <div className="col-10 mx-auto col-lg-2">
                 <span className="d-lg-none">product : </span>{title}
             </div>
             <div className="col-10 mx-auto col-lg-2">
@@ -72,15 +84,15 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
                         <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/**/}
-            <div className="col-10 mx-auto col-lg-2">
+            <div className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
                 <div className="cart-icon" onClick={() => removeProductHandler(item)}>
                     <i className="fas fa-trash" data-testid="trash-icon"></i>
                 </div>
             </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <strong>item total : $ {price * count}</strong>
+            <div className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
+                <strong style={{...fontfamily}}>item total : $ {price * count}</strong>
             </div>
         </div>
     )

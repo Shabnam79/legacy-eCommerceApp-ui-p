@@ -2,9 +2,10 @@ import React from 'react';
 
 function OrderSummary(props) {
     const { cartItems, subtotal, shippingCost, totalAmount } = props;
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     return (
-        <div className="order-summary" data-testid="order-summary">
+        <div className="order-summary" data-testid="order-summary" style={{float:"right"}}>
             {/* <h3>Order Summary</h3> */}
             {/* <ul className="order-items">
                 {cartItems.map((item, index) => (
@@ -15,12 +16,12 @@ function OrderSummary(props) {
                     </li>
                 ))}
             </ul> */}
-            <div className="order-total">
-                <div className="subtotal">Subtotal: ${subtotal.toFixed(2)}</div>
-                <div className="shipping">Shipping: ${shippingCost.toFixed(2)}</div>
+            <div className="order-total" >
+                <div className="subtotal" style={{...fontfamily}}>Subtotal: ${subtotal.toFixed(2)}</div>
+                <div className="shipping" style={{...fontfamily}}>Shipping: ${shippingCost.toFixed(2)}</div>
             </div>
             <div>
-                <strong>Total Amount: ${totalAmount.toFixed(2)}</strong>
+                <strong style={{...fontfamily}}>Total Amount: ${totalAmount.toFixed(2)}</strong>
             </div>
         </div>
     );

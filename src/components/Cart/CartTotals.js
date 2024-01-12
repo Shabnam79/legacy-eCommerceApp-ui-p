@@ -14,7 +14,8 @@ import { deleteRecordFromFirebaseService } from '../../firebase/services/product
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     const { cartSubTotal, cartTax, cartTotal, cart } = value;
     const { user } = useContext(userContext)
 
@@ -59,7 +60,11 @@ export default function CartTotals({ value }) {
         <div className="container">
             <div className="row">
                 <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
-                    <button
+                <h5>
+                        <span style={{...fontfamily}}>subtotal :</span>
+                        <strong style={{...fontfamily}}>${cartItems.cart.subTotal}</strong>
+                    </h5>
+                    <button style={{...fontfamily}}
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                         type="button"
                         onClick={() => {
@@ -67,26 +72,22 @@ export default function CartTotals({ value }) {
                         }}>
                         clear cart
                     </button>
-                    <h5>
-                        <span className="text-title">subtotal :</span>
-                        <strong>{cartItems.cart.subTotal}</strong>
-                    </h5>
-                    <h5>
-                        <span className="text-title">tax :</span>
-                        <strong>{cartItems.cart.tax}</strong>
-                    </h5>
-                    <h5>
-                        <span className="text-title">total Amount :</span>
-                        <strong>{cartItems.cart.total}</strong>
-                    </h5>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
+                                
+            <h5>
+                        <span style={{...fontfamily,...fontsize}} className="text-title">tax :</span>
+                        <strong style={{...fontfamily,...fontsize}}>{cartItems.cart.tax}</strong>
+                    </h5>
+                    <h5>
+                        <span style={{...fontfamily}}>Total Amount :</span>
+                        <strong style={{...fontfamily}}>{cartItems.cart.total}</strong>
+                    </h5>
+    
                 <Link to="/checkout">
                 <button
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button">
+                        type="button" style={{...fontfamily}}>
                         Proceed To Checkout
                     </button>
                 </Link>
@@ -99,7 +100,7 @@ export default function CartTotals({ value }) {
                         }}>
                         Place Order
                     </button> */}
-                </div>
+            <div className="row">
             </div>
         </div>
 
