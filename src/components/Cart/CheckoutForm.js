@@ -18,7 +18,8 @@ const CheckoutForm = ({ value }) => {
     const { user } = useContext(userContext);
     const [shippingAddress, setShippingAddress] = useState([]);
     const address = shippingAddress[0];
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     useEffect(() => {
         fetchAddShippingDetails();
         document.title = "Checkout"
@@ -78,11 +79,11 @@ const CheckoutForm = ({ value }) => {
                 <div className="container">
                     <>
                         <div className="shipping-info mt-2">
-                            <h4>Shipping Info</h4>
+                            <h4 style={{...fontfamily}}>Shipping Info</h4>
                             <Card style={{ width: '20rem' }}>
                                 {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                                 <Card.Body>
-                                    <Card.Title>Shipping Address :</Card.Title>
+                                    <Card.Title style={{...fontfamily}}>Shipping Address :</Card.Title>
                                     <Card.Text>
                                         <div className="billing-info">
                                             {/* {shippingAddress.map((item, index) => (
@@ -90,35 +91,35 @@ const CheckoutForm = ({ value }) => {
                                                     <strong>Name:</strong> {item.firstName}
                                                 </p>
                                             ))} */}
-                                            <><p>
+                                            <><p style={{...fontfamily}}>
                                                 <strong>Name : </strong> {address ? address.firstName + ' ' + address.lastName : ''}
-                                            </p><p>
+                                            </p><p style={{...fontfamily}}>
                                                     <strong>Address 1 : </strong> {address ? address.address : ''}
-                                                </p><p>
+                                                </p><p style={{...fontfamily}}>
                                                     <strong>Address 2 : </strong> {address ? address.address2 : ''}
-                                                </p><p>
+                                                </p><p style={{...fontfamily}}>
                                                     <strong>City : </strong> {address ? address.city : ''}
-                                                </p><p>
+                                                </p><p style={{...fontfamily}}>
                                                     <strong>State : </strong> {address ? address.state : ''}
-                                                </p><p>
+                                                </p><p style={{...fontfamily}}>
                                                     <strong>Country : </strong> {address ? address.country : ''}
-                                                </p><p>
+                                                </p><p style={{...fontfamily}}>
                                                     <strong>ZipCode : </strong> {address ? address.zipCode : ''}
                                                 </p></>
                                         </div>
                                     </Card.Text>
                                     <Link to="/billingAddress">
-                                        <Button variant="primary">Add New Address</Button>
+                                        <Button variant="primary" style={{...fontfamily}}>Add New Address</Button>
                                     </Link>
                                 </Card.Body>
                             </Card>
                         </div>
                         <div className="payment-info mt-2">
-                            <h4>Payment Info</h4>
+                            <h4 style={{...fontfamily}}>Payment Info</h4>
                             <Card style={{ width: '20rem' }}>
                                 <Card.Body>
-                                    <Card.Title>Choose Payment Method :</Card.Title>
-                                    <Card.Text>
+                                    <Card.Title style={{...fontfamily}}>Choose Payment Method :</Card.Title>
+                                    <Card.Text style={{...fontfamily}}>
                                         {['radio'].map((type) => (
                                             <div key={`default-${type}`} className="mb-3">
                                                 <Form.Check
@@ -135,7 +136,7 @@ const CheckoutForm = ({ value }) => {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button variant="primary">Add New Card</Button>
+                                    <Button variant="primary" style={{...fontfamily}}>Add New Card</Button>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -143,7 +144,7 @@ const CheckoutForm = ({ value }) => {
                     <div className="row">
                         <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
                             <Link to="/orders">
-                                <button
+                                <button style={{...fontfamily,marginLeft:"-118px"}}
                                     className="btn btn-outline-danger text-uppercase mb-3 px-5"
                                     type="button"
                                     onClick={() => {

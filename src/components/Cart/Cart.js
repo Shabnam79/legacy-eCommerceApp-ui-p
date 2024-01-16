@@ -15,7 +15,8 @@ import {fetchCartProducts} from '../../utils/cartSlice'
 const Store = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
-    const { user } = useContext(userContext);
+    const { user } = useContext(userContext); 
+    const fontfamily = {fontFamily: "Times New Roman"};
 
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
@@ -28,7 +29,7 @@ const Store = ({ history }) => {
                 cartItems.cart.length > 0
                     ?
                     <React.Fragment>
-                        <Title name="your" title="cart" />
+                       <center><h1 style={{...fontfamily}}>Shopping Cart</h1></center>
                         <CartColumns />
                         <CartList value={cartItems} />
                         <CartTotals value={cartItems} history={history} />

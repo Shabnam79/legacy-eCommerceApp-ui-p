@@ -18,7 +18,8 @@ const Store = ({ history }) => {
     const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.count, 0);
     const shippingCost = 10.0; // Sample shipping cost
     const total = subtotal + shippingCost;
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
         document.title = "CheckOut";  
@@ -31,16 +32,16 @@ const Store = ({ history }) => {
                     cartItems.cart.length > 0
                         ?
                         <React.Fragment>
-                            <Title name="your" title="orderConfirmation" />
+                            <center><h1 style={{...fontfamily}}>Your OrderConfirmation</h1></center>
                             <Row>
                                 <Col>
                                     <CheckoutForm value={cartItems} />
                                 </Col>
                                 <Col>
-                                <h4>Order Summary</h4>
+                                <h4 style={{...fontfamily}}>Order Summary</h4>
                                 <Card style={{ width: '45rem' }}>
                                 <Card.Body>
-                                    <Card.Title>Item In Your Cart</Card.Title>
+                                    <Card.Title style={{...fontfamily}}>Item In Your Cart</Card.Title>
                                     <Card.Text>
                                     {/* <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} shippingCost={shippingCost} totalAmount={total} /> */}
                                     <CheckoutColumns />
