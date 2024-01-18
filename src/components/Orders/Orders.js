@@ -11,7 +11,8 @@ import { deleteRecordFromFirebaseService } from '../../firebase/services/product
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
@@ -41,7 +42,7 @@ const Orders = () => {
                 orders.length > 0
                     ?
                     <>
-                        <Title name="Your" title="Orders" />
+                        <center><h1 style={{...fontfamily}}>Your Orders</h1></center>
                         <OrdersList orders={orders} />
                     </> :
                     <EmptyOrders />
