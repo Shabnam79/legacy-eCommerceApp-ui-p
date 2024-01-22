@@ -3,13 +3,15 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useContext, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+//import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import userContext from "../utils/userContext";
-import { auth } from "../firebase/config/firebase.config";
+//import { auth } from "../firebase/config/firebase.config";
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { ButtonContainer } from './Button';
+//import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
+import { variables } from "../utils/variables";
+import axios from 'axios'; 
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -51,44 +53,97 @@ const Login = () => {
     //             console.log("myauth2", auth.currentUser.uid);
 
     const authentication = (values) => {
-        const getAuthentication = getAuth();
-        signInWithEmailAndPassword(getAuthentication, values.email, values.password)
-            .then((res) => {
-                // console.log("login success");
-                // console.log("Auth Token", res._tokenResponse.refreshToken);
+        debugger
+        const payload = {
+            email : values.email,
+            password : values.password
+        }
 
-                let userData = {
-                    userId: auth.currentUser.uid,
-                    email: values.email
-                };
+        axios({
+            method: 'post',
+            url: variables.API_URL + 'Auth/Login',
+            data: payload, 
 
-                setItem("user", JSON.stringify(userData));
+        }).then(function(response) {
+            debugger
+            console.log(response.localId);
+            let userData = {
+                            userId: response.data.localId,
+                            email: response.data.email
+                        };
+        
+                        setItem("user", JSON.stringify(userData));
+        
+                        setUser({
+                            ...user,
+                            userId: response.data.localId,
+                            email: response.data.email
+                        });
 
-                setUser({
-                    ...user,
-                    userId: auth.currentUser.uid,
-                    email: values.email
-                });
-            })
-            .catch((error) => {
-                // console.log(error.code);
-                if (error.code === "auth/wrong-password") {
-                    // alert("Please check the password");
-                    toast.error("Please check the password", {
-                        autoClose: 1000,
-                    });
-                } else if (error.code === "auth/user-not-found") {
-                    // alert("Please check the email");
-                    toast.error("Please check the email", {
-                        autoClose: 1000,
-                    });
-                } else if (error.code === "auth/invalid-login-credentials") {
-                    // alert("invalid-login-credentials");
-                    toast.error("invalid-login-credentials", {
-                        autoClose: 1000,
-                    });
-                }
+
+            }).catch((error) => {
+                debugger
+                    console.log(error.code);
+                    if (error.code === "ERR_BAD_REQUEST") {
+                        toast.error("Invalid login credentials.", {
+                            autoClose: 1000,
+                        });
+                    }
+                    // if (error.code === "auth/wrong-password") {
+                    //     toast.error("Please check the password", {
+                    //         autoClose: 1000,
+                    //     });
+                    // } else if (error.code === "auth/user-not-found") {
+                    //     toast.error("Please check the email", {
+                    //         autoClose: 1000,
+                    //     });
+                    // } else if (error.code === "auth/invalid-login-credentials") {
+                    //     toast.error("invalid-login-credentials", {
+                    //         autoClose: 1000,
+                    //     });
+                    // }
             });
+
+
+
+        // const getAuthentication = getAuth();
+        // signInWithEmailAndPassword(getAuthentication, values.email, values.password)
+        //     .then((res) => {
+        //         // console.log("login success");
+        //         // console.log("Auth Token", res._tokenResponse.refreshToken);
+
+        //         let userData = {
+        //             userId: auth.currentUser.uid,
+        //             email: values.email
+        //         };
+
+        //         setItem("user", JSON.stringify(userData));
+
+        //         setUser({
+        //             ...user,
+        //             userId: auth.currentUser.uid,
+        //             email: values.email
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         // console.log(error.code);
+        //         if (error.code === "auth/wrong-password") {
+        //             // alert("Please check the password");
+        //             toast.error("Please check the password", {
+        //                 autoClose: 1000,
+        //             });
+        //         } else if (error.code === "auth/user-not-found") {
+        //             // alert("Please check the email");
+        //             toast.error("Please check the email", {
+        //                 autoClose: 1000,
+        //             });
+        //         } else if (error.code === "auth/invalid-login-credentials") {
+        //             // alert("invalid-login-credentials");
+        //             toast.error("invalid-login-credentials", {
+        //                 autoClose: 1000,
+        //             });
+        //         }
+        //     });
     }
 
     return (

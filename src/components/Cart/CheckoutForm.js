@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {query,where,getDocs, collection } from "firebase/firestore";
 import { createPortal } from "react-dom";
-
+import { removeAll } from '../../utils/cartSlice';
 
 function IFrame({ children }) {
     const [ref, setRef] = useState();
@@ -60,7 +60,7 @@ const CheckoutForm = ({ value }) => {
                 })
             });
             await saveCartOrderService(dataArray);
-           // clearCart();
+           dispatch(removeAll());
            toast.success(`Your order has been successfully placed!`, {
             autoClose: 1000,
         });
