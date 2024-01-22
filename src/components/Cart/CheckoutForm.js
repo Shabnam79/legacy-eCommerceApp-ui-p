@@ -10,8 +10,24 @@ import { saveCartOrderService } from '../../firebase/services/order.service';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {query,where,getDocs, collection } from "firebase/firestore";
+import { createPortal } from "react-dom";
+
+
+function IFrame({ children }) {
+    const [ref, setRef] = useState();
+    const container = ref?.contentDocument?.body;
+    return (
+      <iframe title="PlacedOrderIframe"
+      width="318px" height="200px" border='none' 
+      scrolling="no" ref={setRef}>
+        {container && createPortal(children, container)}
+      </iframe>
+    );
+  }
+
 
 const CheckoutForm = ({ value }) => {
+
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
     const { cartSubTotal, cartTax, cartTotal, cart } = value;
@@ -20,6 +36,7 @@ const CheckoutForm = ({ value }) => {
     const address = shippingAddress[0];
     const fontsize = {fontSize: 'x-small'};
     const fontfamily = {fontFamily: "Times New Roman"};
+
     useEffect(() => {
         fetchAddShippingDetails();
         document.title = "Checkout"
@@ -78,19 +95,13 @@ const CheckoutForm = ({ value }) => {
             {
                 <div className="container">
                     <>
-                        <div className="shipping-info mt-2">
+                        <div id="DivShippingInfo" className="shipping-info mt-2">
                             <h4 style={{...fontfamily}}>Shipping Info</h4>
                             <Card style={{ width: '20rem' }}>
-                                {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                                 <Card.Body>
                                     <Card.Title style={{...fontfamily}}>Shipping Address :</Card.Title>
                                     <Card.Text>
                                         <div className="billing-info">
-                                            {/* {shippingAddress.map((item, index) => (
-                                                <p>
-                                                    <strong>Name:</strong> {item.firstName}
-                                                </p>
-                                            ))} */}
                                             <><p style={{...fontfamily}}>
                                                 <strong>Name : </strong> {address ? address.firstName + ' ' + address.lastName : ''}
                                             </p><p style={{...fontfamily}}>
@@ -114,7 +125,8 @@ const CheckoutForm = ({ value }) => {
                                 </Card.Body>
                             </Card>
                         </div>
-                        <div className="payment-info mt-2">
+                        <IFrame>
+                        <div id="DivPaymentInfo" className="payment-info mt-2">
                             <h4 style={{...fontfamily}}>Payment Info</h4>
                             <Card style={{ width: '20rem' }}>
                                 <Card.Body>
@@ -140,21 +152,24 @@ const CheckoutForm = ({ value }) => {
                                 </Card.Body>
                             </Card>
                         </div>
-                    </>
-                    <div className="row">
-                        <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
-                            <Link to="/orders">
-                                <button style={{...fontfamily,marginLeft:"-118px"}}
-                                    className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                                    type="button"
-                                    onClick={() => {
-                                        placeProductOrder();
-                                    }}>
-                                    Place Order
-                                </button>
-                            </Link>
+                        <div id="DivPlaceOrder" className="row">
+                            <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
+                                <Link to="/orders">
+                                    {/* <button style={{...fontfamily,marginLeft:"-118px"}} */}
+                                    <button style={{...fontfamily,marginTop:"10px"}}
+                                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
+                                        type="button"
+                                        onClick={() => {
+                                            placeProductOrder();
+                                        }}>
+                                        Place Order
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
-                    </div>
+                        </IFrame>
+                    </>
+                    
                 </div>
             }
         </section>

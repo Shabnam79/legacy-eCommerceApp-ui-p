@@ -54,12 +54,13 @@ const Signup = () => {
                     roleId : "tMcXpUvDofmo6DVMtBeD",
                     isActive :"true",
                     })
-
+                debugger
                 // alert("Signup successfully");
                 toast.success(`Signup successfully`, {
                     autoClose: 1000,
                 });
-                resetForm();
+                //resetForm();
+                setModalShow(true);
             })
             .catch((error) => {
                 // console.log(error.code);
