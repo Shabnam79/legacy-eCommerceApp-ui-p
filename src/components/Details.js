@@ -26,7 +26,8 @@ const Details = () => {
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [loginmodalShow, setLoginModalShow] = useState(false);
-
+    const fontsize = {fontSize: 'x-small'};
+    const fontfamily = {fontFamily: "Times New Roman"};
     useEffect(() => {
         fetchAddToCartData();
     }, [user.userId]);
@@ -209,11 +210,6 @@ const Details = () => {
     return (
         <div className="container py-5">
             {/*title*/}
-            <div className="row>">
-                <div className="col-10 mx-auto text-center text-slanted text-blue my-5">
-                    <h1>{title}</h1>
-                </div>
-            </div>
             {/*end of title*/}
             {/*product info*/}
             <div className="row">
@@ -222,29 +218,29 @@ const Details = () => {
                 </div>
                 {/*product text*/}
                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                    <h2>model:{title}</h2>
-                    <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
+                    <h2 style={{...fontfamily}}>{title}</h2>
+                    <h4 className="text-title text-uppercase text-muted mt-3 mb-2" style={{...fontfamily}}>
                         made by: <span className="text-uppercase">{company}</span>
                     </h4>
                     <h4 className="text-blue">
-                        <strong>
+                        <strong style={{...fontfamily}}>
                             Price : <span>$</span>{price}
                         </strong>
                     </h4>
-                    <p className="text-capitalize font-weight-bold mt-3 mb-0">
+                    <p className="text-capitalize font-weight-bold mt-3 mb-0" style={{...fontfamily}}>
                         some info about product
                     </p>
-                    <p className="text-muted lead">
+                    <p className="text-muted lead" style={{...fontfamily,...fontsize}}>
                         {info}
                     </p>
                     {/*buttons*/}
                     <div>
                         <Link to="/">
-                            <ButtonContainer>
+                            <ButtonContainer style={{...fontfamily}}>
                                 back to products
                             </ButtonContainer>
                         </Link>
-                        <ButtonContainer cart disabled={inCart ? true : false}
+                        <ButtonContainer style={{...fontfamily}} cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
                                 console.log(detailProduct);
@@ -252,13 +248,13 @@ const Details = () => {
                             }}>
                             {inCart ? "inCart" : "add to cart"}
                         </ButtonContainer>
-                        <ButtonContainer cart
+                        <ButtonContainer style={{...fontfamily}} cart
                             onClick={() => {
                                 addProductToWishlist(detailProduct);
                             }}>
                             {isProductWishlisted ? "remove from wishlist" : "add to wishlist"}
                         </ButtonContainer>
-                        <ButtonContainer
+                        <ButtonContainer style={{...fontfamily}}
                             onClick={() => {
                                 openReviewModal()
                             }}>
