@@ -25,9 +25,9 @@ const BillingAddressForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    this.setState(() => {
-      return { shippingData: [...formData] };
-  });
+    // this.setState(() => {
+    //   return { shippingData: [...formData] };
+    // });
   };
 
   const handleSubmit = async (e) => {

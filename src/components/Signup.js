@@ -3,11 +3,13 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+//import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
-import {collection, addDoc} from "firebase/firestore";
-import { db } from "../firebase/config/firebase.config";
+//import {collection, addDoc} from "firebase/firestore";
+//import { db } from "../firebase/config/firebase.config";
+import { variables } from "../utils/variables";
+import axios from 'axios'; 
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -41,36 +43,66 @@ const Signup = () => {
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
       }
-    const usersCollectionRef = collection(db,"userroles");
+    //const usersCollectionRef = collection(db,"userroles");
     const authentication = (values, { resetForm }) => {
-        const getAuthentication = getAuth();
-        createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
-            .then((res) => {
 
-                addDoc(usersCollectionRef,{
-                    UID: res.user.uid,
-                    email: values.email,
-                    role : "Customer",
-                    roleId : "tMcXpUvDofmo6DVMtBeD",
-                    isActive :"true",
-                    })
-                debugger
-                // alert("Signup successfully");
+        const payload = {
+            email : values.email,
+            password : values.password
+        }
+
+        axios({
+            method: 'post',
+            url: variables.API_URL + 'Auth/SignUp',
+            data: payload, 
+
+        }).then(function(response) {
+            debugger
+            console.log(response);
                 toast.success(`Signup successfully`, {
+                autoClose: 3000,
+            });
+        //resetForm();
+        setModalShow(true);
+        
+        }).catch(function (error){
+            debugger
+            console.log(error.code);
+            if (error.code === "ERR_BAD_REQUEST") {
+                toast.error("Email already in use.", {
                     autoClose: 1000,
                 });
-                //resetForm();
-                setModalShow(true);
-            })
-            .catch((error) => {
-                // console.log(error.code);
-                if (error.code === "auth/email-already-in-use") {
-                    // alert("auth/email-already-in-use");
-                    toast.error("auth/email-already-in-use", {
-                        autoClose: 1000,
-                    });
-                }
-            });
+            }
+        });
+        
+        // const getAuthentication = getAuth();
+        // createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
+        //     .then((res) => {
+
+        //         addDoc(usersCollectionRef,{
+        //             UID: res.user.uid,
+        //             email: values.email,
+        //             role : "Customer",
+        //             roleId : "tMcXpUvDofmo6DVMtBeD",
+        //             isActive :"true",
+        //             })
+        //         debugger
+        //         // alert("Signup successfully");
+        //         toast.success(`Signup successfully`, {
+        //             autoClose: 1000,
+        //         });
+        //         //resetForm();
+        //         setModalShow(true);
+        //     })
+        //     .catch((error) => {
+        //         // console.log(error.code);
+        //         if (error.code === "auth/email-already-in-use") {
+        //             // alert("auth/email-already-in-use");
+        //             toast.error("auth/email-already-in-use", {
+        //                 autoClose: 1000,
+        //             });
+        //         }
+        //     });
     }
 
     return (
