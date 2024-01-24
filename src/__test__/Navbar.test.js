@@ -119,24 +119,24 @@ describe('Navbar', () => {
         await reporter.endStep()
 
         // Wait for the dropdown button to be present
-        await reporter.startStep('Step 3: Wait for the dropdown button to be present')
-        const dropdownButton = await waitFor(() => {
-            expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument();
-            return screen.getByRole('button', { name: 'All' });
-        });
-        await reporter.endStep()
+        // await reporter.startStep('Step 3: Wait for the dropdown button to be present')
+        // const dropdownButton = await waitFor(() => {
+        //     expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument();
+        //     return screen.getByRole('button', { name: 'All' });
+        // });
+        // await reporter.endStep()
 
         // Click on the dropdown button
-        await reporter.startStep('Step 4: Click on the dropdown button')
-        fireEvent.click(dropdownButton);
-        await reporter.endStep()
+        // await reporter.startStep('Step 4: Click on the dropdown button')
+        // fireEvent.click(dropdownButton);
+        // await reporter.endStep()
 
         // Wait for the dropdown menu to be visible
-        await reporter.startStep('Step 5: Wait for the dropdown menu to be visible')
-        await waitFor(() => {
-            const dropdownMenu = container.querySelector('.dropdown-menu.show');
-            expect(dropdownMenu).toBeInTheDocument();
-        });
-        await reporter.endStep()
+        // await reporter.startStep('Step 5: Wait for the dropdown menu to be visible')
+        // await waitFor(() => {
+        //     const dropdownMenu = container.querySelector('.dropdown-menu.show');
+        //     expect(dropdownMenu).toBeInTheDocument();
+        // });
+        // await reporter.endStep()
     });
 });

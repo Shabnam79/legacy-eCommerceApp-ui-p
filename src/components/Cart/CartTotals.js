@@ -73,11 +73,11 @@ export default function CartTotals({ value }) {
                         clear cart
                     </button>
                     <h5 id="hdCartSubtotal">
-                        <span className="text-title">subtotal :</span>
+                        <span className="text-title">Subtotal :</span>
                         <strong>{cartItems.cart.subTotal}</strong>
                     </h5>
                     <h5 id="hdCartTax">
-                        <span className="text-title">tax :</span>
+                        <span className="text-title">Tax :</span>
                         <strong>{cartItems.cart.tax}</strong>
                     </h5>
                     <h5 id="hdCartTotalAmt">

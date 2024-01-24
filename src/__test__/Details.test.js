@@ -47,7 +47,7 @@ describe('Details', () => {
 
         // Find the product title within an h1 element
         await reporter.startStep('Step 2: Finding the product title within an header element.');
-        const titleElement = screen.queryByText(detailProduct.title, { selector: 'h1' });
+        const titleElement = screen.queryByText(detailProduct.title, { selector: 'h2' });
         expect(titleElement).toBeInTheDocument();
         expect(screen.getByText('some info about product')).toBeInTheDocument();
         await reporter.endStep();
