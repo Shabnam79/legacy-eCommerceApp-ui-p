@@ -6,20 +6,20 @@ import CartList from './CartList';
 import CartTotals from "./CartTotals";
 import { useDispatch, useSelector } from 'react-redux';
 import userContext from "../../utils/userContext";
-
 import {fetchCartProducts} from '../../utils/cartSlice'
 
-
-
-
-const Store = ({ history }) => {
+const Cart = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext); 
     const fontfamily = {fontFamily: "Times New Roman"};
 
     useEffect(() => {
-        dispatch(fetchCartProducts(user.userId));
+        if (user.userId) {
+            dispatch(fetchCartProducts(user.userId));
+        } else {
+            console.log("Please login to see past Cart products");
+        }
         document.title = "Shopping Cart";  
     }, []);
 
@@ -41,4 +41,4 @@ const Store = ({ history }) => {
     );
 }
 
-export default Store;
+export default Cart;

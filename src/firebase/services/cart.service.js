@@ -1,19 +1,48 @@
-import { addDoc, collection, doc, getDocs, query, updateDoc, where, writeBatch } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
+import { variables } from "../../utils/variables";
+import axios from 'axios';
+
+// export const getCartProductsService = async (userId) => {
+//     const q = query(
+//         collection(db, "addToCartStore"), where("userId", "==", userId)
+//     )
+
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
 
 export const getCartProductsService = async (userId) => {
-    const q = query(
-        collection(db, "addToCartStore"), where("userId", "==", userId)
-    )
-
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+    return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
+
+
+// export const saveProductIntoCartService = async (product) => {
+//     return await addDoc(collection(db, "addToCartStore"), {
+//         ...product
+//     });
+// }
+
 export const saveProductIntoCartService = async (product) => {
-    return await addDoc(collection(db, "addToCartStore"), {
-        ...product
+    axios({
+        method: 'post',
+        url: variables.API_URL + 'Product/AddToCart',
+        data: {...product }, 
+
+    }).then(function(response) {
+        //console.log(response);
+    
+    }).catch(function (error){
+        //console.log(error.code);
+        if (error.code === "ERR_BAD_REQUEST") {
+            
+        }
     });
 }
 

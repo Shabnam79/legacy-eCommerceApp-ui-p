@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { storeProducts, detailProduct } from "../data";
 import { db } from '../firebase/config/firebase.config';
 import { collection, getDocs, doc, where, deleteDoc, query } from 'firebase/firestore';
+import { variables } from "./variables";
+import axios from 'axios'; 
+
 const ProductContext = React.createContext();
 class ProductProvider extends Component {
 
@@ -18,27 +21,27 @@ class ProductProvider extends Component {
     componentDidMount() {
         this.setProducts();
     }
-
-    // setProducts = () => {
-    //     const collectionRef = collection(db, 'storeProducts');
-    //     let products = [];
-    //     storeProducts.forEach(item => {
-    //         const singleItem = { ...item };
-    //         products = [...products, singleItem];
-    //     });
-    //     this.setState(() => {
-    //         return { products };
-    //     }, this.checkCartItems);
-    // };
+    
     setProducts = async () => {
-        const collectionRef = collection(db, 'storeProducts');
 
-        await getDocs(collectionRef).then((storeProduct) => {
-            let products = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            this.setState(() => {
-                return { products };
-            }, this.checkCartItems);
-        })
+        return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
+                    let products = response.data;
+                    return products;
+                    this.setState(() => {
+                                return { products };
+                            }, this.checkCartItems);
+            
+                  }).catch(error => {
+                    console.log(error);
+                  });
+
+        // const collectionRef = collection(db, 'storeProducts');
+        // await getDocs(collectionRef).then((storeProduct) => {
+        //     let products = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        //     this.setState(() => {
+        //         return { products };
+        //     }, this.checkCartItems);
+        //  })
     };
     fetchProductCategorylist = async (id) => {
         if (id != '') {
