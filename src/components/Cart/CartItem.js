@@ -12,7 +12,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const fontsize = {fontSize: 'x-small'};
     const fontfamily = {fontFamily: "Times New Roman"};
     const { id, title, img, price, total, count, quantity } = item;
-    console.log(item.count);
     const removeProductHandler = async (item) => {
         try {
             const addToCartDoc = await getProductByIdService(item.id);
@@ -70,22 +69,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
                         <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
                     </div></span>
             </div>
-            {/* <div id="dvCartProductTitle" className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">product : </span>{title}
-            </div>
-            <div id="dvCartProductPrice" className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">price : </span>{price}
-            </div>
-            <div className="col-10 mx-auto col-lg-2 my-2 my-lg-2-0">
-                <div className="d-flex justify-content-center">
-                    <div>
-                        <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
-                        <span className="btn btn-black mx-1">{count}</span>
-                        <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
-                    </div>
-                </div>
-            </div> */}
-            {/**/}
             <div className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
                 <div className="cart-icon" onClick={() => removeProductHandler(item)}>
                     <i className="fas fa-trash" data-testid="trash-icon"></i>

@@ -165,7 +165,7 @@ const Details = () => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
 
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
