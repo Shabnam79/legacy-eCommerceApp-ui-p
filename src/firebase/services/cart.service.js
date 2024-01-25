@@ -21,13 +21,20 @@ export const getCartProductsService = async (userId) => {
       });
 }
 
-
-
 // export const saveProductIntoCartService = async (product) => {
 //     return await addDoc(collection(db, "addToCartStore"), {
 //         ...product
 //     });
 // }
+
+
+export const DeleteItemFromYourCart = async (doc) => {
+    await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": doc.id } }).then((response) => {
+       // return response.data;
+     }).catch(error => {
+       console.log(error);
+     });
+}
 
 export const saveProductIntoCartService = async (product) => {
     axios({
