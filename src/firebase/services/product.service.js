@@ -60,16 +60,8 @@ export const getProductsService = async () => {
       });
 }
 
-// export const deleteRecordFromFirebaseService = async (doc) => {
-//     await deleteDoc(doc);
-// }
-
 export const deleteRecordFromFirebaseService = async (doc) => {
-     await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": doc.id } }).then((response) => {
-        // return response.data;
-      }).catch(error => {
-        console.log(error);
-      });
+    await deleteDoc(doc);
 }
 
 export const getProductsServiceByUserId = async () => {
