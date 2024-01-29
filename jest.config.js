@@ -11,4 +11,4 @@ module.exports = {
     ],
     testRunner: 'jest-jasmine2',
     //maxWorkers: '50%',
-};
+};              

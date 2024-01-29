@@ -8,6 +8,8 @@
     "bootstrap": "^4.3.1",
     "firebase": "^10.3.1",
     "formik": "^2.4.5",
+    "fs-extra": "^11.2.0",
+    "postinstall": "^0.9.0",
     "react": "^16.8.6",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^16.8.6",
@@ -22,6 +24,7 @@
   },
   "scripts": {
     "start": "npm run install-deps && react-scripts --openssl-legacy-provider start",
+    "postinstall": "node scripts/postinstall.js",
     "install-deps": "powershell -File .\\install_dependencies.ps1 || echo 'Dependency already installed, continuing...'",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "jest",
