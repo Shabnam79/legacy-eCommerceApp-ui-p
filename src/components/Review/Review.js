@@ -87,12 +87,12 @@ const Review = (props) => {
         setProductReviewDetails({ rating: rating });
     }
 
-    const imagesListRef = ref(storage, `${orderId}/`);
+    const imagesListRef = ref(storage, `OrderPlacedImages/${orderId}/`);
 
     const uploadFile = () => {
         if (imageUpload.length == 0) return;
         for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
+            const imageRef = ref(storage, `OrderPlacedImages/${orderId}/${imageUpload[index].name}`);
             uploadBytes(imageRef, imageUpload[index])
                 .then((snapshot) => {
                     return getDownloadURL(snapshot.ref).catch((error) => {

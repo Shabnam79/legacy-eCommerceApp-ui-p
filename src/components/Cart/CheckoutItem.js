@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../../utils/cartSlice';
 import React from 'react';
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-import { incrementCartProductsService, decrementCartProductsService, getProductByIdService } from '../../firebase/services/cart.service';
+//import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { getProductByIdService, DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CheckoutItem({ item, value, fetchAddToCartData }) {
 
@@ -13,7 +13,8 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
     const removeProductHandler = async (item) => {
         try {
             const addToCartDoc = await getProductByIdService(item.id);
-            await deleteRecordFromFirebaseService(addToCartDoc);
+            // await deleteRecordFromFirebaseService(addToCartDoc);
+            await DeleteItemFromYourCart(addToCartDoc);
 
             toast.warning(
                 `Product removed from the Cart`,

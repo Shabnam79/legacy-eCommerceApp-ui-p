@@ -2,7 +2,8 @@ import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, where, wri
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
 import { deleteRecordFromFirebaseService } from "./product.service";
-
+import { variables } from "../../utils/variables";
+import axios from 'axios';
 
 export const saveCartOrderService = async (cartArray) => {
     const collectionRef = collection(db, "productOrders");
@@ -32,15 +33,23 @@ export const saveCartOrderService = async (cartArray) => {
         });
 }
 
-export const getOrderService = async (userId) => {
-    const q = query(
-        // collection(db, "productOrders"), where("userId", "==", userId)
-        collection(db, "productOrders"), where("userId", "==", userId)
-    )
+// export const getOrderService = async (userId) => {
+//     const q = query(
+//         // collection(db, "productOrders"), where("userId", "==", userId)
+//         collection(db, "productOrders"), where("userId", "==", userId)
+//     )
 
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
+export const getOrderService = async (userId) => {
+    return await axios.get(variables.API_URL + 'Product/YourOrders', { params: { "userId": userId } }).then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
 export const getAllOrdersService = async () => {

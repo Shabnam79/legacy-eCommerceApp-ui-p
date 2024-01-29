@@ -8,10 +8,10 @@ import { openModal } from '../utils/productSlice';
 import { addToWishlist, removeFromWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-import { saveProductToWishlistService, getWishlistByIdService } from '../firebase/services/wishlist.service';
+import { saveProductToWishlistService, getWishlistByIdService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
-import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
+// import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
 import LoginModal from './LoginModal';
 import ReviewCards from './Review/ReviewCards';
 import ReviewModal from './Review/ReviewModal';
@@ -62,7 +62,8 @@ const Details = () => {
             if (isProductWishlisted) {
                 try {
                     const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
-                    await deleteRecordFromFirebaseService(addToWishlistDoc);
+                    // await deleteRecordFromFirebaseService(addToWishlistDoc);
+                    await DeleteProductFromWishList(addToWishlistDoc);
 
                     toast.warning(
                         `Product removed from the Wishlist`,
@@ -98,7 +99,7 @@ const Details = () => {
                     setIsProductWishlisted(true);
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
 
                     toast.success(`${value.title} is added to wishlist`, {
                         autoClose: 1000,
@@ -165,7 +166,7 @@ const Details = () => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    console.log("Document written with ID: ", docRef.id);
+                    //console.log("Document written with ID: ", docRef.id);
 
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,

@@ -13,14 +13,17 @@ const cartSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchCartProducts.pending, (state, action) => {
+                debugger
                 state.status = "LOADING";
             })
             .addCase(fetchCartProducts.fulfilled, (state, action) => {
+                debugger
                 state.cart = action.payload;
                 state.status = "IDLE";
                 getTotals(state);
             })
             .addCase(fetchCartProducts.rejected, (state, action) => {
+                debugger
                 state.status = "ERROR";
             });
     },
@@ -85,7 +88,9 @@ const cartSlice = createSlice({
 });
 
 export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (userId) => {
+    if (userId != '') {
     return await getCartProductsService(userId);
+    }
 
     // const collectionRef = query(
     //     collection(db, "addToCartStore"), where("userId", "==", userId)

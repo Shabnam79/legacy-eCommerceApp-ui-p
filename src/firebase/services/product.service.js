@@ -1,40 +1,69 @@
 import { collection, doc,deleteDoc, getDocs, query, where, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
+import { variables } from "../../utils/variables";
+import axios from 'axios';
+
+// export const getCategoryService = async () => {
+//     const q = query(
+//         collection(db, "productCategory")
+//     )
+
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
 
 export const getCategoryService = async () => {
-    const q = query(
-        collection(db, "productCategory")
-    )
-
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+    return await axios.get(variables.API_URL + 'Category/GetProductsCategory').then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
+
+
+// export const getProductsByCategoryIdService = async (categoryId) => {
+//     const q = query(
+//         collection(db, "storeProducts"), where("categoryId", "==", categoryId)
+//     )
+
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
 
 export const getProductsByCategoryIdService = async (categoryId) => {
-    const q = query(
-        collection(db, "storeProducts"), where("categoryId", "==", categoryId)
-    )
-
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+    return await axios.get(variables.API_URL + 'Product/GetProductsByCategoryId', { params: { "categoryId": categoryId } }).then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
-export const getProductsService = async () => {
-    const q = query(
-        collection(db, "storeProducts")
-    )
 
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+// export const getProductsService = async () => {
+//     const q = query(
+//         collection(db, "storeProducts")
+//     )
+
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
+export const getProductsService = async () => {
+    return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
 export const deleteRecordFromFirebaseService = async (doc) => {
     await deleteDoc(doc);
 }
+
 export const getProductsServiceByUserId = async () => {
     const q = query(
         collection(db, "storeProducts")
