@@ -137,7 +137,7 @@ describe('Details', () => {
 
         // Find and click the "add to wishlist" button
         await reporter.startStep('Step 2: Finding and clicking the "add to wishlist" button.');
-        const addToWishlistButton = screen.getByText('add to wishlist');
+        const addToWishlistButton = screen.getByText('Add to wishlist');
         fireEvent.click(addToWishlistButton);
         await reporter.endStep();
 
@@ -158,7 +158,7 @@ describe('Details', () => {
 
         expect(wishlistData.length).toBe(1);
         expect(wishlistData[0].id).toBe(detailProduct.id);
-        expect(addToWishlistButton).toHaveTextContent('add to wishlist');
+        expect(addToWishlistButton).toHaveTextContent('Remove from wishlist');
         await reporter.endStep();
     });
 });

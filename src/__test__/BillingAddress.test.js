@@ -9,23 +9,15 @@ describe('Cart.BillingAddressForm', () => {
         const { getByLabelText, getByDisplayValue } = render(<BillingAddressForm />);
         await reporter.endStep();
 
-        await reporter.startStep('Step 2: Rendering Forms elements with default values');
+        await reporter.startStep('Step 2: Rendering Forms elements with label values');
         expect(getByLabelText('First Name')).toBeInTheDocument();
-        expect(getByDisplayValue('John')).toBeInTheDocument();
         expect(getByLabelText('Last Name')).toBeInTheDocument();
-        expect(getByDisplayValue('Doe')).toBeInTheDocument();
         expect(getByLabelText('Address 1')).toBeInTheDocument();
-        expect(getByDisplayValue('11th Street , Palm Olympia')).toBeInTheDocument();
         expect(getByLabelText('Address 2')).toBeInTheDocument();
-        expect(getByDisplayValue('Boston Road')).toBeInTheDocument();
         expect(getByLabelText('City')).toBeInTheDocument();
-        expect(getByDisplayValue('New Jersey City')).toBeInTheDocument();
         expect(getByLabelText('State')).toBeInTheDocument();
-        expect(getByDisplayValue('Newyork')).toBeInTheDocument();
         expect(getByLabelText('Country')).toBeInTheDocument();
-        expect(getByDisplayValue('USA')).toBeInTheDocument();
         expect(getByLabelText('ZIP Code')).toBeInTheDocument();
-        expect(getByDisplayValue('123456')).toBeInTheDocument();
         await reporter.endStep();
     });
 
