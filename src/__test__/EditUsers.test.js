@@ -23,7 +23,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(),
 }));
 
-describe('EditUsers Component', () => {
+describe('Admin.EditUsers', () => {
     test('Renders EditUsers component', async () => {
         await reporter.startStep('Step 1: Renders Edit Users component')
         render(<BrowserRouter><EditUsers /></BrowserRouter>);

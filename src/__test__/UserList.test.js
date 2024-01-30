@@ -20,7 +20,7 @@ jest.mock('react-toastify', () => ({
     },
 }));
 
-describe('UserList Component', () => {
+describe('Admin.UserList', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
