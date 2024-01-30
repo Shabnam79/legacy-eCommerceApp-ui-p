@@ -19,7 +19,6 @@ export default function UserList() {
 
     const fetchUserData = async () => {
         let data = await getUserData();
-        debugger
         if (data != undefined) {
             setUserData(data);
         }

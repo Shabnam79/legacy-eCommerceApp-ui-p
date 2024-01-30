@@ -46,7 +46,6 @@ export const getUserDataByIdService = async (UserRoleId) => {
 }
 
 export const updateRoleUsersService = async (addToUserRoleObj) => {
-    debugger
     return await 
     axios({
         method: 'put',

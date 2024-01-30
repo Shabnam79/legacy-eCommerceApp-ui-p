@@ -51,7 +51,6 @@ export default function EditUsers() {
 
     const fetchUserData = async (UserRoleId) => {
         let data = await getUserDataByIdService(UserRoleId);
-        debugger
         if (data != undefined) {
             setUserRoleData(data[0]);
             setSelectedValue(data[0].role);
@@ -73,7 +72,6 @@ export default function EditUsers() {
     };
 
     const handleSubmit = async (e) => {
-        debugger;
         e.preventDefault();
         let addToUserRoleObj = {
             roleId: RoleIdValue,
