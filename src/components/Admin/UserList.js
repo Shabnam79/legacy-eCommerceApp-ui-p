@@ -19,26 +19,47 @@ export default function UserList() {
 
     const fetchUserData = async () => {
         let data = await getUserData();
+        debugger
         if (data != undefined) {
             setUserData(data);
         }
     }
 
     const UserActive = async (item) => {
-        console.log(item);
-        debugger;
-        const payload = {
-            userId: item.UID,
-            isActive: item.isActive
-        }
-        axios({
-            method: 'put',
-            url: variables.API_URL + 'User/UpdateIsActive',
-            data: payload
-        })
+    //     try {
+    //         if(item.isActive == "true")
+    //         {
+    //             alert("Please click Ok to make your Account Inactive.");
+    //             await updateIsActiveUsersService(item.id ,"false");
+    //                 toast.warning(
+    //                     `User Account has been Inactive.`,
+    //                     {
+    //                         autoClose: 1000,
+    //                     }
+    //                 );
+    //         }
+    //         else{
+    //             alert("Please click Ok to make your Account Active.");
+    //             await updateIsActiveUsersService(item.id ,"true");
+    //                 toast.warning(
+    //                     `User Account has been Active.`,
+    //                     {
+    //                         autoClose: 1000,
+    //                     }
+    //                 );
+    //         }
+    //         fetchUserData();
+    // }
+    // catch (e) {
+    //     console.log(e);
+    // }
+
+        if(item.isActive == true)
+        {
+            alert("Please click Ok to make your Account Inactive.");
+            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${false}`)
             .then(function (response) {
-                console.log(response.data);
-                toast.success(`Is Active Status is Updated Successfully`, {
+                toast.success(`User Active status is Updated Successfully`, {
                     autoClose: 3000,
                 });
             }).catch((error) => {
@@ -46,6 +67,21 @@ export default function UserList() {
                     autoClose: 1000,
                 });
             });
+        }
+        else{
+            alert("Please click Ok to make your Account Active.");
+            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${true}`)
+           .then(function (response) {
+                toast.success(`User Active status is Updated Successfully`, {
+                    autoClose: 3000,
+                });
+            }).catch((error) => {
+                toast.error(error.message, {
+                    autoClose: 1000,
+                });
+            });
+        }
+        fetchUserData();
     };
 
     return (
@@ -79,13 +115,12 @@ export default function UserList() {
                                             <td>
                                                 {item.role}
                                             </td>
-
                                             <td>
                                                 <Link to={`/admin/EditUsers/${item.UID}`}>
                                                     <Button>EDIT</Button>
                                                 </Link>
 
-                                                <Button onClick={() => UserActive(item)}>{item.isActive == "true" ? "Active" : "Inactive"}</Button>
+                                                <Button onClick={() => UserActive(item)}>{item.isActive == true ? "Inactive" : "Active"}</Button>
                                             </td>
 
                                         </tr>

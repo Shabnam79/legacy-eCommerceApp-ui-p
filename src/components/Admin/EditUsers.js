@@ -44,20 +44,19 @@ export default function EditUsers() {
     }
 
     const fetchRoleSelectlist = (id) => {
-        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.roles)[0];
+        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.role)[0];
         setSelectedValue(filterRoleName);
         setRoleIdValue(id);
     }
 
     const fetchUserData = async (UserRoleId) => {
-
         let data = await getUserDataByIdService(UserRoleId);
+        debugger
         if (data != undefined) {
-            debugger
             setUserRoleData(data[0]);
             setSelectedValue(data[0].role);
             setRoleIdValue(data[0].roleId);
-            setUserIdValue(data[0].id);
+            setUserIdValue(data[0].UID);
         }
     }
 
@@ -74,18 +73,18 @@ export default function EditUsers() {
     };
 
     const handleSubmit = async (e) => {
-
+        debugger;
         e.preventDefault();
         let addToUserRoleObj = {
             roleId: RoleIdValue,
             role: selectedValue,
-            id: UserIdValue
+            userId: UserIdValue
         };
         await updateRoleUsersService(addToUserRoleObj);
 
-        toast.success('Role Updated in admin list ', {
-            autoClose: 1000,
-        });
+        // toast.success('Role Updated in admin list ', {
+        //     autoClose: 1000,
+        // });
         if (navigate) {
             navigate('/admin/UserList');
         } else {
@@ -104,7 +103,7 @@ export default function EditUsers() {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {dropdown.map((item) => (
-                                    <Dropdown.Item eventKey={item.id}>{item.roles}</Dropdown.Item>
+                                    <Dropdown.Item eventKey={item.id}>{item.role}</Dropdown.Item>
                                 ))}
                             </Dropdown.Menu>
                         </Dropdown>
