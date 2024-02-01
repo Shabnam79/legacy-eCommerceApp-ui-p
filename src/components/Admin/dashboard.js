@@ -57,7 +57,7 @@ function Dashboard() {
                 <Link className='d-grid gap-2' to='/admin/addproduct'>
                     <Button size="md">Add Product</Button>
                 </Link>
-                <div style={{ overflowX: "scroll", minWidth: "500px" }}>
+                <div style={{ overflowX: "scroll", minWidth: "200px" }}>
                     <Table striped bordered hover size='sm' style={{ marginTop: "20px" }}>
                         <AdminColumns />
                         <tbody>
@@ -89,7 +89,7 @@ function Dashboard() {
                                                 <td style={{ maxWidth: "400px" }}>
                                                     {item.info}
                                                 </td>
-                                                <td>
+                                                <td className='d-flex border-0'>
                                                     <Link to={`/admin/editproduct/${item.productId}`}>
                                                         <Button size='sm'>EDIT</Button>
                                                     </Link>

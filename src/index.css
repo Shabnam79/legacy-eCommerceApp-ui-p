@@ -11,3 +11,62 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.tx-navbar .dropdown-toggle::after {
+  position: absolute;
+  top: 17.5px;
+  right: -4px;
+}
+
+.HomeButton {
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.HomeButton:hover {
+  text-decoration: none;
+  border-bottom: 2px solid #053645;
+  transition: .3s;
+}
+
+.tx-dropdown {
+  border-radius: 0px !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+.tx-dropdown:hover {
+  border-bottom: 2px solid #053645 !important;
+  transition: .3s;
+}
+
+.tx-dropdown:focus {
+  border-bottom: 2px solid #053645 !important;
+  box-shadow: none !important;
+}
+
+.tx-dropdown-menu {
+  padding: 0.5rem 1.5rem !important;
+  border: none !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0;
+  background-color: #053645 !important;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.tx-dropdown-menu .dropdown-item {
+  margin: 2.5px 0 0 0;
+  padding: 2.5px 2.5px !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+.tx-dropdown-menu .dropdown-item:hover,
+.tx-dropdown-menu .dropdown-item:active,
+.tx-dropdown-menu .dropdown-item:focus {
+  color: rgb(5, 54, 69) !important;
+  background-color: #053645 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+  transition: .3s;
+}
