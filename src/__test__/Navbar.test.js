@@ -49,7 +49,7 @@ describe('Navbar', () => {
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Getting a text Hello,Sign In and fire click event')
-        userEvent.click(screen.getByText('Hello, Sign In'));
+        userEvent.click(screen.getByText('Hello, Sign In |'));
         await reporter.endStep()
 
         await reporter.startStep('Step 3: Verify that login text is present in the dropdown')
@@ -82,7 +82,7 @@ describe('Navbar', () => {
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Getting an element with text Hello Test1234@gmail.com and check for logout from dropdown and fire click event')
-        userEvent.click(screen.getByText('Hello Test1234@gmail.com'));
+        userEvent.click(screen.getByText('Hello Test1234@gmail.com |'));
         const logoutButton = await screen.findByText('Logout');
         userEvent.click(logoutButton);
         await reporter.endStep()
