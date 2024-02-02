@@ -25,7 +25,6 @@ function AddProducts() {
         userId: user.userId,
         productId: '',
         quantity: '',
-        img: '',
         count: 0
     });
 
@@ -38,50 +37,48 @@ function AddProducts() {
 
     //File Upload  State
     const [imageUrls, setImageUrls] = useState([]);
-    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUpload, setImageUpload] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
 
-    {/* Added code for Category dropdown bind - By Noor */ }
     useEffect(() => {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Add Product"
-    }, []);
+    }, [user.userId]);
 
 
     const handleInputChange = (e) => {
 
         const { name, value } = e.target;
         setName((prevName) => ({
-
             ...prevName,
-
             categoryId: CategoryIdValue,
             category: selectedValue,
             productId: ProductIdValue,
             isStock: isStockValue,
             userId: user.userId,
             [name]: value
-
-
         }));
     };
 
     const handleSubmit = async (e) => {
         debugger
-
         e.preventDefault();
         let addToProductObj = {
             ...name,
             isStock: isStockValue,
             quantity: name.quantity
         };
-        let docRef = await saveProductIntoStoreProductService(addToProductObj);
-        uploadFile();
+        debugger
+        let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
+
+        //uploadFile();
         //console.log("Document written with ID: ", docRef.id);
+
         toast.success('Product added in admin list ', {
-            autoClose: 1000,
+            autoClose: 2000,
         });
+        navigate('/admin');
     }
 
     const fetchCategorylist = async () => {
@@ -106,47 +103,47 @@ function AddProducts() {
     const handleMediaChange = (e) => {
         debugger
         setImageUpload(e.target.files);
+        console.log(selectedFiles);
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
-        console.log(imageUpload);
     };
 
-    const uploadFile = () => {
-        if (imageUpload.length == 0) return;
-        for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
-            uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                    fetchStoreProductData(ProductIdValue, url);
-                });
-            });
-        }
-    };
+    // const uploadFile = () => {
+    //     if (imageUpload.length == 0) return;
+    //     for (let index = 0; index < imageUpload.length; index++) {
+    //         const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
+    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
+    //             getDownloadURL(snapshot.ref).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //                 fetchStoreProductData(ProductIdValue, url);
+    //             });
+    //         });
+    //     }
+    // };
 
-    const fetchStoreProductData = async (productId, url) => {
+    // const fetchStoreProductData = async (productId, url) => {
 
-        let data = await getProductByProductIdService(productId);
-        if (data != undefined) {
-            let updateImageToProductObj = {
-                category: data[0].category,
-                categoryId: data[0].categoryId,
-                info: data[0].info,
-                company: data[0].company,
-                price: data[0].price,
-                quantity: data[0].quantity,
-                title: data[0].title,
-                isStock: data[0].isStock,
-                id: data[0].id,
-                count: data[0].count,
-                productId: ProductIdValue,
-                userId: user.userId,
-                img: url,
-            };
-            saveUpdateProductStore(updateImageToProductObj);
-        }
-        navigate('/admin');
-    }
+    //     let data = await getProductByProductIdService(productId);
+    //     if (data != undefined) {
+    //         let updateImageToProductObj = {
+    //             category: data[0].category,
+    //             categoryId: data[0].categoryId,
+    //             info: data[0].info,
+    //             company: data[0].company,
+    //             price: data[0].price,
+    //             quantity: data[0].quantity,
+    //             title: data[0].title,
+    //             isStock: data[0].isStock,
+    //             id: data[0].id,
+    //             count: data[0].count,
+    //             productId: ProductIdValue,
+    //             userId: user.userId,
+    //             img: url,
+    //         };
+    //         saveUpdateProductStore(updateImageToProductObj);
+    //     }
+    //     navigate('/admin');
+    // }
 
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
@@ -263,7 +260,4 @@ function AddProducts() {
         </>
     )
 }
-
-
-
 export default AddProducts;

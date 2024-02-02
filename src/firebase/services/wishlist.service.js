@@ -34,14 +34,22 @@ export const DeleteProductFromWishList = async (doc) => {
      });
 }
 
-export const getWishlistService = async (userId) => {
-    const q = query(
-        collection(db, "storeWishlist"), where("userId", "==", userId)
-    )
+// export const getWishlistService = async (userId) => {
+//     const q = query(
+//         collection(db, "storeWishlist"), where("userId", "==", userId)
+//     )
 
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
+export const getWishlistService = async (userId) => {
+    return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
 export const getWishlistByIdService = async (productId) => {
