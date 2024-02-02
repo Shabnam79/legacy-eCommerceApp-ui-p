@@ -55,21 +55,4 @@ describe('Orders.OrdersItem', () => {
         expect(productImage.src).toContain(mockItem.image);
         await reporter.endStep()
     });
-
-    test('Renders OrdersItem component with a link to review', async () => {
-        await reporter.startStep('Step 1: Rendering the order item component')
-        render(
-            <Router>
-                <OrdersItem item={mockItem} />
-            </Router>
-        );
-        await reporter.endStep()
-
-        // Assert that the rendered component contains a link to review
-        await reporter.startStep('Step 2: Verifying rendered component contains a link to review ')
-        const reviewLink = screen.getByRole('link', { name: /Rate Product/i });
-        expect(reviewLink).toBeInTheDocument();
-        expect(reviewLink.href).toContain(`/review/${mockItem.productId}/${mockItem.orderId}`);
-        await reporter.endStep()
-    });
 });

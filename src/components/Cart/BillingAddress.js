@@ -1,6 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { db } from "../../firebase/config/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import userContext from "../../utils/userContext";
 import Button from 'react-bootstrap/Button';
@@ -46,11 +44,9 @@ const BillingAddressForm = () => {
             zipCode: response.data[0].zipCode,
           });
         }).catch(function (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            toast.error("Please Enter correct Values", {
-              autoClose: 1000,
-            });
-          }
+          toast.error(error.message, {
+            autoClose: 1000,
+        });
         });
     }
   }
@@ -69,8 +65,6 @@ const BillingAddressForm = () => {
       userId: user.userId
     }
     if (user.userId && formData.id) {
-      debugger
-      console.log(payload);
       axios({
         method: 'put',
         url: variables.API_URL + 'Address/UpdateBillingAddress',
@@ -82,40 +76,27 @@ const BillingAddressForm = () => {
           autoClose: 3000,
         });
       }).catch(function (error) {
-        debugger
-        console.log(error.code);
-        if (error.code === "ERR_BAD_REQUEST") {
-          toast.error("Email already in use.", {
-            autoClose: 1000,
-          });
-        }
+        toast.error(error.message, {
+          autoClose: 1000,
+      });
       });
     }
     else if (user.userId && formData.id == null) {
-      debugger
-      console.log(user);
       axios({
         method: 'post',
         url: variables.API_URL + 'Address/AddBillingAddress',
         data: payload,
 
       }).then(function (response) {
-        debugger
-        console.log(response);
-        toast.success(`Signup successfully`, {
+        toast.success(`Billing Address Added Successfully`, {
           autoClose: 3000,
         });
       }).catch(function (error) {
-        debugger
-        console.log(error.code);
-        if (error.code === "ERR_BAD_REQUEST") {
-          toast.error("", {
-            autoClose: 1000,
-          });
-        }
+        toast.error(error.message, {
+          autoClose: 1000,
+      });
       });
     }
-    else { }
   }
   
   return (
