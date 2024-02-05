@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-import { getWishlistByIdService } from '../../firebase/services/wishlist.service';
+import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
@@ -15,8 +15,9 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
 
     const removeProductHandler = async (item) => {
         try {
-            const addToWishlistDoc = await getWishlistByIdService(item.id);
-            await deleteRecordFromFirebaseService(addToWishlistDoc);
+            //const addToWishlistDoc = await getWishlistByIdService(item.id);
+            //await deleteRecordFromFirebaseService(addToWishlistDoc);
+            await DeleteProductFromWishList(item.id);
 
             toast.warning(
                 `Product removed from the Wishlist`,

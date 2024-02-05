@@ -91,22 +91,9 @@ export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (u
     if (userId != '') {
     return await getCartProductsService(userId);
     }
-
-    // const collectionRef = query(
-    //     collection(db, "addToCartStore"), where("userId", "==", userId)
-    // )
-    // return await getDocs(collectionRef).then((storeProduct) => {
-    //     const cartProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    //     return cartProducts;
-    // })
 });
 
 function getTotals(state) {
-    // let subTotal = 0;
-    // this.state.cart.map(item => (subTotal += item.total));
-    // const tempTax = subTotal * 0.1;
-    // const tax = parseFloat(tempTax.toFixed(2));
-    // const total = subTotal + tax;
 
     const totalPrice = state.cart.reduce(
         (a, c) => a + c.count * c.price,

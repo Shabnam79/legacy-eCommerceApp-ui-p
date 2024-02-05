@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, getDocs, orderBy, query, updateDoc, where, writeBatch } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from "./product.service";
+//import { deleteRecordFromFirebaseService } from "./product.service";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
 
@@ -76,12 +76,12 @@ export const getOrderService = async (userId) => {
       });
 }
 
-export const getAllOrdersService = async () => {
-    const q = query(
-        collection(db, "productOrders")
-    )
+// export const getAllOrdersService = async () => {
+//     const q = query(
+//         collection(db, "productOrders")
+//     )
 
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
-}
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }

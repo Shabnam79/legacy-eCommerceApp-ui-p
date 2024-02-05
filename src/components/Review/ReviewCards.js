@@ -19,16 +19,16 @@ const ReviewCards = ({ review }) => {
                     {description}
                 </Card.Text>
                 <div className="container my-3">
-                                            <Row>
-                                                <Col xs={6} md={4}>
-                                                {img.length != 0 ? (
-                                                    <img src={img} style={{
-                                                        width: "100%",
-                                                        aspectRatio: "3/2",
-                                                        objectFit: "contain"
-                                                    }} className="img-fluid" alt="product" />
-                                                ) : null}
-                                                </Col>
+                        <Row>
+                           <Col xs={6} md={4}>
+                                 {img.length != 0 ? (
+                                    <img src={img} style={{
+                                        width: "100%",
+                                        aspectRatio: "3/2",
+                                        objectFit: "contain"
+                                     }} className="img-fluid" alt="product" />
+                                ) : null}
+                          </Col>
                     </Row>
                 </div>
             </Card.Body>

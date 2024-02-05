@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {
-    deleteRecordFromFirebaseService,
+    DeleteCategoryByIdService,
     getCategoryServiceByUserId,
     getCategoryByIdService,
     getCategoryByCategoryIdService
@@ -47,7 +47,7 @@ export default function CategoryList() {
                 {
                     debugger
                     const deleteCategory = await getCategoryByIdService(item.id);
-                    await deleteRecordFromFirebaseService(deleteCategory);
+                    await DeleteCategoryByIdService(deleteCategory);
 
                     toast.warning(
                             `Category removed from the List`,

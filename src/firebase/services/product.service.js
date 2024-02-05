@@ -58,9 +58,9 @@ export const getProductsService = async () => {
       });
 }
 
-export const deleteRecordFromFirebaseService = async (doc) => {
-    await deleteDoc(doc);
-}
+// export const deleteRecordFromFirebaseService = async (doc) => {
+//     await deleteDoc(doc);
+// }
 
 export const DeleteItemFromProduct = async (id) => {
   debugger

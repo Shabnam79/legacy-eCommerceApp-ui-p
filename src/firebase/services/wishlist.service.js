@@ -26,8 +26,9 @@ export const saveProductToWishlistService = async (product) => {
     });
 }
 
-export const DeleteProductFromWishList = async (doc) => {
-    await axios.delete(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "id": doc.id } }).then((response) => {
+export const DeleteProductFromWishList = async (id) => {
+    debugger
+    await axios.delete(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "id": id } }).then((response) => {
        // return response.data;
      }).catch(error => {
        console.log(error);
@@ -45,6 +46,7 @@ export const DeleteProductFromWishList = async (doc) => {
 // }
 
 export const getWishlistService = async (userId) => {
+    debugger
     return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
         return response.data;
       }).catch(error => {
@@ -52,16 +54,16 @@ export const getWishlistService = async (userId) => {
       });
 }
 
-export const getWishlistByIdService = async (productId) => {
-    return doc(db, "storeWishlist", productId);
-}
+// export const getWishlistByIdService = async (productId) => {
+//     return doc(db, "storeWishlist", productId);
+// }
 
-export const getWishlistByUserIdService = async (userId) => {
-    const q = query(
-        collection(db, "storeWishlist"), where("userId", "==", userId)
-    )
+// export const getWishlistByUserIdService = async (userId) => {
+//     const q = query(
+//         collection(db, "storeWishlist"), where("userId", "==", userId)
+//     )
 
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
-}
+//     const querySnapshot = await getDocs(q);
+//     return querySnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }

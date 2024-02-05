@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTotals, removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+//import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
@@ -50,8 +51,9 @@ export default function CartTotals({ value }) {
 
     const clearCart = () => {
         cart.forEach((data) => {
-            const addToCartDoc = doc(db, "addToCartStore", data.id);
-            deleteRecordFromFirebaseService(addToCartDoc)
+            // const addToCartDoc = doc(db, "addToCartStore", data.id);
+            // deleteRecordFromFirebaseService(addToCartDoc)
+              DeleteItemFromYourCart(data.id);
         });
         dispatch(removeAll());
     }

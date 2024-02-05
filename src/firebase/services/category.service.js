@@ -52,7 +52,7 @@ export const getCategoryByIdService = async (categoryId) => {
     return doc(db, "productCategory", categoryId);
 }
 
-export const deleteRecordFromFirebaseService = async (doc) => {
+export const DeleteCategoryByIdService = async (doc) => {
    // await deleteDoc(doc);
    return await axios.delete(variables.API_URL + 'Category/DeleteCategory', { params: { "id": doc.id } })
     .then(function (response) {
