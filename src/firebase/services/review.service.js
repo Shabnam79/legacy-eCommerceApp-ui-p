@@ -1,6 +1,8 @@
 import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { toast } from "react-toastify";
+import { variables } from "../../utils/variables";
+import axios from 'axios';
 
 export const getProductReviewsService = async (orderId) => {
     const q = query(
@@ -29,13 +31,23 @@ export const getProductReviewByOrderIdService = async (orderId) => {
 }
 
 export const getProductReviewByProductIdService = async (productId) => {
-    const q = query(
-        collection(db, "productReview"), where("productId", "==", productId)
-    )
+    return await axios.get(variables.API_URL + 'Product/GetAllProductReviewsById',{ params: { "productId": productId } })
+    .then(function (response) {
+        console.log(response.data);
+        return response.data;
+    }).catch(function (error) {
+        console.log(error.data);
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
+    });
+    // const q = query(
+    //     collection(db, "productReview"), where("productId", "==", productId)
+    // )
 
-    const querysnapshot = await getDocs(q);
-    return querysnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+    // const querysnapshot = await getDocs(q);
+    // return querysnapshot.docs
+    //     .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
 export const saveProductReview = async (productReview) => {
