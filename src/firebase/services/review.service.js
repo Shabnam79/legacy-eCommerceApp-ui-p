@@ -33,14 +33,23 @@ export const getProductReviewByOrderIdService = async (orderId) => {
       });
 }
 
-export const getProductReviewByProductIdService = async (productId) => {
-    const q = query(
-        collection(db, "productReview"), where("productId", "==", productId)
-    )
+// export const getProductReviewByProductIdService = async (productId) => {
+//     const q = query(
+//         collection(db, "productReview"), where("productId", "==", productId)
+//     )
 
-    const querysnapshot = await getDocs(q);
-    return querysnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
+//     const querysnapshot = await getDocs(q);
+//     return querysnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
+export const getProductReviewByProductIdService = async (productId) => {
+  return await axios.get(variables.API_URL + 'Product/GetAllProductReviewsById', { params: { "productId": productId } }).then((response) => {
+    console.log(response.data);
+    return response.data;
+  }).catch(error => {
+    console.log(error);
+  });
 }
 
 // export const saveProductReview = async (productReview) => {

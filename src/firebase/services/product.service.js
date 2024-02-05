@@ -22,7 +22,6 @@ export const getCategoryService = async () => {
       });
 }
 
-
 // export const getProductsByCategoryIdService = async (categoryId) => {
 //     const q = query(
 //         collection(db, "storeProducts"), where("categoryId", "==", categoryId)
@@ -40,7 +39,6 @@ export const getProductsByCategoryIdService = async (categoryId) => {
         console.log(error);
       });
 }
-
 
 // export const getProductsService = async () => {
 //     const q = query(
