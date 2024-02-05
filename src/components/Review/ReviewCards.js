@@ -5,7 +5,6 @@ import { Col, Image, Row } from 'react-bootstrap';
 
 const ReviewCards = ({ review }) => {
     const { rating, title, description, img } = review;
-    console.log(review);
     return (
         <Card style={{ width: '100%' }}>
             <Card.Header style={{ paddingTop: "0px", paddingBottom: "0px" }}>
