@@ -27,13 +27,6 @@ export const getRolesService = async () => {
         });
 }
 
-export const updateIsActiveUsersService = async (Id, isActiveValue) => {
-    const UserRoleDoc = doc(db, "userroles", Id);
-    await updateDoc(UserRoleDoc, {
-        isActive: isActiveValue
-    });
-}
-
 export const getUserDataByIdService = async (UserRoleId) => {
     return await axios.get(variables.API_URL + 'User/GetUserById', { params: { "userId": UserRoleId } })
         .then(function (response) {
@@ -46,12 +39,12 @@ export const getUserDataByIdService = async (UserRoleId) => {
 }
 
 export const updateRoleUsersService = async (addToUserRoleObj) => {
-    return await 
-    axios({
-        method: 'put',
-        url: variables.API_URL + 'User/UpdateUser',
-        data: addToUserRoleObj
-    })
+    return await
+        axios({
+            method: 'put',
+            url: variables.API_URL + 'User/UpdateUser',
+            data: addToUserRoleObj
+        })
         .then(function (response) {
             toast.success('Role Updated in admin list ', {
                 autoClose: 1000,
@@ -62,4 +55,22 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
                 autoClose: 1000,
             });
         });
+}
+
+
+export const createUsersService = async (payload) => {
+    return await
+    axios({
+        method: 'post',
+        url: variables.API_URL + 'User/AddUser',
+        data: payload, 
+    }).then(function (response) {
+        toast.success(`User Detail Added Successfully`, {
+            autoClose: 3000,
+        });
+    }).catch((error) => {
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
+    });
 }

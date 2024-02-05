@@ -4,7 +4,10 @@ import userContext from "../../utils/userContext";
 import Button from 'react-bootstrap/Button';
 import { variables } from "../../utils/variables";
 import axios from 'axios';
-
+import {
+  addBillingAddressService,
+  updateBillingAddressService
+} from '../../firebase/services/category.service';
 const BillingAddressForm = () => {
   const { user } = useContext(userContext);
   const [formData, setFormData] = useState({
@@ -65,37 +68,10 @@ const BillingAddressForm = () => {
       userId: user.userId
     }
     if (user.userId && formData.id) {
-      axios({
-        method: 'put',
-        url: variables.API_URL + 'Address/UpdateBillingAddress',
-        data: payload,
-      }).then(function (response) {
-        debugger
-        console.log(response);
-        toast.success(`Signup successfully`, {
-          autoClose: 3000,
-        });
-      }).catch(function (error) {
-        toast.error(error.message, {
-          autoClose: 1000,
-      });
-      });
+      updateBillingAddressService(payload);
     }
     else if (user.userId && formData.id == null) {
-      axios({
-        method: 'post',
-        url: variables.API_URL + 'Address/AddBillingAddress',
-        data: payload,
-
-      }).then(function (response) {
-        toast.success(`Billing Address Added Successfully`, {
-          autoClose: 3000,
-        });
-      }).catch(function (error) {
-        toast.error(error.message, {
-          autoClose: 1000,
-      });
-      });
+      addBillingAddressService(payload);
     }
   }
   
