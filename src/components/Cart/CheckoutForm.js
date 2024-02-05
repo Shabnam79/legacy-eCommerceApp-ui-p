@@ -83,7 +83,6 @@ const CheckoutForm = ({ value }) => {
                   shippingAddress.push(doc.data());
                 });
               setShippingAddress(shippingAddress);// Update the component's state with the fetched data
-              console.log(shippingAddress)
             })
         } else {
             console.log("Please login to see shipping address");

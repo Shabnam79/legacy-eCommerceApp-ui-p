@@ -14,20 +14,23 @@ export const getProductReviewsService = async (orderId) => {
         .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
+// export const getProductReviewByOrderIdService = async (orderId) => {
+//     const q = query(
+//         collection(db, "productReview"), where("orderId", "==", orderId)
+//     )
+
+//     const querysnapshot = await getDocs(q);
+//     return querysnapshot.docs
+//         .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
 export const getProductReviewByOrderIdService = async (orderId) => {
-    const q = query(
-        collection(db, "productReview"), where("orderId", "==", orderId)
-    )
-
-    const querysnapshot = await getDocs(q);
-    return querysnapshot.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    // const data = doc(db, "productReview", "VvtZtiloQD8Snv7fCcV4");
-    // const data1 = await getDoc(data);
-    // console.log(data1.exists());
-    // const data2 = data1.exists() ? data1.data() : null
-    // console.log(data2);
+    return await axios.get(variables.API_URL + 'Product/GetProductReviewByOrderId', { params: { "orderId": orderId } }).then((response) => {
+        console.log(response.data);
+        return response.data;
+      }).catch(error => {
+        console.log(error);
+      });
 }
 
 export const getProductReviewByProductIdService = async (productId) => {
@@ -50,30 +53,86 @@ export const getProductReviewByProductIdService = async (productId) => {
     //     .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-export const saveProductReview = async (productReview) => {
-    try {
-        // Define the collection and document data
-        const myCollection = collection(db, 'productReview');
+// export const saveProductReview = async (productReview) => {
+//     try {
+//         // Define the collection and document data
+//         const myCollection = collection(db, 'productReview');
 
-        // Define the document reference
-        const myDocRef = doc(myCollection, productReview.orderId);
+//         // Define the document reference
+//         const myDocRef = doc(myCollection, productReview.orderId);
 
-        // Add or update the document
-        await setDoc(myDocRef, productReview);
+//         // Add or update the document
+//         await setDoc(myDocRef, productReview);
+//     }
+//     catch (error) {
+//         toast.error(error.message, {
+//             autoClose: 1000,
+//         });
+//     }
+// }
+
+export const saveProductReview = async (productReview, image) => {
+    debugger
+    const formData = new FormData();
+    if (image != undefined)
+    {
+      formData.append('image',image);
     }
-    catch (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
-    }
-
-    // return await addDoc(collection(db, "productReview"), {
-    //     ...productReview
-    // });
+    
+    Object.keys(productReview).forEach((key) => 
+    {       
+      formData.append(key, productReview[key]);     
+    });
+     await axios({
+        method: 'post',
+        url: variables.API_URL + 'Product/AddProductReview',
+        data: formData,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data' 
+          }
+        })
+    .then(function(response) {
+        
+    }).catch(function (error){
+      
+        console.log(error.code);
+        
+    });
 }
 
-export const updateProductReview = async (productReviewDoc, productReview) => {
-    await updateDoc(productReviewDoc, {
-        ...productReview
+// export const updateProductReview = async (productReviewDoc, productReview) => {
+//     await updateDoc(productReviewDoc, {
+//         ...productReview
+//     });
+// }
+
+export const updateProductReview = async (productReviewDoc, image) => {
+    debugger
+    const formData = new FormData();
+    if (image != undefined)
+    {
+      formData.append('image',image);
+    }
+    
+    Object.keys(productReviewDoc).forEach((key) => 
+    {       
+      formData.append(key, productReviewDoc[key]);     
+    });
+     await axios({
+        method: 'put',
+        url: variables.API_URL + 'Product/UpdateProductReview',
+        data: formData,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data' 
+          }
+        })
+    .then(function(response) {
+        
+    }).catch(function (error){
+      
+        console.log(error.code);
+        
     });
 }

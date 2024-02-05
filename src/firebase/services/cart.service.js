@@ -57,16 +57,32 @@ export const getProductByIdService = async (productId) => {
     return doc(db, "addToCartStore", productId);
 }
 
-export const incrementCartProductsService = async (product, counts) => {
-    await updateDoc(product, {
-        count: counts + 1
-    });
+// export const incrementCartProductsService = async (product, counts) => {
+//     await updateDoc(product, {
+//         count: counts + 1
+//     });
+// }
+
+export const incrementCartProductsService = async (counts) => {    
+    return await counts + 1; 
 }
 
-export const decrementCartProductsService = async (product, counts) => {
-    await updateDoc(product, {
-        count: counts - 1
-    });
+export const UpdateItemQuantity = async (id, counts) => {
+    return await axios.put(variables.API_URL + `Product/UpdateItemQuantity?id=${id}&count=${counts}`).then((response) => {
+
+      }).catch(error => {
+        console.log(error);
+      });
+}
+
+// export const decrementCartProductsService = async (product, counts) => {
+//     await updateDoc(product, {
+//         count: counts - 1
+//     });
+// }
+
+export const decrementCartProductsService = async (counts) => {
+    return await counts - 1; 
 }
 
 export const getCartProductByProductIdService = async (productId) => {
