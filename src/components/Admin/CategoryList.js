@@ -37,7 +37,7 @@ export default function CategoryList() {
                 if (CategoryAlreadyExistInProduct_Data[0] != undefined) 
                 {
                     toast.warning(
-                        `Ctaegory already exist into product List`,
+                        `Category already exist into product List`,
                         {
                             autoClose: 1000,
                         }
@@ -50,7 +50,7 @@ export default function CategoryList() {
                     await deleteRecordFromFirebaseService(deleteCategory);
 
                     toast.warning(
-                            `Ctaegory removed from the List`,
+                            `Category removed from the List`,
                             {
                                 autoClose: 1000,
                             }
