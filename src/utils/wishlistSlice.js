@@ -44,7 +44,6 @@ const wishlistSlice = createSlice({
 });
 
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    debugger
     if (userId != '') {
     return await getWishlistService(userId);
     }

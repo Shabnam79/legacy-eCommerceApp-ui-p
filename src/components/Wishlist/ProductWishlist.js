@@ -19,7 +19,6 @@ const ProductWishlist = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        debugger
         if (user.userId) {
             dispatch(fetchWishlistProducts(user.userId));
         } else {
