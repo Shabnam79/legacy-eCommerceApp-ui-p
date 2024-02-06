@@ -30,7 +30,7 @@ export const updateCategoryIntoProductCategoryService = async (Category, categor
     // });
     const postData = {
         id: categoryId,
-        category: category,
+        category: Category,
         userId:userId
     };
     axios({
