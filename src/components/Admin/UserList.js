@@ -117,7 +117,7 @@ export default function UserList() {
                                                     <Button>EDIT</Button>
                                                 </Link>
 
-                                                <Button onClick={() => UserActive(item)}>{item.isActive == true ? "Inactive" : "Active"}</Button>
+                                                <Button onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
                                             </td>
 
                                         </tr>

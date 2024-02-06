@@ -40,7 +40,7 @@ const Review = (props) => {
         fetchProductReview(orderId);
         //fetchImages();
         document.title = "Ratings & Reviews";
-    }, []);
+    }, [user.userId]);
 
     const handleMediaChange = (e) => {
         const file = e.target.files;
@@ -58,12 +58,10 @@ const Review = (props) => {
     const fetchProductReview = async (orderId) => {
         debugger
         const data = await getProductReviewByOrderIdService(orderId);
-        console.log(data);
         if (data.length != 0) {
             setProductReviewDetails(data);
             setImageUrls(data.img);
             setIsUpdateReview(true);
-            console.log(imageUrls);
         }
         else
         {
