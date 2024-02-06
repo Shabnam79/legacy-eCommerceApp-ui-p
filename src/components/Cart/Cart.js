@@ -21,7 +21,7 @@ const Cart = ({ history }) => {
             console.log("Please login to see past Cart products");
         }
         document.title = "Shopping Cart";  
-    }, []);
+    }, [user.userId]);
 
     return (
         <section>

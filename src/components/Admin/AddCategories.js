@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
-import { saveCategoryIntoProductCategoryService, getCategoryServiceByUserId } from '../../firebase/services/category.service';
+import { saveCategoryIntoProductCategoryService, getCategoryByCategoryIdService  } from '../../firebase/services/category.service';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddCategories() {
@@ -35,10 +35,10 @@ export default function AddCategories() {
             ...name
         };
         
-            let data = await getCategoryServiceByUserId(user.userId);
-            if (data != undefined) {
-            let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == addToCategoryObj.Category.toUpperCase()).map(x => x.id)[0];
-               if (filteredCategoryData == undefined) {
+            // let data = await getCategoryByCategoryIdService(user.userId);
+            // if (data != undefined) {
+            // let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == addToCategoryObj.Category.toUpperCase()).map(x => x.id)[0];
+            //    if (filteredCategoryData == undefined) {
 
                     let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
                     console.log("Document written with ID: ", docRef.id);
@@ -46,15 +46,15 @@ export default function AddCategories() {
                                 autoClose: 1000,
                         });
                     name.Category = '';
-                }
-                else{
+                // }
+                // else{
 
-                    toast.warning('Category already added in admin list ', {
-                        autoClose: 3000,
-                    });
-                    return;
-                }
-            }
+                //     toast.warning('Category already added in admin list ', {
+                //         autoClose: 3000,
+                //     });
+                //     return;
+                // }
+            //}
             navigate('/admin/CategoryList');
     }
   

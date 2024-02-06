@@ -3,10 +3,7 @@ import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
 import Title from '../Title';
 import userContext from '../../utils/userContext';
-import { getAllOrdersService, getOrderService } from '../../firebase/services/order.service';
-import { doc } from 'firebase/firestore';
-import { db } from '../../firebase/config/firebase.config';
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { getOrderService } from '../../firebase/services/order.service';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -16,7 +13,7 @@ const Orders = () => {
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
-    }, user.userId);
+    }, [user.userId]);
 
     const fetchOrders = async () => {
         if (user.userId) {
@@ -27,13 +24,6 @@ const Orders = () => {
         } else {
             console.log("Please login to see past orders");
         }
-
-        //delete all orders
-        // let orders = await getAllOrdersService();
-        // orders.forEach((data) => {
-        //     const addToCartDoc = doc(db, "productOrders", data.id);
-        //     deleteRecordFromFirebaseService(addToCartDoc)
-        // });
     }
 
     return (

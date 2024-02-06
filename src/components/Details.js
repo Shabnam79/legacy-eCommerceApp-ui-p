@@ -8,7 +8,7 @@ import { openModal } from '../utils/productSlice';
 import { addToWishlist, removeFromWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-import { saveProductToWishlistService, getWishlistByIdService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
+import { saveProductToWishlistService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
 // import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
@@ -61,9 +61,10 @@ const Details = () => {
         if (user.userId) {
             if (isProductWishlisted) {
                 try {
-                    const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
+                    //const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
                     // await deleteRecordFromFirebaseService(addToWishlistDoc);
-                    await DeleteProductFromWishList(addToWishlistDoc);
+                    debugger
+                    await DeleteProductFromWishList(wishlist.id);
 
                     toast.warning(
                         `Product removed from the Wishlist`,

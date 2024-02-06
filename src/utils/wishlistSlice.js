@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getWishlistByUserIdService } from "../firebase/services/wishlist.service";
+import { getWishlistService } from "../firebase/services/wishlist.service";
 
 const wishlistSlice = createSlice({
     name: "wishlist",
@@ -28,14 +28,6 @@ const wishlistSlice = createSlice({
             );
             state.wishlist.push(action.payload);
             localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
-            // if (itemIndex >= 0) {
-            //     state.wishlist[itemIndex].count += 1;
-            //     state.wishlist[itemIndex].inWishlist = true;
-            // } else {
-            //     const product = { ...action.payload, count: 1 };
-            //     state.wishlist.push(product);
-            // }
-            //localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
         },
 
         removeFromWishlist(state, action) {
@@ -52,15 +44,9 @@ const wishlistSlice = createSlice({
 });
 
 export const fetchWishlistProducts = createAsyncThunk("fetch/wishlistProducts", async (userId) => {
-    return await getWishlistByUserIdService(userId);
-
-    // const collectionRef = query(
-    //     collection(db, "storeWishlist"), where("userId", "==", userId)
-    // )
-    // return await getDocs(collectionRef).then((storeProduct) => {
-    //     const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    //     return wishlistProducts;
-    // })
+    if (userId != '') {
+    return await getWishlistService(userId);
+    }
 });
 
 export const { addToWishlist, removeFromWishlist, removeAll } = wishlistSlice.actions;

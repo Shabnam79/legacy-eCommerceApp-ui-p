@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
 import { useParams } from 'react-router-dom';
-import { getCategoryServiceByUserId, updateCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
+import { getCategoryByCategoryIdService, updateCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -23,40 +23,44 @@ export default function EditCategory() {
 
   const fetchProductCategoryData = async (categoryId) => {
      
-          let data = await getCategoryServiceByUserId(user.userId);
+          let data = await getCategoryByCategoryIdService(categoryId);
           if (data != undefined) {
-           
-          let filteredCategoryData = data.filter(x => x.id == categoryId).map(x => x.Category)[0];
-            setCategoryData(filteredCategoryData);
+            setCategoryData(data);
           }
   }
-
 
   const handleInputChange = (event) => {
         setCategoryData(event.target.value);
   };
 
-
   const handleSubmit = async (e) => {
       e.preventDefault();
-
-        let data = await getCategoryServiceByUserId(user.userId);
-        if (data != undefined) {
+      
+    //   let data = await getCategoryServiceByUserId(user.userId);
+    //   if (data != undefined) {
+         
+    //   let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
+    //      if (filteredCategoryData == undefined) {
+        await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
+        toast.success('Category updated in admin list', {
+            autoClose: 1000,
+        });
+        // if (data != undefined) {
            
-        let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
-           if (filteredCategoryData == undefined) {
-               await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
-                toast.success('Category updated in admin list', {
-                    autoClose: 1000,
-                });
-            }
-            else{
-                toast.warning('Category already added in admin list ', {
-                    autoClose: 3000,
-                });
-                return;
-            }
-        }
+        // let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
+        //    if (filteredCategoryData == undefined) {
+        //        await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
+        //         toast.success('Category updated in admin list', {
+        //             autoClose: 1000,
+        //         });
+        //     }
+        //     else{
+        //         toast.warning('Category already added in admin list ', {
+        //             autoClose: 3000,
+        //         });
+        //         return;
+        //     }
+        // }
         navigate('/admin/CategoryList');
   }
 

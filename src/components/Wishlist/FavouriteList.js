@@ -12,7 +12,7 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
     useEffect(() => {
         fetchAddToWishlistData();
         document.title = "Favourite List";
-    }, user.userId, []);
+    }, [user.userId]);
 
     const fetchAddToWishlistData = async () => {
         if (userId) {
