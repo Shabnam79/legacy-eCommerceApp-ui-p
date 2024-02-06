@@ -33,20 +33,24 @@ const BillingAddressForm = () => {
     setFormData({ ...formData, [name]: value });
   };
   const fetchData = async () => {
+    debugger;
     if (user.userId) {
       axios.get(variables.API_URL + 'Address/GetBillingAddressByUserId', { params: { "userId": user.userId } })
         .then(function (response) {
-          return setFormData({
-            id: response.data[0].id,
-            firstName: response.data[0].firstName,
-            lastName: response.data[0].lastName,
-            address: response.data[0].address,
-            address2: response.data[0].address2,
-            city: response.data[0].city,
-            state: response.data[0].state,
-            country:response.data[0].country,
-            zipCode: response.data[0].zipCode,
-          });
+          if(response.data[0] != null)
+          {
+            return setFormData({
+              id: response.data[0].id,
+              firstName: response.data[0].firstName,
+              lastName: response.data[0].lastName,
+              address: response.data[0].address,
+              address2: response.data[0].address2,
+              city: response.data[0].city,
+              state: response.data[0].state,
+              country:response.data[0].country,
+              zipCode: response.data[0].zipCode,
+            });
+          }
         }).catch(function (error) {
           toast.error(error.message, {
             autoClose: 1000,
@@ -56,6 +60,7 @@ const BillingAddressForm = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+    debugger;
     const payload = {
       id: formData.id,
       firstName: formData.firstName,
@@ -71,7 +76,7 @@ const BillingAddressForm = () => {
     if (user.userId && formData.id) {
       updateBillingAddressService(payload);
     }
-    else if (user.userId && formData.id == null) {
+    else if (user.userId && formData.id == "") {
       addBillingAddressService(payload);
     }
   }
