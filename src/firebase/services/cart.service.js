@@ -28,8 +28,8 @@ export const getCartProductsService = async (userId) => {
 // }
 
 
-export const DeleteItemFromYourCart = async (doc) => {
-    await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": doc.id } }).then((response) => {
+export const DeleteItemFromYourCart = async (id) => {
+    await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
        // return response.data;
      }).catch(error => {
        console.log(error);
@@ -57,16 +57,32 @@ export const getProductByIdService = async (productId) => {
     return doc(db, "addToCartStore", productId);
 }
 
-export const incrementCartProductsService = async (product, counts) => {
-    await updateDoc(product, {
-        count: counts + 1
-    });
+// export const incrementCartProductsService = async (product, counts) => {
+//     await updateDoc(product, {
+//         count: counts + 1
+//     });
+// }
+
+export const incrementCartProductsService = async (counts) => {    
+    return await counts + 1; 
 }
 
-export const decrementCartProductsService = async (product, counts) => {
-    await updateDoc(product, {
-        count: counts - 1
-    });
+export const UpdateItemQuantity = async (id, counts) => {
+    return await axios.put(variables.API_URL + `Product/UpdateItemQuantity?id=${id}&count=${counts}`).then((response) => {
+
+      }).catch(error => {
+        console.log(error);
+      });
+}
+
+// export const decrementCartProductsService = async (product, counts) => {
+//     await updateDoc(product, {
+//         count: counts - 1
+//     });
+// }
+
+export const decrementCartProductsService = async (counts) => {
+    return await counts - 1; 
 }
 
 export const getCartProductByProductIdService = async (productId) => {

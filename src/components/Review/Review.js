@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import Title from '../Title';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { ButtonContainer } from '../Button';
 import StarRating from './StarRating';
-import { getProductReviewByOrderIdService, saveProductReview } from '../../firebase/services/review.service';
+import { getProductReviewByOrderIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
 import {
@@ -33,21 +33,20 @@ const Review = (props) => {
     const [imageUpload, setImageUpload] = useState(null);
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [isUpdateReview, setIsUpdateReview] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchProductReview(orderId);
-        fetchImages();
+        //fetchImages();
         document.title = "Ratings & Reviews";
-    }, []);
+    }, [user.userId]);
 
     const handleMediaChange = (e) => {
-        debugger
         const file = e.target.files;
         setImageUpload(e.target.files);
-        //setProductReviewDetails({ ...productReviewDetails, media: file });
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
-        //e.target.value = null;
     };
 
     const handleFileRemove = (index) => {
@@ -57,9 +56,16 @@ const Review = (props) => {
     };
 
     const fetchProductReview = async (orderId) => {
+        debugger
         const data = await getProductReviewByOrderIdService(orderId);
-        if (data.length > 0) {
-            setProductReviewDetails(data[0]);
+        if (data.length != 0) {
+            setProductReviewDetails(data);
+            setImageUrls(data.img);
+            setIsUpdateReview(true);
+        }
+        else
+        {
+            setIsUpdateReview(false);
         }
     }
 
@@ -73,56 +79,82 @@ const Review = (props) => {
             description: values.description,
             rating: productReviewDetails.rating
         }
+            debugger
+            if (isUpdateReview == false)
+            {
+                if (!imageUpload || imageUpload.length == 0)
+                {
+                    await saveProductReview(reviewObj);
+                }
+                else
+                {
+                    await saveProductReview(reviewObj, imageUpload[0]);
+                }
+                //uploadFile();
+                toast.success(`review submitted successfully`, {
+                    autoClose: 1000,
+                });
+            }
+            else if (isUpdateReview == true)
+            {
+                if (!imageUpload || imageUpload.length == 0)
+                {
+                    await updateProductReview(reviewObj);
+                }
+                else
+                {
+                    await updateProductReview(reviewObj, imageUpload[0]);
+                }
+                //uploadFile();
+                toast.success(`review updated successfully`, {
+                    autoClose: 1000,
+                });
 
-        await saveProductReview(reviewObj);
-
-        uploadFile();
-
-        toast.success(`review submitted successfully`, {
-            autoClose: 1000,
-        });
+            }
+        
+        navigate('/orders');
     }
 
     const setRating = (rating) => {
         setProductReviewDetails({ rating: rating });
     }
 
-    const imagesListRef = ref(storage, `OrderPlacedImages/${orderId}/`);
+    //const imagesListRef = ref(storage, `OrderPlacedImages/${orderId}/`);
 
-    const uploadFile = () => {
-        if (imageUpload.length == 0) return;
-        for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `OrderPlacedImages/${orderId}/${imageUpload[index].name}`);
-            uploadBytes(imageRef, imageUpload[index])
-                .then((snapshot) => {
-                    return getDownloadURL(snapshot.ref).catch((error) => {
-                        console.error('Error fetching download URL:', error);
-                        return null; // Return a default value or handle the error as needed
-                    });
-                })
-                .then((url) => {
-                    if (url) {
-                        setImageUrls((prev) => [...prev, url]);
-                    } else {
-                        console.error('URL is undefined or null');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error uploading file:', error);
-                });
+    // const uploadFile = () => {
+    //     if (imageUpload.length == 0) return;
+    //     for (let index = 0; index < imageUpload.length; index++) {
+    //         const imageRef = ref(storage, `OrderPlacedImages/${orderId}/${imageUpload[index].name}`);
+    //         uploadBytes(imageRef, imageUpload[index])
+    //             .then((snapshot) => {
+    //                 return getDownloadURL(snapshot.ref).catch((error) => {
+    //                     console.error('Error fetching download URL:', error);
+    //                     return null; // Return a default value or handle the error as needed
+    //                 });
+    //             })
+    //             .then((url) => {
+    //                 if (url) {
+    //                     setImageUrls((prev) => [...prev, url]);
+    //                 } else {
+    //                     console.error('URL is undefined or null');
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error('Error uploading file:', error);
+    //             });
 
-        }
-    };
+    //     }
+    // };
 
-    const fetchImages = () => {
-        listAll(imagesListRef).then((response) => {
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                });
-            });
-        });
-    }
+    // const fetchImages = () => {
+    //     listAll(imagesListRef).then((response) => {
+    //         response.items.forEach((item) => {
+    //             getDownloadURL(item).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //             });
+    //         });
+    //     });
+    // }
 
     return (
         <>
@@ -198,6 +230,19 @@ const Review = (props) => {
                                         //     setImageUpload(event.target.files);
                                         // }}
                                         />
+                                        <div className="container my-3">
+                                            <Row>
+                                                <Col xs={6} md={4}>
+                                                {imageUrls.length != 0 ? (
+                                                    <img src={imageUrls} style={{
+                                                        width: "100%",
+                                                        aspectRatio: "3/2",
+                                                        objectFit: "contain"
+                                                    }} className="img-fluid" alt="product" />
+                                                ) : null}
+                                                </Col>
+                                            </Row>
+                                        </div>
                                         {selectedFiles.map((file, index) => (
                                             <div key={index}>
                                                 <p>Selected File {index + 1}:</p>
@@ -213,7 +258,7 @@ const Review = (props) => {
                                     <ButtonContainer type="submit" style={{ "float": "right" }}>
                                         <i className="fas fa-user">Submit</i>
                                     </ButtonContainer>
-                                    <Row>
+                                    {/* <Row>
                                         <Col xs={6} md={4}>
                                             {
                                                 imageUrls.map((url) => {
@@ -224,7 +269,7 @@ const Review = (props) => {
                                                 })
                                             }
                                         </Col>
-                                    </Row>
+                                    </Row> */}
 
                                 </Form>
                             )}

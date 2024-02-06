@@ -12,6 +12,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { createUsersService } from '../../firebase/services/user.service';
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -31,8 +32,6 @@ export default function CreateUsers() {
     const [selectedValue, setSelectedValue] = useState('');
     const [RoleIdValue, setRoleIdValue] = useState('');
 
-    const usersCollectionRef = collection(db,"userroles");
-
     useEffect(() => {
         fetchRolelist();
         document.title = "Admin - Create Users"
@@ -47,41 +46,21 @@ export default function CreateUsers() {
     }
 
     const fetchRoleSelectlist = (id) => {
-        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.roles)[0];
+        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.role)[0];
         setSelectedValue(filterRoleName);
         setRoleIdValue(id);
     }
 
-
     const authentication = (values, { resetForm }) => {
-        const getAuthentication = getAuth();
-        createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
-            .then((res) => {
-
-                addDoc(usersCollectionRef,{
-                    UID: res.user.uid,
-                    email: values.email,
-                    role : selectedValue,
-                    roleId : RoleIdValue,
-                    isActive :"true",
-                    })
-
-                // alert("Signup successfully");
-                toast.success(`Signup successfully`, {
-                    autoClose: 1000,
-                });
-                resetForm();
-            })
-            .catch((error) => {
-                // console.log(error.code);
-                if (error.code === "auth/email-already-in-use") {
-                    // alert("auth/email-already-in-use");
-                    toast.error("auth/email-already-in-use", {
-                        autoClose: 1000,
-                    });
-                }
-            });
-            navigate('/admin/UserList');
+        const payload = {
+            email : values.email,
+            password : values.password,
+            role : selectedValue,
+            roleId : RoleIdValue,
+            isActive:true
+        }
+        createUsersService(payload);
+        navigate('/admin/UserList');
     }
 
   return (
@@ -117,11 +96,11 @@ export default function CreateUsers() {
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                             {dropdown.map((item) => (
-                                                <Dropdown.Item  eventKey={item.id}>{item.roles}</Dropdown.Item>
+                                                <Dropdown.Item key={item.id} eventKey={item.id}>{item.role}</Dropdown.Item>
                                             ))}
                                             </Dropdown.Menu>
                                         </Dropdown> 
-                                        
+                                     
                                     </Form.Group>    
                                 </div>
 

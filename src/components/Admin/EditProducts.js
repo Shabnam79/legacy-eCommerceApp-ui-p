@@ -26,7 +26,6 @@ function EditProducts() {
         isStock: true,
         userId: user.userId,
         productId: '',
-        img: '',
         count: 0
 
     });
@@ -35,7 +34,7 @@ function EditProducts() {
 
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
-    const [ProductIdValue, setProductIdValue] = useState('');
+    const [idValue, setIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
     const [CategoryIdValue, setCategoryIdValue] = useState('');
 
@@ -47,9 +46,9 @@ function EditProducts() {
     useEffect(() => {
         fetchStoreProductData(productId);
         fetchCategorylist();
-        GetProductGUID();
+        //GetProductGUID();
         document.title = "Admin - Edit Product"
-    }, []);
+    }, [user.userId]);
 
     const [name, setName] = useState({
         category: '',
@@ -62,7 +61,8 @@ function EditProducts() {
         userId: user.userId,
         productId: '',
         quantity: '',
-        count: 0
+        count: 0,
+        id:''
     });
 
     const fetchCategorylist = async () => {
@@ -82,19 +82,27 @@ function EditProducts() {
 
         let data = await getProductByProductIdService(productId);
         if (data != undefined) {
-            setProductData(data[0]);
-            setSelectedValue(data[0].category);
-            setCategoryIdValue(data[0].categoryId);
-            setIsStockValue(data[0].isStock);
-            setProductIdValue(data[0].productId);
+            setProductData(data);
+            setSelectedValue(data.category);
+            setCategoryIdValue(data.categoryId);
+            setIsStockValue(data.isStock);
+            setIdValue(data.id);
+            setImageUrls(data.img);
         }
     }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setProductData((prevName) => ({
-            ...prevName,
-
+            company: prevName.company,
+            info: prevName.info,
+            price: prevName.price,
+            title: prevName.title,
+            isStock: prevName.isStock,
+            userId: user.userId,
+            productId: prevName.productId,
+            quantity: prevName.quantity,
+            count: prevName.count,
             categoryId: CategoryIdValue,
             category: selectedValue,
             isStock: isStockValue,
@@ -105,18 +113,35 @@ function EditProducts() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let addToCartProductObj = {
-            ...ProductData,
+            company: ProductData.company,
+            info: ProductData.info,
+            price: ProductData.price,
+            title: ProductData.title,
+            isStock: ProductData.isStock,
+            userId: user.userId,
+            productId: ProductData.productId,
+            quantity: ProductData.quantity,
+            count: ProductData.count,
             categoryId: CategoryIdValue,
             category: selectedValue,
-            isStock: isStockValue
+            isStock: isStockValue,
+            id:idValue
         };
-
-        await saveUpdateProductStore(addToCartProductObj);
+        debugger
+        if (!imageUpload || imageUpload.length == 0)
+        {
+            await saveUpdateProductStore(addToCartProductObj);
+        }
+        else
+        {
+            await saveUpdateProductStore(addToCartProductObj, imageUpload[0]);
+        }
 
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
         });
-        uploadFile();
+        //uploadFile();
+        navigate('/admin');
     }
 
     const handleMediaChange = (e) => {
@@ -126,43 +151,43 @@ function EditProducts() {
 
     };
 
-    const uploadFile = () => {
-        if (!imageUpload || imageUpload.length == 0) return;
-        for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
-            debugger
-            uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                    fetchProductDataForImage(ProductIdValue, url);
-                });
-            });
-        }
-    };
+    // const uploadFile = () => {
+    //     if (!imageUpload || imageUpload.length == 0) return;
+    //     for (let index = 0; index < imageUpload.length; index++) {
+    //         const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
+    //         debugger
+    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
+    //             getDownloadURL(snapshot.ref).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //                 fetchProductDataForImage(ProductIdValue, url);
+    //             });
+    //         });
+    //     }
+    // };
 
-    const fetchProductDataForImage = async (productId, url) => {
+    // const fetchProductDataForImage = async (productId, url) => {
 
-        let data = await getProductByProductIdService(productId);
-        if (data != undefined) {
-            let updateImageToProductObj = {
-                category: data[0].category,
-                categoryId: data[0].categoryId,
-                info: data[0].info,
-                company: data[0].company,
-                price: data[0].price,
-                quantity: data[0].quantity,
-                title: data[0].title,
-                isStock: data[0].isStock,
-                id: data[0].id,
-                count: data[0].count,
-                productId: ProductIdValue,
-                userId: user.userId,
-                img: url,
-            };
-            saveUpdateProductStore(updateImageToProductObj);
-        }
-        navigate('/admin');
-    }
+    //     let data = await getProductByProductIdService(productId);
+    //     if (data != undefined) {
+    //         let updateImageToProductObj = {
+    //             category: data.category,
+    //             categoryId: data.categoryId,
+    //             info: data.info,
+    //             company: data.company,
+    //             price: data.price,
+    //             quantity: data.quantity,
+    //             title: data.title,
+    //             isStock: data.isStock,
+    //             id: data.id,
+    //             count: data.count,
+    //             productId: ProductIdValue,
+    //             userId: user.userId,
+    //             img: data.img,
+    //         };
+    //         saveUpdateProductStore(updateImageToProductObj);
+    //     }
+    //     navigate('/admin');
+    // }
 
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
@@ -170,11 +195,11 @@ function EditProducts() {
         setSelectedFiles(newFiles);
     };
 
-    const GetProductGUID = () => {
-        // Generate New unique id for Product Id
-        const unique_id = uuid();
-        setProductIdValue(unique_id);
-    }
+    // const GetProductGUID = () => {
+    //     // Generate New unique id for Product Id
+    //     const unique_id = uuid();
+    //     setProductIdValue(unique_id);y
+    // }
 
     return (
         <>
@@ -204,7 +229,7 @@ function EditProducts() {
                         <div className="container my-3">
                             <Row>
                                 <Col xs={6} md={4}>
-                                    <img src={ProductData.img} style={{
+                                    <img src={imageUrls} style={{
                                         width: "100%",
                                         aspectRatio: "3/2",
                                         objectFit: "contain"
