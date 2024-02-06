@@ -12,8 +12,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { variables } from "../../utils/variables";
-import axios from 'axios';
+import { createUsersService } from '../../firebase/services/user.service';
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -60,21 +59,7 @@ export default function CreateUsers() {
             roleId : RoleIdValue,
             isActive:true
         }
-
-        axios({
-            method: 'post',
-            url: variables.API_URL + 'User/AddUser',
-            data: payload, 
-        }).then(function (response) {
-            debugger
-            toast.success(`User Detail Added Successfully`, {
-                autoClose: 3000,
-            });
-        }).catch((error) => {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
-        });
+        createUsersService(payload);
         navigate('/admin/UserList');
     }
 

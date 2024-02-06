@@ -25,60 +25,58 @@ export default function UserList() {
     }
 
     const UserActive = async (item) => {
-    //     try {
-    //         if(item.isActive == "true")
-    //         {
-    //             alert("Please click Ok to make your Account Inactive.");
-    //             await updateIsActiveUsersService(item.id ,"false");
-    //                 toast.warning(
-    //                     `User Account has been Inactive.`,
-    //                     {
-    //                         autoClose: 1000,
-    //                     }
-    //                 );
-    //         }
-    //         else{
-    //             alert("Please click Ok to make your Account Active.");
-    //             await updateIsActiveUsersService(item.id ,"true");
-    //                 toast.warning(
-    //                     `User Account has been Active.`,
-    //                     {
-    //                         autoClose: 1000,
-    //                     }
-    //                 );
-    //         }
-    //         fetchUserData();
-    // }
-    // catch (e) {
-    //     console.log(e);
-    // }
-
-        if(item.isActive == true)
-        {
+        //     try {
+        //         if(item.isActive == "true")
+        //         {
+        //             alert("Please click Ok to make your Account Inactive.");
+        //             await updateIsActiveUsersService(item.id ,"false");
+        //                 toast.warning(
+        //                     `User Account has been Inactive.`,
+        //                     {
+        //                         autoClose: 1000,
+        //                     }
+        //                 );
+        //         }
+        //         else{
+        //             alert("Please click Ok to make your Account Active.");
+        //             await updateIsActiveUsersService(item.id ,"true");
+        //                 toast.warning(
+        //                     `User Account has been Active.`,
+        //                     {
+        //                         autoClose: 1000,
+        //                     }
+        //                 );
+        //         }
+        //         fetchUserData();
+        // }
+        // catch (e) {
+        //     console.log(e);
+        // }
+        if (item.isActive == true) {
             alert("Please click Ok to make your Account Inactive.");
             await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${false}`)
-            .then(function (response) {
-                toast.success(`User Active status is Updated Successfully`, {
-                    autoClose: 3000,
+                .then(function (response) {
+                    toast.success(`User Active status is Updated Successfully`, {
+                        autoClose: 3000,
+                    });
+                }).catch((error) => {
+                    toast.error(error.message, {
+                        autoClose: 1000,
+                    });
                 });
-            }).catch((error) => {
-                toast.error(error.message, {
-                    autoClose: 1000,
-                });
-            });
         }
-        else{
+        else {
             alert("Please click Ok to make your Account Active.");
             await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${true}`)
-           .then(function (response) {
-                toast.success(`User Active status is Updated Successfully`, {
-                    autoClose: 3000,
+                .then(function (response) {
+                    toast.success(`User Active status is Updated Successfully`, {
+                        autoClose: 3000,
+                    });
+                }).catch((error) => {
+                    toast.error(error.message, {
+                        autoClose: 1000,
+                    });
                 });
-            }).catch((error) => {
-                toast.error(error.message, {
-                    autoClose: 1000,
-                });
-            });
         }
         fetchUserData();
     };
