@@ -17,6 +17,10 @@ export const getUserData = async () => {
 }
 
 export const getRolesService = async () => {
+    // const UserRoleDoc = doc(db, "userroles", Id);
+    // await updateDoc(UserRoleDoc, {
+    //     isActive: isActiveValue
+    // });
     return await axios.get(variables.API_URL + 'User/GetRoles')
         .then(function (response) {
             return response.data;
@@ -56,7 +60,6 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
             });
         });
 }
-
 
 export const createUsersService = async (payload) => {
     return await

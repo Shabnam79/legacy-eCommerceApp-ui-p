@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
-import { saveCategoryIntoProductCategoryService, getCategoryByCategoryIdService } from '../../firebase/services/category.service';
+import { saveCategoryIntoProductCategoryService, getCategoryByCategoryIdService  } from '../../firebase/services/category.service';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddCategories() {
