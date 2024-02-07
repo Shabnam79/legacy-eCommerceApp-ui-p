@@ -33,7 +33,6 @@ const BillingAddressForm = () => {
     setFormData({ ...formData, [name]: value });
   };
   const fetchData = async () => {
-    debugger;
     if (user.userId) {
       axios.get(variables.API_URL + 'Address/GetBillingAddressByUserId', { params: { "userId": user.userId } })
         .then(function (response) {
@@ -60,7 +59,6 @@ const BillingAddressForm = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    debugger;
     const payload = {
       id: formData.id,
       firstName: formData.firstName,
