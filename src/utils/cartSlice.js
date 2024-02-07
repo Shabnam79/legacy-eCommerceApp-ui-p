@@ -13,17 +13,14 @@ const cartSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchCartProducts.pending, (state, action) => {
-                debugger
                 state.status = "LOADING";
             })
             .addCase(fetchCartProducts.fulfilled, (state, action) => {
-                debugger
                 state.cart = action.payload;
                 state.status = "IDLE";
                 getTotals(state);
             })
             .addCase(fetchCartProducts.rejected, (state, action) => {
-                debugger
                 state.status = "ERROR";
             });
     },
@@ -103,7 +100,7 @@ function getTotals(state) {
     const total = totalPrice + tempTax;
 
     state.subTotal = totalPrice;
-    state.tax = tempTax;
+    state.tax = tempTax.toFixed(2);
     state.total = total;
 
     localStorage.setItem("subTotal", state.subTotal);
