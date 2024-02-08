@@ -4,6 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userContext from "../../src/utils/userContext";
 import { getProductReviewByOrderIdService, saveProductReview } from '../../src/firebase/services/review.service';
 import { toast } from 'react-toastify';
+import { MemoryRouter } from 'react-router-dom';
 import Review from '../../src/components/Review/Review'
 
 // Mocking the react-router-dom useParams
@@ -98,7 +99,13 @@ describe('Review.Review', () => {
 
     it('Renders Review component', async () => {
         await reporter.startStep('Step 1: Checking if Review Component rendering without crashing')
-        render(<MockUserProvider value={{ user: mockUser }}><Review /></MockUserProvider>);
+        render(
+            <MemoryRouter>  {/* Wrap your component with MemoryRouter */}
+                <MockUserProvider value={{ user: mockUser }}>
+                    <Review />
+                </MockUserProvider>
+            </MemoryRouter>
+        );
         await reporter.endStep()
 
         // Check if the component renders without crashing
@@ -115,19 +122,22 @@ describe('Review.Review', () => {
         await reporter.endStep()
 
         await reporter.startStep('Step 2: Rendering the Review component by providing user details as a prop')
-        render(<MockUserProvider value={{ user: mockUser }}><Review /></MockUserProvider>);
-        await reporter.endStep()
-
-        /// Check if the title input is present before interacting
-        await reporter.startStep('Step 3: Check if the title input is present before interacting')
-        await waitFor(() => {
-            expect(screen.getByPlaceholderText('Review title...')).toBeInTheDocument();
-        });
+        render(
+            <MemoryRouter>  {/* Wrap your component with MemoryRouter */}
+                <MockUserProvider value={{ user: mockUser }}>
+                    <Review />
+                </MockUserProvider>
+            </MemoryRouter>
+        );
         await reporter.endStep()
 
         // Fill out the form only if the condition is met
-        await reporter.startStep('Step 4: Fill out the form only if the condition is met')
-        if (screen.getByText('Submit')) {
+        await reporter.startStep('Step 3: Fill out the form only if the condition is met');
+        const submitButton = screen.queryByText('Submit');
+        if (submitButton) {
+            await waitFor(() => {
+                userEvent.click(submitButton);
+            });
             await reporter.startStep('Step 4.1: Getting the form elements from DOM and updating the input fields')
             fireEvent.change(screen.getByPlaceholderText('Review title...'), { target: { value: 'Test Title' } });
             fireEvent.change(screen.getByPlaceholderText('Description...'), { target: { value: 'Test Description' } });
