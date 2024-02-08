@@ -49,7 +49,7 @@ describe('Details', () => {
         await reporter.startStep('Step 2: Finding the product title within an header element.');
         const titleElement = screen.queryByText(detailProduct.title, { selector: 'h2' });
         expect(titleElement).toBeInTheDocument();
-        expect(screen.getByText('some info about product')).toBeInTheDocument();
+        expect(screen.getByText('Some Info About Product')).toBeInTheDocument();
         await reporter.endStep();
 
     });
@@ -85,7 +85,7 @@ describe('Details', () => {
 
         await reporter.startStep('Step 2: Finding and firing click event on "add to cart" button.');
         // Find and click the "add to cart" button
-        const addToCartButton = screen.getByText('add to cart');
+        const addToCartButton = screen.getByText('Add To Cart');
         fireEvent.click(addToCartButton);
         await reporter.endStep();
 
@@ -137,7 +137,7 @@ describe('Details', () => {
 
         // Find and click the "add to wishlist" button
         await reporter.startStep('Step 2: Finding and clicking the "add to wishlist" button.');
-        const addToWishlistButton = screen.getByText('Add to wishlist');
+        const addToWishlistButton = screen.getByText('Add To Wishlist');
         fireEvent.click(addToWishlistButton);
         await reporter.endStep();
 
@@ -158,7 +158,7 @@ describe('Details', () => {
 
         expect(wishlistData.length).toBe(1);
         expect(wishlistData[0].id).toBe(detailProduct.id);
-        expect(addToWishlistButton).toHaveTextContent('Remove from wishlist');
+        expect(addToWishlistButton).toHaveTextContent('Remove From Wishlist');
         await reporter.endStep();
     });
 });
