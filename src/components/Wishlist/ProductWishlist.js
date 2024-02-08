@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 
 const ProductWishlist = () => {
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
-    const borderHello={border:"none"};
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
+    const borderHello = { border: "none" };
     //const [wishlist, setWishlist] = useState([]);
     const { user } = useContext(userContext);
     const wishlistItems = useSelector((store) => store.wishlist);
@@ -29,12 +29,14 @@ const ProductWishlist = () => {
 
 
     return (
-        <section>
+        <section className='mb-5'>
             {
                 wishlistItems.wishlist.length > 0
                     ?
                     <React.Fragment>
-                       <center> <h1 style={{...fontfamily}} name="your" title="wishlist" >Your WishList</h1></center>
+                        <center>
+                            <h1 className='my-3 text-title' style={{ color: 'rgb(5, 54, 69)' }} name="your" title="wishlist" >Your WishList</h1>
+                        </center>
                         <WishlistColumns />
                         <FavouriteList value={wishlistItems} />
                     </React.Fragment>

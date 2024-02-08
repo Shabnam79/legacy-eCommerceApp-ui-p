@@ -107,3 +107,23 @@ code {
 .add-to-cart-button:focus {
   outline: none;
 }
+
+.tx-wishlist-product-card {
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(243, 243, 243, 0.24);
+  backdrop-filter: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  transition: 0.5s;
+}
+
+.tx-wishlist-product-card:hover {
+  transform: translateY(-15px);
+}
+
+.wishlist-card-trash-button {
+  background-color: #EC5757;
+  color: white !important;
+  border-radius: 0.25rem;
+}
