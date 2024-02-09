@@ -8,8 +8,8 @@ import { getOrderService } from '../../firebase/services/order.service';
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
@@ -32,7 +32,9 @@ const Orders = () => {
                 orders.length > 0
                     ?
                     <>
-                        <center><h1 style={{...fontfamily}}>Your Orders</h1></center>
+                        <center>
+                            <h1 className='text-title'>Your Orders</h1>
+                        </center>
                         <OrdersList orders={orders} />
                     </> :
                     <EmptyOrders />

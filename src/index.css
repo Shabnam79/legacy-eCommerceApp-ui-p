@@ -127,3 +127,25 @@ code {
   color: white !important;
   border-radius: 0.25rem;
 }
+
+.RateProduct-Button {
+  border: none !important;
+  background-color: #053645 !important;
+  color: #f3f0eb !important;
+}
+
+.RateProduct-Button:focus {
+  outline: none;
+}
+
+.placedOrder-Card {
+  width: 325px !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  backdrop-filter: 20px !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+  transition: 0.5s;
+}
+
+.placedOrder-Card:hover {
+  transform: translateY(-15px);
+}
