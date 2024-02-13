@@ -7,11 +7,12 @@ import { handleDetail, openModal } from '../utils/productSlice';
 import userContext from "../utils/userContext";
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-
+import LoginModal from './LoginModal';
 const Product = ({ product }) => {
     const { title, img, price, inCart } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
+    const [loginmodalShow, setLoginModalShow] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -91,7 +92,12 @@ const Product = ({ product }) => {
     }
 
     const openCartModal = (item) => {
-        dispatch(openModal(item));
+        if (user.userId) {
+            dispatch(openModal(item));
+        } else {
+                    setLoginModalShow(true);
+                }
+        //dispatch(openModal(item));
     }
 
     const handleProductDetails = (item) => {
@@ -124,6 +130,13 @@ const Product = ({ product }) => {
                         {price}
                     </h5>
                 </div>
+                {user.userId == null
+                ?
+                <LoginModal name="Login"
+                    show={loginmodalShow}
+                    onHide={() => setLoginModalShow(false)} />
+                : null
+            }
             </div>
         </ProducrWrapper>
     );

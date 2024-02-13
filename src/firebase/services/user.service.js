@@ -16,6 +16,20 @@ export const getUserData = async () => {
         });
 }
 
+export const getRolesByEmailService = async (email) => {
+    // const UserRoleDoc = doc(db, "userroles", Id);
+    // await updateDoc(UserRoleDoc, {
+    //     isActive: isActiveValue
+    // });
+            const q = query(
+                collection(db, "userroles"), where("email", "==", email)
+            )
+        
+            const querySnapshot = await getDocs(q);
+            return querySnapshot.docs
+                .map((doc) => ({ ...doc.data(), id: doc.id }));
+}
+
 export const getRolesService = async () => {
     // const UserRoleDoc = doc(db, "userroles", Id);
     // await updateDoc(UserRoleDoc, {
