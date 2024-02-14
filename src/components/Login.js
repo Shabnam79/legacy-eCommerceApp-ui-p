@@ -62,7 +62,7 @@ const Login = () => {
                 //console.log(data[0]);
                 //setIsActive(data[0].isActive);
 
-                if (data[0].isActive == "true") {
+                if (data.isActive == true) {
                     
                     debugger
                     const payload = {
@@ -75,13 +75,13 @@ const Login = () => {
                         url: variables.API_URL + 'Auth/Login',
                         data: payload, 
 
-                    }).then(function(response) {
+                    }).then((response) => {
                         debugger
-                        //console.log(response.localId);
+                        console.log(response.data.code);
                         let userData = {
                                         userId: response.data.localId,
                                         email: response.data.email,
-                                        role: data[0].role
+                                        roleId: data.roleId
                                     };
                     
                                     setItem("user", JSON.stringify(userData));
@@ -90,13 +90,13 @@ const Login = () => {
                                         ...user,
                                         userId: response.data.localId,
                                         email: response.data.email,
-                                        role: data[0].role
+                                        roleId: data.roleId
                                     });
                                     console.log(userData);
 
-                        }).catch((error) => {
+                        }).catch(error => {
                             debugger
-                                console.log(error.code);
+                                //console.log(error.code);
                                 if (error.code === "ERR_BAD_REQUEST") {
                                     toast.error("Invalid login credentials.", {
                                         autoClose: 1000,
@@ -105,7 +105,7 @@ const Login = () => {
                         });
 
                 }
-                else  if (data[0].isActive == "false"){
+                else  if (data.isActive == false){
                     toast.warning(
                         `your Account is Inactive.Please connect with Admin.`,
                         {
