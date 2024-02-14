@@ -38,9 +38,9 @@ describe('Cart.CartTotals', () => {
         // Ensure that the component renders properly
         await reporter.startStep('Step 2: Ensure proper rendering of key elements in CartTotals.');
         expect(screen.getByText('clear cart')).toBeInTheDocument();
-        expect(screen.getByText('subtotal :')).toBeInTheDocument();
-        expect(screen.getByText('tax :')).toBeInTheDocument();
-        expect(screen.getByText('total Amount :')).toBeInTheDocument();
+        expect(screen.getByText('Subtotal:')).toBeInTheDocument();
+        expect(screen.getByText('Tax:')).toBeInTheDocument();
+        expect(screen.getByText('Total Amount:')).toBeInTheDocument();
         expect(screen.getByText('Proceed To Checkout')).toBeInTheDocument();
         await reporter.endStep();
 

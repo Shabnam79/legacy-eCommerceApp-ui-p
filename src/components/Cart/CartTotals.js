@@ -15,8 +15,8 @@ import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
+    const fontsize = { fontSize: 'small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
     const { cartSubTotal, cartTax, cartTotal, cart } = value;
     const { user } = useContext(userContext)
 
@@ -53,20 +53,20 @@ export default function CartTotals({ value }) {
         cart.forEach((data) => {
             // const addToCartDoc = doc(db, "addToCartStore", data.id);
             // deleteRecordFromFirebaseService(addToCartDoc)
-              DeleteItemFromYourCart(data.id);
+            DeleteItemFromYourCart(data.id);
         });
         dispatch(removeAll());
     }
 
     return <React.Fragment>
-        <div className="container" data-testid='cart-totals'>
-            <div className="row">
-                <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
-                <h5>
-                        <span style={{...fontfamily}}>subtotal :</span>
-                        <strong style={{...fontfamily}}>${cartItems.cart.subTotal}</strong>
+        <div data-testid='cart-totals'>
+            <div className="d-flex justify-content-end">
+                <div className="d-flex flex-column align-items-end" style={{ width: '300px' }}>
+                    <h5>
+                        <span>Subtotal: </span>
+                        <strong>${cartItems.cart.subTotal}</strong>
                     </h5>
-                    <button style={{...fontfamily}} id="btnClearCart"
+                    <button id="btnClearCart"
                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                         type="button"
                         onClick={() => {
@@ -74,47 +74,42 @@ export default function CartTotals({ value }) {
                         }}>
                         clear cart
                     </button>
-                    <h5 id="hdCartSubtotal">
-                        <span className="text-title">Subtotal :</span>
-                        <strong>{cartItems.cart.subTotal}</strong>
-                    </h5>
-                    <h5 id="hdCartTax">
-                        <span className="text-title">Tax :</span>
-                        <strong>{cartItems.cart.tax}</strong>
-                    </h5>
-                    <h5 id="hdCartTotalAmt">
-                        <span className="text-title">total Amount :</span>
-                        <strong>{cartItems.cart.total}</strong>
-                    </h5>
+                    <div className='mt-2 d-flex flex-column align-items-end'>
+                        <h5 id="hdCartSubtotal">
+                            <span className="text-title">SUBTOTAL: </span>
+                            <strong>{cartItems.cart.subTotal}</strong>
+                        </h5>
+                        <h5 id="hdCartTax">
+                            <span className="text-title">TAX: </span>
+                            <strong>{cartItems.cart.tax}</strong>
+                        </h5>
+                        <h5 id="hdCartTotalAmt">
+                            <span className="text-title">TOTAL AMOUNT: </span>
+                            <strong>{cartItems.cart.total}</strong>
+                        </h5>
+                    </div>
                 </div>
             </div>
-                                
-            <h5>
-                        <span style={{...fontfamily,...fontsize}} className="text-title">tax :</span>
-                        <strong style={{...fontfamily,...fontsize}}>{cartItems.cart.tax}</strong>
+
+            <div className='mt-3 d-flex justify-content-end'>
+                <div className='d-flex flex-column align-items-end' style={{ width: '300px' }}>
+                    <h5>
+                        <span style={{ ...fontsize }} className="text-title">Tax: </span>
+                        <strong style={{ ...fontsize }}>{cartItems.cart.tax}</strong>
                     </h5>
                     <h5>
-                        <span style={{...fontfamily}}>Total Amount :</span>
-                        <strong style={{...fontfamily}}>{cartItems.cart.total}</strong>
+                        <span>Total Amount: </span>
+                        <strong>{cartItems.cart.total}</strong>
                     </h5>
-    
-                <Link to="/checkout">
-                <button
-                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button" style={{...fontfamily}}>
-                        Proceed To Checkout
-                    </button>
-                </Link>
-               
-                    {/* <button
-                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button"
-                        onClick={() => {
-                            placeProductOrder();
-                        }}>
-                        Place Order
-                    </button> */}
-            <div className="row">
+
+                    <Link to="/checkout">
+                        <button
+                            className="btn btn-outline-danger text-uppercase mb-3 px-5"
+                            type="button">
+                            Proceed To Checkout
+                        </button>
+                    </Link>
+                </div>
             </div>
         </div>
 

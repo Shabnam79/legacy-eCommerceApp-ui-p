@@ -4,7 +4,7 @@ export default function EmptyCart() {
         <div className="container mt-5" data-testid="empty-cart">
             <div className="row">
                 <div className="col-10 mx-auto text-center text-title">
-                    <h1 style={{fontFamily: "Times New Roman"}}>Your cart is currently empty</h1>
+                    <h1>Your cart is currently empty</h1>
                 </div>
             </div>
         </div>

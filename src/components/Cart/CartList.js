@@ -28,11 +28,15 @@ export default function CartList({ value }) {
     }
 
     return (
-        <div className="container-fluid">
-            {CartData.map(item => {
-                return <CartItem key={item.id} item={item} value={value} fetchAddToCartData={fetchAddToCartData} />
-            })}
-
+        <div className="container-fluid" style={{
+            overflowY: 'scroll',
+            maxHeight: '375px'
+        }}>
+            <div className='row px-2'>
+                {CartData.map(item => {
+                    return <CartItem key={item.id} item={item} value={value} fetchAddToCartData={fetchAddToCartData} />
+                })}
+            </div>
         </div>
     );
 }
