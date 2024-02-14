@@ -223,3 +223,27 @@ code {
   background-color: #053645 !important;
   color: #f3f0eb !important;
 }
+
+.modal-content {
+  background-color: #f3f0eb !important;
+}
+
+.login-form {
+  width: 300px;
+}
+
+.login-signup-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 30px !important;
+  font-size: small !important;
+}
+
+.login-signup-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}

@@ -11,7 +11,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
 import { variables } from "../utils/variables";
-import axios from 'axios'; 
+import axios from 'axios';
 
 const schema = yup.object().shape({
     email: yup.string()
@@ -27,143 +27,77 @@ const Login = () => {
     const { user, setUser } = useContext(userContext);
     const { setItem } = useLocalStorage();
     const [modalShow, setModalShow] = useState(false);
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
-    const borderHello={border:"none"};
-    const stylingLoginButton={
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
+    const borderHello = { border: "none" };
+    const stylingLoginButton = {
         color: 'white',
-        backgroundColor: 'black',
-        border: '1px solid #6855e0'
-      };
-    const loginButtonTrans= {
+        backgroundColor: 'rgb(5, 54, 69)',
+        border: '1px solid #6855e0',
+        borderRadius: '5px'
+    };
+    const loginButtonTrans = {
         cursor: 'pointer',
         border: '0',
-        borderradius: '4px',
+        borderRadius: '5px',
         fontweight: '600',
-        margin: '14px 16px',
-        height:'30px',
-        width: '200px',
-        padding: '0px 10px',
+        margin: '14px 0px',
+        width: '150px',
+        padding: '0.375rem 0.75rem',
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
-      }
-    // if (auth != null)
-    //     if (auth.currentUser != null)
-    //         if (auth.currentUser.uid != null)
-    //             console.log("myauth2", auth.currentUser.uid);
+    }
 
     const authentication = (values) => {
         debugger
         const payload = {
-            email : values.email,
-            password : values.password
+            email: values.email,
+            password: values.password
         }
 
         axios({
             method: 'post',
             url: variables.API_URL + 'Auth/Login',
-            data: payload, 
+            data: payload,
 
-        }).then(function(response) {
+        }).then(function (response) {
             debugger
             console.log(response.localId);
             let userData = {
-                            userId: response.data.localId,
-                            email: response.data.email
-                        };
-        
-                        setItem("user", JSON.stringify(userData));
-        
-                        setUser({
-                            ...user,
-                            userId: response.data.localId,
-                            email: response.data.email
-                        });
+                userId: response.data.localId,
+                email: response.data.email
+            };
 
+            setItem("user", JSON.stringify(userData));
 
-            }).catch((error) => {
-                debugger
-                    console.log(error.code);
-                    if (error.code === "ERR_BAD_REQUEST") {
-                        toast.error("Invalid login credentials.", {
-                            autoClose: 1000,
-                        });
-                    }
-                    // if (error.code === "auth/wrong-password") {
-                    //     toast.error("Please check the password", {
-                    //         autoClose: 1000,
-                    //     });
-                    // } else if (error.code === "auth/user-not-found") {
-                    //     toast.error("Please check the email", {
-                    //         autoClose: 1000,
-                    //     });
-                    // } else if (error.code === "auth/invalid-login-credentials") {
-                    //     toast.error("invalid-login-credentials", {
-                    //         autoClose: 1000,
-                    //     });
-                    // }
+            setUser({
+                ...user,
+                userId: response.data.localId,
+                email: response.data.email
             });
 
 
-
-        // const getAuthentication = getAuth();
-        // signInWithEmailAndPassword(getAuthentication, values.email, values.password)
-        //     .then((res) => {
-        //         // console.log("login success");
-        //         // console.log("Auth Token", res._tokenResponse.refreshToken);
-
-        //         let userData = {
-        //             userId: auth.currentUser.uid,
-        //             email: values.email
-        //         };
-
-        //         setItem("user", JSON.stringify(userData));
-
-        //         setUser({
-        //             ...user,
-        //             userId: auth.currentUser.uid,
-        //             email: values.email
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         // console.log(error.code);
-        //         if (error.code === "auth/wrong-password") {
-        //             // alert("Please check the password");
-        //             toast.error("Please check the password", {
-        //                 autoClose: 1000,
-        //             });
-        //         } else if (error.code === "auth/user-not-found") {
-        //             // alert("Please check the email");
-        //             toast.error("Please check the email", {
-        //                 autoClose: 1000,
-        //             });
-        //         } else if (error.code === "auth/invalid-login-credentials") {
-        //             // alert("invalid-login-credentials");
-        //             toast.error("invalid-login-credentials", {
-        //                 autoClose: 1000,
-        //             });
-        //         }
-        //     });
+        }).catch((error) => {
+            debugger
+            console.log(error.code);
+            if (error.code === "ERR_BAD_REQUEST") {
+                toast.error("Invalid login credentials.", {
+                    autoClose: 1000,
+                });
+            }
+        });
     }
 
     return (
         <>
-            <Row>
-                <Col></Col>
-                <Col>
-                    {/* <h2>Login</h2> */}
-                    <Formik
-                        validationSchema={schema}
+            <Row className='d-flex justify-content-center'>
+                <div className='login-form'>
+                    <Formik validationSchema={schema}
                         onSubmit={authentication}
-                        // onSubmit={(e) => {
-                        //     const data = { email: e.email, password: e.password };
-                        //     alert(JSON.stringify(data));
-                        // }}
                         initialValues={{
                             email: 'noorsre@gmail.com',
                             password: '12345678',
-                        }}
-                    >
+                        }} >
                         {({
                             handleSubmit,
                             handleChange,
@@ -175,28 +109,25 @@ const Login = () => {
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group controlId="validationFormik01">
-                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Email</Form.Label>
-
-                                    <Form.Control style={{...fontsize,...fontfamily}}
+                                    <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Email</Form.Label>
+                                    <Form.Control
                                         type="email"
                                         placeholder="jane@formik.com"
+                                        className='login-signup-input'
                                         name="email"
                                         value={values.email}
                                         onChange={handleChange}
                                         isInvalid={!!errors.email}
                                     />
-
-                                    <Form.Control.Feedback type="invalid" style={{...fontsize,...fontfamily}}>
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
                                         {errors.email}
                                     </Form.Control.Feedback>
-
                                 </Form.Group>
 
-                                <Form.Group controlId="validationFormik02">
-                                    <Form.Label style={{fontSize:'16px',...fontfamily,fontWeight:'bold'}}>Password</Form.Label>
-
+                                <Form.Group controlId="validationFormik02" className='mt-2'>
+                                    <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Password</Form.Label>
                                     <Form.Control
-                                        type="text" style={{...fontsize,...fontfamily}}
+                                        className='login-signup-input'
                                         placeholder="******"
                                         name="password"
                                         value={values.password}
@@ -205,40 +136,41 @@ const Login = () => {
                                     />
 
                                     <Form.Control.Feedback type="invalid">
-                                        { errors.password}
+                                        {errors.password}
                                     </Form.Control.Feedback>
 
                                 </Form.Group>
 
-                                {/* <Button
-                                    type="submit"
-                                    style={{ marginTop: "10px", background: "#fc8019", border: "#fc8019" }}
-                                // onClick={() => authentication()}
-                                >Login</
-                                Button> */}
-
-                                <button style={{...fontfamily,marginLeft:'50x',...stylingLoginButton,...loginButtonTrans}} type="submit">
-                                    <span style={{...fontfamily}}>Login</span>
-                                </button>                         
+                                <div className='d-flex justify-content-center mt-2'>
+                                    <button style={{ ...stylingLoginButton, ...loginButtonTrans }} type="submit">
+                                        <span>Login</span>
+                                    </button>
+                                </div>
 
                                 <LoginModal
                                     name="Signup"
                                     show={modalShow}
-                                    onHide={() => setModalShow(false)} 
-                                    
-                                /><br></br>
-                                <br></br>
-                                   <span style={{fontSize:'14px',...fontfamily,margin:'45px'}}>New User ? </span>
-                                 <span onClick={(e) => {
-                                    e.preventDefault();
-                                    setModalShow(true);
-                                }}><span style={{fontSize:'15px',...fontfamily,margin:'-45px',color:'blue',fontWeight:'lightblue',cursor:'pointer'}}>Click Here</span>
-                                </span>
+                                    onHide={() => setModalShow(false)}
+
+                                />
+                                <div className='d-flex justify-content-center align-items-center'>
+                                    <span className='mr-1' style={{ fontSize: '14px' }}>New User? </span>
+                                    <span onClick={(e) => {
+                                        e.preventDefault();
+                                        setModalShow(true);
+                                    }} style={{
+                                        fontSize: '15px',
+                                        color: 'blue',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        textDecoration: 'underline'
+                                    }}>Click Here
+                                    </span>
+                                </div>
                             </Form>
                         )}
                     </Formik >
-                </Col>
-                <Col></Col>
+                </div>
             </Row>
         </>
     );
