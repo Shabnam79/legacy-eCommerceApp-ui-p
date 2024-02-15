@@ -29,13 +29,24 @@ const Details = () => {
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
-        fetchAddToCartData();
+        // fetchAddToCartData();
+        if (user.userId) {
+            fetchAddToCartData();
+        } else {
+            console.log("Please login to see past Cart products");
+        }
     }, [user.userId]);
 
     useEffect(() => {
-        checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
-        document.title = detailProduct.title;
-        console.log(detailProduct.count);
+        if (user.userId) {
+            checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+            document.title = detailProduct.title;
+        } else {
+            console.log("Please login to see past Cart products");
+        }
+        // checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+        // document.title = detailProduct.title;
+        //console.log(detailProduct.count);
     }, [user.userId]);
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
@@ -133,7 +144,7 @@ const Details = () => {
     }
 
     const addProductIntoCart = async (item) => {
-        console.log(item.count);
+        //console.log(item.count);
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -245,7 +256,7 @@ const Details = () => {
                         <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
-                                console.log(detailProduct);
+                                //console.log(detailProduct);
                                 //openCartModal(detailProduct);
                             }}>
                             {inCart ? "InCart" : "Add To Cart"}

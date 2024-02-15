@@ -12,6 +12,7 @@ import LoginModal from './LoginModal';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
+import { variables } from "../utils/variables";
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -42,7 +43,8 @@ const Navbar = () => {
         setModalShow(false);
         setUser({
             userId: null,
-            email: null
+            email: null,
+            roleId:null
         });
         removeItem("user");
         try {
@@ -106,8 +108,84 @@ const Navbar = () => {
                                 onHide={() => setModalShow(false)}
                             />
                         </>
-                        : <>
-                            <Dropdown className="d-inline mx-2">
+                        : 
+                        <>
+
+                            {
+                            user && user.roleId == variables.ROLE_ADMIN
+                            ?
+                            <>
+                                <Dropdown className="d-inline mx-2">
+                                    <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
+                                        <span>Hello {user.email} |</span>
+                                        <span>&nbsp;Account & Lists</span>
+                                    </Dropdown.Toggle>
+                                    <div className='w-100'>
+                                        <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
+                                            <Dropdown.Item id="ddllogout" onClick={() => logout()} href="/">
+                                                Logout</Dropdown.Item>
+                                            <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">
+                                                Your Orders</Dropdown.Item>
+                                            <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                            <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </div>
+                                </Dropdown>
+                                <Dropdown className="d-inline mx-3">
+                                    <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' 					style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
+                                        <span>&nbsp;Admin</span>
+                                    </Dropdown.Toggle>
+                                    <div className='w-100'>
+                                        <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
+                                            <Dropdown.Item href="/admin">Manage Product</Dropdown.Item>
+                                            <Dropdown.Item href="/admin/CategoryList">Manage Category</Dropdown.Item>
+                                            <Dropdown.Item href="/admin/UserList">Manage Users</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </div>
+                                </Dropdown>
+                                <Link to="/cart" className="d-flex align-items-end">
+                                    <Button style={{
+                                        backgroundColor: '#053645',
+                                        ...borderHello
+                                    }}>
+                                        <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
+                                    </Button>
+                                </Link>
+                            </>
+                            : 
+                            <>
+                                <Dropdown className="d-inline mx-2">
+                                    <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
+                                        <span>Hello {user.email} |</span>
+                                        <span>&nbsp;Account & Lists</span>
+                                    </Dropdown.Toggle>
+                                    <div className='w-100'>
+                                        <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu4' style={{ ...borderHello }}>
+                                            <Dropdown.Item id="ddllogout" onClick={() => logout()} href="/">
+                                                Logout</Dropdown.Item>
+                                            <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">
+                                                Your Orders</Dropdown.Item>
+                                            <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                            <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </div>
+                                </Dropdown>
+                                <Link to="/cart" className="d-flex align-items-end">
+                                    <Button style={{
+                                        backgroundColor: '#053645',
+                                        ...borderHello
+                                    }}>
+                                        <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
+                                    </Button>
+                                </Link>
+                            </>
+
+                    }
+
+
+                            {/* <Dropdown className="d-inline mx-2">
                                 <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
                                     <span>Hello {user.email} |</span>
                                     <span>&nbsp;Account & Lists</span>
@@ -124,18 +202,26 @@ const Navbar = () => {
                                     </Dropdown.Menu>
                                 </div>
                             </Dropdown>
+                            <Link to="/cart" className="d-flex align-items-end">
+                                <Button style={{
+                                    backgroundColor: '#053645',
+                                    ...borderHello
+                                }}>
+                                    <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
+                                </Button>
+                            </Link> */}
                         </>
 
                 }
 
-                <Link to="/cart" className="d-flex align-items-end">
+                {/* <Link to="/cart" className="d-flex align-items-end">
                     <Button style={{
                         backgroundColor: '#053645',
                         ...borderHello
                     }}>
                         <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
                     </Button>
-                </Link>
+                </Link> */}
             </div>
         </NavWrapper >
     )
