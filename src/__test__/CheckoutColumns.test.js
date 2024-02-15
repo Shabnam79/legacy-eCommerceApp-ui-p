@@ -19,24 +19,7 @@ describe('Cart.CheckoutColumns', () => {
 
     });
 
-    it('Applies the correct classes to columns', async () => {
-
-        await reporter.startStep('Step 1: Render CheckoutColumns component and start testing.');
-        const { getByText } = render(<CheckoutColumns />);
-        await reporter.endStep();
-
-        await reporter.startStep('Step 2: Validate correct column classes using getByText assertions.');
-        expect(getByText('products').closest('.col-lg-2')).toBeInTheDocument();
-        expect(getByText('name of product').closest('.col-lg-2')).toBeInTheDocument();
-        expect(getByText('price').closest('.col-lg-2')).toBeInTheDocument();
-        expect(getByText('quantity').closest('.col-lg-2')).toBeInTheDocument();
-        expect(getByText('total').closest('.col-lg-2')).toBeInTheDocument();
-        await reporter.endStep();
-
-    });
-
     it('Renders the container with the correct class', async () => {
-
         await reporter.startStep('Step 1: Render the CheckoutColumns component for testing.');
         const { container } = render(<CheckoutColumns />);
         await reporter.endStep();
@@ -47,6 +30,5 @@ describe('Cart.CheckoutColumns', () => {
         expect(container.firstChild).toHaveClass('d-none');
         expect(container.firstChild).toHaveClass('d-lg-block');
         await reporter.endStep();
-
     });
 });

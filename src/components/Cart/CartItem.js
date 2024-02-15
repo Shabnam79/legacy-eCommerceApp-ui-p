@@ -8,9 +8,9 @@ import { incrementCartProductsService, decrementCartProductsService, getProductB
 export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const dispatch = useDispatch();
-    
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
+
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
     const { id, title, img, price, total, count, quantity } = item;
     const removeProductHandler = async (item) => {
         try {
@@ -47,7 +47,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
         if (count != 1) {
             // await decrementCartProductsService(addToCartDoc, count);
             const CountDecrement = await decrementCartProductsService(count);
-        await UpdateItemQuantity(addToCartDoc.id, CountDecrement);
+            await UpdateItemQuantity(addToCartDoc.id, CountDecrement);
 
             fetchAddToCartData();
 
@@ -59,26 +59,35 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     }
 
     return (
-        <div className="row my-2 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "15rem", height: "12rem" }} className="img-fluid" alt="product" />
-            </div>
-            <div style={{marginTop:'30px',width: '200px'}}>
-                <span style={{...fontfamily}}> </span><span style={{...fontfamily,fontSize:'14px',fontWeight:'bold',color:'#12499E'}}>{title}</span><div></div>
-                <span style={{...fontfamily,...fontsize}}>$ </span><span style={{...fontfamily,...fontsize}}>{price}</span><div></div>
-                <span  style={{...fontfamily,...fontsize}}>QTY<div>
-                        <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
-                        <span className="btn btn-black mx-1">{count}</span>
-                        <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
-                    </div></span>
-            </div>
-            <div className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
-                <div className="cart-icon" onClick={() => removeProductHandler(item)}>
-                    <i className="fas fa-trash" data-testid="trash-icon"></i>
+        <div className='w-100 my-3'>
+            <div className="d-flex align-items-center justify-content-between w-100">
+                <div className="" style={{ width: "15rem", height: "12rem" }}>
+                    <img src={img} className="img-fluid w-100 h-100" alt="product" />
                 </div>
-            </div>
-            <div id="dvCartTotalPrice" className="col-10 mx-auto col-lg-2" style={{marginTop:'50px'}}>
-                <strong style={{...fontfamily}}>item total : $ {price * count}</strong>
+                <div className='d-flex flex-column align-items-center'>
+                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span>
+                    <strong className='mb-2' style={{ fontSize: '14px' }}>$ {price}</strong>
+                    <strong className='d-flex flex-column align-items-center' style={{ ...fontsize }}>
+                        <span>QTY</span>
+                        <div>
+                            <span style={{ cursor: 'pointer' }} className="btn btn-black mx-1" onClick={() => decrement(item)}>
+                                <strong>-</strong>
+                            </span>
+                            <span className="btn btn-black mx-1">{count}</span>
+                            <span style={{ cursor: 'pointer' }} className="btn btn-black mx-1" onClick={() => increment(item)}>
+                                <strong>+</strong>
+                            </span>
+                        </div>
+                    </strong>
+                </div>
+                <div className="">
+                    <div className="cart-icon" onClick={() => removeProductHandler(item)}>
+                        <i style={{ color: '#dc3545' }} className="fas fa-trash-alt" data-testid="trash-icon"></i>
+                    </div>
+                </div>
+                <div id="dvCartTotalPrice" className="">
+                    <strong>Total Item: ${price * count}</strong>
+                </div>
             </div>
         </div>
     )

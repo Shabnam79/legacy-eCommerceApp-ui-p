@@ -70,3 +70,180 @@ code {
   border-bottom: 2px solid #ffffff !important;
   transition: .3s;
 }
+
+.product-card {
+  color: #053645;
+  backdrop-filter: blur(8px);
+  background: rgba(243, 243, 243, 0.24);
+}
+
+.product-card:hover {
+  color: #053645;
+  text-decoration: none;
+}
+
+.tx-product-card {
+  padding: 0.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(243, 243, 243, 0.24);
+  backdrop-filter: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  transition: 0.5s;
+}
+
+.tx-product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: #727575 1px 1px 5px 0px !important;
+}
+
+.add-to-cart-button {
+  border: none;
+  padding: 10px 0;
+  background-color: #053645;
+  color: #f3f0eb;
+}
+
+.add-to-cart-button:focus {
+  outline: none;
+}
+
+.tx-wishlist-product-card {
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(243, 243, 243, 0.24);
+  backdrop-filter: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  transition: 0.5s;
+}
+
+.tx-wishlist-product-card:hover {
+  transform: translateY(-15px);
+}
+
+.wishlist-card-trash-button {
+  background-color: #EC5757;
+  color: white !important;
+  border-radius: 0.25rem;
+}
+
+.RateProduct-Button {
+  border: none !important;
+  background-color: #053645 !important;
+  color: #f3f0eb !important;
+}
+
+.RateProduct-Button:focus {
+  outline: none;
+}
+
+.placedOrder-Card {
+  width: 325px !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  backdrop-filter: 20px !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+  transition: 0.5s;
+}
+
+.placedOrder-Card:hover {
+  transform: translateY(-15px);
+}
+
+.shipping-address-area {
+  color: #053645 !important;
+  backdrop-filter: blur(8px) !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+}
+
+.add-new-address-button {
+  border: none !important;
+  background-color: #053645 !important;
+  color: #f3f0eb !important;
+}
+
+.container>iframe {
+  margin: 20px 0 0 0;
+  padding: 1.25rem !important;
+  width: 320px !important;
+  height: 275px;
+  border-radius: 0.25rem;
+  border: none !important;
+  color: #053645 !important;
+  backdrop-filter: blur(8px) !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+}
+
+.add-new-card-button {
+  border: none !important;
+  background-color: #053645 !important;
+  color: #f3f0eb !important;
+}
+
+.order-summary-card {
+  color: #053645 !important;
+  backdrop-filter: blur(8px) !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+}
+
+.billing-address-form {
+  color: #053645 !important;
+  backdrop-filter: blur(8px) !important;
+  background: rgba(243, 243, 243, 0.24) !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px !important;
+}
+
+.billing-address-label {
+  color: #053645;
+  font-weight: 600;
+}
+
+.billing-address-input {
+  background: transparent;
+  border: 1.5px solid #053645;
+  border-radius: 2.5px;
+  transition: 0.3s;
+}
+
+.billing-address-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.billing-address-submit-button {
+  border: none !important;
+  background-color: #053645 !important;
+  color: #f3f0eb !important;
+}
+
+.modal-content {
+  background-color: #f3f0eb !important;
+}
+
+.login-form {
+  width: 300px;
+}
+
+.login-signup-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 30px !important;
+  font-size: small !important;
+}
+
+.login-signup-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}

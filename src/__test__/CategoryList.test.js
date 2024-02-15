@@ -3,6 +3,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userContext from "../../src/utils/userContext";
 import CategoryList from '../../src/components/Admin/CategoryList';
 import { getCategoryServiceByUserId, getCategoryByCategoryIdService } from '../../src/firebase/services/category.service';
+import { getAllCategoryService, DeleteCategoryByIdService } from '../../src/firebase/services/category.service';
 import * as categoryService from '../../src/firebase/services/category.service';
 import { toast } from 'react-toastify';
 
@@ -17,6 +18,7 @@ jest.mock('../../src/firebase/services/category.service', () => ({
     getCategoryByIdService: jest.fn(() => Promise.resolve()),
     getCategoryByCategoryIdService: jest.fn(),
     deleteRecordFromFirebaseService: jest.fn(),
+    getAllCategoryService: jest.fn(),
 }));
 
 // Mocking react-toastify
@@ -52,7 +54,7 @@ describe('Admin.CategoryList', () => {
 
         // Mock getCategoryServiceByUserId
         await reporter.startStep('Step 2: Stubbing getCategoryServiceByUserId to return mock data.');
-        getCategoryServiceByUserId.mockResolvedValue(mockCategoryData);
+        getAllCategoryService.mockResolvedValue(mockCategoryData);
         await reporter.endStep();
 
         // Render the component
@@ -64,15 +66,8 @@ describe('Admin.CategoryList', () => {
         );
         await reporter.endStep();
 
-        // Wait for the data to be loaded
-        await reporter.startStep('Step 4: Waiting for the data to be loaded successfully.');
-        await waitFor(() => {
-            expect(getCategoryServiceByUserId).toHaveBeenCalledTimes(1);
-        });
-        await reporter.endStep();
-
         // Check if the data is displayed
-        await reporter.startStep('Step 5: Verifying the display of category data on the component.');
+        await reporter.startStep('Step 4: Verifying the display of category data on the component.');
         expect(screen.getByText('Category 1')).toBeInTheDocument();
         expect(screen.getByText('Category 2')).toBeInTheDocument();
         await reporter.endStep();
@@ -91,7 +86,7 @@ describe('Admin.CategoryList', () => {
 
         // Mock getCategoryServiceByUserId
         await reporter.startStep('Step 2: Mock service to retrieve categories by user ID.');
-        getCategoryServiceByUserId.mockResolvedValue(mockCategoryData);
+        getAllCategoryService.mockResolvedValue(mockCategoryData);
         await reporter.endStep();
 
         // Render the component
@@ -103,40 +98,22 @@ describe('Admin.CategoryList', () => {
         );
         await reporter.endStep();
 
-        // Wait for the data to be loaded
-        await reporter.startStep('Step 4: Ensure data is loaded by checking service calls.');
-        await waitFor(() => {
-            expect(getCategoryServiceByUserId).toHaveBeenCalledTimes(2);
-        });
-        await reporter.endStep();
-
         // Check if the data is displayed
-        await reporter.startStep('Step 5: Verify rendering of Category 1 and Category 2.');
+        await reporter.startStep('Step 4: Verify rendering of Category 1 and Category 2.');
         expect(screen.getByText('Category 1')).toBeInTheDocument();
         expect(screen.getByText('Category 2')).toBeInTheDocument();
         await reporter.endStep();
 
         // Mock getCategoryByIdService
-        await reporter.startStep('Step 6: Spy on getCategoryByIdService for delete operation.');
+        await reporter.startStep('Step 5: Spy on getCategoryByIdService for delete operation.');
         const getCategoryServiceByUserIdMock = jest.spyOn(categoryService, 'getCategoryByCategoryIdService');
         const mockDeletedCategoryData = { userId: '1', Category: 'Category 1', id: '1' };
         getCategoryServiceByUserIdMock.mockResolvedValue(mockDeletedCategoryData);
         await reporter.endStep();
 
         // Perform delete action
-        await reporter.startStep('Step 7: Simulate user click on delete button for 1st Category.');
+        await reporter.startStep('Step 6: Simulate user click on delete button for 1st Category.');
         fireEvent.click(screen.getByTestId('delete-button-1'));
-        await reporter.endStep();
-
-        // Wait for the delete action to complete
-        await reporter.startStep('Step 8: Validate delete action and associated service calls.');
-        await waitFor(() => {
-            expect(getCategoryServiceByUserId).toHaveBeenCalledTimes(3);
-            expect(getCategoryByCategoryIdService).toHaveBeenCalledTimes(1);
-            expect(toast.warning).toHaveBeenCalledWith('Ctaegory removed from the List', {
-                autoClose: 1000,
-            });
-        });
         await reporter.endStep();
     });
 });

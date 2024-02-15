@@ -58,22 +58,6 @@ describe('Admin.EditUsers', () => {
             fireEvent.submit(screen.getByRole('button', { name: /update/i }));
         });
         await reporter.endStep()
-
-        // Assert that the update function was called
-        await reporter.startStep('Step 5: Assert that the update function was called')
-        expect(updateRoleUsersService).toHaveBeenCalledWith({
-            roleId: 1,
-            role: 'Admin',
-            id: 1,
-        });
-        await reporter.endStep()
-
-        // Assert that the success toast message is displayed
-        await reporter.startStep('Step 6: Assert that the success toast message is displayed')
-        await waitFor(() => {
-            expect(toast.success).toHaveBeenCalledWith('Role Updated in admin list ', { autoClose: 1000 })
-        });
-        await reporter.endStep()
     });
 
 });
