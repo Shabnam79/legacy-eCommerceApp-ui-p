@@ -95,8 +95,8 @@ const Product = ({ product }) => {
         if (user.userId) {
             dispatch(openModal(item));
         } else {
-                    setLoginModalShow(true);
-                }
+            setLoginModalShow(true);
+        }
         //dispatch(openModal(item));
     }
 
@@ -105,39 +105,42 @@ const Product = ({ product }) => {
     }
 
     return (
-        <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3" style={{display:"flex"}}>
-            <div className="card">
-                <div className="img-container p-5" onClick={() => handleProductDetails(product)}>
-                    <Link to="/details">
-                        <img src={img} alt="product" className="card-img-top" />
-                    </Link>
-                    <button data-testid="add-to-cart-button" className="cart-btn" disabled={inCart ? true : false}
-                        onClick={() => {
-                            addProductIntoCart(product);
-                            openCartModal(product);
-                        }}>
-                        {inCart ? (<p className="text-capitalize mb-0" disabled>{""}in Cart</p>)
-                            : (<i className="fas fa-cart-plus" />)}
-                    </button>
-                </div>
-
-                <div data-testid='product-price' className="card-footer d-flex justify-content-between">
-                    <p className="align-self-center mb-0">
-                        {title}
-                    </p>
-                    <h5 className="text-blue font-italic mb-0">
+        <ProducrWrapper className="tx-product-card">
+            <div className="" onClick={() => handleProductDetails(product)}>
+                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex' }}>
+                    <img src={img} alt="product" className="h-auto w-100" />
+                </Link>
+            </div>
+            <div className="my-2 d-flex align-items-center justify-content-between">
+                <h6 data-testid='product-title'>
+                    <span className="">
+                        {title}:
+                    </span>
+                </h6>
+                <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
+                    <b>
                         <span className="mr-1">$</span>
-                        {price}
-                    </h5>
-                </div>
-                {user.userId == null
-                ?
+                        <span>{price}</span>
+                    </b>
+                </h5>
+            </div>
+            {user.userId == null ?
                 <LoginModal name="Login"
                     show={loginmodalShow}
                     onHide={() => setLoginModalShow(false)} />
                 : null
             }
-            </div>
+            <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
+                onClick={() => {
+                    addProductIntoCart(product);
+                    openCartModal(product);
+                }}>
+                {inCart ? (
+                    <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
+                ) : (
+                    <p className='m-0'>ADD TO CART</p>
+                )}
+            </button>
         </ProducrWrapper>
     );
 }

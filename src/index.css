@@ -110,7 +110,6 @@ code {
 }
 
 .tx-wishlist-product-card {
-  width: 325px;
   display: flex;
   flex-direction: column;
   background: rgba(243, 243, 243, 0.24);
@@ -121,6 +120,7 @@ code {
 
 .tx-wishlist-product-card:hover {
   transform: translateY(-15px);
+  box-shadow: #727575 1px 1px 5px 0px !important;
 }
 
 .wishlist-card-trash-button {
@@ -149,6 +149,7 @@ code {
 
 .placedOrder-Card:hover {
   transform: translateY(-15px);
+  box-shadow: #727575 1px 1px 5px 0px !important;
 }
 
 .shipping-address-area {
