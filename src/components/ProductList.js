@@ -6,14 +6,16 @@ import { fetchProducts } from '../utils/productSlice';
 import { Link } from 'react-router-dom';
 import { getCategoryService } from '../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
+import LoadingOverlay from 'react-loading-overlay';
 
 const ProductList = () => {
     const dispatch = useDispatch();
     const { allproducts } = useSelector((state) => state.allproducts);
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
+    const fontfamily = {fontFamily: "Times New Roman"};
+    const borderHello={border:"none"};
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchCategorylist();
@@ -22,9 +24,11 @@ const ProductList = () => {
     }, []);
 
     const fetchCategorylist = async () => {
+        setLoading(true);
         let data = await getCategoryService();
         if (data != undefined) {
             setDropdown(data);
+            setLoading(false);
         }
     }
     const fetchProductCategorylist = (id) => {
@@ -35,22 +39,23 @@ const ProductList = () => {
 
     return (
         <>
+        <LoadingOverlay active={loading} spinner text='Loading...'>
             <div className="py-5">
                 <div className="container">
                     <div className="row">
                         <div className="container-fluid">
-
-                            <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                                <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
-                                    {selectedValue || 'All'}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className='tx-dropdown-menu'>
-                                    <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
-                                    {dropdown.map((item) => (
-                                        <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        
+                        <Dropdown  title="All Category"  onSelect={(e) => fetchProductCategorylist(e)}>
+                            <Dropdown.Toggle  id="dropdown-basic" style={{background:'LightGray',...borderHello,...fontfamily,color:'black'}}>
+                                {selectedValue || 'All'}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                            <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
+                            {dropdown.map((item) => (
+                                <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
+                            ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
                         </div>
                         <div className='container'>
                             <div className='mt-1 row'>
@@ -68,6 +73,7 @@ const ProductList = () => {
                     </div>
                 </div>
             </div>
+            </LoadingOverlay>
         </>
     );
 }

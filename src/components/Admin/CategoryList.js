@@ -8,11 +8,13 @@ import {
 } from '../../firebase/services/category.service';
 import userContext from "../../utils/userContext.js";
 import { toast } from "react-toastify";
+import LoadingOverlay from 'react-loading-overlay';
 
 
 export default function CategoryList() {
     const { user } = useContext(userContext);
     const [CategoryData, setCategoryData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchStoreCategoryData();
@@ -20,11 +22,12 @@ export default function CategoryList() {
     }, []);
 
     const fetchStoreCategoryData = async () => {
-
-        let data = await getAllCategoryService();
-        if (data != undefined) {
-            setCategoryData(data);
-        }
+       
+            let data = await getAllCategoryService();
+            if (data != undefined) {
+                setCategoryData(data);
+                setLoading(false);
+            }
     }
 
     const removeCategoryHandler = async (item) => {
@@ -60,6 +63,7 @@ export default function CategoryList() {
     };
     return (
         <>
+            <LoadingOverlay active={loading} spinner text='Loading...'>
             <div className="container mt-5">
                 <div className="d-flex flex-column">
                     <Link className='mb-3' to='/admin/AddCategories'>
@@ -106,6 +110,7 @@ export default function CategoryList() {
                     </Table>
                 </div>
             </div>
+            </LoadingOverlay>
         </>
 
     )

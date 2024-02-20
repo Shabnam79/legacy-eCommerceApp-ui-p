@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getUserData, updateIsActiveUsersService } from '../../firebase/services/user.service.js';
+import { getUserData } from '../../firebase/services/user.service.js';
 import userContext from "../../utils/userContext.js";
 import { Link } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
- 
+import LoadingOverlay from 'react-loading-overlay';
+
 export default function UserList() {
  
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
- 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         fetchUserData();
         document.title = "Admin - User Management"
@@ -21,6 +23,7 @@ export default function UserList() {
         let data = await getUserData();
         if (data != undefined) {
             setUserData(data);
+            setLoading(false);
         }
     }
  
@@ -83,6 +86,7 @@ export default function UserList() {
  
     return (
         <>
+            <LoadingOverlay active={loading} spinner text='Loading...'>
             <div className='container mt-5'>
                 <div className='d-flex flex-column'>
                     <Link className='d-grid gap-2' to='/admin/CreateUsers'>
@@ -129,7 +133,8 @@ export default function UserList() {
                         </tbody>
                     </Table>
                 </div>
-            </div>
+                </div>
+            </LoadingOverlay>
         </>
     );
 }

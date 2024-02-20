@@ -1,6 +1,5 @@
 import { Button, button, Table } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { storeProducts } from '../../data.js'
 import React, { useContext, useEffect, useState } from 'react'
 import userContext from "../../utils/userContext.js";
 import { getProductByIdService } from '../../firebase/services/product.service.js';
@@ -10,6 +9,7 @@ import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
 import AdminColumns from './AdminColumns.js';
 import { Link } from 'react-router-dom';
+import LoadingOverlay from 'react-loading-overlay';
 
 function Dashboard() {
 
@@ -19,6 +19,7 @@ function Dashboard() {
     const [ProductIdValue, setProductIdValue] = useState('');
 
     const [imageUrls, setImageUrls] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchStoreProductData();
@@ -30,13 +31,13 @@ function Dashboard() {
         let data = await getProductsService();
         if (data != undefined) {
             setProductData(data);
+            setLoading(false);
         }
     }
 
     const removeProductHandler = async (item) => {
 
         try {
-            debugger
             //const deleteStroeProcduct = await getProductByIdService(item.id);
             //await deleteRecordFromFirebaseService(deleteStroeProcduct);
             await DeleteItemFromProduct(item.id);
@@ -56,6 +57,7 @@ function Dashboard() {
 
     return (
         <>
+        <LoadingOverlay active={loading} spinner text='Loading...'>
             <div className='container my-5'>
                 <Link className='d-grid gap-2' to='/admin/addproduct'>
                     <Button size="md" style={{
@@ -69,7 +71,6 @@ function Dashboard() {
                         <tbody>
                             {
                                 ProductData && ProductData.length > 0 ?
-
                                     ProductData.map((item) => {
                                         return (
                                             <tr>
@@ -117,6 +118,7 @@ function Dashboard() {
                     </Table>
                 </div>
             </div>
+            </LoadingOverlay>
         </>
     );
 
