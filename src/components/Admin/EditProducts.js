@@ -11,8 +11,11 @@ import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-
+ 
 function EditProducts() {
+ 
+    const borderHello = { border: "none" };
+ 
     const { user } = useContext(userContext);
     const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
@@ -27,29 +30,29 @@ function EditProducts() {
         userId: user.userId,
         productId: '',
         count: 0
-
+ 
     });
-
+ 
     let { productId } = useParams();
-
+ 
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
     const [idValue, setIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
     const [CategoryIdValue, setCategoryIdValue] = useState('');
-
+ 
     //File Upload  State
     const [imageUpload, setImageUpload] = useState(null);
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
-
+ 
     useEffect(() => {
         fetchStoreProductData(productId);
         fetchCategorylist();
         //GetProductGUID();
         document.title = "Admin - Edit Product"
     }, [user.userId]);
-
+ 
     const [name, setName] = useState({
         category: '',
         categoryId: '',
@@ -62,24 +65,24 @@ function EditProducts() {
         productId: '',
         quantity: '',
         count: 0,
-        id:''
+        id: ''
     });
-
+ 
     const fetchCategorylist = async () => {
         let data = await getCategoryService();
         if (data != undefined) {
             setDropdown(data);
         }
     }
-
+ 
     const fetchProductCategorylist = (id) => {
         let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
-
+ 
     const fetchStoreProductData = async (productId) => {
-
+ 
         let data = await getProductByProductIdService(productId);
         if (data != undefined) {
             setProductData(data);
@@ -90,7 +93,7 @@ function EditProducts() {
             setImageUrls(data.img);
         }
     }
-
+ 
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setProductData((prevName) => ({
@@ -109,7 +112,7 @@ function EditProducts() {
             [name]: value
         }));
     };
-
+ 
     const handleSubmit = async (e) => {
         e.preventDefault();
         let addToCartProductObj = {
@@ -125,32 +128,30 @@ function EditProducts() {
             categoryId: CategoryIdValue,
             category: selectedValue,
             isStock: isStockValue,
-            id:idValue
+            id: idValue
         };
         debugger
-        if (!imageUpload || imageUpload.length == 0)
-        {
+        if (!imageUpload || imageUpload.length == 0) {
             await saveUpdateProductStore(addToCartProductObj);
         }
-        else
-        {
+        else {
             await saveUpdateProductStore(addToCartProductObj, imageUpload[0]);
         }
-
+ 
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
         });
         //uploadFile();
         navigate('/admin');
     }
-
+ 
     const handleMediaChange = (e) => {
         setImageUpload(e.target.files);
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
-
+ 
     };
-
+ 
     // const uploadFile = () => {
     //     if (!imageUpload || imageUpload.length == 0) return;
     //     for (let index = 0; index < imageUpload.length; index++) {
@@ -164,9 +165,9 @@ function EditProducts() {
     //         });
     //     }
     // };
-
+ 
     // const fetchProductDataForImage = async (productId, url) => {
-
+ 
     //     let data = await getProductByProductIdService(productId);
     //     if (data != undefined) {
     //         let updateImageToProductObj = {
@@ -188,29 +189,29 @@ function EditProducts() {
     //     }
     //     navigate('/admin');
     // }
-
+ 
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
-
+ 
     // const GetProductGUID = () => {
     //     // Generate New unique id for Product Id
     //     const unique_id = uuid();
     //     setProductIdValue(unique_id);y
     // }
-
+ 
     return (
         <>
             <div className='container my-5'>
                 <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
                     <div className="my-3">
                         <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                            <Dropdown.Toggle id="dropdown-basic">
+                            <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
                                 {selectedValue || 'Select Categories'}
                             </Dropdown.Toggle>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                 {dropdown.map((item) => (
                                     <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
                                 ))}
@@ -221,21 +222,18 @@ function EditProducts() {
                         <Form.Label><b>Upload Product Image:</b></Form.Label>
                         <Form.Control
                             type='file'
+                            className='editproduct-input'
                             name="img"
                             placeholder='Upload image'
                             multiple accept="image/*"
                             onChange={handleMediaChange}
                         />
-                        <div className="container my-3">
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <img src={imageUrls} style={{
-                                        width: "100%",
-                                        aspectRatio: "3/2",
-                                        objectFit: "contain"
-                                    }} className="img-fluid" alt="product" />
-                                </Col>
-                            </Row>
+                        <div className="d-flex flex-column my-3">
+                            <img src={imageUrls} style={{
+                                height: "auto",
+                                width: "250px"
+                            }} className="img-fluid" alt="product" />
+ 
                         </div>
                         {selectedFiles.map((file, index) => (
                             <div key={index}>
@@ -250,6 +248,7 @@ function EditProducts() {
                     <Form.Group className='mb-3' controlId='FormName'>
                         <Form.Label><b>Enter Product Name:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='text'
                             name="title"
                             value={ProductData.title}
@@ -261,6 +260,7 @@ function EditProducts() {
                     <Form.Group className='mb-3' controlId='FormPrice'>
                         <Form.Label><b>Enter Product Price:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='number'
                             name="price"
                             value={ProductData.price}
@@ -272,6 +272,7 @@ function EditProducts() {
                     <Form.Group className='mb-3' controlId='FormQuantity'>
                         <Form.Label><b>Enter Quantity of Product:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='number'
                             name="quantity"
                             value={ProductData.quantity}
@@ -283,6 +284,7 @@ function EditProducts() {
                     <Form.Group className='mb-3' controlId='FormDescription'>
                         <Form.Label><b>Enter Product Description:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-textarea'
                             as="textarea"
                             rows={3}
                             placeholder="Enter Product Description..."
@@ -294,6 +296,7 @@ function EditProducts() {
                     <Form.Group className='mb-3' controlId='FormCompany'>
                         <Form.Label><b>Enter Product Company:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='text'
                             name="company"
                             value={ProductData.company}
@@ -328,7 +331,7 @@ function EditProducts() {
         </>
     )
 }
-
-
-
+ 
+ 
+ 
 export default EditProducts;
