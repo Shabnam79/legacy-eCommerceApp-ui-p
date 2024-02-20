@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+input[type='checkbox'] {
+  accent-color: #053645;
+}
+
 .tx-navbar .dropdown-toggle::after {
   position: absolute;
   top: 17.5px;
@@ -244,6 +248,102 @@ code {
 }
 
 .login-signup-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.addproduct-input,
+.editproduct-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 40px !important;
+  font-size: small !important;
+}
+
+.addproduct-textarea,
+.editproduct-textarea {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 100px !important;
+  font-size: small !important;
+}
+
+.addproduct-input:focus,
+.addproduct-textarea:focus
+.editproduct-input:focus,
+.editproduct-textarea:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+input[type=file]::file-selector-button {
+  border: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: .2em;
+  color: #f3f0eb;
+  position: relative;
+  top: -14px;
+  font-weight: 600;
+  background-color: #053645;
+  transition: 1s;
+}
+
+.addcategories-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 40px !important;
+  font-size: small !important;
+  font-weight: 600;
+}
+
+.addcategories-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.userlist-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 40px !important;
+  font-size: small !important;
+  font-weight: 600;
+}
+
+.userlist-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.editcategory-input,
+.editusers-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 40px !important;
+  font-size: small !important;
+  font-weight: 600;
+}
+
+.editcategory-input:focus,
+.editusers-input:focus {
   backdrop-filter: blur(20px) !important;
   box-shadow: #727575 0px 0px 3px 0px !important;
   outline: none;

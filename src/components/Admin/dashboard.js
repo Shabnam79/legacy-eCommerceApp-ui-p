@@ -4,7 +4,7 @@ import { storeProducts } from '../../data.js'
 import React, { useContext, useEffect, useState } from 'react'
 import userContext from "../../utils/userContext.js";
 import { getProductByIdService } from '../../firebase/services/product.service.js';
-import {  getProductsService, DeleteItemFromProduct } from '../../firebase/services/product.service';
+import { getProductsService, DeleteItemFromProduct } from '../../firebase/services/product.service';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
@@ -58,10 +58,13 @@ function Dashboard() {
         <>
             <div className='container my-5'>
                 <Link className='d-grid gap-2' to='/admin/addproduct'>
-                    <Button size="md">Add Product</Button>
+                    <Button size="md" style={{
+                        backgroundColor: 'rgb(5, 54, 69)',
+                        border: 'none'
+                    }}>Add Product</Button>
                 </Link>
                 <div style={{ overflowX: "scroll", minWidth: "200px" }}>
-                    <Table striped bordered hover size='sm' style={{ marginTop: "20px" }}>
+                    <Table striped bordered hover style={{ marginTop: "20px" }}>
                         <AdminColumns />
                         <tbody>
                             {
@@ -89,12 +92,15 @@ function Dashboard() {
                                                 <td>
                                                     {item.quantity}
                                                 </td>
-                                                <td style={{ maxWidth: "400px" }}>
+                                                <td style={{ maxWidth: "500px" }}>
                                                     {item.info}
                                                 </td>
                                                 <td className='d-flex border-0'>
                                                     <Link to={`/admin/editproduct/${item.productId}`}>
-                                                        <Button size='sm'>EDIT</Button>
+                                                        <Button size='sm' style={{
+                                                            backgroundColor: 'rgb(5, 54, 69)',
+                                                            border: 'none'
+                                                        }}>EDIT</Button>
                                                     </Link>
                                                     <Button variant="outline-danger" className='ml-2' size='sm' onClick={() => removeProductHandler(item)}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

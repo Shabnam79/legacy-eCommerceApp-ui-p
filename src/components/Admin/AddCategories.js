@@ -60,24 +60,32 @@ export default function AddCategories() {
 
     return (
         <>
-            <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
+            <div className='container mt-5'>
+                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
+                    <Form.Group className='mb-3' controlId='FormCategory'>
+                        <Form.Control
+                            type='text'
+                            className='addcategories-input'
+                            name="Category"
+                            value={name.Category}
+                            placeholder='Enter Category Name'
+                            required
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
 
-                <Form.Group className='mb-3' controlId='FormCategory'>
-                    <Form.Control
-                        type='text'
-                        name="Category"
-                        value={name.Category}
-                        placeholder='Enter Category Name'
-                        required
-                        onChange={handleInputChange}
-                    />
-                </Form.Group>
-
-                <Button type='submit'>Submit</Button>
-                <Link to={`/admin/CategoryList`}>
-                    <Button className="btn btn-primary mx-3">Back to Category List</Button>
-                </Link>
-            </Form>
+                    <Button style={{
+                        backgroundColor: 'rgb(5, 54, 69)',
+                        border: 'none'
+                    }} type='submit'>Submit</Button>
+                    <Link to={`/admin/CategoryList`}>
+                        <Button style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }} className='ml-3'>Back to Category List</Button>
+                    </Link>
+                </Form>
+            </div>
         </>
 
     )

@@ -10,43 +10,43 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function EditCategory() {
 
-  const navigate = useNavigate();
-  const { user } = useContext(userContext);
-  const [CategoryData, setCategoryData] = useState("");
-  let { categoryId } = useParams();
+    const navigate = useNavigate();
+    const { user } = useContext(userContext);
+    const [CategoryData, setCategoryData] = useState("");
+    let { categoryId } = useParams();
 
 
-  useEffect(() => {
-      fetchProductCategoryData(categoryId);
-      document.title = "Admin - Edit Category"
-  }, []);
+    useEffect(() => {
+        fetchProductCategoryData(categoryId);
+        document.title = "Admin - Edit Category"
+    }, []);
 
-  const fetchProductCategoryData = async (categoryId) => {
-     
-          let data = await getCategoryByCategoryIdService(categoryId);
-          if (data != undefined) {
+    const fetchProductCategoryData = async (categoryId) => {
+
+        let data = await getCategoryByCategoryIdService(categoryId);
+        if (data != undefined) {
             setCategoryData(data);
-          }
-  }
+        }
+    }
 
-  const handleInputChange = (event) => {
+    const handleInputChange = (event) => {
         setCategoryData(event.target.value);
-  };
+    };
 
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-      
-    //   let data = await getCategoryServiceByUserId(user.userId);
-    //   if (data != undefined) {
-         
-    //   let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
-    //      if (filteredCategoryData == undefined) {
-        await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        //   let data = await getCategoryServiceByUserId(user.userId);
+        //   if (data != undefined) {
+
+        //   let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
+        //      if (filteredCategoryData == undefined) {
+        await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
         toast.success('Category updated in admin list', {
             autoClose: 1000,
         });
         // if (data != undefined) {
-           
+
         // let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
         //    if (filteredCategoryData == undefined) {
         //        await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
@@ -62,14 +62,15 @@ export default function EditCategory() {
         //     }
         // }
         navigate('/admin/CategoryList');
-  }
+    }
 
-  return (
-            <> 
-                <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                   
+    return (
+        <>
+            <div className='container mt-5'>
+                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
                     <Form.Group className='mb-3'>
                         <Form.Control
+                            className='editcategory-input'
                             type='text'
                             name="category"
                             value={CategoryData}
@@ -78,12 +79,19 @@ export default function EditCategory() {
                             onChange={handleInputChange}
                         />
                     </Form.Group>
-                    
-                    <Button type='submit'>Update</Button>
+
+                    <Button type='submit' style={{
+                        backgroundColor: 'rgb(5, 54, 69)',
+                        border: 'none'
+                    }}>Update</Button>
                     <Link to={`/admin/CategoryList`}>
-                    <Button className="btn btn-primary mx-3">Back to Category List</Button>
-                </Link>
+                        <Button className="btn btn-primary mx-3" style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Back to Category List</Button>
+                    </Link>
                 </Form>
-          </>
-  )
+            </div>
+        </>
+    )
 }
