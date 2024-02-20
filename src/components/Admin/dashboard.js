@@ -57,42 +57,32 @@ function Dashboard() {
 
     return (
         <>
-        <LoadingOverlay active={loading} spinner text='Loading...'>
-            <div className='container my-5'>
-                <Link className='d-grid gap-2' to='/admin/addproduct'>
-                    <Button size="md" style={{
-                        backgroundColor: 'rgb(5, 54, 69)',
-                        border: 'none'
-                    }}>Add Product</Button>
-                </Link>
-                <div style={{ overflowX: "scroll", minWidth: "200px" }}>
-                    <Table striped bordered hover style={{ marginTop: "20px" }}>
-                        <AdminColumns />
-                        <tbody>
-                            {
-                                ProductData && ProductData.length > 0 ?
-                                    ProductData.map((item) => {
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                <div className='container my-5'>
+                    <Link className='d-grid gap-2' to='/admin/addproduct'>
+                        <Button size="md" style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Add Product</Button>
+                    </Link>
+                    <div style={{ overflowX: "scroll", minWidth: "200px" }}>
+                        <Table striped bordered hover style={{ marginTop: "20px" }}>
+                            <AdminColumns />
+                            <tbody>
+                                {
+                                    ProductData && ProductData.length > 0 ? ProductData.map((item) => {
                                         return (
                                             <tr>
-                                                <td>
-                                                    {item.category}
-                                                </td>
+                                                <td>{item.category}</td>
                                                 <td style={{ maxWidth: "10rem" }}>
                                                     <img src={item.img} style={{
-                                                        width: "100%",
-                                                        aspectRatio: "3/2",
-                                                        objectFit: "contain"
+                                                        width: "100px",
+                                                        height: 'auto'
                                                     }} className="img-fluid" alt="product" />
                                                 </td>
-                                                <td>
-                                                    {item.title}
-                                                </td>
-                                                <td>
-                                                    {item.price}
-                                                </td>
-                                                <td>
-                                                    {item.quantity}
-                                                </td>
+                                                <td>{item.title}</td>
+                                                <td>{item.price}</td>
+                                                <td>{item.quantity}</td>
                                                 <td style={{ maxWidth: "500px" }}>
                                                     {item.info}
                                                 </td>
@@ -113,11 +103,11 @@ function Dashboard() {
                                             </tr>
                                         )
                                     }) : null
-                            }
-                        </tbody>
-                    </Table>
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
                 </div>
-            </div>
             </LoadingOverlay>
         </>
     );

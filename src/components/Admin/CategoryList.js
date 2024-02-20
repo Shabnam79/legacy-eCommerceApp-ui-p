@@ -22,12 +22,12 @@ export default function CategoryList() {
     }, []);
 
     const fetchStoreCategoryData = async () => {
-       
-            let data = await getAllCategoryService();
-            if (data != undefined) {
-                setCategoryData(data);
-                setLoading(false);
-            }
+
+        let data = await getAllCategoryService();
+        if (data != undefined) {
+            setCategoryData(data);
+            setLoading(false);
+        }
     }
 
     const removeCategoryHandler = async (item) => {
@@ -64,25 +64,24 @@ export default function CategoryList() {
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
-            <div className="container mt-5">
-                <div className="d-flex flex-column">
-                    <Link className='mb-3' to='/admin/AddCategories'>
-                        <Button style={{
-                            backgroundColor: 'rgb(5, 54, 69)',
-                            border: 'none'
-                        }}>Add Category</Button>
-                    </Link>
-                    <Table striped bordered hover size='sm' style={{ width: '500px' }}>
-                        <thead>
-                            <tr>
-                                <th>CATEGORY</th>
-                                <th className="d-flex justify-content-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                CategoryData && CategoryData.length > 0 ?
-                                    CategoryData.map((item) => {
+                <div className="container mt-5">
+                    <div className="d-flex flex-column">
+                        <Link className='mb-3' to='/admin/AddCategories'>
+                            <Button style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Add Category</Button>
+                        </Link>
+                        <Table striped bordered hover size='sm' style={{ width: '500px' }}>
+                            <thead>
+                                <tr>
+                                    <th>CATEGORY</th>
+                                    <th className="d-flex justify-content-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    CategoryData && CategoryData.length > 0 ? CategoryData.map((item) => {
                                         return (
                                             <tr>
                                                 <td>{item.Category}</td>
@@ -100,18 +99,15 @@ export default function CategoryList() {
                                                         </svg>
                                                     </Button>
                                                 </td>
-
                                             </tr>
                                         )
-
                                     }) : null
-                            }
-                        </tbody>
-                    </Table>
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
                 </div>
-            </div>
             </LoadingOverlay>
         </>
-
     )
 }

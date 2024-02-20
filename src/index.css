@@ -16,6 +16,10 @@ input[type='checkbox'] {
   accent-color: #053645;
 }
 
+.css-df17o1 {
+  position: fixed !important;
+}
+
 .tx-navbar .dropdown-toggle::after {
   position: absolute;
   top: 17.5px;

@@ -9,7 +9,7 @@ import axios from 'axios';
 import LoadingOverlay from 'react-loading-overlay';
 
 export default function UserList() {
- 
+
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function UserList() {
         fetchUserData();
         document.title = "Admin - User Management"
     }, []);
- 
+
     const fetchUserData = async () => {
         let data = await getUserData();
         if (data != undefined) {
@@ -26,7 +26,7 @@ export default function UserList() {
             setLoading(false);
         }
     }
- 
+
     const UserActive = async (item) => {
         //     try {
         //         if(item.isActive == "true")
@@ -83,56 +83,56 @@ export default function UserList() {
         }
         fetchUserData();
     };
- 
+
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
-            <div className='container mt-5'>
-                <div className='d-flex flex-column'>
-                    <Link className='d-grid gap-2' to='/admin/CreateUsers'>
-                        <Button className="mb-3" style={{
-                            backgroundColor: 'rgb(5, 54, 69)',
-                            border: 'none'
-                        }}>Create User</Button>
-                    </Link>
-                    <Table striped bordered hover size='sm'>
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th className='d-flex justify-content-center'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                UserData && UserData.length > 0 ? UserData.map((item) => {
-                                    return (
-                                        <tr>
-                                            <td>{item.email}</td>
-                                            <td>{item.role}</td>
-                                            <td className='d-flex justify-content-center'>
-                                                <div className='d-flex justify-content-end w-100 mr-1'>
-                                                    <Link to={`/admin/EditUsers/${item.UID}`}>
+                <div className='container mt-5'>
+                    <div className='d-flex flex-column'>
+                        <Link className='d-grid gap-2' to='/admin/CreateUsers'>
+                            <Button className="mb-3" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Create User</Button>
+                        </Link>
+                        <Table striped bordered hover size='sm'>
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th className='d-flex justify-content-center'>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    UserData && UserData.length > 0 ? UserData.map((item) => {
+                                        return (
+                                            <tr>
+                                                <td>{item.email}</td>
+                                                <td>{item.role}</td>
+                                                <td className='d-flex justify-content-center'>
+                                                    <div className='d-flex justify-content-end w-100 mr-1'>
+                                                        <Link to={`/admin/EditUsers/${item.UID}`}>
+                                                            <Button style={{
+                                                                backgroundColor: 'rgb(5, 54, 69)',
+                                                                border: 'none'
+                                                            }}>EDIT</Button>
+                                                        </Link>
+                                                    </div>
+                                                    <div className='d-flex justify-content-start w-100 ml-1'>
                                                         <Button style={{
                                                             backgroundColor: 'rgb(5, 54, 69)',
                                                             border: 'none'
-                                                        }}>EDIT</Button>
-                                                    </Link>
-                                                </div>
-                                                <div className='d-flex justify-content-start w-100 ml-1'>
-                                                    <Button style={{
-                                                        backgroundColor: 'rgb(5, 54, 69)',
-                                                        border: 'none'
-                                                    }} onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                }) : null
-                            }
-                        </tbody>
-                    </Table>
-                </div>
+                                                        }} onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    }) : null
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
                 </div>
             </LoadingOverlay>
         </>

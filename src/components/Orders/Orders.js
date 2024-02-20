@@ -9,8 +9,8 @@ import LoadingOverlay from 'react-loading-overlay';
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchOrders();
@@ -31,18 +31,15 @@ const Orders = () => {
 
     return (
         <section>
-        <LoadingOverlay active={loading} spinner text='Loading...'>
-            {
-                orders.length > 0
-                    ?
-                    <>
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                {
+                    orders.length > 0 ? <>
                         <center>
                             <h1 className='text-title'>Your Orders</h1>
                         </center>
                         <OrdersList orders={orders} />
-                    </> :
-                    <EmptyOrders />
-            }
+                    </> : <EmptyOrders />
+                }
             </LoadingOverlay>
         </section>
     );
