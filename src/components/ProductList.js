@@ -5,25 +5,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
 import { getCategoryService } from '../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
+import LoadingOverlay from 'react-loading-overlay';
 
 const ProductList = () => {
     const dispatch = useDispatch();
     const { allproducts } = useSelector((state) => state.allproducts);
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
-    const fontfamily = {fontFamily: "Times New Roman"};
-    const borderHello={border:"none"};
+    const fontfamily = { fontFamily: "Times New Roman" };
+    const borderHello = { border: "none" };
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         fetchCategorylist();
         dispatch(fetchProducts(''));
-        document.title = "Our Products"; 
+        document.title = "Our Products";
     }, []);
 
     const fetchCategorylist = async () => {
+        setLoading(true);
         let data = await getCategoryService();
         if (data != undefined) {
             setDropdown(data);
+            setLoading(false);
         }
     }
     const fetchProductCategorylist = (id) => {
@@ -34,22 +39,22 @@ const ProductList = () => {
 
     return (
         <>
+        <LoadingOverlay active={loading} spinner text='Loading...'>
             <div className="py-5">
                 <div className="container">
                     <div className="row">
                         <div className="container-fluid">
-                        
-                        <Dropdown  title="All Category"  onSelect={(e) => fetchProductCategorylist(e)}>
-                            <Dropdown.Toggle  id="dropdown-basic" style={{background:'LightGray',...borderHello,...fontfamily,color:'black'}}>
-                                {selectedValue || 'All'}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                            <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
-                            {dropdown.map((item) => (
-                                <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
-                            ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
+                            <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                                <Dropdown.Toggle id="dropdown-basic" style={{ background: 'LightGray', ...borderHello, ...fontfamily, color: 'black' }}>
+                                    {selectedValue || 'All'}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
+                                    {dropdown.map((item) => (
+                                        <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
                         {
                             allproducts.map(product => {
@@ -59,6 +64,7 @@ const ProductList = () => {
                     </div>
                 </div>
             </div>
+            </LoadingOverlay>
         </>
     );
 }

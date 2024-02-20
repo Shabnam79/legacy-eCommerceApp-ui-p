@@ -4,12 +4,14 @@ import OrdersList from "./OrdersList";
 import Title from '../Title';
 import userContext from '../../utils/userContext';
 import { getOrderService } from '../../firebase/services/order.service';
+import LoadingOverlay from 'react-loading-overlay';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
     const fontsize = {fontSize: 'x-small'};
     const fontfamily = {fontFamily: "Times New Roman"};
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
@@ -20,6 +22,7 @@ const Orders = () => {
             let data = await getOrderService(user.userId);
             if (data != undefined) {
                 setOrders(data);
+                setLoading(false);
             }
         } else {
             console.log("Please login to see past orders");
@@ -28,6 +31,7 @@ const Orders = () => {
 
     return (
         <section>
+        <LoadingOverlay active={loading} spinner text='Loading...'>
             {
                 orders.length > 0
                     ?
@@ -37,8 +41,8 @@ const Orders = () => {
                     </> :
                     <EmptyOrders />
             }
+            </LoadingOverlay>
         </section>
-
     );
 }
 

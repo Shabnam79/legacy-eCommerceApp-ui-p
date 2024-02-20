@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getUserData, updateIsActiveUsersService } from '../../firebase/services/user.service.js';
+import { getUserData } from '../../firebase/services/user.service.js';
 import userContext from "../../utils/userContext.js";
 import { Link } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
+import LoadingOverlay from 'react-loading-overlay';
 
 export default function UserList() {
 
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchUserData();
@@ -21,6 +23,7 @@ export default function UserList() {
         let data = await getUserData();
         if (data != undefined) {
             setUserData(data);
+            setLoading(false);
         }
     }
 
@@ -83,55 +86,61 @@ export default function UserList() {
 
     return (
         <>
-            <div style={{ margin: "7rem" }}>
-                <Table striped bordered hover size='sm'>
-                    <thead>
-                        <tr>
-                            <th>
-                                Email
-                            </th>
-                            <th>
-                                Role
-                            </th>
-                            <th>
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            UserData && UserData.length > 0 ?
+            {
+                <LoadingOverlay active={loading} spinner text='Loading...'>
+                    <div style={{ margin: "1rem" }}>
+                        <Table striped bordered hover size='sm'>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Role
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    UserData && UserData.length > 0 ?
 
-                                UserData.map((item) => {
-                                    return (
-                                        <tr>
-                                            <td>
-                                                {item.email}
-                                            </td>
+                                        UserData.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>
+                                                        {item.email}
+                                                    </td>
 
-                                            <td>
-                                                {item.role}
-                                            </td>
-                                            <td>
-                                                <Link to={`/admin/EditUsers/${item.UID}`}>
-                                                    <Button>EDIT</Button>
-                                                </Link>
+                                                    <td>
+                                                        {item.role}
+                                                    </td>
+                                                    <td>
+                                                        <Link to={`/admin/EditUsers/${item.UID}`}>
+                                                            <Button>EDIT</Button>
+                                                        </Link>
 
-                                                <Button onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
-                                            </td>
+                                                        <Button onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
+                                                    </td>
 
-                                        </tr>
-                                    )
+                                                </tr>
+                                            )
 
-                                }) : null
-                        }
-                    </tbody>
-                </Table>
-                <br></br>
-                <Link className='d-grid gap-2' to='/admin/CreateUsers'>
-                    <Button size="lg">Create User</Button>
-                </Link>
-            </div>
+                                        }) : null
+                                }
+                            </tbody>
+                        </Table>
+                        <br></br>
+                        <Link className='d-grid gap-2' to='/admin/CreateUsers'>
+                            <Button size="lg">Create User</Button>
+                        </Link>
+                    </div>
+                </LoadingOverlay>
+            }
+
+
         </>
     );
 }
