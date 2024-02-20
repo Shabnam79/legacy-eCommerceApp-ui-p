@@ -276,8 +276,7 @@ input[type='checkbox'] {
 }
 
 .addproduct-input:focus,
-.addproduct-textarea:focus
-.editproduct-input:focus,
+.addproduct-textarea:focus .editproduct-input:focus,
 .editproduct-textarea:focus {
   backdrop-filter: blur(20px) !important;
   box-shadow: #727575 0px 0px 3px 0px !important;
@@ -344,6 +343,43 @@ input[type=file]::file-selector-button {
 
 .editcategory-input:focus,
 .editusers-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.star-rating-on {
+  color: #053645;
+}
+
+.review-input {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 40px !important;
+  font-size: small !important;
+  font-weight: 600;
+}
+
+.review-input:focus {
+  backdrop-filter: blur(20px) !important;
+  box-shadow: #727575 0px 0px 3px 0px !important;
+  outline: none;
+}
+
+.review-textarea {
+  background: transparent !important;
+  border: 1.5px solid #053645 !important;
+  border-radius: 2.5px !important;
+  transition: 0.3s !important;
+  padding: 17.5px 7.5px !important;
+  height: 100px !important;
+  font-size: small !important;
+}
+
+.review-textarea:focus {
   backdrop-filter: blur(20px) !important;
   box-shadow: #727575 0px 0px 3px 0px !important;
   outline: none;

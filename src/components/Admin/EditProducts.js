@@ -11,11 +11,11 @@ import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Col, Image, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
- 
+
 function EditProducts() {
- 
+
     const borderHello = { border: "none" };
- 
+
     const { user } = useContext(userContext);
     const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
@@ -30,29 +30,29 @@ function EditProducts() {
         userId: user.userId,
         productId: '',
         count: 0
- 
+
     });
- 
+
     let { productId } = useParams();
- 
+
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
     const [idValue, setIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
     const [CategoryIdValue, setCategoryIdValue] = useState('');
- 
+
     //File Upload  State
     const [imageUpload, setImageUpload] = useState(null);
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
- 
+
     useEffect(() => {
         fetchStoreProductData(productId);
         fetchCategorylist();
         //GetProductGUID();
         document.title = "Admin - Edit Product"
     }, [user.userId]);
- 
+
     const [name, setName] = useState({
         category: '',
         categoryId: '',
@@ -67,22 +67,22 @@ function EditProducts() {
         count: 0,
         id: ''
     });
- 
+
     const fetchCategorylist = async () => {
         let data = await getCategoryService();
         if (data != undefined) {
             setDropdown(data);
         }
     }
- 
+
     const fetchProductCategorylist = (id) => {
         let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
- 
+
     const fetchStoreProductData = async (productId) => {
- 
+
         let data = await getProductByProductIdService(productId);
         if (data != undefined) {
             setProductData(data);
@@ -93,7 +93,7 @@ function EditProducts() {
             setImageUrls(data.img);
         }
     }
- 
+
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setProductData((prevName) => ({
@@ -112,7 +112,7 @@ function EditProducts() {
             [name]: value
         }));
     };
- 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         let addToCartProductObj = {
@@ -137,21 +137,21 @@ function EditProducts() {
         else {
             await saveUpdateProductStore(addToCartProductObj, imageUpload[0]);
         }
- 
+
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
         });
         //uploadFile();
         navigate('/admin');
     }
- 
+
     const handleMediaChange = (e) => {
         setImageUpload(e.target.files);
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
- 
+
     };
- 
+
     // const uploadFile = () => {
     //     if (!imageUpload || imageUpload.length == 0) return;
     //     for (let index = 0; index < imageUpload.length; index++) {
@@ -165,9 +165,9 @@ function EditProducts() {
     //         });
     //     }
     // };
- 
+
     // const fetchProductDataForImage = async (productId, url) => {
- 
+
     //     let data = await getProductByProductIdService(productId);
     //     if (data != undefined) {
     //         let updateImageToProductObj = {
@@ -189,19 +189,19 @@ function EditProducts() {
     //     }
     //     navigate('/admin');
     // }
- 
+
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
- 
+
     // const GetProductGUID = () => {
     //     // Generate New unique id for Product Id
     //     const unique_id = uuid();
     //     setProductIdValue(unique_id);y
     // }
- 
+
     return (
         <>
             <div className='container my-5'>
@@ -233,15 +233,19 @@ function EditProducts() {
                                 height: "auto",
                                 width: "250px"
                             }} className="img-fluid" alt="product" />
- 
+
                         </div>
                         {selectedFiles.map((file, index) => (
-                            <div key={index}>
-                                <p>Selected File {index + 1}:</p>
+                            <div className='d-flex flex-column my-3' key={index}>
+                                <strong className='mb-2'>Selected File {index + 1}:</strong>
                                 {file.type.startsWith('image/') ? (
-                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "200px", width: "200px" }} />
+                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
                                 ) : null}
-                                <button onClick={() => handleFileRemove(index)}>Remove</button>
+                                <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
+                                    width: '100px',
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Remove</Button>
                             </div>
                         ))}
                     </Form.Group>
@@ -321,9 +325,15 @@ function EditProducts() {
                         />
                     </Form.Group>
                     <div className='pt-3'>
-                        <Button type='submit'>Update</Button>
+                        <Button type='submit' style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Update</Button>
                         <Link to={`/admin`}>
-                            <Button className="btn btn-primary mx-3">Back to Product List</Button>
+                            <Button className="btn btn-primary mx-3" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Back to Product List</Button>
                         </Link>
                     </div>
                 </Form>
@@ -331,7 +341,7 @@ function EditProducts() {
         </>
     )
 }
- 
- 
- 
+
+
+
 export default EditProducts;

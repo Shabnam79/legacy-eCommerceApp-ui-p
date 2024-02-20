@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ButtonContainer } from '../Button';
 import ReviewCards from './ReviewCards';
 import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
 import { getProductReviewByProductIdService } from '../../firebase/services/review.service';
 
 const ReviewModal = (props) => {
@@ -15,7 +16,7 @@ const ReviewModal = (props) => {
         let data = await getProductReviewByProductIdService(props.productId);
         if (data != undefined)
             setReviews(data);
-            console.log(data);
+        console.log(data);
     }
 
     return (
@@ -42,9 +43,12 @@ const ReviewModal = (props) => {
                 }
             </Modal.Body>
             <Modal.Footer>
-                <ButtonContainer onClick={props.onHide}>
+                <Button onClick={props.onHide} style={{
+                    backgroundColor: 'rgb(5, 54, 69)',
+                    border: 'none',
+                }}>
                     <i className="fa fa-close">Close</i>
-                </ButtonContainer>
+                </Button>
             </Modal.Footer>
         </Modal>
     );
