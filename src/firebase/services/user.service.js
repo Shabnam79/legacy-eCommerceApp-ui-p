@@ -16,18 +16,26 @@ export const getUserData = async () => {
         });
 }
 
-export const getRolesByEmailService = async (email) => {
-    // const UserRoleDoc = doc(db, "userroles", Id);
-    // await updateDoc(UserRoleDoc, {
-    //     isActive: isActiveValue
-    // });
-            const q = query(
-                collection(db, "userroles"), where("email", "==", email)
-            )
+// export const getRolesByEmailService = async (email) => {
+//             const q = query(
+//                 collection(db, "userroles"), where("email", "==", email)
+//             )
         
-            const querySnapshot = await getDocs(q);
-            return querySnapshot.docs
-                .map((doc) => ({ ...doc.data(), id: doc.id }));
+//             const querySnapshot = await getDocs(q);
+//             return querySnapshot.docs
+//                 .map((doc) => ({ ...doc.data(), id: doc.id }));
+// }
+
+
+export const getRolesByEmailService = async (email) => {
+    return await axios.get(variables.API_URL + 'User/GetUserByEmailId', { params: { "email": email } })
+        .then(function (response) {
+            return response.data;
+        }).catch(function (error) {
+            toast.error(error.message, {
+                autoClose: 1000,
+            });
+        });
 }
 
 export const getRolesService = async () => {

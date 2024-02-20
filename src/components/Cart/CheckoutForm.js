@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import {query,where,getDocs, collection } from "firebase/firestore";
+import { query, where, getDocs, collection } from "firebase/firestore";
 import { createPortal } from "react-dom";
 import { removeAll } from '../../utils/cartSlice';
 
@@ -17,13 +17,13 @@ function IFrame({ children }) {
     const [ref, setRef] = useState();
     const container = ref?.contentDocument?.body;
     return (
-      <iframe title="PlacedOrderIframe"
-      width="318px" height="200px" border='none' 
-      scrolling="no" ref={setRef}>
-        {container && createPortal(children, container)}
-      </iframe>
+        <iframe title="PlacedOrderIframe"
+            width="318px" height="200px" border='none'
+            scrolling="no" ref={setRef}>
+            {container && createPortal(children, container)}
+        </iframe>
     );
-  }
+}
 
 
 const CheckoutForm = ({ value }) => {
@@ -34,8 +34,8 @@ const CheckoutForm = ({ value }) => {
     const { user } = useContext(userContext);
     const [shippingAddress, setShippingAddress] = useState([]);
     const address = shippingAddress[0];
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
 
     useEffect(() => {
         fetchAddShippingDetails();
@@ -60,10 +60,10 @@ const CheckoutForm = ({ value }) => {
                 })
             });
             await saveCartOrderService(dataArray);
-           dispatch(removeAll());
-           toast.success(`Your order has been successfully placed!`, {
-            autoClose: 1000,
-        });
+            dispatch(removeAll());
+            toast.success(`Your order has been successfully placed!`, {
+                autoClose: 1000,
+            });
         } else {
             toast.warning(
                 `To make order you need to login first`,
@@ -73,17 +73,17 @@ const CheckoutForm = ({ value }) => {
             );
         }
     }
-    
+
     const fetchAddShippingDetails = async () => {
         if (user.userId) {
             await getDocs(collection(db, "shippingAddress"), where("userId", "==", user.userId))
-            .then((querySnapshot) => {
-                const shippingAddress = [];
-                querySnapshot.forEach((doc) => {
-                  shippingAddress.push(doc.data());
-                });
-              setShippingAddress(shippingAddress);// Update the component's state with the fetched data
-            })
+                .then((querySnapshot) => {
+                    const shippingAddress = [];
+                    querySnapshot.forEach((doc) => {
+                        shippingAddress.push(doc.data());
+                    });
+                    setShippingAddress(shippingAddress);// Update the component's state with the fetched data
+                })
         } else {
             console.log("Please login to see shipping address");
         }
@@ -93,44 +93,49 @@ const CheckoutForm = ({ value }) => {
         <section>
             {
                 <div className="container">
-                    <>
-                        <div id="DivShippingInfo" className="shipping-info mt-2">
-                            <h4 style={{...fontfamily}}>Shipping Info</h4>
-                            <Card style={{ width: '20rem' }}>
-                                <Card.Body>
-                                    <Card.Title style={{...fontfamily}}>Shipping Address :</Card.Title>
-                                    <Card.Text>
-                                        <div className="billing-info">
-                                            <><p style={{...fontfamily}}>
-                                                <strong>Name : </strong> {address ? address.firstName + ' ' + address.lastName : ''}
-                                            </p><p style={{...fontfamily}}>
-                                                    <strong>Address 1 : </strong> {address ? address.address : ''}
-                                                </p><p style={{...fontfamily}}>
-                                                    <strong>Address 2 : </strong> {address ? address.address2 : ''}
-                                                </p><p style={{...fontfamily}}>
-                                                    <strong>City : </strong> {address ? address.city : ''}
-                                                </p><p style={{...fontfamily}}>
-                                                    <strong>State : </strong> {address ? address.state : ''}
-                                                </p><p style={{...fontfamily}}>
-                                                    <strong>Country : </strong> {address ? address.country : ''}
-                                                </p><p style={{...fontfamily}}>
-                                                    <strong>ZipCode : </strong> {address ? address.zipCode : ''}
-                                                </p></>
-                                        </div>
-                                    </Card.Text>
-                                    <Link to="/billingAddress">
-                                        <Button variant="primary" style={{...fontfamily}}>Add New Address</Button>
-                                    </Link>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <IFrame>
+                    <div id="DivShippingInfo" className="shipping-info mt-2">
+                        <h4>Shipping Info</h4>
+                        <Card className='shipping-address-area' style={{ width: '20rem' }}>
+                            <Card.Body>
+                                <Card.Title>Shipping Address</Card.Title>
+                                <Card.Text>
+                                    <div className="billing-info">
+                                        <p>
+                                            <strong>Name: </strong> {address ? address.firstName + ' ' + address.lastName : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Address 1: </strong> {address ? address.address : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Address 2: </strong> {address ? address.address2 : ''}
+                                        </p>
+                                        <p>
+                                            <strong>City: </strong> {address ? address.city : ''}
+                                        </p>
+                                        <p>
+                                            <strong>State: </strong> {address ? address.state : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Country: </strong> {address ? address.country : ''}
+                                        </p>
+                                        <p>
+                                            <strong>ZipCode: </strong> {address ? address.zipCode : ''}
+                                        </p>
+                                    </div>
+                                </Card.Text>
+                                <Link to="/billingAddress">
+                                    <Button className='add-new-address-button'>Add New Address</Button>
+                                </Link>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <IFrame>
                         <div id="DivPaymentInfo" className="payment-info mt-2">
-                            <h4 style={{...fontfamily}}>Payment Info</h4>
-                            <Card style={{ width: '20rem' }}>
+                            <h4>Payment Info</h4>
+                            <Card>
                                 <Card.Body>
-                                    <Card.Title style={{...fontfamily}}>Choose Payment Method :</Card.Title>
-                                    <Card.Text style={{...fontfamily}}>
+                                    <Card.Title>Choose Payment Method :</Card.Title>
+                                    <Card.Text>
                                         {['radio'].map((type) => (
                                             <div key={`default-${type}`} className="mb-3">
                                                 <Form.Check
@@ -147,7 +152,15 @@ const CheckoutForm = ({ value }) => {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button variant="primary" style={{...fontfamily}}>Add New Card</Button>
+                                    <Button style={{
+                                        border: 'none',
+                                        backgroundColor: '#053645',
+                                        color: '#f3f0eb',
+                                        padding: '0.375rem 0.75rem',
+                                        fontSize: '1rem',
+                                        borderRadius: '0.25rem',
+                                        lineHeight: '1.5'
+                                    }}>Add New Card</Button>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -155,7 +168,16 @@ const CheckoutForm = ({ value }) => {
                             <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
                                 <Link to="/orders">
                                     {/* <button style={{...fontfamily,marginLeft:"-118px"}} */}
-                                    <button style={{...fontfamily,marginTop:"10px"}}
+                                    <button style={{
+                                        marginTop: "10px",
+                                        border: 'none',
+                                        backgroundColor: '#053645',
+                                        color: '#f3f0eb',
+                                        padding: '0.375rem 0.75rem',
+                                        fontSize: '1rem',
+                                        borderRadius: '0.25rem',
+                                        lineHeight: '1.5'
+                                    }}
                                         className="btn btn-outline-danger text-uppercase mb-3 px-5"
                                         type="button"
                                         onClick={() => {
@@ -166,12 +188,10 @@ const CheckoutForm = ({ value }) => {
                                 </Link>
                             </div>
                         </div>
-                        </IFrame>
-                    </>
-                    
-                </div>
+                    </IFrame>
+                </div >
             }
-        </section>
+        </section >
     );
 }
 export default CheckoutForm;

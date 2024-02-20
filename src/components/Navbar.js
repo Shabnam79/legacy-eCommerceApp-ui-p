@@ -43,7 +43,8 @@ const Navbar = () => {
         setModalShow(false);
         setUser({
             userId: null,
-            email: null
+            email: null,
+            roleId:null
         });
         removeItem("user");
         try {
@@ -111,7 +112,7 @@ const Navbar = () => {
                         <>
 
                             {
-                            user && user.role == variables.ROLE_ADMIN
+                            user && user.roleId == variables.ROLE_ADMIN
                             ?
                             <>
                                 <Dropdown className="d-inline mx-2">

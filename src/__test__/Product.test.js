@@ -44,14 +44,11 @@ describe('Product', () => {
         );
         await reporter.endStep()
 
-        await reporter.startStep('Step 2: Getting the product title and price from DOM')
-        const productTitle = screen.getByText(sampleProduct.title);
-        const productPrice = screen.getByTestId('product-price')
-        await reporter.endStep()
-
-        await reporter.startStep('Step 3: Verifying product title and price are present in the UI')
-        expect(productTitle).toBeInTheDocument();
-        expect(productPrice).toBeInTheDocument();
+        await reporter.startStep('Step 2: Getting the product title and price from DOM and Verifying the product title and price')
+        await waitFor(() => {
+            expect(screen.getByTestId('product-title')).toHaveTextContent('Sample Product');
+            expect(screen.getByTestId('product-price')).toBeInTheDocument();
+        });
         await reporter.endStep()
     });
 
@@ -79,9 +76,8 @@ describe('Product', () => {
         fireEvent.click(cartButton);
         await reporter.endStep()
 
-        await reporter.startStep('Step 3: Get the cart icon + from DOM and verify it is present on UI')
-        const cartIcon = cartButton.querySelector('.fas.fa-cart-plus');
-        expect(cartIcon).toBeInTheDocument();
+        await reporter.startStep('Step 3: Get the ADD TO CART button and verify it is present on UI')
+        expect(screen.getByText('ADD TO CART')).toBeInTheDocument();
         await reporter.endStep()
 
     })

@@ -36,7 +36,9 @@ const Orders = () => {
                 orders.length > 0
                     ?
                     <>
-                        <center><h1 style={{...fontfamily}}>Your Orders</h1></center>
+                        <center>
+                            <h1 className='text-title'>Your Orders</h1>
+                        </center>
                         <OrdersList orders={orders} />
                     </> :
                     <EmptyOrders />

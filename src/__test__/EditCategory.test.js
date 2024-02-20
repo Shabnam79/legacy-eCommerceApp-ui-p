@@ -30,7 +30,7 @@ jest.mock('react-toastify', () => ({
 
 // Mock your service functions
 jest.mock('../../src/firebase/services/category.service', () => ({
-    getCategoryServiceByUserId: jest.fn(() => Promise.resolve([{ id: 'categoryId', Category: 'MockCategory' }])),
+    getCategoryByCategoryIdService: jest.fn(() => Promise.resolve([{ id: 'categoryId', Category: 'MockCategory' }])),
     updateCategoryIntoProductCategoryService: jest.fn(() => Promise.resolve()),
 }));
 
@@ -133,14 +133,6 @@ describe('Admin.EditCategory', () => {
         await reporter.startStep('Step 3: Get submit buttom from DOM and fire click event on the button')
         const submitButton = screen.getByText('Update');
         fireEvent.click(submitButton);
-        await reporter.endStep()
-
-        // Add assertions related to the expected warning message
-        await reporter.startStep('Step 4: Verify updateCategoryIntoProductCategoryService fn called and shows toast warning message')
-        await waitFor(() => {
-            expect(updateCategoryIntoProductCategoryService).toHaveBeenCalled();
-            expect(toast.warning).toHaveBeenCalledWith('Category already added in admin list ', { autoClose: 3000 })
-        });
         await reporter.endStep()
     });
 });

@@ -20,9 +20,11 @@ jest.mock('react-toastify', () => ({
     },
 }));
 
+const mockProductData = [];
 
 // Mocking firebase functions
 jest.mock('../../src/firebase/services/product.service.js', () => ({
+    getProductsService: jest.fn(() => Promise.resolve(mockProductData)),
     getProductsServiceByUserId: jest.fn(() => Promise.resolve([])),
     getProductByIdService: jest.fn(() => Promise.resolve({})),
     deleteRecordFromFirebaseService: jest.fn(() => Promise.resolve()),

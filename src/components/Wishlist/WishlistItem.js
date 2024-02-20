@@ -9,7 +9,7 @@ import { DeleteProductFromWishList } from '../../firebase/services/wishlist.serv
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
     const { user } = useContext(userContext);
-    const fontsize = { fontSize: 'x-small' };
+    const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
 
@@ -36,25 +36,28 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     };
 
     return (
-        <div className="row my-2 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "15rem", height: "12rem" }} className="img-fluid" alt="product" />
-            </div>
-            <div style={{ marginTop: '30px', width: '200px' }}>
-                <span style={{ ...fontfamily }}> </span><span id="spWishlistTitle" style={{ ...fontfamily, fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span><div></div>
-                <span style={{ ...fontfamily, ...fontsize }}>by </span><span id="spWishlistCompany" style={{ ...fontfamily, ...fontsize }}>{company}</span><div></div>
-                <span style={{ ...fontfamily, ...fontsize }}>$</span><span id="spWishlistCompany" style={{ ...fontfamily, fontSize: '15px' }}>{price}</span>
-            </div>
-            {/* <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none" style={{...fontfamily}}>product : </span>{title}
-            </div> */}
-            {/* <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none" style={{...fontfamily}}>price : </span>{price}
-            </div> */}
-            {/**/}
-            <div className="col-10 mx-auto col-lg-2" style={{ marginTop: '30px' }}>
-                <div className="cart-icon" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
-                    <i className="fas fa-trash"></i>
+        <div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div className='tx-wishlist-product-card'>
+                <div className="" style={{ height: '325px', padding: '0.75rem' }}>
+                    <img src={img} style={{ width: "100%", height: '100%' }} className="img-fluid" alt="product" />
+                </div>
+                <div className='d-flex justify-content-between' style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
+                    <div className='d-flex flex-column'>
+                        <span className='' id="spWishlistTitle" style={{ fontSize: '20px', fontWeight: 'bold', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{title}</span>
+                        <div style={{ color: 'rgb(5, 54, 69)' }}>
+                            <span style={{ ...fontsize }}>By: </span>
+                            <span id="spWishlistCompany"><b>{company}</b></span>
+                        </div>
+                    </div>
+                    <b style={{ color: 'rgb(5, 54, 69)' }}>
+                        <span>$ </span>
+                        <span id="spWishlistCompany">{price}</span>
+                    </b>
+                </div>
+                <div className="d-flex justify-content-end" style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
+                    <div className="d-flex justify-content-center cart-icon w-25 p-2 wishlist-card-trash-button" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
+                        <i className="fa fa-trash-alt"></i>
+                    </div>
                 </div>
             </div>
         </div>

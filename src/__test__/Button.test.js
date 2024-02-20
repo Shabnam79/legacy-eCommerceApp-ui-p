@@ -17,14 +17,12 @@ describe('Button', () => {
     await reporter.startStep('Step 3: Expecting the default styling on the button');
     expect(button).toHaveStyle(`
       text-transform: capitalize;
-      font-size: 1.4rem;
-      background: transparent;
-      border: ;
+      font-size: 1rem;
+      background: rgb(5, 54, 69);
       border: 2px outset buttonface;
-      border-radius: 0.5rem;
-      color: ;
-      color: ButtonText;
-      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      color: rgb(243, 240, 235);
+      padding: 5px 10px;
       cursor: pointer;
       margin: 0.2rem 0.5rem 0.2rem 0;
     `);
@@ -45,14 +43,12 @@ describe('Button', () => {
     await reporter.startStep('Step 3: Rendering the button with cart styles');
     expect(button).toHaveStyle(`
       text-transform: capitalize;
-      font-size: 1.4rem;
+      font-size: 1rem;
       background: transparent;
-      border: ;
       border: 2px outset buttonface;
-      border-radius: 0.5rem;
-      color: ;
-      color: ButtonText;
-      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      color: rgb(243, 240, 235);
+      padding: 5px 10px;
       cursor: pointer;
       margin: 0.2rem 0.5rem 0.2rem 0;
     `);

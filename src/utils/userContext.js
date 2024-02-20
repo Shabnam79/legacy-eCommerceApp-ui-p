@@ -4,7 +4,7 @@ const userContext = createContext({
     user: {
         userId: null,
         email: null,
-        role: null,
+        roleId: null,
     }
 })
 

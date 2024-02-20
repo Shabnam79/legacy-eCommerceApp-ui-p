@@ -52,7 +52,7 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-          role:parseUserData.role
+          roleId:parseUserData.roleId
         });
       }
     }
@@ -72,7 +72,7 @@ function App() {
           <div className='w-100' style={{ position: 'absolute', top: '75px' }}>
             <Routes>
               {
-              user.role == variables.ROLE_ADMIN
+              user.roleId == variables.ROLE_ADMIN
               ?
               <>
                   <Route exact path="/" element={<ProductList />} />

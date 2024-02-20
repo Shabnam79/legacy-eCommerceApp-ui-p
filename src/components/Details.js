@@ -26,7 +26,7 @@ const Details = () => {
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [loginmodalShow, setLoginModalShow] = useState(false);
-    const fontsize = { fontSize: 'x-small' };
+    const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
         // fetchAddToCartData();
@@ -221,53 +221,53 @@ const Details = () => {
     }
 
     return (
-        <div className="container py-5">
+        <div className="container py-3">
             {/*title*/}
             {/*end of title*/}
             {/*product info*/}
             <div className="row">
-                <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                    <img src={img} className="img-fluid" alt="product" />
+                <div style={{ height: '400px' }} className="col-10 mx-auto col-md-6 my-3 text-capitalize">
+                    <img src={img} className="img-fluid h-100" alt="product" />
                 </div>
                 {/*product text*/}
                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                    <h2 style={{ ...fontfamily }}>{title}</h2>
-                    <h4 className="text-title text-uppercase text-muted mt-3 mb-2" style={{ ...fontfamily }}>
-                        made by: <span className="text-uppercase">{company}</span>
+                    <h2>{title}</h2>
+                    <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
+                        Made By: <span className="text-uppercase">{company}</span>
                     </h4>
                     <h4 className="text-blue">
-                        <strong style={{ ...fontfamily }}>
-                            Price : <span>$</span>{price}
+                        <strong>
+                            Price: <span>$</span>{price}
                         </strong>
                     </h4>
-                    <p className="text-capitalize font-weight-bold mt-3 mb-0" style={{ ...fontfamily }}>
-                        some info about product
+                    <p className="text-capitalize font-weight-bold mt-3 mb-0">
+                        Some Info About Product
                     </p>
-                    <p className="text-muted lead" style={{ ...fontfamily, ...fontsize }}>
+                    <p className="text-muted lead" style={{ ...fontsize }}>
                         {info}
                     </p>
                     {/*buttons*/}
                     <div>
                         <Link to="/">
-                            <ButtonContainer style={{ ...fontfamily }}>
-                                back to products
+                            <ButtonContainer>
+                                Back To Products
                             </ButtonContainer>
                         </Link>
-                        <ButtonContainer style={{ ...fontfamily }} cart disabled={inCart ? true : false}
+                        <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
                                 //console.log(detailProduct);
                                 //openCartModal(detailProduct);
                             }}>
-                            {inCart ? "inCart" : "add to cart"}
+                            {inCart ? "InCart" : "Add To Cart"}
                         </ButtonContainer>
-                        <ButtonContainer style={{ ...fontfamily }} cart
+                        <ButtonContainer cart
                             onClick={() => {
                                 addProductToWishlist(detailProduct);
                             }}>
-                            {isProductWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                            {isProductWishlisted ? "Remove From Wishlist" : "Add To Wishlist"}
                         </ButtonContainer>
-                        <ButtonContainer style={{ ...fontfamily }}
+                        <ButtonContainer
                             onClick={() => {
                                 openReviewModal()
                             }}>
