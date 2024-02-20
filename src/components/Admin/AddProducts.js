@@ -9,9 +9,11 @@ import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 import { storage } from "../../firebase/config/firebase.config"
 import { Link, useNavigate } from 'react-router-dom';
-
+ 
 function AddProducts() {
-
+ 
+    const borderHello = { border: "none" };
+ 
     const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [name, setName] = useState({
@@ -27,28 +29,28 @@ function AddProducts() {
         quantity: '',
         count: 0
     });
-
+ 
     {/* Added code for Category dropdown bind - By noor */ }
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
     const [ProductIdValue, setProductIdValue] = useState('');
     const [CategoryIdValue, setCategoryIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
-
+ 
     //File Upload  State
     const [imageUrls, setImageUrls] = useState([]);
     const [imageUpload, setImageUpload] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
-
+ 
     useEffect(() => {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Add Product"
     }, [user.userId]);
-
-
+ 
+ 
     const handleInputChange = (e) => {
-
+ 
         const { name, value } = e.target;
         setName((prevName) => ({
             ...prevName,
@@ -60,7 +62,7 @@ function AddProducts() {
             [name]: value
         }));
     };
-
+ 
     const handleSubmit = async (e) => {
         debugger
         e.preventDefault();
@@ -71,16 +73,16 @@ function AddProducts() {
         };
         debugger
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
-
+ 
         //uploadFile();
         //console.log("Document written with ID: ", docRef.id);
-
+ 
         toast.success('Product added in admin list ', {
             autoClose: 2000,
         });
         navigate('/admin');
     }
-
+ 
     const fetchCategorylist = async () => {
         let data = await getCategoryService();
         if (data != undefined) {
@@ -92,14 +94,14 @@ function AddProducts() {
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
-
+ 
     const GetProductGUID = () => {
         // Generate New unique id for Product Id
         const unique_id = uuid();
         setProductIdValue(unique_id);
     }
-
-
+ 
+ 
     const handleMediaChange = (e) => {
         debugger
         setImageUpload(e.target.files);
@@ -107,7 +109,7 @@ function AddProducts() {
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
     };
-
+ 
     // const uploadFile = () => {
     //     if (imageUpload.length == 0) return;
     //     for (let index = 0; index < imageUpload.length; index++) {
@@ -120,9 +122,9 @@ function AddProducts() {
     //         });
     //     }
     // };
-
+ 
     // const fetchStoreProductData = async (productId, url) => {
-
+ 
     //     let data = await getProductByProductIdService(productId);
     //     if (data != undefined) {
     //         let updateImageToProductObj = {
@@ -144,13 +146,13 @@ function AddProducts() {
     //     }
     //     navigate('/admin');
     // }
-
+ 
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
-
+ 
     return (
         <>
             <div className='container my-5'>
@@ -158,10 +160,10 @@ function AddProducts() {
                     <div className="my-3">
                         {/* Added code for Category dropdown bind - By noor */}
                         <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                            <Dropdown.Toggle id="dropdown-basic">
+                            <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
                                 {selectedValue || 'Select Categories'}
                             </Dropdown.Toggle>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                 {dropdown.map((item) => (
                                     <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
                                 ))}
@@ -171,18 +173,23 @@ function AddProducts() {
                     <Form.Group className='mb-3' controlId='FormImage'>
                         <Form.Control
                             type='file'
+                            className='addproduct-input'
                             name="img"
                             required
                             placeholder='Upload image'
                             onChange={handleMediaChange}
                         />
                         {selectedFiles.map((file, index) => (
-                            <div key={index}>
-                                <p>Selected File {index + 1}:</p>
+                            <div className='d-flex flex-column my-3' key={index}>
+                                <strong className='mb-2'>Selected File {index + 1}:</strong>
                                 {file.type.startsWith('image/') ? (
-                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "200px", width: "200px" }} />
+                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
                                 ) : null}
-                                <button onClick={() => handleFileRemove(index)}>Remove</button>
+                                <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
+                                    width: '100px',
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Remove</Button>
                             </div>
                         ))}
                     </Form.Group>
@@ -190,6 +197,7 @@ function AddProducts() {
                         <Form.Control
                             type='text'
                             name="title"
+                            className='addproduct-input'
                             value={name.title}
                             placeholder='Enter Product Name...'
                             required
@@ -199,6 +207,7 @@ function AddProducts() {
                     <Form.Group className='mb-3' controlId='FormPrice'>
                         <Form.Control
                             type='number'
+                            className='addproduct-input'
                             name="price"
                             value={name.price}
                             placeholder='Enter product Price'
@@ -209,6 +218,7 @@ function AddProducts() {
                     <Form.Group className='mb-3' controlId='FormQuantity'>
                         <Form.Control
                             type='number'
+                            className='addproduct-input'
                             name="quantity"
                             value={name.quantity}
                             placeholder='Enter Quantity of Product'
@@ -219,6 +229,7 @@ function AddProducts() {
                     <Form.Group className='mb-3' controlId='FormInfo'>
                         <Form.Control
                             as="textarea"
+                            className='addproduct-textarea'
                             rows={3}
                             placeholder="Enter Product Description..."
                             name="info"
@@ -229,6 +240,7 @@ function AddProducts() {
                     <Form.Group className='mb-3' controlId='FormCompany'>
                         <Form.Control
                             type='text'
+                            className='addproduct-input'
                             name="company"
                             value={name.company}
                             placeholder='Enter Product Company...'
@@ -250,9 +262,15 @@ function AddProducts() {
                         />
                     </Form.Group>
                     <div className='pt-3'>
-                        <Button type='submit'>Submit</Button>
+                        <Button type='submit' style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Submit</Button>
                         <Link to={`/admin`}>
-                            <Button className="btn btn-primary mx-3">Back to Product List</Button>
+                            <Button className="btn btn-primary mx-3" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Back to Product List</Button>
                         </Link>
                     </div>
                 </Form>
