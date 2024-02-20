@@ -15,6 +15,7 @@ const ProductList = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const fontfamily = {fontFamily: "Times New Roman"};
     const borderHello={border:"none"};
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchCategorylist();
