@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.btn-primary:focus {
+  box-shadow: none !important;
+}
+
 input[type='checkbox'] {
   accent-color: #053645;
 }
