@@ -264,7 +264,7 @@ input[type='checkbox'] {
   border-radius: 2.5px !important;
   transition: 0.3s !important;
   padding: 17.5px 7.5px !important;
-  height: 40px !important;
+  height: 45px !important;
   font-size: small !important;
 }
 
@@ -280,11 +280,13 @@ input[type='checkbox'] {
 }
 
 .addproduct-input:focus,
-.addproduct-textarea:focus .editproduct-input:focus,
+.addproduct-textarea:focus,
+.editproduct-input:focus,
 .editproduct-textarea:focus {
   backdrop-filter: blur(20px) !important;
   box-shadow: #727575 0px 0px 3px 0px !important;
   outline: none;
+  border: 1.5px solid #053645 !important;
 }
 
 input[type=file]::file-selector-button {
@@ -293,7 +295,7 @@ input[type=file]::file-selector-button {
   border-radius: .2em;
   color: #f3f0eb;
   position: relative;
-  top: -14px;
+  top: -12px;
   font-weight: 600;
   background-color: #053645;
   transition: 1s;
@@ -305,7 +307,7 @@ input[type=file]::file-selector-button {
   border-radius: 2.5px !important;
   transition: 0.3s !important;
   padding: 17.5px 7.5px !important;
-  height: 40px !important;
+  height: 45px !important;
   font-size: small !important;
   font-weight: 600;
 }
@@ -322,7 +324,7 @@ input[type=file]::file-selector-button {
   border-radius: 2.5px !important;
   transition: 0.3s !important;
   padding: 17.5px 7.5px !important;
-  height: 40px !important;
+  height: 45px !important;
   font-size: small !important;
   font-weight: 600;
 }
@@ -340,7 +342,7 @@ input[type=file]::file-selector-button {
   border-radius: 2.5px !important;
   transition: 0.3s !important;
   padding: 17.5px 7.5px !important;
-  height: 40px !important;
+  height: 45px !important;
   font-size: small !important;
   font-weight: 600;
 }
@@ -362,7 +364,7 @@ input[type=file]::file-selector-button {
   border-radius: 2.5px !important;
   transition: 0.3s !important;
   padding: 17.5px 7.5px !important;
-  height: 40px !important;
+  height: 45px !important;
   font-size: small !important;
   font-weight: 600;
 }
