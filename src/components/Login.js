@@ -52,6 +52,7 @@ const Login = () => {
     }
 
     const authentication = async (values) => {
+        debugger
         let data = await getRolesByEmailService(values.email);
         if (data != undefined) {
             //console.log(data[0]);
@@ -94,6 +95,14 @@ const Login = () => {
 
             }
             else if (data.isActive == false) {
+                toast.warning(
+                    `your Account is Inactive.Please connect with Admin.`,
+                    {
+                        autoClose: 1000,
+                    }
+                );
+            }
+            else{
                 toast.warning(
                     `your Account is Inactive.Please connect with Admin.`,
                     {
