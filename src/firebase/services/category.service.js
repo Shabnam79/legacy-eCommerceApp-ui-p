@@ -72,7 +72,6 @@ export const DeleteCategoryByIdService = async (doc) => {
    // await deleteDoc(doc);
    return await axios.delete(variables.API_URL + 'Category/DeleteCategory', { params: { "id": doc.id } })
     .then(function (response) {
-        console.log(response.data);
         return response.data;
     }).catch(function (error) {
         toast.error(error.message, {
@@ -93,7 +92,6 @@ export const getCategoryByCategoryIdService = async (id) => {
 
     return await axios.get(variables.API_URL + 'Category/GetCategoryById', { params: { "id": id } })
     .then(function (response) {
-        console.log(response.data);
         return response.data;
     }).catch(function (error) {
         toast.error(error.message, {

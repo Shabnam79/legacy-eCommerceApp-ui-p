@@ -57,8 +57,6 @@ const Signup = () => {
             data: payload,
 
         }).then(function (response) {
-            debugger
-            console.log(response);
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
@@ -66,8 +64,6 @@ const Signup = () => {
             setModalShow(true);
 
         }).catch(function (error) {
-            debugger
-            console.log(error.code);
             if (error.code === "ERR_BAD_REQUEST") {
                 toast.error("Email already in use.", {
                     autoClose: 1000,

@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 export const getUserData = async () => {
     return await axios.get(variables.API_URL + 'User/GetUsers')
         .then(function (response) {
-            console.log(response.data);
             return response.data;
         }).catch(function (error) {
             toast.error(error.message, {

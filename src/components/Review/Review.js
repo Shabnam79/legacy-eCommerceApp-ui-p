@@ -57,7 +57,6 @@ const Review = (props) => {
     };
 
     const fetchProductReview = async (orderId) => {
-        debugger
         const data = await getProductReviewByOrderIdService(orderId);
         if (data.length != 0) {
             setProductReviewDetails(data);
@@ -79,7 +78,6 @@ const Review = (props) => {
             description: values.description,
             rating: productReviewDetails.rating
         }
-        debugger
         if (isUpdateReview == false) {
             if (!imageUpload || imageUpload.length == 0) {
                 await saveProductReview(reviewObj);
@@ -221,7 +219,7 @@ const Review = (props) => {
                                         <Form.Control
                                             className='review-input'
                                             type="file"
-                                            multiple accept="image/*, video/*"
+                                            accept="image/*, video/*"
                                             onChange={handleMediaChange}
                                         // onChange={(event) => {
                                         //     setImageUpload(event.target.files);

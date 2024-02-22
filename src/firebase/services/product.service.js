@@ -63,7 +63,6 @@ export const getProductsService = async () => {
 // }
 
 export const DeleteItemFromProduct = async (id) => {
-  debugger
     await axios.delete(variables.API_URL + 'Admin/DeleteProduct', { params: { "itemId": id } }).then((response) => {
        // return response.data;
      }).catch(error => {
@@ -157,7 +156,6 @@ export const getProductByIdService = async (productId) => {
 // }
 
 export const saveUpdateProductStore = async (product, image) => {
-    debugger
     const formData = new FormData();
     if (image != undefined)
     {

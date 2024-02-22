@@ -16,7 +16,6 @@ const ReviewModal = (props) => {
         let data = await getProductReviewByProductIdService(props.productId);
         if (data != undefined)
             setReviews(data);
-        console.log(data);
     }
 
     return (

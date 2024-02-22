@@ -11,7 +11,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
 import { variables } from "../utils/variables";
-import axios from 'axios'; 
+import axios from 'axios';
 import { getRolesByEmailService } from '../firebase/services/user.service';
 
 const schema = yup.object().shape({
@@ -30,10 +30,10 @@ const Login = () => {
     const [modalShow, setModalShow] = useState(false);
     //const [isActive, setIsActive] = useState(false);
 
-    const fontsize = {fontSize: 'x-small'};
-    const fontfamily = {fontFamily: "Times New Roman"};
-    const borderHello={border:"none"};
-    const stylingLoginButton={
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
+    const borderHello = { border: "none" };
+    const stylingLoginButton = {
         color: 'white',
         backgroundColor: 'rgb(5, 54, 69)',
         border: '1px solid #6855e0',
@@ -52,72 +52,64 @@ const Login = () => {
     }
 
     const authentication = async (values) => {
-        debugger
-            let data = await getRolesByEmailService(values.email);
-            if (data != undefined) {
-                //console.log(data[0]);
-                //setIsActive(data[0].isActive);
+        let data = await getRolesByEmailService(values.email);
+        if (data != undefined) {
+            //console.log(data[0]);
+            //setIsActive(data[0].isActive);
 
-                if (data.isActive == true) {
-                    
-                    debugger
-                    const payload = {
-                        email : values.email,
-                        password : values.password
-                    }
-
-                    axios({
-                        method: 'post',
-                        url: variables.API_URL + 'Auth/Login',
-                        data: payload, 
-
-                    }).then((response) => {
-                        debugger
-                        console.log(response.data.code);
-                        let userData = {
-                                        userId: response.data.localId,
-                                        email: response.data.email,
-                                        roleId: data.roleId
-                                    };
-                    
-                                    setItem("user", JSON.stringify(userData));
-                    
-                                    setUser({
-                                        ...user,
-                                        userId: response.data.localId,
-                                        email: response.data.email,
-                                        roleId: data.roleId
-                                    });
-                                    console.log(userData);
-
-                        }).catch(error => {
-                            debugger
-                                //console.log(error.code);
-                                if (error.code === "ERR_BAD_REQUEST") {
-                                    toast.error("Invalid login credentials.", {
-                                        autoClose: 1000,
-                                    });
-                                }
-                        });
-
+            if (data.isActive == true) {
+                const payload = {
+                    email: values.email,
+                    password: values.password
                 }
-                else  if (data.isActive == false){
-                    toast.warning(
-                        `your Account is Inactive.Please connect with Admin.`,
-                        {
+
+                axios({
+                    method: 'post',
+                    url: variables.API_URL + 'Auth/Login',
+                    data: payload,
+
+                }).then((response) => {
+                    let userData = {
+                        userId: response.data.localId,
+                        email: response.data.email,
+                        roleId: data.roleId
+                    };
+
+                    setItem("user", JSON.stringify(userData));
+
+                    setUser({
+                        ...user,
+                        userId: response.data.localId,
+                        email: response.data.email,
+                        roleId: data.roleId
+                    });
+                }).catch(error => {
+                    //console.log(error.code);
+                    if (error.code === "ERR_BAD_REQUEST") {
+                        toast.error("Invalid login credentials.", {
                             autoClose: 1000,
-                        }
-                    );
-                }
+                        });
+                    }
+                });
 
-            }else {
+            }
+            else if (data.isActive == false) {
                 toast.warning(
-                    `To Login you need to signUp first`,
+                    `your Account is Inactive.Please connect with Admin.`,
                     {
                         autoClose: 1000,
                     }
                 );
             }
+
+        } else {
+            toast.warning(
+                `To Login you need to signUp first`,
+                {
+                    autoClose: 1000,
+                }
+            );
+        }
 
         // debugger
         // const payload = {
@@ -137,9 +129,9 @@ const Login = () => {
         //                     userId: response.data.localId,
         //                     email: response.data.email
         //                 };
-        
+
         //                 setItem("user", JSON.stringify(userData));
-        
+
         //                 setUser({
         //                     ...user,
         //                     userId: response.data.localId,

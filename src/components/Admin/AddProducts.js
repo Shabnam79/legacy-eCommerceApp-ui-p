@@ -64,14 +64,12 @@ function AddProducts() {
     };
  
     const handleSubmit = async (e) => {
-        debugger
         e.preventDefault();
         let addToProductObj = {
             ...name,
             isStock: isStockValue,
             quantity: name.quantity
         };
-        debugger
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
  
         //uploadFile();
@@ -103,9 +101,7 @@ function AddProducts() {
  
  
     const handleMediaChange = (e) => {
-        debugger
         setImageUpload(e.target.files);
-        console.log(selectedFiles);
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
     };

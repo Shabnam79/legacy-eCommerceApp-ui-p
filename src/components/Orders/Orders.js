@@ -19,11 +19,13 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         if (user.userId) {
-            let data = await getOrderService(user.userId);
-            if (data != undefined) {
-                setOrders(data);
-                setLoading(false);
-            }
+            setTimeout(async () => {
+                const data =await getOrderService(user.userId);
+                if (data != undefined) {
+                    setOrders(data);
+                    setLoading(false);
+                }
+            }, 2000);
         } else {
             console.log("Please login to see past orders");
         }

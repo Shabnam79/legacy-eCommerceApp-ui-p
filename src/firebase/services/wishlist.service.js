@@ -27,7 +27,6 @@ export const saveProductToWishlistService = async (product) => {
 }
 
 export const DeleteProductFromWishList = async (id) => {
-    debugger
     await axios.delete(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "id": id } }).then((response) => {
        // return response.data;
      }).catch(error => {
@@ -46,7 +45,6 @@ export const DeleteProductFromWishList = async (id) => {
 // }
 
 export const getWishlistService = async (userId) => {
-    debugger
     return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
         return response.data;
       }).catch(error => {

@@ -26,7 +26,6 @@ export const getProductReviewsService = async (orderId) => {
 
 export const getProductReviewByOrderIdService = async (orderId) => {
     return await axios.get(variables.API_URL + 'Product/GetProductReviewByOrderId', { params: { "orderId": orderId } }).then((response) => {
-        console.log(response.data);
         return response.data;
       }).catch(error => {
         console.log(error);
@@ -45,7 +44,6 @@ export const getProductReviewByOrderIdService = async (orderId) => {
 
 export const getProductReviewByProductIdService = async (productId) => {
   return await axios.get(variables.API_URL + 'Product/GetAllProductReviewsById', { params: { "productId": productId } }).then((response) => {
-    console.log(response.data);
     return response.data;
   }).catch(error => {
     console.log(error);
@@ -71,7 +69,6 @@ export const getProductReviewByProductIdService = async (productId) => {
 // }
 
 export const saveProductReview = async (productReview, image) => {
-    debugger
     const formData = new FormData();
     if (image != undefined)
     {
@@ -107,7 +104,6 @@ export const saveProductReview = async (productReview, image) => {
 // }
 
 export const updateProductReview = async (productReviewDoc, image) => {
-    debugger
     const formData = new FormData();
     if (image != undefined)
     {

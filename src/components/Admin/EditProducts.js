@@ -130,7 +130,6 @@ function EditProducts() {
             isStock: isStockValue,
             id: idValue
         };
-        debugger
         if (!imageUpload || imageUpload.length == 0) {
             await saveUpdateProductStore(addToCartProductObj);
         }
@@ -225,7 +224,7 @@ function EditProducts() {
                             className='editproduct-input'
                             name="img"
                             placeholder='Upload image'
-                            multiple accept="image/*"
+                            accept="image/*"
                             onChange={handleMediaChange}
                         />
                         <div className="d-flex flex-column my-3">
@@ -318,9 +317,7 @@ function EditProducts() {
                             checked={isStockValue}
                             placeholder='Select Stock...'
                             onChange={(e) => {
-                                debugger
                                 setIsStockValue(e.target.checked)
-                                debugger
                             }}
                         />
                     </Form.Group>

@@ -51,8 +51,8 @@ const Details = () => {
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
         if (userId && productId) {
-            console.log("userId", userId);
-            console.log("productId", productId);
+            // console.log("userId", userId);
+            // console.log("productId", productId);
 
             const collectionRef = query(
                 collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
@@ -74,7 +74,6 @@ const Details = () => {
                 try {
                     //const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
                     // await deleteRecordFromFirebaseService(addToWishlistDoc);
-                    debugger
                     await DeleteProductFromWishList(wishlist.id);
 
                     toast.warning(
