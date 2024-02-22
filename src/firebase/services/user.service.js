@@ -29,7 +29,10 @@ export const getUserData = async () => {
 export const getRolesByEmailService = async (email) => {
     return await axios.get(variables.API_URL + 'User/GetUserByEmailId', { params: { "email": email } })
         .then(function (response) {
-            return response.data;
+            if(response?.data?.UID){
+                return response.data;
+            }
+            return undefined;
         }).catch(function (error) {
             toast.error(error.message, {
                 autoClose: 1000,

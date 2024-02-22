@@ -47,7 +47,7 @@ const CheckoutForm = ({ value }) => {
             const dataArray = [];
             cart.forEach(element => {
                 dataArray.push({
-                    name: element.company,
+                    name: element.title,
                     orderDate: Date(),
                     orderId: uuidv4(),
                     price: element.price,
