@@ -33,7 +33,6 @@ const OrdersItem = ({ item }) => {
                         </p>
                         <div className='mt-3 d-flex justify-content-between align-items-center'>
                             <p className='m-0'><b>Total:</b> ${item.total}</p>
-                            {/* <Link style={{ color: "white", textDecoration: "none" }} to={`/review/${item.productId}/${item.orderId}`}> */}
                             <Link style={{ color: "white", textDecoration: "none" }} onClick={() => openInNewTab(`/review/${item.productId}/${item.orderId}`)}>
                                 <Button className='RateProduct-Button'>&#9733; Rate Product</Button>
                             </Link>

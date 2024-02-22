@@ -3,13 +3,12 @@ import userContext from '../../utils/userContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { getCartProductsService } from '../../firebase/services/cart.service';
 import LoadingOverlay from 'react-loading-overlay';
+import { toast } from "react-toastify";
 
 export default function CartList({ value }) {
-    const { cart } = value;
 
     const [CartData, setCartData] = useState([]);
     const { user } = useContext(userContext);
-
     const userId = user && Object.keys(user).length > 0 ? user.userId : null
     const [loading, setLoading] = useState(true);
 

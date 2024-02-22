@@ -1,7 +1,6 @@
 import React from 'react'
 
 const EmptyOrders = () => {
-    const fontfamily = { fontFamily: "Times New Roman" };
     return (
         <div className="container mt-5" data-testid="empty-orders-container">
             <div className="row" data-testid="empty-orders-row">

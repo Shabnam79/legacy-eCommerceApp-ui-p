@@ -4,9 +4,7 @@ import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService, getUserDataByIdService, updateRoleUsersService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
  
 export default function EditUsers() {
  
@@ -83,9 +81,6 @@ export default function EditUsers() {
         };
         await updateRoleUsersService(addToUserRoleObj);
  
-        // toast.success('Role Updated in admin list ', {
-        //     autoClose: 1000,
-        // });
         if (navigate) {
             navigate('/admin/UserList');
         } else {

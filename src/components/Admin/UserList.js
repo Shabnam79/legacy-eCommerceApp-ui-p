@@ -28,33 +28,6 @@ export default function UserList() {
     }
 
     const UserActive = async (item) => {
-        //     try {
-        //         if(item.isActive == "true")
-        //         {
-        //             alert("Please click Ok to make your Account Inactive.");
-        //             await updateIsActiveUsersService(item.id ,"false");
-        //                 toast.warning(
-        //                     `User Account has been Inactive.`,
-        //                     {
-        //                         autoClose: 1000,
-        //                     }
-        //                 );
-        //         }
-        //         else{
-        //             alert("Please click Ok to make your Account Active.");
-        //             await updateIsActiveUsersService(item.id ,"true");
-        //                 toast.warning(
-        //                     `User Account has been Active.`,
-        //                     {
-        //                         autoClose: 1000,
-        //                     }
-        //                 );
-        //         }
-        //         fetchUserData();
-        // }
-        // catch (e) {
-        //     console.log(e);
-        // }
         if (item.isActive == true) {
             alert("Please click Ok to make your Account Inactive.");
             await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${false}`)

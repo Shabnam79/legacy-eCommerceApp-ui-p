@@ -36,31 +36,10 @@ export default function EditCategory() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        //   let data = await getCategoryServiceByUserId(user.userId);
-        //   if (data != undefined) {
-
-        //   let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
-        //      if (filteredCategoryData == undefined) {
         await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
         toast.success('Category updated in admin list', {
             autoClose: 1000,
         });
-        // if (data != undefined) {
-
-        // let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
-        //    if (filteredCategoryData == undefined) {
-        //        await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
-        //         toast.success('Category updated in admin list', {
-        //             autoClose: 1000,
-        //         });
-        //     }
-        //     else{
-        //         toast.warning('Category already added in admin list ', {
-        //             autoClose: 3000,
-        //         });
-        //         return;
-        //     }
-        // }
         navigate('/admin/CategoryList');
     }
 
@@ -79,7 +58,6 @@ export default function EditCategory() {
                             onChange={handleInputChange}
                         />
                     </Form.Group>
-
                     <Button type='submit' style={{
                         backgroundColor: 'rgb(5, 54, 69)',
                         border: 'none'

@@ -1,34 +1,26 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
-import userContext from '../../utils/userContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
-    const { user } = useContext(userContext);
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
 
     const removeProductHandler = async (item) => {
         try {
-            //const addToWishlistDoc = await getWishlistByIdService(item.id);
-            //await deleteRecordFromFirebaseService(addToWishlistDoc);
             await DeleteProductFromWishList(item.id);
-
             toast.warning(
                 `Product removed from the Wishlist`,
                 {
                     autoClose: 1000,
                 }
             );
-
             fetchAddToWishlistData();
             dispatch(removeFromWishlist(item));
-
         }
         catch (e) {
             console.log(e);

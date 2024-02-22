@@ -32,14 +32,6 @@ import CreateUsers from './components/Admin/CreateUsers';
 import EditUsers from './components/Admin/EditUsers';
 import { variables } from "../src/utils/variables";
 
-// const ProductList = lazy(() => import("./components/ProductList"));
-// const Details = lazy(() => import("./components/Details"));
-// const Cart = lazy(() => import("./components/Cart/Cart"));
-// const Login = lazy(() => import("./components/Login"));
-// const Orders = lazy(() => import("./components/Orders/Orders"));
-// const Signup = lazy(() => import("./components/Signup"));
-// const Review = lazy(() => import("./components/Review/Review"));
-
 function App() {
   const [user, setUser] = useState({});
   const { getItem } = useLocalStorage();
@@ -52,7 +44,7 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-          roleId:parseUserData.roleId
+          roleId: parseUserData.roleId
         });
       }
     }
@@ -72,122 +64,99 @@ function App() {
           <div className='w-100' style={{ position: 'absolute', top: '75px' }}>
             <Routes>
               {
-              user.roleId == variables.ROLE_ADMIN
-              ?
-              <>
-                  <Route exact path="/" element={<ProductList />} />
-                  <Route path="/details" element={<Details />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/wishlist" element={<ProductWishlist />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/review/:productId/:orderId" element={<Review />} />
+                user.roleId == variables.ROLE_ADMIN
+                  ?
+                  <>
+                    <Route exact path="/" element={<ProductList />} />
+                    <Route path="/details" element={<Details />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/wishlist" element={<ProductWishlist />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/review/:productId/:orderId" element={<Review />} />
 
-                  <Route path="/admin" element={<Dashboard />} />
-                  <Route path="/admin/addproduct" element={<AddProducts />} />
-                  <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
-                  <Route path="/admin/CategoryList" element={<CategoryList />} />
-                  <Route path="/admin/AddCategories" element={<AddCategories />} />
-                  <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
-                  <Route path="/admin/UserList" element={<UserList />} />
-                  <Route path="/admin/CreateUsers" element={<CreateUsers />} />
-                  <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
-              </>
-              : 
-              <>
-                  <Route exact path="/" element={<ProductList />} />
-                  <Route path="/details" element={<Details />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/wishlist" element={<ProductWishlist />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/review/:productId/:orderId" element={<Review />} />
-              </>
+                    <Route path="/admin" element={<Dashboard />} />
+                    <Route path="/admin/addproduct" element={<AddProducts />} />
+                    <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
+                    <Route path="/admin/CategoryList" element={<CategoryList />} />
+                    <Route path="/admin/AddCategories" element={<AddCategories />} />
+                    <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
+                    <Route path="/admin/UserList" element={<UserList />} />
+                    <Route path="/admin/CreateUsers" element={<CreateUsers />} />
+                    <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
+                  </>
+                  :
+                  <>
+                    <Route exact path="/" element={<ProductList />} />
+                    <Route path="/details" element={<Details />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/wishlist" element={<ProductWishlist />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/review/:productId/:orderId" element={<Review />} />
+                  </>
               }
-              
-
-              
 
               <Route exact
                 path="/"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <ProductList />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/details"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Details />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/cart"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Cart />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/login"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Login />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/orders"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Orders />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/wishlist"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <ProductWishlist />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/signup"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Signup />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/review/:productId/:orderId"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Review />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/checkout"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Checkout />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/billingAddress"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <BillingAddress />
-                  // </React.Suspense>
                 }
               />
               <Route element={<Default />} />
@@ -196,7 +165,6 @@ function App() {
           <Modal />
         </userContext.Provider>
       </Provider>
-      {/* <ToastContainer position="top-right" /> */}
       <ToastContainer />
     </React.Fragment>
   );

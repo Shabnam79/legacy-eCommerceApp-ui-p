@@ -2,7 +2,6 @@ import { Button, button, Table } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from 'react'
 import userContext from "../../utils/userContext.js";
-import { getProductByIdService } from '../../firebase/services/product.service.js';
 import { getProductsService, DeleteItemFromProduct } from '../../firebase/services/product.service';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
@@ -27,7 +26,6 @@ function Dashboard() {
     }, [user.userId]);
 
     const fetchStoreProductData = async () => {
-        // let data = await getProductsServiceByUserId();
         let data = await getProductsService();
         if (data != undefined) {
             setProductData(data);
@@ -38,8 +36,6 @@ function Dashboard() {
     const removeProductHandler = async (item) => {
 
         try {
-            //const deleteStroeProcduct = await getProductByIdService(item.id);
-            //await deleteRecordFromFirebaseService(deleteStroeProcduct);
             await DeleteItemFromProduct(item.id);
             toast.warning(
                 `Product removed from the admin List.`,
@@ -111,9 +107,6 @@ function Dashboard() {
             </LoadingOverlay>
         </>
     );
-
 }
-
-
 
 export default Dashboard;

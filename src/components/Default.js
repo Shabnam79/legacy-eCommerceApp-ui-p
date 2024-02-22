@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 const Default = ({ location }) => {
-    // console.log(this.props);
 
     return (
         <div className="container">

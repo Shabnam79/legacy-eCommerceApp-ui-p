@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, button, Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {
     DeleteCategoryByIdService,
@@ -32,20 +32,6 @@ export default function CategoryList() {
 
     const removeCategoryHandler = async (item) => {
         try {
-            // let CategoryAlreadyExistInProduct_Data = await getCategoryByCategoryIdService(item.id);
-            // console.log(CategoryAlreadyExistInProduct_Data[0]);
-            // if (CategoryAlreadyExistInProduct_Data[0] != undefined) 
-            // {
-            //     toast.warning(
-            //         `Category already exist into product List`,
-            //         {
-            //             autoClose: 1000,
-            //         }
-            //     );
-            // }
-            // else
-            // {
-            //const deleteCategory = await getCategoryByIdService(item.id);
             await DeleteCategoryByIdService(item);
 
             toast.warning(
@@ -54,7 +40,6 @@ export default function CategoryList() {
                     autoClose: 1000,
                 }
             );
-            //}
             fetchStoreCategoryData();
         }
         catch (e) {

@@ -25,7 +25,6 @@ function IFrame({ children }) {
     );
 }
 
-
 const CheckoutForm = ({ value }) => {
 
     const dispatch = useDispatch();
@@ -167,7 +166,6 @@ const CheckoutForm = ({ value }) => {
                         <div id="DivPlaceOrder" className="row">
                             <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
                                 <Link to="/orders">
-                                    {/* <button style={{...fontfamily,marginLeft:"-118px"}} */}
                                     <button style={{
                                         marginTop: "10px",
                                         border: 'none',

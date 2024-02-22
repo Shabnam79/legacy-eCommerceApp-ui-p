@@ -2,16 +2,7 @@ import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "fireb
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
-
-// export const getCartProductsService = async (userId) => {
-//     const q = query(
-//         collection(db, "addToCartStore"), where("userId", "==", userId)
-//     )
-
-//     const querySnapshot = await getDocs(q);
-//     return querySnapshot.docs
-//         .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }
+import { toast } from "react-toastify";
 
 export const getCartProductsService = async (userId) => {
     return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
@@ -21,18 +12,15 @@ export const getCartProductsService = async (userId) => {
       });
 }
 
-// export const saveProductIntoCartService = async (product) => {
-//     return await addDoc(collection(db, "addToCartStore"), {
-//         ...product
-//     });
-// }
-
-
 export const DeleteItemFromYourCart = async (id) => {
     await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
-       // return response.data;
+        toast.success(response.message, {
+            autoClose: 1000,
+          });
      }).catch(error => {
-       console.log(error);
+        toast.error(error.message, {
+            autoClose: 1000,
+          });
      });
 }
 
@@ -43,25 +31,19 @@ export const saveProductIntoCartService = async (product) => {
         data: {...product }, 
 
     }).then(function(response) {
-        //console.log(response);
-    
+        toast.success(response.message, {
+            autoClose: 1000,
+          });
     }).catch(function (error){
-        //console.log(error.code);
-        if (error.code === "ERR_BAD_REQUEST") {
-            
-        }
+        toast.error(error.message, {
+            autoClose: 1000,
+          });
     });
 }
 
 export const getProductByIdService = async (productId) => {
     return doc(db, "addToCartStore", productId);
 }
-
-// export const incrementCartProductsService = async (product, counts) => {
-//     await updateDoc(product, {
-//         count: counts + 1
-//     });
-// }
 
 export const incrementCartProductsService = async (counts) => {    
     return await counts + 1; 
@@ -74,12 +56,6 @@ export const UpdateItemQuantity = async (id, counts) => {
         console.log(error);
       });
 }
-
-// export const decrementCartProductsService = async (product, counts) => {
-//     await updateDoc(product, {
-//         count: counts - 1
-//     });
-// }
 
 export const decrementCartProductsService = async (counts) => {
     return await counts - 1; 
