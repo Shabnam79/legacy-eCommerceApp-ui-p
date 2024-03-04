@@ -32,20 +32,6 @@ export default function CategoryList() {
 
     const removeCategoryHandler = async (item) => {
         try {
-            // let CategoryAlreadyExistInProduct_Data = await getCategoryByCategoryIdService(item.id);
-            // console.log(CategoryAlreadyExistInProduct_Data[0]);
-            // if (CategoryAlreadyExistInProduct_Data[0] != undefined) 
-            // {
-            //     toast.warning(
-            //         `Category already exist into product List`,
-            //         {
-            //             autoClose: 1000,
-            //         }
-            //     );
-            // }
-            // else
-            // {
-            //const deleteCategory = await getCategoryByIdService(item.id);
             await DeleteCategoryByIdService(item);
 
             toast.warning(

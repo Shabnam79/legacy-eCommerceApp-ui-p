@@ -12,6 +12,10 @@ import { variables } from "../utils/variables";
 import axios from 'axios';
 
 const schema = yup.object().shape({
+    userName: yup.string()
+        .min(4, 'Must be greater than 6 characters')
+        .max(30, 'Must be less than or equal to 30 characters')
+        .required(),
     email: yup.string()
         .email()
         .max(254, 'Must be less than or equal to 254 characters')
@@ -43,9 +47,8 @@ const Signup = () => {
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
-    //const usersCollectionRef = collection(db,"userroles");
-    const authentication = (values, { resetForm }) => {
-
+    
+    const authentication = (values) => {
         const payload = {
             email: values.email,
             password: values.password
@@ -53,52 +56,24 @@ const Signup = () => {
 
         axios({
             method: 'post',
-            url: variables.API_URL + 'Auth/SignUp',
+            //url: variables.API_URL + 'Auth/SignUp',
+            url: variables.API_URL + `Auth/SignUp?UserName=${values.userName}`,
             data: payload,
 
-        }).then(function (response) {
+        }).then((response)=> {
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
             //resetForm();
             setModalShow(true);
 
-        }).catch(function (error) {
+        }).catch(error =>  {
             if (error.code === "ERR_BAD_REQUEST") {
                 toast.error("Email already in use.", {
                     autoClose: 1000,
                 });
             }
         });
-
-        // const getAuthentication = getAuth();
-        // createUserWithEmailAndPassword(getAuthentication, values.email, values.password)
-        //     .then((res) => {
-
-        //         addDoc(usersCollectionRef,{
-        //             UID: res.user.uid,
-        //             email: values.email,
-        //             role : "Customer",
-        //             roleId : "tMcXpUvDofmo6DVMtBeD",
-        //             isActive :"true",
-        //             })
-        //         debugger
-        //         // alert("Signup successfully");
-        //         toast.success(`Signup successfully`, {
-        //             autoClose: 1000,
-        //         });
-        //         //resetForm();
-        //         setModalShow(true);
-        //     })
-        //     .catch((error) => {
-        //         // console.log(error.code);
-        //         if (error.code === "auth/email-already-in-use") {
-        //             // alert("auth/email-already-in-use");
-        //             toast.error("auth/email-already-in-use", {
-        //                 autoClose: 1000,
-        //             });
-        //         }
-        //     });
     }
 
     return (
@@ -111,6 +86,7 @@ const Signup = () => {
                         initialValues={{
                             email: '',
                             password: '',
+                            userName:'',
                         }}
                     >
                         {({
@@ -123,6 +99,21 @@ const Signup = () => {
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
+                                <Form.Group controlId="validationFormik00">
+                                    <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>User Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="jane"
+                                        className='login-signup-input'
+                                        name="userName"
+                                        value={values.userName}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.userName}
+                                    />
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
+                                        {errors.userName}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                                 <Form.Group controlId="validationFormik01">
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Email</Form.Label>
                                     <Form.Control

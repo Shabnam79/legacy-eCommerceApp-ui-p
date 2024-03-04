@@ -11,9 +11,7 @@ import { saveProductIntoCartService, getCartProductsService, incrementCartProduc
 import { saveProductToWishlistService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
-// import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
 import LoginModal from './LoginModal';
-import ReviewCards from './Review/ReviewCards';
 import ReviewModal from './Review/ReviewModal';
 
 const Details = () => {
@@ -29,7 +27,6 @@ const Details = () => {
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
-        // fetchAddToCartData();
         if (user.userId) {
             fetchAddToCartData();
         } else {
@@ -44,9 +41,6 @@ const Details = () => {
         } else {
             console.log("Please login to see past Cart products");
         }
-        // checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
-        // document.title = detailProduct.title;
-        //console.log(detailProduct.count);
     }, [user.userId]);
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
@@ -72,8 +66,6 @@ const Details = () => {
         if (user.userId) {
             if (isProductWishlisted) {
                 try {
-                    //const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
-                    // await deleteRecordFromFirebaseService(addToWishlistDoc);
                     await DeleteProductFromWishList(wishlist.id);
 
                     toast.warning(
@@ -110,8 +102,6 @@ const Details = () => {
                     setIsProductWishlisted(true);
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
-                    //console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${value.title} is added to wishlist`, {
                         autoClose: 1000,
                     });
@@ -121,12 +111,6 @@ const Details = () => {
             }
 
         } else {
-            // toast.warning(
-            //     `To add your product in wishlist you need to login first.`,
-            //     {
-            //         autoClose: 1000,
-            //     }
-            // );
             setLoginModalShow(true);
         }
     }
@@ -143,7 +127,6 @@ const Details = () => {
     }
 
     const addProductIntoCart = async (item) => {
-        //console.log(item.count);
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -176,9 +159,6 @@ const Details = () => {
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
-
-                    //console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -195,12 +175,6 @@ const Details = () => {
                 }
             }
         } else {
-            // toast.warning(
-            //     `To add your order in cart you need to login first`,
-            //     {
-            //         autoClose: 1000,
-            //     }
-            // );
             setLoginModalShow(true);
         }
 
@@ -255,8 +229,6 @@ const Details = () => {
                         <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
-                                //console.log(detailProduct);
-                                //openCartModal(detailProduct);
                             }}>
                             {inCart ? "InCart" : "Add To Cart"}
                         </ButtonContainer>

@@ -3,7 +3,6 @@ import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../.
 import React from 'react';
 import { toast } from "react-toastify";
 import { getProductByIdService, DeleteItemFromYourCart } from '../../firebase/services/cart.service';
-//import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 
 export default function CheckoutItem({ item, value, fetchAddToCartData }) {
     const dispatch = useDispatch();
@@ -12,7 +11,6 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
     const removeProductHandler = async (item) => {
         try {
             const addToCartDoc = await getProductByIdService(item.id);
-            // await deleteRecordFromFirebaseService(addToCartDoc);
             await DeleteItemFromYourCart(addToCartDoc);
 
             toast.warning(
@@ -47,9 +45,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
             <div className="d-flex align-items-center justify-content-center" style={{ width: '10%' }}>
                 <div className="d-flex justify-content-center">
                     <div>
-                        {/* <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span> */}
                         <span className="btn btn-black mx-1">{count}</span>
-                        {/* <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span> */}
                     </div>
                 </div>
             </div>

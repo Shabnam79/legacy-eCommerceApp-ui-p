@@ -1,15 +1,12 @@
 import React, { Component, useContext, useState } from 'react'
-import { db } from "../../firebase/config/firebase.config";
-import { doc } from "firebase/firestore";
 
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTotals, removeAll } from '../../utils/cartSlice';
+import { removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
-//import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartTotals({ value }) {
@@ -51,8 +48,6 @@ export default function CartTotals({ value }) {
 
     const clearCart = () => {
         cart.forEach((data) => {
-            // const addToCartDoc = doc(db, "addToCartStore", data.id);
-            // deleteRecordFromFirebaseService(addToCartDoc)
             DeleteItemFromYourCart(data.id);
         });
         dispatch(removeAll());

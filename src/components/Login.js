@@ -55,8 +55,6 @@ const Login = () => {
         debugger
         let data = await getRolesByEmailService(values.email);
         if (data != undefined) {
-            //console.log(data[0]);
-            //setIsActive(data[0].isActive);
 
             if (data.isActive == true) {
                 const payload = {
@@ -70,10 +68,12 @@ const Login = () => {
                     data: payload,
 
                 }).then((response) => {
+                    debugger
                     let userData = {
                         userId: response.data.localId,
                         email: response.data.email,
-                        roleId: data.roleId
+                        roleId: data.roleId,
+                        userName: data.userName                  
                     };
 
                     setItem("user", JSON.stringify(userData));
@@ -82,7 +82,9 @@ const Login = () => {
                         ...user,
                         userId: response.data.localId,
                         email: response.data.email,
-                        roleId: data.roleId
+                        roleId: data.roleId,
+                        userName: data.userName 
+
                     });
                 }).catch(error => {
                     //console.log(error.code);
@@ -119,85 +121,6 @@ const Login = () => {
                 }
             );
         }
-
-        // debugger
-        // const payload = {
-        //     email : values.email,
-        //     password : values.password
-        // }
-
-        // axios({
-        //     method: 'post',
-        //     url: variables.API_URL + 'Auth/Login',
-        //     data: payload, 
-
-        // }).then(function(response) {
-        //     debugger
-        //     console.log(response.localId);
-        //     let userData = {
-        //                     userId: response.data.localId,
-        //                     email: response.data.email
-        //                 };
-
-        //                 setItem("user", JSON.stringify(userData));
-
-        //                 setUser({
-        //                     ...user,
-        //                     userId: response.data.localId,
-        //                     email: response.data.email
-        //                 });
-
-
-        //     }).catch((error) => {
-        //         debugger
-        //             console.log(error.code);
-        //             if (error.code === "ERR_BAD_REQUEST") {
-        //                 toast.error("Invalid login credentials.", {
-        //                     autoClose: 1000,
-        //                 });
-        //             }
-        //     });
-
-
-
-        // const getAuthentication = getAuth();
-        // signInWithEmailAndPassword(getAuthentication, values.email, values.password)
-        //     .then((res) => {
-        //         // console.log("login success");
-        //         // console.log("Auth Token", res._tokenResponse.refreshToken);
-
-        //         let userData = {
-        //             userId: auth.currentUser.uid,
-        //             email: values.email
-        //         };
-
-        //         setItem("user", JSON.stringify(userData));
-
-        //         setUser({
-        //             ...user,
-        //             userId: auth.currentUser.uid,
-        //             email: values.email
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         // console.log(error.code);
-        //         if (error.code === "auth/wrong-password") {
-        //             // alert("Please check the password");
-        //             toast.error("Please check the password", {
-        //                 autoClose: 1000,
-        //             });
-        //         } else if (error.code === "auth/user-not-found") {
-        //             // alert("Please check the email");
-        //             toast.error("Please check the email", {
-        //                 autoClose: 1000,
-        //             });
-        //         } else if (error.code === "auth/invalid-login-credentials") {
-        //             // alert("invalid-login-credentials");
-        //             toast.error("invalid-login-credentials", {
-        //                 autoClose: 1000,
-        //             });
-        //         }
-        //     });
     }
 
     return (

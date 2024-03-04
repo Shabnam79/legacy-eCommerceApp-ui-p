@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../../utils/cartSlice';
 import React from 'react';
 import { toast } from "react-toastify";
-//import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 import { incrementCartProductsService, decrementCartProductsService, getProductByIdService, UpdateItemQuantity, DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartItem({ item, value, fetchAddToCartData }) {
@@ -14,8 +13,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const { id, title, img, price, total, count, quantity } = item;
     const removeProductHandler = async (item) => {
         try {
-            // const addToCartDoc = await getProductByIdService(item.id);
-            // await deleteRecordFromFirebaseService(addToCartDoc);
             await DeleteItemFromYourCart(item.id);
             toast.warning(
                 `Product removed from the Cart`,
@@ -34,7 +31,6 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const increment = async (item) => {
         const addToCartDoc = await getProductByIdService(item.id);
-        // await incrementCartProductsService(addToCartDoc, count);
         const CountIncrement = await incrementCartProductsService(count);
         await UpdateItemQuantity(addToCartDoc.id, CountIncrement);
         fetchAddToCartData();
@@ -45,12 +41,9 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const decrement = async (item) => {
         const addToCartDoc = await getProductByIdService(item.id);
         if (count != 1) {
-            // await decrementCartProductsService(addToCartDoc, count);
             const CountDecrement = await decrementCartProductsService(count);
             await UpdateItemQuantity(addToCartDoc.id, CountDecrement);
-
             fetchAddToCartData();
-
             dispatch(reduceProduct(item))
         }
         else {

@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
 import { saveProductIntoStoreProductService, getCategoryService, saveUpdateProductStore, getProductByProductIdService } from '../../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { v4 as uuid } from "uuid";
-import { storage } from "../../firebase/config/firebase.config"
 import { Link, useNavigate } from 'react-router-dom';
  
 function AddProducts() {
@@ -71,8 +69,6 @@ function AddProducts() {
             quantity: name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
- 
-        //uploadFile();
         //console.log("Document written with ID: ", docRef.id);
  
         toast.success('Product added in admin list ', {
@@ -105,43 +101,6 @@ function AddProducts() {
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
     };
- 
-    // const uploadFile = () => {
-    //     if (imageUpload.length == 0) return;
-    //     for (let index = 0; index < imageUpload.length; index++) {
-    //         const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
-    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-    //             getDownloadURL(snapshot.ref).then((url) => {
-    //                 setImageUrls((prev) => [...prev, url]);
-    //                 fetchStoreProductData(ProductIdValue, url);
-    //             });
-    //         });
-    //     }
-    // };
- 
-    // const fetchStoreProductData = async (productId, url) => {
- 
-    //     let data = await getProductByProductIdService(productId);
-    //     if (data != undefined) {
-    //         let updateImageToProductObj = {
-    //             category: data[0].category,
-    //             categoryId: data[0].categoryId,
-    //             info: data[0].info,
-    //             company: data[0].company,
-    //             price: data[0].price,
-    //             quantity: data[0].quantity,
-    //             title: data[0].title,
-    //             isStock: data[0].isStock,
-    //             id: data[0].id,
-    //             count: data[0].count,
-    //             productId: ProductIdValue,
-    //             userId: user.userId,
-    //             img: url,
-    //         };
-    //         saveUpdateProductStore(updateImageToProductObj);
-    //     }
-    //     navigate('/admin');
-    // }
  
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];

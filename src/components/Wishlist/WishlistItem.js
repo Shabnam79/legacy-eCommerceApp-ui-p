@@ -1,9 +1,8 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import userContext from '../../utils/userContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
+import { useDispatch } from 'react-redux';
+import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
 import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
@@ -15,8 +14,6 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
 
     const removeProductHandler = async (item) => {
         try {
-            //const addToWishlistDoc = await getWishlistByIdService(item.id);
-            //await deleteRecordFromFirebaseService(addToWishlistDoc);
             await DeleteProductFromWishList(item.id);
 
             toast.warning(

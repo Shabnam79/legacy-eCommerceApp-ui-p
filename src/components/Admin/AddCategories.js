@@ -35,26 +35,12 @@ export default function AddCategories() {
             ...name
         };
 
-        // let data = await getCategoryByCategoryIdService(user.userId);
-        // if (data != undefined) {
-        // let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == addToCategoryObj.Category.toUpperCase()).map(x => x.id)[0];
-        //    if (filteredCategoryData == undefined) {
-
         let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
         // console.log("Document written with ID: ", docRef.id);
         toast.success('Category added in admin list ', {
             autoClose: 1000,
         });
         name.Category = '';
-        // }
-        // else{
-
-        //     toast.warning('Category already added in admin list ', {
-        //         autoClose: 3000,
-        //     });
-        //     return;
-        // }
-        //}
         navigate('/admin/CategoryList');
     }
 

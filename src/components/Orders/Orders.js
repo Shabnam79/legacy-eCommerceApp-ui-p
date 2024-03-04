@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
-import Title from '../Title';
 import userContext from '../../utils/userContext';
 import { getOrderService } from '../../firebase/services/order.service';
 import LoadingOverlay from 'react-loading-overlay';

@@ -85,7 +85,6 @@ const Review = (props) => {
             else {
                 await saveProductReview(reviewObj, imageUpload[0]);
             }
-            //uploadFile();
             toast.success(`review submitted successfully`, {
                 autoClose: 1000,
             });
@@ -97,7 +96,6 @@ const Review = (props) => {
             else {
                 await updateProductReview(reviewObj, imageUpload[0]);
             }
-            //uploadFile();
             toast.success(`review updated successfully`, {
                 autoClose: 1000,
             });
@@ -110,43 +108,6 @@ const Review = (props) => {
     const setRating = (rating) => {
         setProductReviewDetails({ rating: rating });
     }
-
-    //const imagesListRef = ref(storage, `OrderPlacedImages/${orderId}/`);
-
-    // const uploadFile = () => {
-    //     if (imageUpload.length == 0) return;
-    //     for (let index = 0; index < imageUpload.length; index++) {
-    //         const imageRef = ref(storage, `OrderPlacedImages/${orderId}/${imageUpload[index].name}`);
-    //         uploadBytes(imageRef, imageUpload[index])
-    //             .then((snapshot) => {
-    //                 return getDownloadURL(snapshot.ref).catch((error) => {
-    //                     console.error('Error fetching download URL:', error);
-    //                     return null; // Return a default value or handle the error as needed
-    //                 });
-    //             })
-    //             .then((url) => {
-    //                 if (url) {
-    //                     setImageUrls((prev) => [...prev, url]);
-    //                 } else {
-    //                     console.error('URL is undefined or null');
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 console.error('Error uploading file:', error);
-    //             });
-
-    //     }
-    // };
-
-    // const fetchImages = () => {
-    //     listAll(imagesListRef).then((response) => {
-    //         response.items.forEach((item) => {
-    //             getDownloadURL(item).then((url) => {
-    //                 setImageUrls((prev) => [...prev, url]);
-    //             });
-    //         });
-    //     });
-    // }
 
     return (
         <>
@@ -221,9 +182,6 @@ const Review = (props) => {
                                             type="file"
                                             accept="image/*, video/*"
                                             onChange={handleMediaChange}
-                                        // onChange={(event) => {
-                                        //     setImageUpload(event.target.files);
-                                        // }}
                                         />
                                         <div className="">
                                             {imageUrls.length != 0 ? (
@@ -257,19 +215,6 @@ const Review = (props) => {
                                     }}>
                                         <i className="fas fa-user">&ensp;Submit</i>
                                     </Button>
-                                    {/* <Row>
-                                        <Col xs={6} md={4}>
-                                            {
-                                                imageUrls.map((url) => {
-                                                    return <Image
-                                                        src={url}
-                                                        rounded style={{ height: "200px", width: "200px" }}
-                                                    />
-                                                })
-                                            }
-                                        </Col>
-                                    </Row> */}
-
                                 </Form>
                             )}
                         </Formik >

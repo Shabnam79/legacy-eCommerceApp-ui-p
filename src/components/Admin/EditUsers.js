@@ -16,7 +16,9 @@ export default function EditUsers() {
     const [UserRoleData, setUserRoleData] = useState({
         role: '',
         roleId: '',
-        id: ''
+        id: '',
+        email:'',
+        userName:''
  
     });
  
@@ -26,13 +28,17 @@ export default function EditUsers() {
     const [selectedValue, setSelectedValue] = useState('');
     const [RoleIdValue, setRoleIdValue] = useState('');
     const [UserIdValue, setUserIdValue] = useState('');
+    const [userNameValue, setUserNameValue] = useState('');
  
     const [name, setName] = useState({
         role: '',
-        roleId: ''
+        roleId: '',
+        email:'',
+        userName:''
     });
  
     useEffect(() => {
+        debugger
         fetchUserData(UserRoleId);
         fetchRolelist();
         document.title = "Admin - Edit Users"
@@ -53,12 +59,14 @@ export default function EditUsers() {
     }
  
     const fetchUserData = async (UserRoleId) => {
+        debugger
         let data = await getUserDataByIdService(UserRoleId);
         if (data != undefined) {
-            setUserRoleData(data[0]);
-            setSelectedValue(data[0].role);
-            setRoleIdValue(data[0].roleId);
-            setUserIdValue(data[0].UID);
+            setUserRoleData(data);
+            setSelectedValue(data.role);
+            setRoleIdValue(data.roleId);
+            setUserIdValue(data.UID);
+            setUserNameValue(data.userName);
         }
     }
  
@@ -67,7 +75,6 @@ export default function EditUsers() {
         const { name, value } = event.target
         setUserRoleData((prevName) => ({
             ...prevName,
- 
             roleId: RoleIdValue,
             role: selectedValue,
             [name]: value
@@ -75,17 +82,16 @@ export default function EditUsers() {
     };
  
     const handleSubmit = async (e) => {
+        debugger
         e.preventDefault();
         let addToUserRoleObj = {
             roleId: RoleIdValue,
             role: selectedValue,
-            userId: UserIdValue
+            userId: UserIdValue,
+            userName : UserRoleData.userName
         };
         await updateRoleUsersService(addToUserRoleObj);
- 
-        // toast.success('Role Updated in admin list ', {
-        //     autoClose: 1000,
-        // });
+
         if (navigate) {
             navigate('/admin/UserList');
         } else {
@@ -122,6 +128,18 @@ export default function EditUsers() {
                             name="email"
                             value={UserRoleData.email}
                             placeholder='email'
+                            required
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='FormUserName'>
+                        <Form.Label>User Name :</Form.Label>
+                        <Form.Control
+                            className='editusers-input'
+                            type='text'
+                            name="userName"
+                            value={UserRoleData.userName}
+                            placeholder='userName'
                             required
                             onChange={handleInputChange}
                         />

@@ -11,10 +11,8 @@ const ProductWishlist = () => {
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const borderHello = { border: "none" };
-    //const [wishlist, setWishlist] = useState([]);
     const { user } = useContext(userContext);
     const wishlistItems = useSelector((store) => store.wishlist);
-    //console.log(wishlistItems,'Data')
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 

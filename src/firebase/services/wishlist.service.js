@@ -1,13 +1,6 @@
-import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
 
-// export const saveProductToWishlistService = async (product) => {
-//     return await addDoc(collection(db, "storeWishlist"), {
-//         ...product
-//     });
-// }
 
 export const saveProductToWishlistService = async (product) => {
     axios({
@@ -16,10 +9,8 @@ export const saveProductToWishlistService = async (product) => {
         data: {...product }, 
 
     }).then(function(response) {
-        //console.log(response);
     
     }).catch(function (error){
-        //console.log(error.code);
         if (error.code === "ERR_BAD_REQUEST") {
             
         }
@@ -28,21 +19,10 @@ export const saveProductToWishlistService = async (product) => {
 
 export const DeleteProductFromWishList = async (id) => {
     await axios.delete(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "id": id } }).then((response) => {
-       // return response.data;
      }).catch(error => {
        console.log(error);
      });
 }
-
-// export const getWishlistService = async (userId) => {
-//     const q = query(
-//         collection(db, "storeWishlist"), where("userId", "==", userId)
-//     )
-
-//     const querySnapshot = await getDocs(q);
-//     return querySnapshot.docs
-//         .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }
 
 export const getWishlistService = async (userId) => {
     return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
@@ -51,17 +31,3 @@ export const getWishlistService = async (userId) => {
         console.log(error);
       });
 }
-
-// export const getWishlistByIdService = async (productId) => {
-//     return doc(db, "storeWishlist", productId);
-// }
-
-// export const getWishlistByUserIdService = async (userId) => {
-//     const q = query(
-//         collection(db, "storeWishlist"), where("userId", "==", userId)
-//     )
-
-//     const querySnapshot = await getDocs(q);
-//     return querySnapshot.docs
-//         .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }

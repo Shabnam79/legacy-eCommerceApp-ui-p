@@ -1,5 +1,5 @@
-import React, { lazy, useEffect, useState } from 'react';
-import { Switch, Route, Routes, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, Outlet } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
@@ -32,14 +32,6 @@ import CreateUsers from './components/Admin/CreateUsers';
 import EditUsers from './components/Admin/EditUsers';
 import { variables } from "../src/utils/variables";
 
-// const ProductList = lazy(() => import("./components/ProductList"));
-// const Details = lazy(() => import("./components/Details"));
-// const Cart = lazy(() => import("./components/Cart/Cart"));
-// const Login = lazy(() => import("./components/Login"));
-// const Orders = lazy(() => import("./components/Orders/Orders"));
-// const Signup = lazy(() => import("./components/Signup"));
-// const Review = lazy(() => import("./components/Review/Review"));
-
 function App() {
   const [user, setUser] = useState({});
   const { getItem } = useLocalStorage();
@@ -52,7 +44,8 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-          roleId:parseUserData.roleId
+          roleId:parseUserData.roleId,
+          userName:parseUserData.userName
         });
       }
     }
@@ -113,81 +106,61 @@ function App() {
               <Route exact
                 path="/"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <ProductList />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/details"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Details />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/cart"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Cart />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/login"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Login />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/orders"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Orders />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/wishlist"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <ProductWishlist />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/signup"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Signup />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/review/:productId/:orderId"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Review />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/checkout"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <Checkout />
-                  // </React.Suspense>
                 }
               />
               <Route
                 path="/billingAddress"
                 element={
-                  // <React.Suspense fallback={<>...</>}>
                   <BillingAddress />
-                  // </React.Suspense>
                 }
               />
               <Route element={<Default />} />
@@ -196,7 +169,6 @@ function App() {
           <Modal />
         </userContext.Provider>
       </Provider>
-      {/* <ToastContainer position="top-right" /> */}
       <ToastContainer />
     </React.Fragment>
   );

@@ -1,6 +1,5 @@
 import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
-import { toast } from "react-toastify";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
 
@@ -14,16 +13,6 @@ export const getProductReviewsService = async (orderId) => {
         .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-// export const getProductReviewByOrderIdService = async (orderId) => {
-//     const q = query(
-//         collection(db, "productReview"), where("orderId", "==", orderId)
-//     )
-
-//     const querysnapshot = await getDocs(q);
-//     return querysnapshot.docs
-//         .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }
-
 export const getProductReviewByOrderIdService = async (orderId) => {
     return await axios.get(variables.API_URL + 'Product/GetProductReviewByOrderId', { params: { "orderId": orderId } }).then((response) => {
         return response.data;
@@ -32,16 +21,6 @@ export const getProductReviewByOrderIdService = async (orderId) => {
       });
 }
 
-// export const getProductReviewByProductIdService = async (productId) => {
-//     const q = query(
-//         collection(db, "productReview"), where("productId", "==", productId)
-//     )
-
-//     const querysnapshot = await getDocs(q);
-//     return querysnapshot.docs
-//         .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }
-
 export const getProductReviewByProductIdService = async (productId) => {
   return await axios.get(variables.API_URL + 'Product/GetAllProductReviewsById', { params: { "productId": productId } }).then((response) => {
     return response.data;
@@ -49,24 +28,6 @@ export const getProductReviewByProductIdService = async (productId) => {
     console.log(error);
   });
 }
-
-// export const saveProductReview = async (productReview) => {
-//     try {
-//         // Define the collection and document data
-//         const myCollection = collection(db, 'productReview');
-
-//         // Define the document reference
-//         const myDocRef = doc(myCollection, productReview.orderId);
-
-//         // Add or update the document
-//         await setDoc(myDocRef, productReview);
-//     }
-//     catch (error) {
-//         toast.error(error.message, {
-//             autoClose: 1000,
-//         });
-//     }
-// }
 
 export const saveProductReview = async (productReview, image) => {
     const formData = new FormData();
@@ -96,12 +57,6 @@ export const saveProductReview = async (productReview, image) => {
         
     });
 }
-
-// export const updateProductReview = async (productReviewDoc, productReview) => {
-//     await updateDoc(productReviewDoc, {
-//         ...productReview
-//     });
-// }
 
 export const updateProductReview = async (productReviewDoc, image) => {
     const formData = new FormData();

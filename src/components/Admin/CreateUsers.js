@@ -2,11 +2,8 @@ import Form from 'react-bootstrap/Form';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useState, useContext, useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { Col } from 'react-bootstrap';
 import { toast } from "react-toastify";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase/config/firebase.config";
 import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService } from '../../firebase/services/user.service';
@@ -15,6 +12,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUsersService } from '../../firebase/services/user.service';
 
 const schema = yup.object().shape({
+    userName: yup.string()
+        .min(4, 'Must be greater than 6 characters')
+        .max(10, 'Must be less than or equal to 10 characters')
+        .required(),
     email: yup.string()
         .email()
         .max(254, 'Must be less than or equal to 254 characters')
@@ -58,10 +59,14 @@ export default function CreateUsers() {
             password: values.password,
             role: selectedValue,
             roleId: RoleIdValue,
-            isActive: true
+            isActive: true,
+            userName:values.userName
         }
         createUsersService(payload);
         navigate('/admin/UserList');
+        toast.success(`User Detail Added Successfully`, {
+            autoClose: 2000,
+        });
     }
 
     return (
@@ -75,6 +80,7 @@ export default function CreateUsers() {
                             initialValues={{
                                 email: '',
                                 password: '',
+                                userName:'',
                             }}>
                             {({
                                 handleSubmit,
@@ -102,7 +108,21 @@ export default function CreateUsers() {
 
                                         </Form.Group>
                                     </div>
-
+                                    <Form.Group controlId="validationFormik00">
+                                        <Form.Label >User Name</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter user name..."
+                                            className='login-signup-input'
+                                            name="userName"
+                                            value={values.userName}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.userName}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.userName}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
                                     <Form.Group controlId="validationFormik01">
                                         <Form.Label >Email</Form.Label>
                                         <Form.Control

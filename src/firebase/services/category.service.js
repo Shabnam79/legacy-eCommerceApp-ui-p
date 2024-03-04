@@ -1,5 +1,3 @@
-import { collection, deleteDoc, doc, getDocs, query, where, addDoc, updateDoc } from "firebase/firestore";
-import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
 import { toast } from "react-toastify";
@@ -64,12 +62,7 @@ export const getAllCategoryService  = async () => {
     });
 }
 
-// export const getCategoryByIdService = async (categoryId) => {
-//     return doc(db, "productCategory", categoryId);
-// }
-
 export const DeleteCategoryByIdService = async (doc) => {
-   // await deleteDoc(doc);
    return await axios.delete(variables.API_URL + 'Category/DeleteCategory', { params: { "id": doc.id } })
     .then(function (response) {
         return response.data;
@@ -82,13 +75,6 @@ export const DeleteCategoryByIdService = async (doc) => {
 }
 
 export const getCategoryByCategoryIdService = async (id) => {
-    // const q = query(
-    //     collection(db, "storeProducts"), where("categoryId", "==", id)
-    // )
-
-    // const querySnapshot = await getDocs(q);
-    // return querySnapshot.docs
-    //     .map((doc) => ({ ...doc.data(), id: doc.id }));
 
     return await axios.get(variables.API_URL + 'Category/GetCategoryById', { params: { "id": id } })
     .then(function (response) {

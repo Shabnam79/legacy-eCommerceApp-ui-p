@@ -1,5 +1,3 @@
-import { collection, where, getDocs, query, updateDoc, doc } from "firebase/firestore";
-import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
 import { toast } from "react-toastify";
@@ -14,17 +12,6 @@ export const getUserData = async () => {
             });
         });
 }
-
-// export const getRolesByEmailService = async (email) => {
-//             const q = query(
-//                 collection(db, "userroles"), where("email", "==", email)
-//             )
-        
-//             const querySnapshot = await getDocs(q);
-//             return querySnapshot.docs
-//                 .map((doc) => ({ ...doc.data(), id: doc.id }));
-// }
-
 
 export const getRolesByEmailService = async (email) => {
     return await axios.get(variables.API_URL + 'User/GetUserByEmailId', { params: { "email": email } })
@@ -41,10 +28,6 @@ export const getRolesByEmailService = async (email) => {
 }
 
 export const getRolesService = async () => {
-    // const UserRoleDoc = doc(db, "userroles", Id);
-    // await updateDoc(UserRoleDoc, {
-    //     isActive: isActiveValue
-    // });
     return await axios.get(variables.API_URL + 'User/GetRoles')
         .then(function (response) {
             return response.data;
