@@ -6,20 +6,20 @@ import FavouriteList from "./FavouriteList";
 import { fetchWishlistProducts } from '../../utils/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingOverlay from 'react-loading-overlay';
+import { toast } from "react-toastify";
 
 const ProductWishlist = () => {
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
-    //const [wishlist, setWishlist] = useState([]);
+    // const fontsize = { fontSize: 'x-small' };
+    // const fontfamily = { fontFamily: "Times New Roman" };
+    // const borderHello = { border: "none" };
     const { user } = useContext(userContext);
     const wishlistItems = useSelector((store) => store.wishlist);
-    //console.log(wishlistItems,'Data')
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (user.userId) {
+            debugger
             dispatch(fetchWishlistProducts(user.userId));
             setLoading(false);
         } else {

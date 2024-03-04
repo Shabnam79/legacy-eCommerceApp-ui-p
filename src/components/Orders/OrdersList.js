@@ -3,8 +3,6 @@ import OrdersItem from './OrdersItem';
 
 const Orders = ({ orders }) => {
 
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
     return (
         <div className="d-flex justify-content-center my-4">
             <div style={{ width: "90%", color: '#053645' }}>

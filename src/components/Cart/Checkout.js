@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react'
-import Title from '../Title';
 import OrderSummary from './OrderSummary';
 import CheckoutColumns from './CheckoutColumns';
 import EmptyCart from './EmptyCart';
@@ -45,7 +44,6 @@ const Store = ({ history }) => {
                                         <Card.Body>
                                             <Card.Title>Item In Your Cart</Card.Title>
                                             <Card.Text>
-                                                {/* <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} shippingCost={shippingCost} totalAmount={total} /> */}
                                                 <CheckoutColumns />
                                                 <CheckoutList value={cartItems} />
                                                 <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} shippingCost={shippingCost} totalAmount={total} />

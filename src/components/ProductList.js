@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Product from "./Product";
-import Title from "./Title";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../utils/productSlice';
 import { Link } from 'react-router-dom';
@@ -81,4 +80,3 @@ const ProductList = () => {
 }
 
 export default ProductList;
-

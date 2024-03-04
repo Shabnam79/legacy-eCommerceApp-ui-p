@@ -6,10 +6,6 @@ import userContext from '../../utils/userContext';
 import { useParams } from 'react-router-dom';
 import { getCategoryService, getProductByProductIdService, saveUpdateProductStore } from '../../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
-import { v4 as uuid } from "uuid";
-import { storage } from "../../firebase/config/firebase.config"
-import { Col, Image, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
 function EditProducts() {
@@ -49,7 +45,6 @@ function EditProducts() {
     useEffect(() => {
         fetchStoreProductData(productId);
         fetchCategorylist();
-        //GetProductGUID();
         document.title = "Admin - Edit Product"
     }, [user.userId]);
 
@@ -140,7 +135,6 @@ function EditProducts() {
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
         });
-        //uploadFile();
         navigate('/admin');
     }
 
@@ -151,55 +145,11 @@ function EditProducts() {
 
     };
 
-    // const uploadFile = () => {
-    //     if (!imageUpload || imageUpload.length == 0) return;
-    //     for (let index = 0; index < imageUpload.length; index++) {
-    //         const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
-    //         debugger
-    //         uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-    //             getDownloadURL(snapshot.ref).then((url) => {
-    //                 setImageUrls((prev) => [...prev, url]);
-    //                 fetchProductDataForImage(ProductIdValue, url);
-    //             });
-    //         });
-    //     }
-    // };
-
-    // const fetchProductDataForImage = async (productId, url) => {
-
-    //     let data = await getProductByProductIdService(productId);
-    //     if (data != undefined) {
-    //         let updateImageToProductObj = {
-    //             category: data.category,
-    //             categoryId: data.categoryId,
-    //             info: data.info,
-    //             company: data.company,
-    //             price: data.price,
-    //             quantity: data.quantity,
-    //             title: data.title,
-    //             isStock: data.isStock,
-    //             id: data.id,
-    //             count: data.count,
-    //             productId: ProductIdValue,
-    //             userId: user.userId,
-    //             img: data.img,
-    //         };
-    //         saveUpdateProductStore(updateImageToProductObj);
-    //     }
-    //     navigate('/admin');
-    // }
-
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
-
-    // const GetProductGUID = () => {
-    //     // Generate New unique id for Product Id
-    //     const unique_id = uuid();
-    //     setProductIdValue(unique_id);y
-    // }
 
     return (
         <>

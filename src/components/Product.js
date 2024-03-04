@@ -63,8 +63,6 @@ const Product = ({ product }) => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    //console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -77,7 +75,11 @@ const Product = ({ product }) => {
                     await incrementCartProductsService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
-                    console.error("Error adding document: ", e);
+                    toast.error(
+                        "Error adding document: " + e, {
+                        autoClose: 1000,
+                    }
+                    );
                 }
             }
         } else {
@@ -88,7 +90,6 @@ const Product = ({ product }) => {
                 }
             );
         }
-
     }
 
     const openCartModal = (item) => {
@@ -97,7 +98,6 @@ const Product = ({ product }) => {
         } else {
             setLoginModalShow(true);
         }
-        //dispatch(openModal(item));
     }
 
     const handleProductDetails = (item) => {
@@ -144,16 +144,6 @@ const Product = ({ product }) => {
         </ProducrWrapper>
     );
 }
-
-// Product.propTypes = {
-//     product: PropTypes.shape({
-//         id: PropTypes.number,
-//         img: PropTypes.string,
-//         title: PropTypes.string,
-//         price: PropTypes.number,
-//         inCart: PropTypes.bool
-//     }).isRequired
-// }
 
 const ProducrWrapper = styled.div`
 .card{

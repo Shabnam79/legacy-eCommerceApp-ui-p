@@ -11,9 +11,7 @@ import { saveProductIntoCartService, getCartProductsService, incrementCartProduc
 import { saveProductToWishlistService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
-// import { deleteRecordFromFirebaseService } from '../firebase/services/product.service';
 import LoginModal from './LoginModal';
-import ReviewCards from './Review/ReviewCards';
 import ReviewModal from './Review/ReviewModal';
 
 const Details = () => {
@@ -29,7 +27,6 @@ const Details = () => {
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
-        // fetchAddToCartData();
         if (user.userId) {
             fetchAddToCartData();
         } else {
@@ -44,16 +41,10 @@ const Details = () => {
         } else {
             console.log("Please login to see past Cart products");
         }
-        // checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
-        // document.title = detailProduct.title;
-        //console.log(detailProduct.count);
     }, [user.userId]);
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
         if (userId && productId) {
-            // console.log("userId", userId);
-            // console.log("productId", productId);
-
             const collectionRef = query(
                 collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
             )
@@ -72,8 +63,6 @@ const Details = () => {
         if (user.userId) {
             if (isProductWishlisted) {
                 try {
-                    //const addToWishlistDoc = await getWishlistByIdService(wishlist.id);
-                    // await deleteRecordFromFirebaseService(addToWishlistDoc);
                     await DeleteProductFromWishList(wishlist.id);
 
                     toast.warning(
@@ -110,8 +99,6 @@ const Details = () => {
                     setIsProductWishlisted(true);
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
-                    //console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${value.title} is added to wishlist`, {
                         autoClose: 1000,
                     });
@@ -121,12 +108,6 @@ const Details = () => {
             }
 
         } else {
-            // toast.warning(
-            //     `To add your product in wishlist you need to login first.`,
-            //     {
-            //         autoClose: 1000,
-            //     }
-            // );
             setLoginModalShow(true);
         }
     }
@@ -143,7 +124,6 @@ const Details = () => {
     }
 
     const addProductIntoCart = async (item) => {
-        //console.log(item.count);
         let iscart = false;
         let productIds = "";
         let Counts = "";
@@ -177,8 +157,6 @@ const Details = () => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    //console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -195,12 +173,6 @@ const Details = () => {
                 }
             }
         } else {
-            // toast.warning(
-            //     `To add your order in cart you need to login first`,
-            //     {
-            //         autoClose: 1000,
-            //     }
-            // );
             setLoginModalShow(true);
         }
 
@@ -221,14 +193,10 @@ const Details = () => {
 
     return (
         <div className="container py-3">
-            {/*title*/}
-            {/*end of title*/}
-            {/*product info*/}
             <div className="row">
                 <div style={{ height: '400px' }} className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                     <img src={img} className="img-fluid h-100" alt="product" />
                 </div>
-                {/*product text*/}
                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                     <h2>{title}</h2>
                     <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
@@ -245,7 +213,6 @@ const Details = () => {
                     <p className="text-muted lead" style={{ ...fontsize }}>
                         {info}
                     </p>
-                    {/*buttons*/}
                     <div>
                         <Link to="/">
                             <ButtonContainer>
@@ -255,8 +222,6 @@ const Details = () => {
                         <ButtonContainer cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);
-                                //console.log(detailProduct);
-                                //openCartModal(detailProduct);
                             }}>
                             {inCart ? "InCart" : "Add To Cart"}
                         </ButtonContainer>
@@ -289,8 +254,6 @@ const Details = () => {
                 : null
             }
         </div>
-
-
     )
 }
 

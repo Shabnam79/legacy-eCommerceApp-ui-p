@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { storeProducts, detailProduct } from "../data";
+import { detailProduct } from "../data";
 import { db } from '../firebase/config/firebase.config';
-import { collection, getDocs, doc, where, deleteDoc, query } from 'firebase/firestore';
+import { collection, getDocs, where, query } from 'firebase/firestore';
 import { variables } from "./variables";
-import axios from 'axios'; 
+import axios from 'axios';
 
 const ProductContext = React.createContext();
 class ProductProvider extends Component {
@@ -21,27 +21,15 @@ class ProductProvider extends Component {
     componentDidMount() {
         this.setProducts();
     }
-    
+
     setProducts = async () => {
 
         return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
-                    let products = response.data;
-                    return products;
-                    this.setState(() => {
-                                return { products };
-                            }, this.checkCartItems);
-            
-                  }).catch(error => {
-                    console.log(error);
-                  });
-
-        // const collectionRef = collection(db, 'storeProducts');
-        // await getDocs(collectionRef).then((storeProduct) => {
-        //     let products = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        //     this.setState(() => {
-        //         return { products };
-        //     }, this.checkCartItems);
-        //  })
+            let products = response.data;
+            return products;
+        }).catch(error => {
+            console.log(error);
+        });
     };
     fetchProductCategorylist = async (id) => {
         if (id != '') {
@@ -50,10 +38,8 @@ class ProductProvider extends Component {
             )
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-                //     console.log(doc.id, " => ", doc.data());
                 const products = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }));
-                //setWishlist(newData);
                 this.setState(() => {
                     return { products };
                 }, this.checkCartItems);
@@ -134,12 +120,6 @@ class ProductProvider extends Component {
         }
     };
     getTotals = () => {
-        // const subTotal = this.state.cart
-        //   .map(item => item.total)
-        //   .reduce((acc, curr) => {
-        //     acc = acc + curr;
-        //     return acc;
-        //   }, 0);
         let subTotal = 0;
         this.state.cart.map(item => (subTotal += item.total));
         const tempTax = subTotal * 0.1;
