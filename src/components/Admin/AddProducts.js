@@ -11,7 +11,6 @@ import { Link, useNavigate } from 'react-router-dom';
 function AddProducts() {
  
     const borderHello = { border: "none" };
- 
     const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [name, setName] = useState({
@@ -69,7 +68,10 @@ function AddProducts() {
             quantity: name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
+<<<<<<< HEAD
         //console.log("Document written with ID: ", docRef.id);
+=======
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
  
         toast.success('Product added in admin list ', {
             autoClose: 2000,

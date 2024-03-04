@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, button, Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {
     DeleteCategoryByIdService,
@@ -40,7 +40,6 @@ export default function CategoryList() {
                     autoClose: 1000,
                 }
             );
-            //}
             fetchStoreCategoryData();
         }
         catch (e) {

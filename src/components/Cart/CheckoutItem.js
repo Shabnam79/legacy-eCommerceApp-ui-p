@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../../utils/cartSlice';
+import { removeFromCart } from '../../utils/cartSlice';
 import React from 'react';
 import { toast } from "react-toastify";
 import { getProductByIdService, DeleteItemFromYourCart } from '../../firebase/services/cart.service';

@@ -2,7 +2,11 @@ import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
+<<<<<<< HEAD
 
+=======
+import { toast } from "react-toastify";
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 
 export const getCartProductsService = async (userId) => {
     return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
@@ -14,9 +18,13 @@ export const getCartProductsService = async (userId) => {
 
 export const DeleteItemFromYourCart = async (id) => {
     await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
-       // return response.data;
+        toast.success(response.message, {
+            autoClose: 1000,
+          });
      }).catch(error => {
-       console.log(error);
+        toast.error(error.message, {
+            autoClose: 1000,
+          });
      });
 }
 
@@ -27,13 +35,13 @@ export const saveProductIntoCartService = async (product) => {
         data: {...product }, 
 
     }).then(function(response) {
-        //console.log(response);
-    
+        toast.success(response.message, {
+            autoClose: 1000,
+          });
     }).catch(function (error){
-        //console.log(error.code);
-        if (error.code === "ERR_BAD_REQUEST") {
-            
-        }
+        toast.error(error.message, {
+            autoClose: 1000,
+          });
     });
 }
 

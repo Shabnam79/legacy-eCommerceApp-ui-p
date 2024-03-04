@@ -4,9 +4,7 @@ import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService, getUserDataByIdService, updateRoleUsersService } from '../../firebase/services/user.service';
 import userContext from '../../utils/userContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
  
 export default function EditUsers() {
  
@@ -91,7 +89,11 @@ export default function EditUsers() {
             userName : UserRoleData.userName
         };
         await updateRoleUsersService(addToUserRoleObj);
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         if (navigate) {
             navigate('/admin/UserList');
         } else {

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../../utils/cartSlice';
 import React from 'react';
 import { toast } from "react-toastify";
@@ -9,8 +9,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const dispatch = useDispatch();
 
     const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const { id, title, img, price, total, count, quantity } = item;
+    const { title, img, price, total, count } = item;
     const removeProductHandler = async (item) => {
         try {
             await DeleteItemFromYourCart(item.id);

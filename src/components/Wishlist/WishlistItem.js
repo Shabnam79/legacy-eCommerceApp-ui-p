@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import React, { useContext } from 'react';
 import userContext from '../../utils/userContext';
+=======
+import React from 'react';
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import { useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
@@ -7,7 +11,6 @@ import { DeleteProductFromWishList } from '../../firebase/services/wishlist.serv
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
-    const { user } = useContext(userContext);
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
@@ -15,17 +18,14 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     const removeProductHandler = async (item) => {
         try {
             await DeleteProductFromWishList(item.id);
-
             toast.warning(
                 `Product removed from the Wishlist`,
                 {
                     autoClose: 1000,
                 }
             );
-
             fetchAddToWishlistData();
             dispatch(removeFromWishlist(item));
-
         }
         catch (e) {
             console.log(e);

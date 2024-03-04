@@ -36,7 +36,6 @@ export default function AddCategories() {
         };
 
         let docRef = await saveCategoryIntoProductCategoryService(addToCategoryObj);
-        // console.log("Document written with ID: ", docRef.id);
         toast.success('Category added in admin list ', {
             autoClose: 1000,
         });

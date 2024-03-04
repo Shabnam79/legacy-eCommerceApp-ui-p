@@ -3,7 +3,10 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useState, useContext, useEffect } from 'react';
 import { Col } from 'react-bootstrap';
+<<<<<<< HEAD
 import { toast } from "react-toastify";
+=======
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import { Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { getRolesService } from '../../firebase/services/user.service';

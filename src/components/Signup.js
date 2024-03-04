@@ -3,11 +3,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-//import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
-//import {collection, addDoc} from "firebase/firestore";
-//import { db } from "../firebase/config/firebase.config";
 import { variables } from "../utils/variables";
 import axios from 'axios';
 
@@ -47,8 +44,12 @@ const Signup = () => {
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
+<<<<<<< HEAD
     
     const authentication = (values) => {
+=======
+    const authentication = (values, { resetForm }) => {
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         const payload = {
             email: values.email,
             password: values.password
@@ -64,10 +65,13 @@ const Signup = () => {
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
-            //resetForm();
             setModalShow(true);
+<<<<<<< HEAD
 
         }).catch(error =>  {
+=======
+        }).catch(function (error) {
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
             if (error.code === "ERR_BAD_REQUEST") {
                 toast.error("Email already in use.", {
                     autoClose: 1000,
@@ -92,10 +96,7 @@ const Signup = () => {
                         {({
                             handleSubmit,
                             handleChange,
-                            handleBlur,
                             values,
-                            touched,
-                            isValid,
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>

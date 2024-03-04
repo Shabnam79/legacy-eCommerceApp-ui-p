@@ -14,7 +14,6 @@ const LoginModal = (props) => {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-
         >
             <Modal.Header>
                 <button type="button" onClick={props.onHide} class="close" aria-label="Close">

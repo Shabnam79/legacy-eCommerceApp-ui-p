@@ -4,12 +4,11 @@ import OrdersList from "./OrdersList";
 import userContext from '../../utils/userContext';
 import { getOrderService } from '../../firebase/services/order.service';
 import LoadingOverlay from 'react-loading-overlay';
+import { toast } from "react-toastify";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchOrders();

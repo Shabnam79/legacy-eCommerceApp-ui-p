@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import React, { Component, useContext, useState } from 'react'
 
+=======
+import React, { useContext } from 'react'
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
@@ -13,8 +17,7 @@ export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
     const fontsize = { fontSize: 'small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const { cartSubTotal, cartTax, cartTotal, cart } = value;
+    const { cart } = value;
     const { user } = useContext(userContext)
 
     const placeProductOrder = async (e) => {
@@ -109,5 +112,4 @@ export default function CartTotals({ value }) {
         </div>
 
     </React.Fragment>;
-
 }

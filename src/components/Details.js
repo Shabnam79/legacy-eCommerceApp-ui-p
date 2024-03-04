@@ -45,9 +45,6 @@ const Details = () => {
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
         if (userId && productId) {
-            // console.log("userId", userId);
-            // console.log("productId", productId);
-
             const collectionRef = query(
                 collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
             )
@@ -159,6 +156,10 @@ const Details = () => {
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -195,14 +196,10 @@ const Details = () => {
 
     return (
         <div className="container py-3">
-            {/*title*/}
-            {/*end of title*/}
-            {/*product info*/}
             <div className="row">
                 <div style={{ height: '400px' }} className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                     <img src={img} className="img-fluid h-100" alt="product" />
                 </div>
-                {/*product text*/}
                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                     <h2>{title}</h2>
                     <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
@@ -219,7 +216,6 @@ const Details = () => {
                     <p className="text-muted lead" style={{ ...fontsize }}>
                         {info}
                     </p>
-                    {/*buttons*/}
                     <div>
                         <Link to="/">
                             <ButtonContainer>
@@ -261,8 +257,6 @@ const Details = () => {
                 : null
             }
         </div>
-
-
     )
 }
 

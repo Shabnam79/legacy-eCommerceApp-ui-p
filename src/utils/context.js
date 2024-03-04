@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { storeProducts, detailProduct } from "../data";
+import { detailProduct } from "../data";
 import { db } from '../firebase/config/firebase.config';
-import { collection, getDocs, doc, where, deleteDoc, query } from 'firebase/firestore';
+import { collection, getDocs, where, query } from 'firebase/firestore';
 import { variables } from "./variables";
-import axios from 'axios'; 
+import axios from 'axios';
 
 const ProductContext = React.createContext();
 class ProductProvider extends Component {
@@ -21,10 +21,11 @@ class ProductProvider extends Component {
     componentDidMount() {
         this.setProducts();
     }
-    
+
     setProducts = async () => {
 
         return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
+<<<<<<< HEAD
                     let products = response.data;
                     return products;
                     this.setState(() => {
@@ -34,6 +35,13 @@ class ProductProvider extends Component {
                   }).catch(error => {
                     console.log(error);
                   });
+=======
+            let products = response.data;
+            return products;
+        }).catch(error => {
+            console.log(error);
+        });
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
     };
     fetchProductCategorylist = async (id) => {
         if (id != '') {

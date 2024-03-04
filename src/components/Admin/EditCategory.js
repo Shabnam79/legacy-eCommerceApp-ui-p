@@ -35,6 +35,10 @@ export default function EditCategory() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
         toast.success('Category updated in admin list', {
             autoClose: 1000,
@@ -57,7 +61,6 @@ export default function EditCategory() {
                             onChange={handleInputChange}
                         />
                     </Form.Group>
-
                     <Button type='submit' style={{
                         backgroundColor: 'rgb(5, 54, 69)',
                         border: 'none'

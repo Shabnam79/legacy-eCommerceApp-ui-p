@@ -75,7 +75,11 @@ const Product = ({ product }) => {
                     await incrementCartProductsService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
-                    console.error("Error adding document: ", e);
+                    toast.error(
+                        "Error adding document: " + e, {
+                        autoClose: 1000,
+                    }
+                    );
                 }
             }
         } else {
@@ -86,7 +90,6 @@ const Product = ({ product }) => {
                 }
             );
         }
-
     }
 
     const openCartModal = (item) => {

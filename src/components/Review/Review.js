@@ -5,20 +5,10 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-import { ButtonContainer } from '../Button';
 import StarRating from './StarRating';
 import { getProductReviewByOrderIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    listAll,
-    list,
-} from "firebase/storage";
-import { storage } from '../../firebase/config/firebase.config';
-import { Col, Image, Row } from 'react-bootstrap';
 
 const schema = yup.object().shape({
     title: yup.string()
@@ -39,7 +29,6 @@ const Review = (props) => {
 
     useEffect(() => {
         fetchProductReview(orderId);
-        //fetchImages();
         document.title = "Ratings & Reviews";
     }, [user.userId]);
 
@@ -113,11 +102,9 @@ const Review = (props) => {
         <>
             <div className="container">
                 <Title className="title-text" name="Ratings & Reviews" />
-
                 <h4 style={{ color: '#053645' }}>Rate this product</h4>
                 <StarRating parentCallback={setRating} myProductRating={productReviewDetails.rating} />
                 <hr />
-
                 {
                     productReviewDetails.rating > 0
                         ?
@@ -133,8 +120,6 @@ const Review = (props) => {
                                 handleChange,
                                 handleBlur,
                                 values,
-                                touched,
-                                isValid,
                                 errors,
                             }) => (
                                 <Form noValidate onSubmit={handleSubmit}>

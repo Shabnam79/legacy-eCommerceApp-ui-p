@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react'
-import Title from '../Title';
 import OrderSummary from './OrderSummary';
 import CheckoutColumns from './CheckoutColumns';
 import EmptyCart from './EmptyCart';

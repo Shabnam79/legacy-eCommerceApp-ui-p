@@ -1,7 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
+<<<<<<< HEAD
 import { useDispatch } from 'react-redux';
+=======
+import { useDispatch} from 'react-redux';
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import styled from 'styled-components';
 import userContext from "../utils/userContext";
 import { auth } from "../firebase/config/firebase.config";
@@ -18,6 +22,12 @@ const Navbar = () => {
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
     const borderHello = { border: "none" };
+<<<<<<< HEAD
+=======
+    useEffect(() => {
+    }, []);
+
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
     const logout = async () => {
         setModalShow(false);
         setUser({
@@ -41,7 +51,6 @@ const Navbar = () => {
                 zIndex: '1',
                 backdropFilter: 'blur(8px)',
                 background: '#f3f3f33d',
-                //background: 'hsla(0, 0 %, 95.3 %, 0.75)',
                 boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.05)',
             }}>
             <div className="navbar">
@@ -74,7 +83,6 @@ const Navbar = () => {
                         </>
                         :
                         <>
-
                             {
                                 user && user.roleId == variables.ROLE_ADMIN
                                     ?
@@ -148,7 +156,6 @@ const Navbar = () => {
 
                             }
                         </>
-
                 }
             </div>
         </NavWrapper >

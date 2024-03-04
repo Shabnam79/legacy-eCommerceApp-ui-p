@@ -3,11 +3,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useContext, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-//import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import userContext from "../utils/userContext";
-//import { auth } from "../firebase/config/firebase.config";
 import { useLocalStorage } from '../hooks/useLocalStorage';
-//import { ButtonContainer } from './Button';
 import LoginModal from './LoginModal';
 import { toast } from "react-toastify";
 import { variables } from "../utils/variables";
@@ -28,8 +25,6 @@ const Login = () => {
     const { user, setUser } = useContext(userContext);
     const { setItem } = useLocalStorage();
     const [modalShow, setModalShow] = useState(false);
-    //const [isActive, setIsActive] = useState(false);
-
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const borderHello = { border: "none" };
@@ -52,10 +47,12 @@ const Login = () => {
     }
 
     const authentication = async (values) => {
-        debugger
         let data = await getRolesByEmailService(values.email);
         if (data != undefined) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
             if (data.isActive == true) {
                 const payload = {
                     email: values.email,
@@ -77,7 +74,6 @@ const Login = () => {
                     };
 
                     setItem("user", JSON.stringify(userData));
-
                     setUser({
                         ...user,
                         userId: response.data.localId,
@@ -87,12 +83,9 @@ const Login = () => {
 
                     });
                 }).catch(error => {
-                    //console.log(error.code);
-                    if (error.code === "ERR_BAD_REQUEST") {
-                        toast.error("Invalid login credentials.", {
-                            autoClose: 1000,
-                        });
-                    }
+                    toast.error(error.message, {
+                        autoClose: 1000,
+                    });
                 });
 
             }
@@ -138,8 +131,6 @@ const Login = () => {
                             handleChange,
                             handleBlur,
                             values,
-                            touched,
-                            isValid,
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>

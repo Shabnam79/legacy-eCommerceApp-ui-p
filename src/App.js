@@ -44,8 +44,12 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
+<<<<<<< HEAD
           roleId:parseUserData.roleId,
           userName:parseUserData.userName
+=======
+          roleId: parseUserData.roleId
+>>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         });
       }
     }
@@ -65,43 +69,40 @@ function App() {
           <div className='w-100' style={{ position: 'absolute', top: '75px' }}>
             <Routes>
               {
-              user.roleId == variables.ROLE_ADMIN
-              ?
-              <>
-                  <Route exact path="/" element={<ProductList />} />
-                  <Route path="/details" element={<Details />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/wishlist" element={<ProductWishlist />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/review/:productId/:orderId" element={<Review />} />
+                user.roleId == variables.ROLE_ADMIN
+                  ?
+                  <>
+                    <Route exact path="/" element={<ProductList />} />
+                    <Route path="/details" element={<Details />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/wishlist" element={<ProductWishlist />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/review/:productId/:orderId" element={<Review />} />
 
-                  <Route path="/admin" element={<Dashboard />} />
-                  <Route path="/admin/addproduct" element={<AddProducts />} />
-                  <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
-                  <Route path="/admin/CategoryList" element={<CategoryList />} />
-                  <Route path="/admin/AddCategories" element={<AddCategories />} />
-                  <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
-                  <Route path="/admin/UserList" element={<UserList />} />
-                  <Route path="/admin/CreateUsers" element={<CreateUsers />} />
-                  <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
-              </>
-              : 
-              <>
-                  <Route exact path="/" element={<ProductList />} />
-                  <Route path="/details" element={<Details />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/wishlist" element={<ProductWishlist />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/review/:productId/:orderId" element={<Review />} />
-              </>
+                    <Route path="/admin" element={<Dashboard />} />
+                    <Route path="/admin/addproduct" element={<AddProducts />} />
+                    <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
+                    <Route path="/admin/CategoryList" element={<CategoryList />} />
+                    <Route path="/admin/AddCategories" element={<AddCategories />} />
+                    <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
+                    <Route path="/admin/UserList" element={<UserList />} />
+                    <Route path="/admin/CreateUsers" element={<CreateUsers />} />
+                    <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
+                  </>
+                  :
+                  <>
+                    <Route exact path="/" element={<ProductList />} />
+                    <Route path="/details" element={<Details />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/wishlist" element={<ProductWishlist />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/review/:productId/:orderId" element={<Review />} />
+                  </>
               }
-              
-
-              
 
               <Route exact
                 path="/"
