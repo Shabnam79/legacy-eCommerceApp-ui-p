@@ -2,11 +2,6 @@ import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
-<<<<<<< HEAD
-
-=======
-import { toast } from "react-toastify";
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 
 export const getCartProductsService = async (userId) => {
     return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {

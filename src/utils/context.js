@@ -25,7 +25,6 @@ class ProductProvider extends Component {
     setProducts = async () => {
 
         return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
-<<<<<<< HEAD
                     let products = response.data;
                     return products;
                     this.setState(() => {
@@ -35,13 +34,6 @@ class ProductProvider extends Component {
                   }).catch(error => {
                     console.log(error);
                   });
-=======
-            let products = response.data;
-            return products;
-        }).catch(error => {
-            console.log(error);
-        });
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
     };
     fetchProductCategorylist = async (id) => {
         if (id != '') {

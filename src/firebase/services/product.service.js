@@ -1,15 +1,7 @@
-<<<<<<< HEAD
 import { doc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
-=======
-import { collection, doc, deleteDoc, getDocs, query, where, addDoc, setDoc } from "firebase/firestore";
-import { db } from "../config/firebase.config";
-import { variables } from "../../utils/variables";
-import axios from 'axios';
-import { toast } from "react-toastify";
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 
 export const getCategoryService = async () => {
   return await axios.get(variables.API_URL + 'Category/GetProductsCategory').then((response) => {
@@ -42,22 +34,10 @@ export const getProductsService = async () => {
 }
 
 export const DeleteItemFromProduct = async (id) => {
-<<<<<<< HEAD
     await axios.delete(variables.API_URL + 'Admin/DeleteProduct', { params: { "itemId": id } }).then((response) => {
      }).catch(error => {
        console.log(error);
      });
-=======
-  await axios.delete(variables.API_URL + 'Admin/DeleteProduct', { params: { "itemId": id } }).then((response) => {
-    toast.success(response.message, {
-      autoClose: 1000,
-    });
-  }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
-  });
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 }
 
 export const getProductByProductIdService = async (productId) => {

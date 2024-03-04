@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import React, { Component, useContext, useState } from 'react'
-
-=======
 import React, { useContext } from 'react'
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';

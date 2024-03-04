@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import React, { useContext } from 'react';
-import userContext from '../../utils/userContext';
-=======
-import React from 'react';
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
 import { useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";

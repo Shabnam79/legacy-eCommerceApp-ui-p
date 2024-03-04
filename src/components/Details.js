@@ -156,10 +156,6 @@ const Details = () => {
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
-<<<<<<< HEAD
-=======
-
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });

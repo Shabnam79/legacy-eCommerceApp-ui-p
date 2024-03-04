@@ -68,10 +68,6 @@ function AddProducts() {
             quantity: name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
-<<<<<<< HEAD
-        //console.log("Document written with ID: ", docRef.id);
-=======
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
  
         toast.success('Product added in admin list ', {
             autoClose: 2000,

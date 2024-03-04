@@ -49,10 +49,6 @@ const Login = () => {
     const authentication = async (values) => {
         let data = await getRolesByEmailService(values.email);
         if (data != undefined) {
-<<<<<<< HEAD
-
-=======
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
             if (data.isActive == true) {
                 const payload = {
                     email: values.email,

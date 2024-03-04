@@ -89,11 +89,6 @@ export default function EditUsers() {
             userName : UserRoleData.userName
         };
         await updateRoleUsersService(addToUserRoleObj);
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         if (navigate) {
             navigate('/admin/UserList');
         } else {
