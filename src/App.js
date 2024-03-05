@@ -44,12 +44,8 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-<<<<<<< HEAD
           roleId:parseUserData.roleId,
           userName:parseUserData.userName
-=======
-          roleId: parseUserData.roleId
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         });
       }
     }

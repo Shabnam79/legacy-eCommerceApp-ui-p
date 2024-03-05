@@ -44,12 +44,8 @@ const Signup = () => {
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
-<<<<<<< HEAD
     
     const authentication = (values) => {
-=======
-    const authentication = (values, { resetForm }) => {
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
         const payload = {
             email: values.email,
             password: values.password
@@ -66,12 +62,8 @@ const Signup = () => {
                 autoClose: 3000,
             });
             setModalShow(true);
-<<<<<<< HEAD
 
         }).catch(error =>  {
-=======
-        }).catch(function (error) {
->>>>>>> f6c44bc941c529d22daf2265dced5af74c2731ab
             if (error.code === "ERR_BAD_REQUEST") {
                 toast.error("Email already in use.", {
                     autoClose: 1000,
