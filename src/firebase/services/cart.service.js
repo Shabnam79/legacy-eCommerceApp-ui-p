@@ -2,6 +2,7 @@ import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 export const getCartProductsService = async (userId) => {
     return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
