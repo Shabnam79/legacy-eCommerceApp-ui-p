@@ -1,5 +1,5 @@
-import React, { lazy, useEffect, useState } from 'react';
-import { Switch, Route, Routes, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, Outlet } from "react-router-dom";
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
@@ -44,7 +44,8 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-          roleId: parseUserData.roleId
+          roleId:parseUserData.roleId,
+          userName:parseUserData.userName
         });
       }
     }

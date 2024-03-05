@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import userContext from "../utils/userContext";
 import { auth } from "../firebase/config/firebase.config";
@@ -18,15 +18,13 @@ const Navbar = () => {
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
     const borderHello = { border: "none" };
-    useEffect(() => {
-    }, []);
-
     const logout = async () => {
         setModalShow(false);
         setUser({
             userId: null,
             email: null,
-            roleId: null
+            roleId: null,
+            userName:null
         });
         removeItem("user");
         try {
@@ -81,7 +79,7 @@ const Navbar = () => {
                                     <>
                                         <Dropdown className="d-inline mx-2">
                                             <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
-                                                <span>Hello {user.email} |</span>
+                                                <span>Hello {user.userName} |</span>
                                                 <span>&nbsp;Account & Lists</span>
                                             </Dropdown.Toggle>
                                             <div className='w-100'>
@@ -121,7 +119,7 @@ const Navbar = () => {
                                     <>
                                         <Dropdown className="d-inline mx-2">
                                             <Dropdown.Toggle id="dropdown-autoclose-true" className='d-flex align-items-center font-weight-bold tx-dropdown' style={{ backgroundColor: "transparent", ...borderHello, color: '#053645' }}>
-                                                <span>Hello {user.email} |</span>
+                                                <span>Hello {user.userName} |</span>
                                                 <span>&nbsp;Account & Lists</span>
                                             </Dropdown.Toggle>
                                             <div className='w-100'>

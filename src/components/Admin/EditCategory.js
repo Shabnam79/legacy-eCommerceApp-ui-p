@@ -35,7 +35,6 @@ export default function EditCategory() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
         toast.success('Category updated in admin list', {
             autoClose: 1000,

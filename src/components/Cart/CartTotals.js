@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTotals, removeAll } from '../../utils/cartSlice';
+import { removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
 import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';

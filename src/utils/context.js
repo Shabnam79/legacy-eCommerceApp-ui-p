@@ -25,11 +25,15 @@ class ProductProvider extends Component {
     setProducts = async () => {
 
         return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
-            let products = response.data;
-            return products;
-        }).catch(error => {
-            console.log(error);
-        });
+                    let products = response.data;
+                    return products;
+                    this.setState(() => {
+                                return { products };
+                            }, this.checkCartItems);
+            
+                  }).catch(error => {
+                    console.log(error);
+                  });
     };
     fetchProductCategorylist = async (id) => {
         if (id != '') {
@@ -142,7 +146,6 @@ class ProductProvider extends Component {
                 };
             },
             () => {
-                // console.log(this.state);
             }
         );
     };

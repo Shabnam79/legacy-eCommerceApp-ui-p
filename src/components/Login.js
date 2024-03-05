@@ -61,10 +61,12 @@ const Login = () => {
                     data: payload,
 
                 }).then((response) => {
+                    debugger
                     let userData = {
                         userId: response.data.localId,
                         email: response.data.email,
-                        roleId: data.roleId
+                        roleId: data.roleId,
+                        userName: data.userName                  
                     };
 
                     setItem("user", JSON.stringify(userData));
@@ -72,7 +74,9 @@ const Login = () => {
                         ...user,
                         userId: response.data.localId,
                         email: response.data.email,
-                        roleId: data.roleId
+                        roleId: data.roleId,
+                        userName: data.userName 
+
                     });
                 }).catch(error => {
                     toast.error(error.message, {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";

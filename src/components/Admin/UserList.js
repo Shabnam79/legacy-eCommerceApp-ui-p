@@ -71,6 +71,7 @@ export default function UserList() {
                         <Table striped bordered hover size='sm'>
                             <thead>
                                 <tr>
+                                    <th>User Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
                                     <th className='d-flex justify-content-center'>Actions</th>
@@ -81,6 +82,7 @@ export default function UserList() {
                                     UserData && UserData.length > 0 ? UserData.map((item) => {
                                         return (
                                             <tr>
+                                                <td>{item.userName}</td>
                                                 <td>{item.email}</td>
                                                 <td>{item.role}</td>
                                                 <td className='d-flex justify-content-center'>
