@@ -23,7 +23,7 @@ const Orders = () => {
                     setOrders(data);
                     setLoading(false);
                 }
-            }, 2000);
+            }, 5000);
         } else {
             console.log("Please login to see past orders");
         }

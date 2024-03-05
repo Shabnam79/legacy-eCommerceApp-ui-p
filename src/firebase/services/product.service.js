@@ -2,6 +2,7 @@ import { doc } from "firebase/firestore";
 import { db } from "../config/firebase.config";
 import { variables } from "../../utils/variables";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 export const getCategoryService = async () => {
   return await axios.get(variables.API_URL + 'Category/GetProductsCategory').then((response) => {
