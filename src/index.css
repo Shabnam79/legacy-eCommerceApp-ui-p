@@ -394,3 +394,17 @@ input[type=file]::file-selector-button {
   box-shadow: #727575 0px 0px 3px 0px !important;
   outline: none;
 }
+
+.searchbar-input {
+  width: 375px;
+  padding: 5px 10px;
+  backdrop-filter: blur(8px);
+  background: rgba(243, 243, 243, 0.24);
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  border: none;
+  border-bottom: 2px solid #053645;
+}
+
+.searchbar-input:focus {
+  outline: none;
+}
