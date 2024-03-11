@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import userContext from "../utils/userContext";
 import { auth } from "../firebase/config/firebase.config";
@@ -12,12 +12,17 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import { variables } from "../utils/variables";
 
+
 const Navbar = () => {
+
+    const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user, setUser } = useContext(userContext)
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
     const borderHello = { border: "none" };
+    
+    
     const logout = async () => {
         setModalShow(false);
         setUser({
@@ -111,7 +116,12 @@ const Navbar = () => {
                                                 backgroundColor: '#053645',
                                                 ...borderHello
                                             }}>
-                                                <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
+                                                <i className="fas fa-cart-plus">&ensp;<span>
+                                                <span style={{ color: '#f08804' }}> { cartItems.cart.length > 0 ? cartItems.cart.length : 0 } </span>
+
+                                                    My Cart
+                                                    
+                                                    </span></i>
                                             </Button>
                                         </Link>
                                     </>
