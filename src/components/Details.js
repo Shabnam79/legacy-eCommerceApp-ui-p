@@ -1,3 +1,5 @@
+// Details.js
+
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ButtonContainer } from './Button';
@@ -185,9 +187,9 @@ const Details = () => {
         if (user.userId) {
             setModalShow(true);
         }
-        else {
-            setLoginModalShow(true);
-        }
+        // else {
+        //     setLoginModalShow(true);
+        // }
     }
 
     return (
@@ -230,21 +232,20 @@ const Details = () => {
                             }}>
                             {isProductWishlisted ? "Remove From Wishlist" : "Add To Wishlist"}
                         </ButtonContainer>
-                        <ButtonContainer
+                        <ButtonContainer style={{ display: 'none' }}
                             onClick={() => {
                                 openReviewModal()
                             }}>
                             Review
                         </ButtonContainer>
-                        <ReviewModal
-                            name="Review"
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
-                            productId={id}
-                        />
                     </div>
                 </div>
             </div>
+            <ReviewModal
+                name="Review"
+                show={modalShow}
+                productId={id}
+            />
             {user.userId == null
                 ?
                 <LoginModal name="Login"

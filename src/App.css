@@ -1,3 +1,5 @@
+/* App.css */
+
 :root {
   --mainBlue: #2a2a72;
   --lightBlue: #009ffd;
@@ -64,7 +66,7 @@ body {
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 40px;
+  font-size: 25px;
 }
 
 .star-rating-on {

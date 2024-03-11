@@ -1,3 +1,5 @@
+// StaticStarRating.js
+
 import React, { useEffect, useState } from 'react';
 
 const StaticStarRating = ({ myProductRating }) => {
@@ -17,8 +19,8 @@ const StaticStarRating = ({ myProductRating }) => {
                         type="button"
                         key={index}
                         className={index <= (rating)
-                            ? "star-rating-button star-rating-on"
-                            : " star-rating-button star-rating-off"}
+                            ? "star-rating-button star-rating-on px-1"
+                            : " star-rating-button star-rating-off px-1"}
                     >
                         <span className="star">&#9733;</span>
                     </button>

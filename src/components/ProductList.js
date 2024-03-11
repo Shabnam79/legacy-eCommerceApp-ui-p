@@ -1,3 +1,5 @@
+// ProductList.js
+
 import React, { useEffect, useState } from 'react';
 import Product from "./Product";
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,7 +66,7 @@ const ProductList = () => {
                 <div className="py-5">
                     <div className="container">
                         <div className="row">
-                            <div className="container-fluid d-flex justify-content-between">
+                            <div className="container-fluid d-flex justify-content-center">
                                 <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                                     <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: '#053645' }}>
                                         <strong>
@@ -83,7 +85,8 @@ const ProductList = () => {
                                     className='searchbar-input'
                                     value={searchTerm}
                                     onChange={(e) => SearchTerm(e.target.value)}
-                                    placeholder='&#128269; Search your product...' />
+                                    placeholder='Search your product...' />
+                                <button className='searchbar-button' disabled>&#128269;</button>
                             </div>
                             <div className='container'>
                                 <div className='mt-1 row'>
