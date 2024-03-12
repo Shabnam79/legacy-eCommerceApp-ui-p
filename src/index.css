@@ -418,3 +418,10 @@ input[type=file]::file-selector-button {
   box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
   border: none;
 }
+
+.cartItemsArea {
+  backdrop-filter: blur(8px);
+  background: rgba(243, 243, 243, 0.24);
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  border: none;
+}

@@ -53,7 +53,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     return (
         <div className='w-100 my-3'>
             <div className="d-flex align-items-center justify-content-between w-100">
-                <div className="" style={{ width: "15rem", height: "12rem" }}>
+                <div className="" style={{ width: "15rem", height: "auto" }}>
                     <img src={img} className="img-fluid w-100 h-100" alt="product" />
                 </div>
                 <div className='d-flex flex-column align-items-center'>
