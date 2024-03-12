@@ -1,19 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { handleDetail, openModal } from '../utils/productSlice';
 import userContext from "../utils/userContext";
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
 import LoginModal from './LoginModal';
+
+
 const Product = ({ product }) => {
     const { title, img, price, inCart } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
-
+    const wishlistItems = useSelector((store) => store.wishlist);
+    console.log(wishlistItems.wishlist);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,6 +28,7 @@ const Product = ({ product }) => {
         if (user.userId) {
             let data = await getCartProductsService(user.userId);
             if (data != undefined) {
+                console.log(data);
                 setCartData(data);
             }
         } else {
