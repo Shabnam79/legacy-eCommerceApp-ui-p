@@ -30,10 +30,7 @@ export default function CartList({ value }) {
     }
 
     return (
-        <div className="container-fluid" style={{
-            overflowY: 'scroll',
-            maxHeight: '375px'
-        }}>
+        <div className="container-fluid mb-5 px-4 cartItemsArea">
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 <div className='row px-2'>
                     {CartData.map(item => {
