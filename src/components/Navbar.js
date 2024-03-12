@@ -149,7 +149,11 @@ const Navbar = () => {
                                                 backgroundColor: '#053645',
                                                 ...borderHello
                                             }}>
-                                                <i className="fas fa-cart-plus">&ensp;<span>My Cart</span></i>
+                                                <i className="fas fa-cart-plus">&ensp;<span>
+                                                <span style={{ color: '#f08804' }}> { cartItems.cart.length > 0 ? cartItems.cart.length : 0 } </span>
+                                                    My Cart
+                                                    
+                                                    </span></i>
                                             </Button>
                                         </Link>
                                     </>
