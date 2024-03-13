@@ -21,15 +21,15 @@ const Navbar = () => {
     const [modalShow, setModalShow] = useState(false);
     const { removeItem } = useLocalStorage();
     const borderHello = { border: "none" };
-    
-    
+
+
     const logout = async () => {
         setModalShow(false);
         setUser({
             userId: null,
             email: null,
             roleId: null,
-            userName:null
+            userName: null
         });
         removeItem("user");
         try {
@@ -50,8 +50,7 @@ const Navbar = () => {
             }}>
             <div className="navbar">
                 <Link to='/' className='d-flex align-items-center HomeButton'>
-                    <img src={logo} width={'30px'} height={'37px'} alt="store" className="navbar-brand" />
-                    <span className='font-weight-bold' style={{ color: '#053645' }}>TX Innovation eCommerce</span>
+                    <img src={require('../TX-Logo.png')} width={'200px'} height={'50px'} alt="TX-Logo" className="navbar-brand" />
                 </Link>
             </div>
             <div className="d-flex align-items-center" >
@@ -116,13 +115,13 @@ const Navbar = () => {
                                                 backgroundColor: '#053645',
                                                 ...borderHello
                                             }}>
-                                                <i className="fas fa-cart-plus">&ensp;<span>
-                                                <span style={{ color: '#f08804' }}> { cartItems.cart.length > 0 ? cartItems.cart.length : 0 } </span>
-
-                                                    My Cart
-                                                    
-                                                    </span></i>
+                                                <i className="fas fa-cart-plus">&ensp;
+                                                    <span>My Cart</span>
+                                                </i>
                                             </Button>
+                                            <span className='cartLength'>
+                                                {cartItems.cart.length > 0 ? cartItems.cart.length : 0}
+                                            </span>
                                         </Link>
                                     </>
                                     :
@@ -149,12 +148,13 @@ const Navbar = () => {
                                                 backgroundColor: '#053645',
                                                 ...borderHello
                                             }}>
-                                                <i className="fas fa-cart-plus">&ensp;<span>
-                                                <span style={{ color: '#f08804' }}> { cartItems.cart.length > 0 ? cartItems.cart.length : 0 } </span>
-                                                    My Cart
-                                                    
-                                                    </span></i>
+                                                <i className="fas fa-cart-plus">&ensp;
+                                                    <span>My Cart</span>
+                                                </i>
                                             </Button>
+                                            <span className='cartLength'>
+                                                {cartItems.cart.length > 0 ? cartItems.cart.length : 0}
+                                            </span>
                                         </Link>
                                     </>
 

@@ -425,3 +425,19 @@ input[type=file]::file-selector-button {
   box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
   border: none;
 }
+
+.cartLength {
+  background-color: #f3f0eb;
+  color: #053645;
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
