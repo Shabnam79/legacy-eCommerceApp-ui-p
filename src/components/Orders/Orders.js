@@ -18,12 +18,12 @@ const Orders = () => {
     const fetchOrders = async () => {
         if (user.userId) {
             setTimeout(async () => {
-                const data =await getOrderService(user.userId);
+                const data = await getOrderService(user.userId);
                 if (data != undefined) {
                     setOrders(data);
                     setLoading(false);
                 }
-            }, 5000);
+            }, 4000);
         } else {
             console.log("Please login to see past orders");
         }
@@ -34,7 +34,7 @@ const Orders = () => {
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 {
                     orders.length > 0 ? <>
-                        <center>
+                        <center className='mt-5'>
                             <h1 className='text-title'>Your Orders</h1>
                         </center>
                         <OrdersList orders={orders} />

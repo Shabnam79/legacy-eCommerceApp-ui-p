@@ -86,7 +86,7 @@ const ProductList = () => {
                                     value={searchTerm}
                                     onChange={(e) => SearchTerm(e.target.value)}
                                     placeholder='Search your product...' />
-                                <button className='searchbar-button' disabled>&#128269;</button>
+                                <button className='searchbar-button'>&#128269;</button>
                             </div>
                             <div className='container'>
                                 <div className='mt-1 row'>

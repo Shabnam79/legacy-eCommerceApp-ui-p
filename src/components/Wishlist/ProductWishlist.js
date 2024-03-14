@@ -30,13 +30,15 @@ const ProductWishlist = () => {
 
 
     return (
-        <section className='mb-5'>
+        <section className='mb-5 mt-5'>
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 {
                     wishlistItems.wishlist.length > 0
                         ?
                         <React.Fragment>
-                            <center> <h1 className='my-3 text-title' name="your" title="wishlist" >Your WishList</h1></center>
+                            <center>
+                                <h1 className='my-3 text-title' name="your" title="wishlist" >Your WishList</h1>
+                            </center>
                             <WishlistColumns />
                             <FavouriteList value={wishlistItems} />
                         </React.Fragment>
