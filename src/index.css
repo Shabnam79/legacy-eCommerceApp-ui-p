@@ -445,3 +445,11 @@ input[type=file]::file-selector-button {
   font-family: 'Times New Roman', Times, serif;
   font-weight: bold;
 }
+
+.heartWishlistIcon {
+  position: relative;
+  top: -410px;
+  left: 295px;
+  height: 25px;
+  width: 25px;
+}

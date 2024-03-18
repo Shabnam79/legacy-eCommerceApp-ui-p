@@ -27,7 +27,9 @@ const Cart = ({ history }) => {
                 cartItems.cart.length > 0
                     ?
                     <React.Fragment>
-                        <center><h1>Shopping Cart</h1></center>
+                        <center className='mt-5'>
+                            <h1 className='text-title'>Shopping Cart</h1>
+                        </center>
                         <div className='mt-5 container'>
                             <div className='d-flex justify-content-between'>
                                 <CartList value={cartItems} />

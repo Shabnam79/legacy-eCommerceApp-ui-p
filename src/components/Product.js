@@ -8,10 +8,11 @@ import userContext from "../utils/userContext";
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
 import LoginModal from './LoginModal';
+import { FaHeart } from 'react-icons/fa';
 
 
 const Product = ({ product }) => {
-    const { title, img, price, inCart } = product;
+    const { title, img, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
@@ -108,6 +109,9 @@ const Product = ({ product }) => {
         dispatch(handleDetail(item))
     }
 
+    // Check if product is in wishlist
+    const isProductInWishlist = wishlistItems.wishlist.find(wishlistItem => wishlistItem.id === id);
+
     return (
         <ProducrWrapper className="tx-product-card">
             <div className="" onClick={() => handleProductDetails(product)}>
@@ -135,7 +139,8 @@ const Product = ({ product }) => {
                 : null
             }
             <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
-                onClick={() => {
+                onClick={(e) => {
+                    e.preventDefault();
                     addProductIntoCart(product);
                     openCartModal(product);
                 }}>
@@ -145,6 +150,9 @@ const Product = ({ product }) => {
                     <p className='m-0'>ADD TO CART</p>
                 )}
             </button>
+            {
+                isProductInWishlist && <FaHeart className='heartWishlistIcon' color="#FF4343" />
+            }
         </ProducrWrapper>
     );
 }
