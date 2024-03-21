@@ -67,7 +67,7 @@ export default function CartTotals({ value }) {
                     <div className="d-flex flex-column align-items-end" style={{ width: '300px' }}>
                         <h5>
                             <span>Subtotal: </span>
-                            <strong>${cartItems.cart.subTotal}</strong>
+                            <strong>&#8377; {cartItems.cart.subTotal}</strong>
                         </h5>
                         <button id="btnClearCart"
                             className="btn btn-outline-danger text-uppercase mb-3 px-5"
@@ -79,16 +79,16 @@ export default function CartTotals({ value }) {
                         </button>
                         <div className='mt-2 d-flex flex-column align-items-end'>
                             <h5 id="hdCartSubtotal">
-                                <span className="text-title">SUBTOTAL: </span>
-                                <strong>${cartItems.cart.subTotal}</strong>
+                                <span className="">SUBTOTAL: </span>
+                                <strong>&#8377; {cartItems.cart.subTotal}</strong>
                             </h5>
                             <h5 id="hdCartTax">
-                                <span className="text-title">TAX: </span>
-                                <strong>${cartItems.cart.tax}</strong>
+                                <span className="">TAX: </span>
+                                <strong>&#8377; {cartItems.cart.tax}</strong>
                             </h5>
                             <h5 id="hdCartTotalAmt">
-                                <span className="text-title">TOTAL AMOUNT: </span>
-                                <strong>${cartItems.cart.total}</strong>
+                                <span className="">TOTAL AMOUNT: </span>
+                                <strong>&#8377; {cartItems.cart.total}</strong>
                             </h5>
                         </div>
                     </div>
@@ -97,12 +97,12 @@ export default function CartTotals({ value }) {
                 <div className='mt-3 d-flex justify-content-end'>
                     <div className='d-flex flex-column align-items-end' style={{ width: '300px' }}>
                         <h5>
-                            <span style={{ ...fontsize }} className="text-title">Tax: </span>
-                            <strong style={{ ...fontsize }}>${cartItems.cart.tax}</strong>
+                            <span style={{ ...fontsize }} className="">Tax: </span>
+                            <strong style={{ ...fontsize }}>&#8377; {cartItems.cart.tax}</strong>
                         </h5>
                         <h5>
                             <span>Total Amount: </span>
-                            <strong>${cartItems.cart.total}</strong>
+                            <strong>&#8377; {cartItems.cart.total}</strong>
                         </h5>
 
                         <Link to="/checkout">

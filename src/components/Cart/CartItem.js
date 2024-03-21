@@ -53,11 +53,11 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     return (
         <div className='w-100 my-3'>
             <div className="d-flex align-items-center justify-content-between w-100">
-                <div className="" style={{ width: "15rem", height: "auto" }}>
-                    <img src={img} className="img-fluid w-100 h-100" alt="product" />
+                <div className="d-flex justify-content-center" style={{ width: "10rem", height: "10rem" }}>
+                    <img src={img} className="img-fluid w-auto h-100" alt="product" />
                 </div>
-                <div className='d-flex flex-column align-items-center'>
-                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span>
+                <div className='d-flex flex-column align-items-center' style={{ width: '20rem' }}>
+                    <span className='text-center' style={{ fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span>
                     <strong className='mb-2' style={{ fontSize: '14px' }}>$ {price}</strong>
                     <strong className='d-flex flex-column align-items-center' style={{ ...fontsize }}>
                         <span>QTY</span>
@@ -72,13 +72,12 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
                         </div>
                     </strong>
                 </div>
-                <div className="">
-                    <div className="cart-icon" onClick={() => removeProductHandler(item)}>
-                        <i style={{ color: '#dc3545' }} className="fas fa-trash-alt" data-testid="trash-icon"></i>
-                    </div>
+                <div className="cart-icon d-flex justify-content-center" onClick={() => removeProductHandler(item)} style={{ width: '1.5rem' }}>
+                    <i style={{ color: '#dc3545' }} className="fas fa-trash-alt" data-testid="trash-icon"></i>
                 </div>
-                <div id="dvCartTotalPrice" className="">
-                    <strong>Total Item: ${price * count}</strong>
+                <div id="dvCartTotalPrice" className="d-flex flex-column align-items-center" style={{ width: '7.5rem' }}>
+                    <strong>Total:</strong>
+                    <strong>${price * count}</strong>
                 </div>
             </div>
         </div>

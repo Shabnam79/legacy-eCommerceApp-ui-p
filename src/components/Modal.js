@@ -19,14 +19,17 @@ const Modal = () => {
                 !modalOpen
                     ? null
                     :
-                    < ModalContainer >
+                    < ModalContainer style={{ zIndex: '1' }} >
                         <div className="container">
                             <div className="row">
-                                <div id="modal" className=
-                                    "col-8 mx-auto col-md-6 col-lg-4 text-capitalize text-center p-5">
-                                    <h5 id="hdItemCart">item added to the cart</h5>
-                                    <img src={modalProduct.img} className="img-fluid" alt="product" />
-                                    <h5 id="hdItemCartTitle">{modalProduct.title}</h5>
+                                <div id="modal" className="mx-auto text-capitalize text-center px-2 py-4" style={{ width: '45%' }}>
+                                    <h3 id="hdItemCart" className='text-title'>
+                                        item added to the cart
+                                    </h3>
+                                    <div className='mt-3 w-100' style={{ height: '300px' }}>
+                                        <img src={modalProduct.img} className="h-100 w-auto" alt="product" />
+                                    </div>
+                                    <h5 id="hdItemCartTitle" className='mt-3'>{modalProduct.title}</h5>
                                     <h5 id="hdItemCartPrice" className="text-muted">price : $ {modalProduct.price}</h5>
                                     <Link id="lnkshopping" to='/'>
                                         <ButtonContainer onClick={() => closeCartModal()}>

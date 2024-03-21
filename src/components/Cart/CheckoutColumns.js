@@ -18,7 +18,7 @@ export default function CheckoutColumns() {
                 <div className="d-flex align-items-center justify-content-center" style={{ width: '10%' }}>
                     <p className="text-uppercase font-weight-bold" style={{ ...fontsize }}>quantity</p>
                 </div>
-                <div className="d-flex align-items-center justify-content-center" style={{ width: '10%' }}>
+                <div className="d-flex align-items-center justify-content-end" style={{ width: '10%' }}>
                     <p className="text-uppercase font-weight-bold" style={{ ...fontsize }}>total</p>
                 </div>
             </div>

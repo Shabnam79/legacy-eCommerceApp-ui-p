@@ -49,8 +49,8 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
                     </div>
                 </div>
             </div>
-            <div className="d-flex align-items-center justify-content-center" style={{ width: '10%' }}>
-                <strong>$ {price * count}</strong>
+            <div className="d-flex align-items-center justify-content-end" style={{ width: '10%' }}>
+                <strong>&#8377; {price * count}</strong>
             </div>
         </div>
     )

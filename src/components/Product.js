@@ -17,7 +17,7 @@ const Product = ({ product }) => {
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const wishlistItems = useSelector((store) => store.wishlist);
-    console.log(wishlistItems.wishlist);
+    // console.log(wishlistItems.wishlist);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const Product = ({ product }) => {
         if (user.userId) {
             let data = await getCartProductsService(user.userId);
             if (data != undefined) {
-                console.log(data);
+                // console.log(data);
                 setCartData(data);
             }
         } else {
@@ -115,19 +115,19 @@ const Product = ({ product }) => {
     return (
         <ProducrWrapper className="tx-product-card">
             <div className="" onClick={() => handleProductDetails(product)}>
-                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex' }}>
-                    <img src={img} alt="product" className="h-auto w-100" />
+                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <img src={img} alt="product" className="h-100 w-auto" />
                 </Link>
             </div>
-            <div className="my-2 d-flex align-items-center justify-content-between">
-                <h6 data-testid='product-title'>
+            <div className="my-2 d-flex align-items-start justify-content-between">
+                <h6 data-testid='product-title' className='w-75'>
                     <span className="">
                         {title}:
                     </span>
                 </h6>
                 <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
                     <b>
-                        <span className="mr-1">$</span>
+                        <span className="mr-1">&#8377;</span>
                         <span>{price}</span>
                     </b>
                 </h5>
@@ -151,7 +151,9 @@ const Product = ({ product }) => {
                 )}
             </button>
             {
-                isProductInWishlist && <FaHeart className='heartWishlistIcon' color="#FF4343" />
+                isProductInWishlist && <div style={{ position: 'absolute' }}>
+                    <FaHeart className='heartWishlistIcon' color="#FF4343" />
+                </div>
             }
         </ProducrWrapper>
     );
