@@ -19,7 +19,7 @@ const Modal = () => {
                 !modalOpen
                     ? null
                     :
-                    < ModalContainer style={{ zIndex: '1' }} >
+                    < ModalContainer style={{ zIndex: '11' }} >
                         <div className="container">
                             <div className="row">
                                 <div id="modal" className="mx-auto text-capitalize text-center px-2 py-4" style={{ width: '45%' }}>

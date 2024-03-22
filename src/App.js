@@ -31,6 +31,7 @@ import UserList from './components/Admin/UserList';
 import CreateUsers from './components/Admin/CreateUsers';
 import EditUsers from './components/Admin/EditUsers';
 import { variables } from "../src/utils/variables";
+import Footer from './components/Footer';
 
 function App() {
   const [user, setUser] = useState({});
@@ -44,8 +45,8 @@ function App() {
         setUser({
           userId: parseUserData.userId,
           email: parseUserData.email,
-          roleId:parseUserData.roleId,
-          userName:parseUserData.userName
+          roleId: parseUserData.roleId,
+          userName: parseUserData.userName
         });
       }
     }
@@ -62,7 +63,7 @@ function App() {
         >
           <Navbar />
           <Outlet />
-          <div className='w-100' style={{ position: 'absolute', top: '75px' }}>
+          <div className='w-100' style={{ position: 'relative', top: '75px' }}>
             <Routes>
               {
                 user.roleId == variables.ROLE_ADMIN
@@ -167,6 +168,7 @@ function App() {
         </userContext.Provider>
       </Provider>
       <ToastContainer />
+      <Footer />
     </React.Fragment>
   );
 }

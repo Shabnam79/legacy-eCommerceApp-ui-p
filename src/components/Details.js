@@ -99,6 +99,7 @@ const Details = () => {
 
                     dispatch(addToWishlist(value));
                     setIsProductWishlisted(true);
+                    isProductWishlisted = true;
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
                     toast.success(`${value.title} is added to wishlist`, {

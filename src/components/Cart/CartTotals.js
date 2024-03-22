@@ -11,7 +11,7 @@ import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
-    const fontsize = { fontSize: 'small' };
+    const fontsize = { fontSize: 'medium' };
     const { cart } = value;
     const { user } = useContext(userContext)
 
@@ -57,61 +57,45 @@ export default function CartTotals({ value }) {
                 style={{
                     margin: '0px 0px 0px 20px',
                     padding: '15px',
-                    maxHeight: '350px',
+                    maxHeight: '260px',
                     backdropFilter: 'blur(8px)',
                     background: 'rgba(243, 243, 243, 0.24)',
                     boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px',
                     border: 'none',
                 }}>
-                <div className="d-flex justify-content-end">
-                    <div className="d-flex flex-column align-items-end" style={{ width: '300px' }}>
-                        <h5>
-                            <span>Subtotal: </span>
-                            <strong>&#8377; {cartItems.cart.subTotal}</strong>
-                        </h5>
-                        <button id="btnClearCart"
-                            className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                            type="button"
-                            onClick={() => {
-                                clearCart();
-                            }}>
-                            clear cart
-                        </button>
-                        <div className='mt-2 d-flex flex-column align-items-end'>
-                            <h5 id="hdCartSubtotal">
-                                <span className="">SUBTOTAL: </span>
-                                <strong>&#8377; {cartItems.cart.subTotal}</strong>
-                            </h5>
-                            <h5 id="hdCartTax">
-                                <span className="">TAX: </span>
-                                <strong>&#8377; {cartItems.cart.tax}</strong>
-                            </h5>
-                            <h5 id="hdCartTotalAmt">
-                                <span className="">TOTAL AMOUNT: </span>
-                                <strong>&#8377; {cartItems.cart.total}</strong>
-                            </h5>
-                        </div>
-                    </div>
-                </div>
 
                 <div className='mt-3 d-flex justify-content-end'>
                     <div className='d-flex flex-column align-items-end' style={{ width: '300px' }}>
-                        <h5>
+                        <h5 className='d-flex justify-content-between w-100'>
+                            <span>Total MRP: </span>
+                            <strong>&#8377; {cartItems.cart.subTotal}</strong>
+                        </h5>
+                        <h5 className='d-flex justify-content-between w-100'>
                             <span style={{ ...fontsize }} className="">Tax: </span>
                             <strong style={{ ...fontsize }}>&#8377; {cartItems.cart.tax}</strong>
                         </h5>
-                        <h5>
+                        <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey' }}>
                             <span>Total Amount: </span>
                             <strong>&#8377; {cartItems.cart.total}</strong>
                         </h5>
 
-                        <Link to="/checkout">
+                        <Link to="/checkout" className='w-100 mt-2'>
                             <button
-                                className="btn btn-outline-danger text-uppercase mb-3 px-5"
+                                className="btn btn-outline-danger mb-3 px-3 w-100"
                                 type="button">
                                 Proceed To Checkout
                             </button>
                         </Link>
+                        <div className='w-100'>
+                            <button id="btnClearCart"
+                                className="btn btn-outline-danger  mb-3 px-3"
+                                type="button"
+                                onClick={() => {
+                                    clearCart();
+                                }}>
+                                Clear Cart
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

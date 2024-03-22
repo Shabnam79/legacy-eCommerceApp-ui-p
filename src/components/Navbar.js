@@ -43,7 +43,7 @@ const Navbar = () => {
         <NavWrapper className="p-1 w-100 d-flex justify-content-between px-sm-5"
             style={{
                 position: 'fixed',
-                zIndex: '1',
+                zIndex: '10',
                 backdropFilter: 'blur(8px)',
                 background: '#f3f3f33d',
                 boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.05)',

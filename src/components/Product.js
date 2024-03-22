@@ -119,7 +119,7 @@ const Product = ({ product }) => {
                     <img src={img} alt="product" className="h-100 w-auto" />
                 </Link>
             </div>
-            <div className="my-2 d-flex align-items-start justify-content-between">
+            <div className="my-2 d-flex align-items-start justify-content-between" style={{ height: '65px' }}>
                 <h6 data-testid='product-title' className='w-75'>
                     <span className="">
                         {title}:
