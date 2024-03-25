@@ -12,6 +12,7 @@ import { FaHeart } from 'react-icons/fa';
 
 
 const Product = ({ product }) => {
+    debugger
     const { title, img, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
