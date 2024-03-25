@@ -127,7 +127,7 @@ const Product = ({ product }) => {
                 </h6>
                 <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
                     <b>
-                        <span className="mr-1">&#8377;</span>
+                        <span className="mr-1">$</span>
                         <span>{price}</span>
                     </b>
                 </h5>
