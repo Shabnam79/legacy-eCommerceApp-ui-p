@@ -68,15 +68,15 @@ export default function CartTotals({ value }) {
                     <div className='d-flex flex-column align-items-end' style={{ width: '300px' }}>
                         <h5 className='d-flex justify-content-between w-100'>
                             <span>Total MRP: </span>
-                            <strong>&#8377; {cartItems.cart.subTotal}</strong>
+                            <strong>$ {cartItems.cart.subTotal}</strong>
                         </h5>
                         <h5 className='d-flex justify-content-between w-100'>
                             <span style={{ ...fontsize }} className="">Tax: </span>
-                            <strong style={{ ...fontsize }}>&#8377; {cartItems.cart.tax}</strong>
+                            <strong style={{ ...fontsize }}>$ {cartItems.cart.tax}</strong>
                         </h5>
                         <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey' }}>
                             <span>Total Amount: </span>
-                            <strong>&#8377; {cartItems.cart.total}</strong>
+                            <strong>$ {cartItems.cart.total}</strong>
                         </h5>
 
                         <Link to="/checkout" className='w-100 mt-2'>
