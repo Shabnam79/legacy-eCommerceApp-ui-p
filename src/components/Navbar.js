@@ -50,7 +50,7 @@ const Navbar = () => {
             }}>
             <div className="navbar">
                 <Link to='/' className='d-flex align-items-center HomeButton'>
-                    <img src={require('../TX-Logo.png')} width={'200px'} height={'50px'} alt="TX-Logo" className="navbar-brand" />
+                    <img id="Img-Logo" src={require('../TX-Logo.png')} width={'200px'} height={'50px'} alt="TX-Logo" className="navbar-brand" />
                 </Link>
             </div>
             <div className="d-flex align-items-center" >
