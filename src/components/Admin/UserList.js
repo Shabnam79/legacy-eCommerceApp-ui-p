@@ -80,7 +80,7 @@ export default function UserList() {
                                     border: 'none'
                                 }}>Create User</Button>
                             </Link>
-                            <input type='text' className='searchbar-input mb-3' placeholder='Search Product...' onChange={(e) => setSearchInput(e.target.value)} />
+                            <input type='text' className='searchbar-input mb-3' placeholder='Search User...' onChange={(e) => setSearchInput(e.target.value)} />
                         </div>
                         <Table striped bordered hover size='sm'>
                             <thead>
