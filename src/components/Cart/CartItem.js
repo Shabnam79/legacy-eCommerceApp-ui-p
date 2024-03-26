@@ -1,20 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { incrementProduct, reduceProduct, removeAll, removeFromCart } from '../../utils/cartSlice';
 import React from 'react';
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-import { incrementCartProductsService, decrementCartProductsService, getProductByIdService } from '../../firebase/services/cart.service';
+import { incrementCartProductsService, decrementCartProductsService, getProductByIdService, UpdateItemQuantity, DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const dispatch = useDispatch();
-    const { id, title, img, price, total, count, quantity } = item;
 
+    const fontsize = { fontSize: 'x-small' };
+    const { title, img, price, total, count } = item;
     const removeProductHandler = async (item) => {
         try {
-            const addToCartDoc = await getProductByIdService(item.id);
-            await deleteRecordFromFirebaseService(addToCartDoc);
-
+            await DeleteItemFromYourCart(item.id);
             toast.warning(
                 `Product removed from the Cart`,
                 {
@@ -32,8 +30,8 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
 
     const increment = async (item) => {
         const addToCartDoc = await getProductByIdService(item.id);
-        await incrementCartProductsService(addToCartDoc, count);
-
+        const CountIncrement = await incrementCartProductsService(count);
+        await UpdateItemQuantity(addToCartDoc.id, CountIncrement);
         fetchAddToCartData();
 
         dispatch(incrementProduct(item))
@@ -42,10 +40,9 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     const decrement = async (item) => {
         const addToCartDoc = await getProductByIdService(item.id);
         if (count != 1) {
-            await decrementCartProductsService(addToCartDoc, count);
-
+            const CountDecrement = await decrementCartProductsService(count);
+            await UpdateItemQuantity(addToCartDoc.id, CountDecrement);
             fetchAddToCartData();
-
             dispatch(reduceProduct(item))
         }
         else {
@@ -54,33 +51,34 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
     }
 
     return (
-        <div className="row my-2 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "5rem", height: "5rem" }} className="img-fluid" alt="product" />
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">product : </span>{title}
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">price : </span>{price}
-            </div>
-            <div className="col-10 mx-auto col-lg-2 my-2 my-lg-2-0">
-                <div className="d-flex justify-content-center">
-                    <div>
-                        <span className="btn btn-black mx-1" onClick={() => decrement(item)}>-</span>
-                        <span className="btn btn-black mx-1">{count}</span>
-                        <span className="btn btn-black mx-1" onClick={() => increment(item)}>+</span>
-                    </div>
+        <div className='w-100 my-3'>
+            <div className="d-flex align-items-center justify-content-between w-100">
+                <div className="d-flex justify-content-center" style={{ width: "10rem", height: "10rem" }}>
+                    <img src={img} className="img-fluid w-auto h-100" alt="product" />
                 </div>
-            </div>
-            {/**/}
-            <div className="col-10 mx-auto col-lg-2">
-                <div className="cart-icon" onClick={() => removeProductHandler(item)}>
-                    <i className="fas fa-trash" data-testid="trash-icon"></i>
+                <div className='d-flex flex-column align-items-center' style={{ width: '20rem' }}>
+                    <span className='text-center' style={{ fontSize: '14px', fontWeight: 'bold', color: '#12499E' }}>{title}</span>
+                    <strong className='mb-2' style={{ fontSize: '14px' }}>$ {price}</strong>
+                    <strong className='d-flex flex-column align-items-center' style={{ ...fontsize }}>
+                        <span>QTY</span>
+                        <div>
+                            <span style={{ cursor: 'pointer' }} className="btn btn-black mx-1" onClick={() => decrement(item)}>
+                                <strong>-</strong>
+                            </span>
+                            <span className="btn btn-black mx-1">{count}</span>
+                            <span style={{ cursor: 'pointer' }} className="btn btn-black mx-1" onClick={() => increment(item)}>
+                                <strong>+</strong>
+                            </span>
+                        </div>
+                    </strong>
                 </div>
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <strong>item total : $ {price * count}</strong>
+                <div className="cart-icon d-flex justify-content-center" onClick={() => removeProductHandler(item)} style={{ width: '1.5rem' }}>
+                    <i style={{ color: '#dc3545' }} className="fas fa-trash-alt" data-testid="trash-icon"></i>
+                </div>
+                <div id="dvCartTotalPrice" className="d-flex flex-column align-items-center" style={{ width: '7.5rem' }}>
+                    <strong>Total:</strong>
+                    <strong>${price * count}</strong>
+                </div>
             </div>
         </div>
     )

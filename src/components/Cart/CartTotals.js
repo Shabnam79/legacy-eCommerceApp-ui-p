@@ -1,21 +1,18 @@
-import React, { Component, useContext, useState } from 'react'
-import { db } from "../../firebase/config/firebase.config";
-import { doc } from "firebase/firestore";
-
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTotals, removeAll } from '../../utils/cartSlice';
+import { removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
+import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
-
-    const { cartSubTotal, cartTax, cartTotal, cart } = value;
+    const fontsize = { fontSize: 'medium' };
+    const { cart } = value;
     const { user } = useContext(userContext)
 
     const placeProductOrder = async (e) => {
@@ -49,60 +46,59 @@ export default function CartTotals({ value }) {
 
     const clearCart = () => {
         cart.forEach((data) => {
-            const addToCartDoc = doc(db, "addToCartStore", data.id);
-            deleteRecordFromFirebaseService(addToCartDoc)
+            DeleteItemFromYourCart(data.id);
         });
         dispatch(removeAll());
     }
 
-    return <React.Fragment>
-        <div className="container">
-            <div className="row">
-                <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
-                    <button
-                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button"
-                        onClick={() => {
-                            clearCart();
-                        }}>
-                        clear cart
-                    </button>
-                    <h5>
-                        <span className="text-title">subtotal :</span>
-                        <strong>{cartItems.cart.subTotal}</strong>
-                    </h5>
-                    <h5>
-                        <span className="text-title">tax :</span>
-                        <strong>{cartItems.cart.tax}</strong>
-                    </h5>
-                    <h5>
-                        <span className="text-title">total Amount :</span>
-                        <strong>{cartItems.cart.total}</strong>
-                    </h5>
+    return (
+        <React.Fragment>
+            <div data-testid='cart-totals cartTotalsArea'
+                style={{
+                    margin: '0px 0px 0px 20px',
+                    padding: '15px',
+                    maxHeight: '260px',
+                    backdropFilter: 'blur(8px)',
+                    background: 'rgba(243, 243, 243, 0.24)',
+                    boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px',
+                    border: 'none',
+                }}>
+
+                <div className='mt-3 d-flex justify-content-end'>
+                    <div className='d-flex flex-column align-items-end' style={{ width: '300px' }}>
+                        <h5 className='d-flex justify-content-between w-100'>
+                            <span>Total MRP: </span>
+                            <strong>&#8377; {cartItems.cart.subTotal}</strong>
+                        </h5>
+                        <h5 className='d-flex justify-content-between w-100'>
+                            <span style={{ ...fontsize }} className="">Tax: </span>
+                            <strong style={{ ...fontsize }}>&#8377; {cartItems.cart.tax}</strong>
+                        </h5>
+                        <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey' }}>
+                            <span>Total Amount: </span>
+                            <strong>&#8377; {cartItems.cart.total}</strong>
+                        </h5>
+
+                        <Link to="/checkout" className='w-100 mt-2'>
+                            <button
+                                className="btn btn-outline-danger mb-3 px-3 w-100"
+                                type="button">
+                                Proceed To Checkout
+                            </button>
+                        </Link>
+                        <div className='w-100'>
+                            <button id="btnClearCart"
+                                className="btn btn-outline-danger  mb-3 px-3"
+                                type="button"
+                                onClick={() => {
+                                    clearCart();
+                                }}>
+                                Clear Cart
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize text-right">
-                <Link to="/checkout">
-                <button
-                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button">
-                        Proceed To Checkout
-                    </button>
-                </Link>
-               
-                    {/* <button
-                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                        type="button"
-                        onClick={() => {
-                            placeProductOrder();
-                        }}>
-                        Place Order
-                    </button> */}
-                </div>
-            </div>
-        </div>
-
-    </React.Fragment>;
-
+        </React.Fragment >
+    )
 }

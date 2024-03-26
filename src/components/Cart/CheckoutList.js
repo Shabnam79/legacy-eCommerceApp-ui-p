@@ -2,6 +2,7 @@ import CheckoutItem from './CheckoutItem';
 import userContext from '../../utils/userContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { getCartProductsService } from '../../firebase/services/cart.service';
+import { toast } from "react-toastify";
 
 export default function CheckoutList({ value }) {
     const { cart } = value;

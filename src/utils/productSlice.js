@@ -45,23 +45,9 @@ const productSlice = createSlice({
 export const fetchProducts = createAsyncThunk("fetch/prodcuts", async (id) => {
     if (id != '') {
         return await getProductsByCategoryIdService(id);
-
-        // const q = query(
-        //     collection(db, "storeProducts"), where("categoryId", "==", id)
-        // )
-        // // const collectionRef = collection(db, 'storeProducts');
-        // return await getDocs(q).then((storeProduct) => {
-        //     const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        //     return allproducts;
-        // })
     }
     else {
         return await getProductsService();
-        // const collectionRef = collection(db, 'storeProducts');
-        // return await getDocs(collectionRef).then((storeProduct) => {
-        //     const allproducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        //     return allproducts;
-        // })
     }
 });
 

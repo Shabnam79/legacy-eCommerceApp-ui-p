@@ -9,15 +9,32 @@ import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import {query,where,getDocs, collection } from "firebase/firestore";
+import { query, where, getDocs, collection } from "firebase/firestore";
+import { createPortal } from "react-dom";
+import { removeAll } from '../../utils/cartSlice';
+
+function IFrame({ children }) {
+    const [ref, setRef] = useState();
+    const container = ref?.contentDocument?.body;
+    return (
+        <iframe title="PlacedOrderIframe"
+            width="318px" height="200px" border='none'
+            scrolling="no" ref={setRef}>
+            {container && createPortal(children, container)}
+        </iframe>
+    );
+}
 
 const CheckoutForm = ({ value }) => {
+
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store);
     const { cartSubTotal, cartTax, cartTotal, cart } = value;
     const { user } = useContext(userContext);
     const [shippingAddress, setShippingAddress] = useState([]);
     const address = shippingAddress[0];
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
 
     useEffect(() => {
         fetchAddShippingDetails();
@@ -29,7 +46,7 @@ const CheckoutForm = ({ value }) => {
             const dataArray = [];
             cart.forEach(element => {
                 dataArray.push({
-                    name: element.company,
+                    name: element.title,
                     orderDate: Date(),
                     orderId: uuidv4(),
                     price: element.price,
@@ -42,10 +59,10 @@ const CheckoutForm = ({ value }) => {
                 })
             });
             await saveCartOrderService(dataArray);
-           // clearCart();
-           toast.success(`Your order has been successfully placed!`, {
-            autoClose: 1000,
-        });
+            dispatch(removeAll());
+            toast.success(`Your order has been successfully placed!`, {
+                autoClose: 1000,
+            });
         } else {
             toast.warning(
                 `To make order you need to login first`,
@@ -55,18 +72,17 @@ const CheckoutForm = ({ value }) => {
             );
         }
     }
-    
+
     const fetchAddShippingDetails = async () => {
         if (user.userId) {
             await getDocs(collection(db, "shippingAddress"), where("userId", "==", user.userId))
-            .then((querySnapshot) => {
-                const shippingAddress = [];
-                querySnapshot.forEach((doc) => {
-                  shippingAddress.push(doc.data());
-                });
-              setShippingAddress(shippingAddress);// Update the component's state with the fetched data
-              console.log(shippingAddress)
-            })
+                .then((querySnapshot) => {
+                    const shippingAddress = [];
+                    querySnapshot.forEach((doc) => {
+                        shippingAddress.push(doc.data());
+                    });
+                    setShippingAddress(shippingAddress);// Update the component's state with the fetched data
+                })
         } else {
             console.log("Please login to see shipping address");
         }
@@ -76,46 +92,46 @@ const CheckoutForm = ({ value }) => {
         <section>
             {
                 <div className="container">
-                    <>
-                        <div className="shipping-info mt-2">
-                            <h4>Shipping Info</h4>
-                            <Card style={{ width: '20rem' }}>
-                                {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-                                <Card.Body>
-                                    <Card.Title>Shipping Address :</Card.Title>
-                                    <Card.Text>
-                                        <div className="billing-info">
-                                            {/* {shippingAddress.map((item, index) => (
-                                                <p>
-                                                    <strong>Name:</strong> {item.firstName}
-                                                </p>
-                                            ))} */}
-                                            <><p>
-                                                <strong>Name : </strong> {address ? address.firstName + ' ' + address.lastName : ''}
-                                            </p><p>
-                                                    <strong>Address 1 : </strong> {address ? address.address : ''}
-                                                </p><p>
-                                                    <strong>Address 2 : </strong> {address ? address.address2 : ''}
-                                                </p><p>
-                                                    <strong>City : </strong> {address ? address.city : ''}
-                                                </p><p>
-                                                    <strong>State : </strong> {address ? address.state : ''}
-                                                </p><p>
-                                                    <strong>Country : </strong> {address ? address.country : ''}
-                                                </p><p>
-                                                    <strong>ZipCode : </strong> {address ? address.zipCode : ''}
-                                                </p></>
-                                        </div>
-                                    </Card.Text>
-                                    <Link to="/billingAddress">
-                                        <Button variant="primary">Add New Address</Button>
-                                    </Link>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                        <div className="payment-info mt-2">
+                    <div id="DivShippingInfo" className="shipping-info mt-2">
+                        <h4>Shipping Info</h4>
+                        <Card className='shipping-address-area' style={{ width: '20rem' }}>
+                            <Card.Body>
+                                <Card.Title>Shipping Address</Card.Title>
+                                <Card.Text>
+                                    <div className="billing-info">
+                                        <p>
+                                            <strong>Name: </strong> {address ? address.firstName + ' ' + address.lastName : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Address 1: </strong> {address ? address.address : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Address 2: </strong> {address ? address.address2 : ''}
+                                        </p>
+                                        <p>
+                                            <strong>City: </strong> {address ? address.city : ''}
+                                        </p>
+                                        <p>
+                                            <strong>State: </strong> {address ? address.state : ''}
+                                        </p>
+                                        <p>
+                                            <strong>Country: </strong> {address ? address.country : ''}
+                                        </p>
+                                        <p>
+                                            <strong>ZipCode: </strong> {address ? address.zipCode : ''}
+                                        </p>
+                                    </div>
+                                </Card.Text>
+                                <Link to="/billingAddress">
+                                    <Button className='add-new-address-button'>Add New Address</Button>
+                                </Link>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <IFrame>
+                        <div id="DivPaymentInfo" className="payment-info mt-2">
                             <h4>Payment Info</h4>
-                            <Card style={{ width: '20rem' }}>
+                            <Card>
                                 <Card.Body>
                                     <Card.Title>Choose Payment Method :</Card.Title>
                                     <Card.Text>
@@ -135,28 +151,45 @@ const CheckoutForm = ({ value }) => {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button variant="primary">Add New Card</Button>
+                                    <Button style={{
+                                        border: 'none',
+                                        backgroundColor: '#053645',
+                                        color: '#f3f0eb',
+                                        padding: '0.375rem 0.75rem',
+                                        fontSize: '1rem',
+                                        borderRadius: '0.25rem',
+                                        lineHeight: '1.5'
+                                    }}>Add New Card</Button>
                                 </Card.Body>
                             </Card>
                         </div>
-                    </>
-                    <div className="row">
-                        <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
-                            <Link to="/orders">
-                                <button
-                                    className="btn btn-outline-danger text-uppercase mb-3 px-5"
-                                    type="button"
-                                    onClick={() => {
-                                        placeProductOrder();
-                                    }}>
-                                    Place Order
-                                </button>
-                            </Link>
+                        <div id="DivPlaceOrder" className="row">
+                            <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalize">
+                                <Link to="/orders">
+                                    <button style={{
+                                        marginTop: "10px",
+                                        border: 'none',
+                                        backgroundColor: '#053645',
+                                        color: '#f3f0eb',
+                                        padding: '0.375rem 0.75rem',
+                                        fontSize: '1rem',
+                                        borderRadius: '0.25rem',
+                                        lineHeight: '1.5'
+                                    }}
+                                        className="btn btn-outline-danger text-uppercase mb-3 px-5"
+                                        type="button"
+                                        onClick={() => {
+                                            placeProductOrder();
+                                        }}>
+                                        Place Order
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </IFrame>
+                </div >
             }
-        </section>
+        </section >
     );
 }
 export default CheckoutForm;

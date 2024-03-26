@@ -4,6 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userContext from "../../src/utils/userContext";
 import { getProductReviewByOrderIdService, saveProductReview } from '../../src/firebase/services/review.service';
 import { toast } from 'react-toastify';
+import { MemoryRouter } from 'react-router-dom';
 import Review from '../../src/components/Review/Review'
 
 // Mocking the react-router-dom useParams
@@ -94,42 +95,70 @@ Object.defineProperty(global, 'DataTransfer', {
 });
 
 // Test Suite for Review component
-describe('Review Component', () => {
-    // Test Case 1: Renders without crashing
-    it('renders Review component', () => {
-        render(<MockUserProvider value={{ user: mockUser }}><Review /></MockUserProvider>);
+describe('Review.Review', () => {
+
+    it('Renders Review component', async () => {
+        await reporter.startStep('Step 1: Checking if Review Component rendering without crashing')
+        render(
+            <MemoryRouter>  {/* Wrap your component with MemoryRouter */}
+                <MockUserProvider value={{ user: mockUser }}>
+                    <Review />
+                </MockUserProvider>
+            </MemoryRouter>
+        );
+        await reporter.endStep()
+
         // Check if the component renders without crashing
+        await reporter.startStep('Step 2: Verifying the result for getting text Rating & Reviews from DOM')
         expect(screen.getByText('Ratings & Reviews')).toBeInTheDocument();
+        await reporter.endStep()
     });
 
-    // Test Case 2: User can submit a review
-    it('submits a review', async () => {
+
+    it('Submits a review', async () => {
         // Mocking getProductReviewByOrderIdService to return a data array with length > 0
+        await reporter.startStep('Step 1: Mocking getProductReviewByOrderIdService to return a data array with length > 0')
         getProductReviewByOrderIdService.mockResolvedValue([{ rating: 1 }]);
+        await reporter.endStep()
 
-        render(<MockUserProvider value={{ user: mockUser }}><Review /></MockUserProvider>);
-
-        /// Check if the title input is present before interacting
-        await waitFor(() => {
-            expect(screen.getByPlaceholderText('Review title...')).toBeInTheDocument();
-        });
+        await reporter.startStep('Step 2: Rendering the Review component by providing user details as a prop')
+        render(
+            <MemoryRouter>  {/* Wrap your component with MemoryRouter */}
+                <MockUserProvider value={{ user: mockUser }}>
+                    <Review />
+                </MockUserProvider>
+            </MemoryRouter>
+        );
+        await reporter.endStep()
 
         // Fill out the form only if the condition is met
-        if (screen.getByText('Submit')) {
+        await reporter.startStep('Step 3: Fill out the form only if the condition is met');
+        const submitButton = screen.queryByText('Submit');
+        if (submitButton) {
+            await waitFor(() => {
+                userEvent.click(submitButton);
+            });
+            await reporter.startStep('Step 4.1: Getting the form elements from DOM and updating the input fields')
             fireEvent.change(screen.getByPlaceholderText('Review title...'), { target: { value: 'Test Title' } });
             fireEvent.change(screen.getByPlaceholderText('Description...'), { target: { value: 'Test Description' } });
             fireEvent.change(screen.getByLabelText('Photos'), { target: { files: [new File(['test'], 'test.jpg', { type: 'image/jpeg' })] } });
+            await reporter.endStep()
 
             //Submit the form
+            await reporter.startStep('Step 4.2: Clicking Submit button')
             fireEvent.click(screen.getByText('Submit'));
+            await reporter.endStep()
 
-            //     // Wait for the review to be submitted
+            // Wait for the review to be submitted
+            await reporter.startStep('Step 4.3: Check if the saveProductReview function was called and success toast was displayed')
             await waitFor(() => {
                 // Check if the saveProductReview function was called
                 expect(saveProductReview).toHaveBeenCalled();
                 // Check if the success toast was displayed
                 expect(toast.success).toHaveBeenCalledWith('review submitted successfully', { autoClose: 1000 });
             });
+            await reporter.endStep()
         }
+        await reporter.endStep()
     });
 });

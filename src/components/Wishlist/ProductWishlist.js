@@ -1,71 +1,51 @@
 import React, { useContext, useEffect, useState } from 'react';
 import userContext from '../../utils/userContext';
-import Title from "../Title";
 import WishlistColumns from './WishlistColumns';
 import EmptyWishlist from './EmptyWishlist';
 import FavouriteList from "./FavouriteList";
 import { fetchWishlistProducts } from '../../utils/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingOverlay from 'react-loading-overlay';
 import { toast } from "react-toastify";
 
 const ProductWishlist = () => {
-    //const [wishlist, setWishlist] = useState([]);
+    const fontsize = { fontSize: 'x-small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
+    const borderHello = { border: "none" };
     const { user } = useContext(userContext);
     const wishlistItems = useSelector((store) => store.wishlist);
-    //console.log(wishlistItems,'Data')
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(fetchWishlistProducts(user.userId));
+        if (user.userId) {
+            debugger
+            dispatch(fetchWishlistProducts(user.userId));
+            setLoading(false);
+        } else {
+            console.log("Please login to see past Cart products");
+        }
         document.title = "Product Wishlist";
     }, [user.userId]);
 
-    // useEffect(() => {
-    //     fetchWishlist();
-    // }, user.userId);
-
-    // const fetchWishlist = async () => {
-    //     if (user.userId) {
-    //         const q = query(
-    //             collection(db, "storeWishlist"), where("userId", "==", user.userId)
-    //         )
-    //         const querySnapshot = await getDocs(q);
-    //         querySnapshot.forEach((doc) => {
-    //             const newData = querySnapshot.docs
-    //                 .map((doc) => ({ ...doc.data(), id: doc.id }));
-    //             setWishlist(newData);
-    //         });
-    //     } else {
-    //         console.log("Please login to see past wishlist");
-    //     }
-    // }
-
-    // const removeWishlist = async (id) => {
-    //     console.log(id, "Id");
-    //     const wishlistDoc = doc(db, "storeWishlist", id);
-    //     await deleteDoc(wishlistDoc);
-    //     toast.warning(
-    //         `Product removed from the wishlist`,
-    //         {
-    //             autoClose: 1000,
-    //         }
-    //     );
-
-    // }
 
     return (
-        <section>
-            {
-                wishlistItems.wishlist.length > 0
-                    ?
-                    <React.Fragment>
-                        <Title name="your" title="wishlist" />
-                        <WishlistColumns />
-                        <FavouriteList value={wishlistItems} />
-                    </React.Fragment>
-                    :
-                    <EmptyWishlist />
-            }
+        <section className='mb-5 mt-5'>
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                {
+                    wishlistItems.wishlist.length > 0
+                        ?
+                        <React.Fragment>
+                            <center>
+                                <h1 className='my-3 text-title' name="your" title="wishlist" >Your WishList</h1>
+                            </center>
+                            <WishlistColumns />
+                            <FavouriteList value={wishlistItems} />
+                        </React.Fragment>
+                        :
+                        <EmptyWishlist />
+                }
+            </LoadingOverlay>
         </section>
     );
 }

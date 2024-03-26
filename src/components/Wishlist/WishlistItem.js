@@ -1,31 +1,26 @@
-import React, { Component, useContext, useEffect, useState } from 'react';
-import userContext from '../../utils/userContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeAll, removeFromWishlist } from '../../utils/wishlistSlice';
+import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
-import { deleteRecordFromFirebaseService } from '../../firebase/services/product.service';
-import { getWishlistByIdService } from '../../firebase/services/wishlist.service';
+import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
     const { id, company, title, img, price, } = item;
-    const { user } = useContext(userContext);
+    const fontsize = { fontSize: 'small' };
+    const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
 
     const removeProductHandler = async (item) => {
         try {
-            const addToWishlistDoc = await getWishlistByIdService(item.id);
-            await deleteRecordFromFirebaseService(addToWishlistDoc);
-
+            await DeleteProductFromWishList(item.id);
             toast.warning(
                 `Product removed from the Wishlist`,
                 {
                     autoClose: 1000,
                 }
             );
-
             fetchAddToWishlistData();
             dispatch(removeFromWishlist(item));
-
         }
         catch (e) {
             console.log(e);
@@ -33,23 +28,28 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     };
 
     return (
-        <div className="row my-2 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-                <img src={img} style={{ width: "5rem", height: "5rem" }} className="img-fluid" alt="product" />
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">company : </span>{company}
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">product : </span>{title}
-            </div>
-            <div className="col-10 mx-auto col-lg-2">
-                <span className="d-lg-none">price : </span>{price}
-            </div>
-            {/**/}
-            <div className="col-10 mx-auto col-lg-2">
-                <div className="cart-icon" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
-                    <i className="fas fa-trash"></i>
+        <div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div className='tx-wishlist-product-card'>
+                <div className="" style={{ height: '325px', padding: '0.75rem' }}>
+                    <img src={img} style={{ width: "100%", height: '100%' }} className="img-fluid" alt="product" />
+                </div>
+                <div className='d-flex justify-content-between' style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
+                    <div className='d-flex flex-column'>
+                        <span className='' id="spWishlistTitle" style={{ fontSize: '20px', fontWeight: 'bold', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{title}</span>
+                        <div style={{ color: 'rgb(5, 54, 69)' }}>
+                            <span style={{ ...fontsize }}>By: </span>
+                            <span id="spWishlistCompany"><b>{company}</b></span>
+                        </div>
+                    </div>
+                    <b style={{ color: 'rgb(5, 54, 69)' }}>
+                        <span>$ </span>
+                        <span id="spWishlistCompany">{price}</span>
+                    </b>
+                </div>
+                <div className="d-flex justify-content-end" style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
+                    <div className="d-flex justify-content-center cart-icon w-25 p-2 wishlist-card-trash-button" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>
+                        <i className="fa fa-trash-alt"></i>
+                    </div>
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
     useEffect(() => {
         fetchAddToWishlistData();
         document.title = "Favourite List";
-    }, user.userId, []);
+    }, [user.userId]);
 
     const fetchAddToWishlistData = async () => {
         if (userId) {
@@ -25,11 +25,12 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
         }
     }
     return (
-        <div className="container-fluid">
-            {WishlistData.map(item => {
-                return <WishlistItem key={item.id} item={item} wishlist={wishlist} fetchAddToWishlistData={fetchAddToWishlistData} />
-            })}
-            {/* <WishlistItem /> */}
+        <div className='container my-4'>
+            <div className="row" data-testid="wishlist-items">
+                {WishlistData.map(item => {
+                    return <WishlistItem key={item.id} item={item} wishlist={wishlist} fetchAddToWishlistData={fetchAddToWishlistData} />
+                })}
+            </div>
         </div>
     );
 }

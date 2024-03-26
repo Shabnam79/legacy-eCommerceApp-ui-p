@@ -38,8 +38,10 @@ jest.mock('../../src/firebase/services/cart.service', () => ({
     getCartProductsService: jest.fn(() => Promise.resolve([mockedGetCartData])),
 }));
 
-describe('Cart List component', () => {
-    it('renders CartList component with CartItem', async () => {
+describe('Cart.CartList', () => {
+    it('Renders CartList component with CartItem', async () => {
+
+        await reporter.startStep('Step 1: Render CartList component with empty cart.');
         render(
             <Provider store={store}>
                 <MockUserProvider value={{ user: mockUser }}>
@@ -49,29 +51,35 @@ describe('Cart List component', () => {
         );
 
         // Wait for the data to be loaded
+        await reporter.startStep('Step 2: Ensure that the product name is displayed after data loads.');
         await waitFor(() => {
             expect(screen.getByText('Adidas T-shirt')).toBeInTheDocument();
         });
     });
 
-    it('renders "Please login" message when user is not logged in', async () => {
+    it('Renders "Please login" message when user is not logged in', async () => {
 
         // Mock console.log to spy on the log message
         const consoleSpy = jest.spyOn(console, 'log');
 
+        await reporter.startStep('Step 1: Render CartList component with empty user and cart.');
         render(<Provider store={store}>
             <MockUserProvider value={{ user: {} }}>
                 <CartList value={{ cart: [] }} />
             </MockUserProvider>
         </Provider>);
+        await reporter.endStep();
 
+        await reporter.startStep('Step 2: Verify "Please login" message is logged to console.');
         expect(consoleSpy).toHaveBeenCalledWith('Please login to see past Cart products');
+        await reporter.endStep();
+
     });
 
-    it('doesnt calls fetchAddToCartData when user is not logged in', async () => {
+    it('Doesnt calls fetchAddToCartData when user is not logged in', async () => {
         const fetchAddToCartDataMock = jest.fn();
 
-
+        await reporter.startStep('Step 1: Render CartList component with empty cart and unauthenticated user.');
         render(
             <Provider store={store}>
                 <MockUserProvider value={{}}>
@@ -79,11 +87,14 @@ describe('Cart List component', () => {
                 </MockUserProvider>
             </Provider>
         );
+        await reporter.endStep();
 
         // Use waitFor to wait for the asynchronous code to complete
+        await reporter.startStep('Step 2: Verify fetchAddToCartData is not called during rendering.');
         await waitFor(() => {
             expect(fetchAddToCartDataMock).toHaveBeenCalledTimes(0);
         });
+        await reporter.endStep();
 
     });
 });

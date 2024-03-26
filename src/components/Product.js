@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementProduct } from '../utils/cartSlice';
 import { handleDetail, openModal } from '../utils/productSlice';
 import userContext from "../utils/userContext";
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
+import LoginModal from './LoginModal';
+import { FaHeart } from 'react-icons/fa';
+
 
 const Product = ({ product }) => {
-    const { title, img, price, inCart } = product;
+    debugger
+    const { title, img, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
-
+    const [loginmodalShow, setLoginModalShow] = useState(false);
+    const wishlistItems = useSelector((store) => store.wishlist);
+    // console.log(wishlistItems.wishlist);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,6 +30,7 @@ const Product = ({ product }) => {
         if (user.userId) {
             let data = await getCartProductsService(user.userId);
             if (data != undefined) {
+                // console.log(data);
                 setCartData(data);
             }
         } else {
@@ -62,8 +69,6 @@ const Product = ({ product }) => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    console.log("Document written with ID: ", docRef.id);
-
                     toast.success(`${item.title} is added to cart`, {
                         autoClose: 1000,
                     });
@@ -76,7 +81,11 @@ const Product = ({ product }) => {
                     await incrementCartProductsService(addToCartDoc, Counts);
                     dispatch(incrementProduct(item))
                 } catch (e) {
-                    console.error("Error adding document: ", e);
+                    toast.error(
+                        "Error adding document: " + e, {
+                        autoClose: 1000,
+                    }
+                    );
                 }
             }
         } else {
@@ -87,57 +96,69 @@ const Product = ({ product }) => {
                 }
             );
         }
-
     }
 
     const openCartModal = (item) => {
-        dispatch(openModal(item));
+        if (user.userId) {
+            dispatch(openModal(item));
+        } else {
+            setLoginModalShow(true);
+        }
     }
 
     const handleProductDetails = (item) => {
         dispatch(handleDetail(item))
     }
 
-    return (
-        <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3" style={{display:"flex"}}>
-            <div className="card">
-                <div className="img-container p-5" onClick={() => handleProductDetails(product)}>
-                    <Link to="/details">
-                        <img src={img} alt="product" className="card-img-top" />
-                    </Link>
-                    <button data-testid="add-to-cart-button" className="cart-btn" disabled={inCart ? true : false}
-                        onClick={() => {
-                            addProductIntoCart(product);
-                            openCartModal(product);
-                        }}>
-                        {inCart ? (<p className="text-capitalize mb-0" disabled>{""}in Cart</p>)
-                            : (<i className="fas fa-cart-plus" />)}
-                    </button>
-                </div>
+    // Check if product is in wishlist
+    const isProductInWishlist = wishlistItems.wishlist.find(wishlistItem => wishlistItem.id === id);
 
-                <div data-testid='product-price' className="card-footer d-flex justify-content-between">
-                    <p className="align-self-center mb-0">
-                        {title}
-                    </p>
-                    <h5 className="text-blue font-italic mb-0">
-                        <span className="mr-1">$</span>
-                        {price}
-                    </h5>
-                </div>
+    return (
+        <ProducrWrapper className="tx-product-card">
+            <div className="" onClick={() => handleProductDetails(product)}>
+                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <img src={img} alt="product" className="h-100 w-auto" />
+                </Link>
             </div>
+            <div className="my-2 d-flex align-items-start justify-content-between" style={{ height: '65px' }}>
+                <h6 data-testid='product-title' className='w-75'>
+                    <span className="">
+                        {title}:
+                    </span>
+                </h6>
+                <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
+                    <b>
+                        <span className="mr-1">$</span>
+                        <span>{price}</span>
+                    </b>
+                </h5>
+            </div>
+            {user.userId == null ?
+                <LoginModal name="Login"
+                    show={loginmodalShow}
+                    onHide={() => setLoginModalShow(false)} />
+                : null
+            }
+            <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
+                onClick={(e) => {
+                    e.preventDefault();
+                    addProductIntoCart(product);
+                    openCartModal(product);
+                }}>
+                {inCart ? (
+                    <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
+                ) : (
+                    <p className='m-0'>ADD TO CART</p>
+                )}
+            </button>
+            {
+                isProductInWishlist && <div style={{ position: 'absolute' }}>
+                    <FaHeart className='heartWishlistIcon' color="#FF4343" />
+                </div>
+            }
         </ProducrWrapper>
     );
 }
-
-// Product.propTypes = {
-//     product: PropTypes.shape({
-//         id: PropTypes.number,
-//         img: PropTypes.string,
-//         title: PropTypes.string,
-//         price: PropTypes.number,
-//         inCart: PropTypes.bool
-//     }).isRequired
-// }
 
 const ProducrWrapper = styled.div`
 .card{

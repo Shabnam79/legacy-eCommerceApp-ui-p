@@ -20,6 +20,10 @@ const StarRating = ({ parentCallback, myProductRating }) => {
                 return (
                     <button
                         type="button"
+                        style={{
+                            padding: '0px',
+                            margin: '0px 12.5px 0px 0px'
+                        }}
                         key={index}
                         className={index <= (hover || rating)
                             ? "star-rating-button star-rating-on"

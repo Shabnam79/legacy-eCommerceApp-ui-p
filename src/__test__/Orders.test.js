@@ -26,17 +26,21 @@ jest.mock('../../src/firebase/services/order.service', () => ({
 }));
 
 
-describe('Orders component', () => {
-    it('renders EmptyOrders when there are no orders', async () => {
+describe('Orders.Orders', () => {
+    it('Renders EmptyOrders when there are no orders', async () => {
+        await reporter.startStep('Step 1: Rendering Orders component providing mocked user data to it.')
         render(<MockUserProvider value={{ user: mockUser }}><Orders /></MockUserProvider>);
+        await reporter.endStep()
 
         // Wait for the component to fetch orders
+        await reporter.startStep('Step 2: Verifying and Wait for the component to fetch orders')
         await waitFor(() => {
             expect(screen.getByText(/There is no orders/i)).toBeInTheDocument();
         });
+        await reporter.endStep()
     });
 
-    it('renders OrdersList when there are orders', async () => {
+    it('Renders OrdersList when there are orders', async () => {
         const mockOrders = [{
             id: "1FB9cUcCJfJY1kBTSFcE",
             image: "img/product-4.png",
@@ -63,16 +67,22 @@ describe('Orders component', () => {
 
         getOrderService.mockResolvedValueOnce(mockOrders);
 
+        await reporter.startStep('Step 1: Rendering Orders component ')
         render(<BrowserRouter><MockUserProvider value={{ user: mockUser }}><Orders /></MockUserProvider></BrowserRouter>);
+        await reporter.endStep()
 
         // Wait for the component to fetch orders
+        await reporter.startStep('Step 2: Wait for the component to fetch orders ')
         await waitFor(() => {
             const orderPlacedElements = screen.getAllByText(/Order Placed/i);
             expect(orderPlacedElements[0]).toBeInTheDocument();
         });
+        await reporter.endStep()
 
         // Assert that the OrdersList component is rendered
+        await reporter.startStep('Step 3: Verifying OrdersList component is rendered when there are orders')
         expect(screen.getByTestId('orders-list')).toBeInTheDocument();
+        await reporter.endStep()
     });
 
 });

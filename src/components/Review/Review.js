@@ -1,23 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import Title from '../Title';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
-import { ButtonContainer } from '../Button';
+import { Button } from 'react-bootstrap';
 import StarRating from './StarRating';
-import { getProductReviewByOrderIdService, saveProductReview } from '../../firebase/services/review.service';
+import { getProductReviewByOrderIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    listAll,
-    list,
-} from "firebase/storage";
-import { storage } from '../../firebase/config/firebase.config';
-import { Col, Image, Row } from 'react-bootstrap';
 
 const schema = yup.object().shape({
     title: yup.string()
@@ -33,21 +24,19 @@ const Review = (props) => {
     const [imageUpload, setImageUpload] = useState(null);
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [isUpdateReview, setIsUpdateReview] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchProductReview(orderId);
-        fetchImages();
         document.title = "Ratings & Reviews";
-    }, []);
+    }, [user.userId]);
 
     const handleMediaChange = (e) => {
-        debugger
         const file = e.target.files;
         setImageUpload(e.target.files);
-        //setProductReviewDetails({ ...productReviewDetails, media: file });
         const files = Array.from(e.target.files);
         setSelectedFiles([...selectedFiles, ...files]);
-        //e.target.value = null;
     };
 
     const handleFileRemove = (index) => {
@@ -58,8 +47,13 @@ const Review = (props) => {
 
     const fetchProductReview = async (orderId) => {
         const data = await getProductReviewByOrderIdService(orderId);
-        if (data.length > 0) {
-            setProductReviewDetails(data[0]);
+        if (data.length != 0) {
+            setProductReviewDetails(data);
+            setImageUrls(data.img);
+            setIsUpdateReview(true);
+        }
+        else {
+            setIsUpdateReview(false);
         }
     }
 
@@ -73,66 +67,44 @@ const Review = (props) => {
             description: values.description,
             rating: productReviewDetails.rating
         }
+        if (isUpdateReview == false) {
+            if (!imageUpload || imageUpload.length == 0) {
+                await saveProductReview(reviewObj);
+            }
+            else {
+                await saveProductReview(reviewObj, imageUpload[0]);
+            }
+            toast.success(`review submitted successfully`, {
+                autoClose: 1000,
+            });
+        }
+        else if (isUpdateReview == true) {
+            if (!imageUpload || imageUpload.length == 0) {
+                await updateProductReview(reviewObj);
+            }
+            else {
+                await updateProductReview(reviewObj, imageUpload[0]);
+            }
+            toast.success(`review updated successfully`, {
+                autoClose: 1000,
+            });
 
-        await saveProductReview(reviewObj);
+        }
 
-        uploadFile();
-
-        toast.success(`review submitted successfully`, {
-            autoClose: 1000,
-        });
+        navigate('/orders');
     }
 
     const setRating = (rating) => {
         setProductReviewDetails({ rating: rating });
     }
 
-    const imagesListRef = ref(storage, `${orderId}/`);
-
-    const uploadFile = () => {
-        if (imageUpload.length == 0) return;
-        for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `${productReviewDetails.orderId}/${imageUpload[index].name}`);
-            uploadBytes(imageRef, imageUpload[index])
-                .then((snapshot) => {
-                    return getDownloadURL(snapshot.ref).catch((error) => {
-                        console.error('Error fetching download URL:', error);
-                        return null; // Return a default value or handle the error as needed
-                    });
-                })
-                .then((url) => {
-                    if (url) {
-                        setImageUrls((prev) => [...prev, url]);
-                    } else {
-                        console.error('URL is undefined or null');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error uploading file:', error);
-                });
-
-        }
-    };
-
-    const fetchImages = () => {
-        listAll(imagesListRef).then((response) => {
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                });
-            });
-        });
-    }
-
     return (
         <>
             <div className="container">
-                <Title name="Ratings & Reviews" />
-
-                <h4>Rate this product</h4>
+                <Title className="title-text" name="Ratings & Reviews" />
+                <h4 style={{ color: '#053645' }}>Rate this product</h4>
                 <StarRating parentCallback={setRating} myProductRating={productReviewDetails.rating} />
                 <hr />
-
                 {
                     productReviewDetails.rating > 0
                         ?
@@ -148,8 +120,6 @@ const Review = (props) => {
                                 handleChange,
                                 handleBlur,
                                 values,
-                                touched,
-                                isValid,
                                 errors,
                             }) => (
                                 <Form noValidate onSubmit={handleSubmit}>
@@ -157,6 +127,7 @@ const Review = (props) => {
                                         <Form.Label>Title</Form.Label>
 
                                         <Form.Control
+                                            className='review-input'
                                             type="text"
                                             placeholder="Review title..."
                                             name="title"
@@ -175,6 +146,7 @@ const Review = (props) => {
 
                                         <Form.Control
                                             as="textarea"
+                                            className='review-textarea'
                                             rows={3}
                                             placeholder="Description..."
                                             name="description"
@@ -191,41 +163,43 @@ const Review = (props) => {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
                                         <Form.Label>Photos</Form.Label>
                                         <Form.Control
+                                            className='review-input'
                                             type="file"
-                                            multiple accept="image/*, video/*"
+                                            accept="image/*, video/*"
                                             onChange={handleMediaChange}
-                                        // onChange={(event) => {
-                                        //     setImageUpload(event.target.files);
-                                        // }}
                                         />
+                                        <div className="">
+                                            {imageUrls.length != 0 ? (
+                                                <img src={imageUrls} style={{
+                                                    height: "auto",
+                                                    width: "250px"
+                                                }} className="img-fluid mt-3" alt="product" />
+                                            ) : null}
+                                        </div>
                                         {selectedFiles.map((file, index) => (
-                                            <div key={index}>
-                                                <p>Selected File {index + 1}:</p>
+                                            <div className='d-flex flex-column my-3' key={index}>
+                                                <strong className='mb-2'>Selected File {index + 1}:</strong>
                                                 {file.type.startsWith('image/') ? (
-                                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "200px", width: "200px" }} />
+                                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
                                                 ) : file.type.startsWith('video/') ? (
-                                                    <video src={URL.createObjectURL(file)} controls rounded style={{ height: "200px", width: "200px" }} />
+                                                    <video src={URL.createObjectURL(file)} controls rounded style={{ height: "auto", width: "250px" }} />
                                                 ) : null}
-                                                <button onClick={() => handleFileRemove(index)}>Remove</button>
+                                                <Button className="mt-2" onClick={() => handleFileRemove(index)} style={{
+                                                    width: '100px',
+                                                    backgroundColor: 'rgb(5, 54, 69)',
+                                                    border: 'none'
+                                                }}>Remove</Button>
                                             </div>
                                         ))}
                                     </Form.Group>
-                                    <ButtonContainer type="submit" style={{ "float": "right" }}>
-                                        <i className="fas fa-user">Submit</i>
-                                    </ButtonContainer>
-                                    <Row>
-                                        <Col xs={6} md={4}>
-                                            {
-                                                imageUrls.map((url) => {
-                                                    return <Image
-                                                        src={url}
-                                                        rounded style={{ height: "200px", width: "200px" }}
-                                                    />
-                                                })
-                                            }
-                                        </Col>
-                                    </Row>
-
+                                    <Button type="submit" style={{
+                                        backgroundColor: 'rgb(5, 54, 69)',
+                                        border: 'none',
+                                        float: 'right',
+                                        marginBottom: '50px'
+                                    }}>
+                                        <i className="fas fa-user">&ensp;Submit</i>
+                                    </Button>
                                 </Form>
                             )}
                         </Formik >

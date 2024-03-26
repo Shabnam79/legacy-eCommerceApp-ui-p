@@ -1,26 +1,25 @@
-import React,{ useEffect,useContext } from 'react'
-import Title from '../Title';
-import CartColumns from './CartColumns';
+import React, { useEffect, useContext } from 'react'
 import EmptyCart from './EmptyCart';
 import CartList from './CartList';
 import CartTotals from "./CartTotals";
 import { useDispatch, useSelector } from 'react-redux';
 import userContext from "../../utils/userContext";
+import { fetchCartProducts } from '../../utils/cartSlice'
+import { toast } from "react-toastify";
 
-import {fetchCartProducts} from '../../utils/cartSlice'
-
-
-
-
-const Store = ({ history }) => {
+const Cart = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext);
 
     useEffect(() => {
-        dispatch(fetchCartProducts(user.userId));
-        document.title = "Shopping Cart";  
-    }, []);
+        if (user.userId) {
+            dispatch(fetchCartProducts(user.userId));
+        } else {
+            console.log("Please login to see past Cart products");
+        }
+        document.title = "Shopping Cart";
+    }, [user.userId]);
 
     return (
         <section>
@@ -28,10 +27,15 @@ const Store = ({ history }) => {
                 cartItems.cart.length > 0
                     ?
                     <React.Fragment>
-                        <Title name="your" title="cart" />
-                        <CartColumns />
-                        <CartList value={cartItems} />
-                        <CartTotals value={cartItems} history={history} />
+                        <center className='mt-5'>
+                            <h1 className='text-title'>Shopping Cart</h1>
+                        </center>
+                        <div className='mt-5 container'>
+                            <div className='d-flex justify-content-between'>
+                                <CartList value={cartItems} />
+                                <CartTotals value={cartItems} history={history} />
+                            </div>
+                        </div>
                     </React.Fragment>
                     :
                     <EmptyCart />
@@ -40,4 +44,4 @@ const Store = ({ history }) => {
     );
 }
 
-export default Store;
+export default Cart;

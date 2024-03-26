@@ -4,73 +4,51 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import userContext from '../../utils/userContext';
 import { useParams } from 'react-router-dom';
-import { getCategoryServiceByUserId, updateCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
-import { Link } from 'react-router-dom';
+import { getCategoryByCategoryIdService, updateCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function EditCategory() {
 
-  const { user } = useContext(userContext);
-  const [CategoryData, setCategoryData] = useState("");
-  let { categoryId } = useParams();
+    const navigate = useNavigate();
+    const { user } = useContext(userContext);
+    const [CategoryData, setCategoryData] = useState("");
+    let { categoryId } = useParams();
 
 
-  useEffect(() => {
-      fetchProductCategoryData(categoryId);
-      document.title = "Admin - Edit Category"
-  }, [user.userId]);
+    useEffect(() => {
+        fetchProductCategoryData(categoryId);
+        document.title = "Admin - Edit Category"
+    }, []);
 
-  const fetchProductCategoryData = async (categoryId) => {
-      if (user.userId) {
-          let data = await getCategoryServiceByUserId(user.userId);
-          if (data != undefined) {
-           
-          let filteredCategoryData = data.filter(x => x.id == categoryId).map(x => x.Category)[0];
-            setCategoryData(filteredCategoryData);
-          }
-      } else {
-          console.log("Please login to see past Cart category");
-      }
-  }
+    const fetchProductCategoryData = async (categoryId) => {
 
-
-  const handleInputChange = (event) => {
-        setCategoryData(event.target.value);
-  };
-
-
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-
-      if (user.userId) {
-        let data = await getCategoryServiceByUserId(user.userId);
+        let data = await getCategoryByCategoryIdService(categoryId);
         if (data != undefined) {
-           
-        let filteredCategoryData = data.filter(x => x.Category.toUpperCase() == CategoryData.toUpperCase()).map(x => x.id)[0];
-           if (filteredCategoryData == undefined) {
-               await updateCategoryIntoProductCategoryService(CategoryData, categoryId,user.userId);
-                toast.success('Category updated in admin list', {
-                    autoClose: 1000,
-                });
-            }
-            else{
-                toast.warning('Category already added in admin list ', {
-                    autoClose: 3000,
-                });
-                return;
-            }
+            setCategoryData(data);
         }
-    } else {
-        console.log("Please login to see past Cart category");
-    } 
-  }
+    }
 
-  return (
-            <> 
-                <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                   
+    const handleInputChange = (event) => {
+        setCategoryData(event.target.value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
+        toast.success('Category updated in admin list', {
+            autoClose: 1000,
+        });
+        navigate('/admin/CategoryList');
+    }
+
+    return (
+        <>
+            <div className='container mt-5'>
+                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
                     <Form.Group className='mb-3'>
                         <Form.Control
+                            className='editcategory-input'
                             type='text'
                             name="category"
                             value={CategoryData}
@@ -79,12 +57,18 @@ export default function EditCategory() {
                             onChange={handleInputChange}
                         />
                     </Form.Group>
-                    
-                    <Button type='submit'>Update</Button>
+                    <Button type='submit' style={{
+                        backgroundColor: 'rgb(5, 54, 69)',
+                        border: 'none'
+                    }}>Update</Button>
                     <Link to={`/admin/CategoryList`}>
-                    <Button className="btn btn-primary mx-3">Back to Category List</Button>
-                </Link>
+                        <Button className="btn btn-primary mx-3" style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Back to Category List</Button>
+                    </Link>
                 </Form>
-          </>
-  )
+            </div>
+        </>
+    )
 }

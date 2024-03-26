@@ -6,34 +6,34 @@ import userContext from '../../utils/userContext';
 import { useParams } from 'react-router-dom';
 import { getCategoryService, getProductByProductIdService, saveUpdateProductStore } from '../../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
-import { v4 as uuid } from "uuid";
-import { storage } from "../../firebase/config/firebase.config"
-import { Col, Image, Row } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 function EditProducts() {
-    const { user } = useContext(userContext);
 
+    const borderHello = { border: "none" };
+
+    const { user } = useContext(userContext);
+    const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
         category: '',
         categoryId: '',
         title: '',
         price: '',
-        quantity:'',
+        quantity: '',
         info: '',
         company: '',
-        isStock:true,
+        isStock: true,
         userId: user.userId,
-        productId:'',
-        img:''
-        
+        productId: '',
+        count: 0
+
     });
 
     let { productId } = useParams();
 
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
-    const [ProductIdValue, setProductIdValue] = useState('');
+    const [idValue, setIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
     const [CategoryIdValue, setCategoryIdValue] = useState('');
 
@@ -45,7 +45,6 @@ function EditProducts() {
     useEffect(() => {
         fetchStoreProductData(productId);
         fetchCategorylist();
-        GetProductGUID();
         document.title = "Admin - Edit Product"
     }, [user.userId]);
 
@@ -56,10 +55,12 @@ function EditProducts() {
         info: '',
         price: '',
         title: '',
-        isStock:true,
+        isStock: true,
         userId: user.userId,
-        productId:'',
-        quantity:''
+        productId: '',
+        quantity: '',
+        count: 0,
+        id: ''
     });
 
     const fetchCategorylist = async () => {
@@ -76,28 +77,33 @@ function EditProducts() {
     }
 
     const fetchStoreProductData = async (productId) => {
-        if (user.userId) {
-            let data = await getProductByProductIdService(productId);
-            if (data != undefined) {
-                setProductData(data[0]);
-                setSelectedValue(data[0].category);
-                setCategoryIdValue(data[0].categoryId);
-                setIsStockValue(data[0].isStock);
-                setProductIdValue(data[0].productId);
-            }
-        } else {
-            console.log("Please login to see past Cart products");
+
+        let data = await getProductByProductIdService(productId);
+        if (data != undefined) {
+            setProductData(data);
+            setSelectedValue(data.category);
+            setCategoryIdValue(data.categoryId);
+            setIsStockValue(data.isStock);
+            setIdValue(data.id);
+            setImageUrls(data.img);
         }
     }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setProductData((prevName) => ({
-            ...prevName,
-
+            company: prevName.company,
+            info: prevName.info,
+            price: prevName.price,
+            title: prevName.title,
+            isStock: prevName.isStock,
+            userId: user.userId,
+            productId: prevName.productId,
+            quantity: prevName.quantity,
+            count: prevName.count,
             categoryId: CategoryIdValue,
             category: selectedValue,
-            isStock : isStockValue,
+            isStock: isStockValue,
             [name]: value
         }));
     };
@@ -105,18 +111,31 @@ function EditProducts() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let addToCartProductObj = {
-            ...ProductData,
+            company: ProductData.company,
+            info: ProductData.info,
+            price: ProductData.price,
+            title: ProductData.title,
+            isStock: ProductData.isStock,
+            userId: user.userId,
+            productId: ProductData.productId,
+            quantity: ProductData.quantity,
+            count: ProductData.count,
             categoryId: CategoryIdValue,
             category: selectedValue,
-            isStock : isStockValue
+            isStock: isStockValue,
+            id: idValue
         };
-        
-        await saveUpdateProductStore(addToCartProductObj);
-        
+        if (!imageUpload || imageUpload.length == 0) {
+            await saveUpdateProductStore(addToCartProductObj);
+        }
+        else {
+            await saveUpdateProductStore(addToCartProductObj, imageUpload[0]);
+        }
+
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
         });
-        uploadFile();
+        navigate('/admin');
     }
 
     const handleMediaChange = (e) => {
@@ -126,101 +145,63 @@ function EditProducts() {
 
     };
 
-    const uploadFile = () => {
-        if (imageUpload.length == 0) return;
-        for (let index = 0; index < imageUpload.length; index++) {
-            const imageRef = ref(storage, `ProductImages/${ProductIdValue}/${imageUpload[index].name}`);
-            debugger
-            uploadBytes(imageRef, imageUpload[index]).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                    fetchProductDataForImage(ProductIdValue, url);
-                });
-            });
-        }
-    };
-
-    const fetchProductDataForImage = async (productId, url) => {
-        if (user.userId) {
-            let data = await getProductByProductIdService(productId);
-            if (data != undefined) {
-                let updateImageToProductObj ={
-                    category:data[0].category,
-                    categoryId:data[0].categoryId,
-                    info:data[0].info,
-                    company:data[0].company,
-                    price:data[0].price,
-                    quantity:data[0].quantity,
-                    title:data[0].title,
-                    isStock:data[0].isStock,
-                    id:data[0].id,
-                    productId:ProductIdValue,
-                    userId:user.userId,
-                    img : url,
-                };
-                saveUpdateProductStore(updateImageToProductObj);
-            }
-        } else {
-            console.log("Please login to see past Cart products");
-        }
-    }
-
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
 
-    const GetProductGUID = () => {
-        // Generate New unique id for Product Id
-        const unique_id = uuid();
-        setProductIdValue(unique_id);
-}
-
     return (
-            <> 
-               <Form className='d-grid gap-2' style={{ margin: '15rem' }} onSubmit={(e) => handleSubmit(e)}>
-                    <div className="container my-3">
-                            <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                                <Dropdown.Toggle  id="dropdown-basic">
-                                        {selectedValue || 'Select Categories'}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {dropdown.map((item) => (
-                                        <Dropdown.Item  eventKey={item.id}>{item.Category}</Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>     
+        <>
+            <div className='container my-5'>
+                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
+                    <div className="my-3">
+                        <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                            <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
+                                {selectedValue || 'Select Categories'}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
+                                {dropdown.map((item) => (
+                                    <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                     <Form.Group className='mb-3' controlId='FormImage'>
-                    <Form.Label>Upload Product Image :</Form.Label>
+                        <Form.Label><b>Upload Product Image:</b></Form.Label>
                         <Form.Control
                             type='file'
+                            className='editproduct-input'
                             name="img"
                             placeholder='Upload image'
-                            multiple accept="image/*"
+                            accept="image/*"
                             onChange={handleMediaChange}
                         />
-                        <div className="container my-3">
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <img src={ProductData.img}  style={{ width: "10rem", height: "10rem" }} className="img-fluid" alt="product" />
-                                </Col>        
-                            </Row>
+                        <div className="d-flex flex-column my-3">
+                            <img src={imageUrls} style={{
+                                height: "auto",
+                                width: "250px"
+                            }} className="img-fluid" alt="product" />
+
                         </div>
-                         {selectedFiles.map((file, index) => (
-                                <div key={index}>
-                                    <p>Selected File {index + 1}:</p>
-                                        {file.type.startsWith('image/') ? (
-                                        <img src={URL.createObjectURL(file)} alt="Selected"  rounded style={{ height: "200px", width: "200px" }} />
-                                        ) : null}
-                                    <button onClick={() => handleFileRemove(index)}>Remove</button>
-                                </div>
-                        ))} 
+                        {selectedFiles.map((file, index) => (
+                            <div className='d-flex flex-column my-3' key={index}>
+                                <strong className='mb-2'>Selected File {index + 1}:</strong>
+                                {file.type.startsWith('image/') ? (
+                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
+                                ) : null}
+                                <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
+                                    width: '100px',
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Remove</Button>
+                            </div>
+                        ))}
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormName'>
-                    <Form.Label>Enter Product Name :</Form.Label>
+                        <Form.Label><b>Enter Product Name:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='text'
                             name="title"
                             value={ProductData.title}
@@ -230,8 +211,9 @@ function EditProducts() {
                         />
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormPrice'>
-                    <Form.Label>Enter Product Price :</Form.Label>
+                        <Form.Label><b>Enter Product Price:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='number'
                             name="price"
                             value={ProductData.price}
@@ -241,8 +223,9 @@ function EditProducts() {
                         />
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormQuantity'>
-                    <Form.Label>Enter Quantity of Product :</Form.Label>
+                        <Form.Label><b>Enter Quantity of Product:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='number'
                             name="quantity"
                             value={ProductData.quantity}
@@ -252,52 +235,56 @@ function EditProducts() {
                         />
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormDescription'>
-                    <Form.Label>Enter Product Description :</Form.Label>
+                        <Form.Label><b>Enter Product Description:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-textarea'
                             as="textarea"
                             rows={3}
                             placeholder="Enter Product Description..."
                             name="info"
                             value={ProductData.info}
                             onChange={handleInputChange}
-                            />
+                        />
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormCompany'>
-                    <Form.Label>Enter Product Company :</Form.Label>
+                        <Form.Label><b>Enter Product Company:</b></Form.Label>
                         <Form.Control
+                            className='editproduct-input'
                             type='text'
                             name="company"
                             value={ProductData.company}
                             placeholder='Enter Product Company...'
                             required
                             onChange={handleInputChange}
-                            />
+                        />
                     </Form.Group>
                     <Form.Group className='mb-3' controlId='FormisStock'>
-                        <div className="container text-left">
-                            <div className="row">
-                                <div className="col-md-auto">
-                                <Form.Label><b>In Stock :</b></Form.Label>
-                                </div>
-                                <div class="col-md-auto">
-                                <Form.Check
-                                    type='checkbox'
-                                    name="isStock"
-                                    checked={isStockValue}
-                                    placeholder='Select Stock...'
-                                    onChange={(e) => {
-                                        debugger
-                                        setIsStockValue(e.target.checked)
-                                        debugger
-                                    }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        <Form.Label><b>In Stock:</b></Form.Label>
+                        <Form.Check
+                            type='checkbox'
+                            name="isStock"
+                            style={{ marginLeft: "95px", marginTop: "-29px" }}
+                            checked={isStockValue}
+                            placeholder='Select Stock...'
+                            onChange={(e) => {
+                                setIsStockValue(e.target.checked)
+                            }}
+                        />
                     </Form.Group>
-                    <Button type='submit'>Update</Button>
-                    
-            </Form>
+                    <div className='pt-3'>
+                        <Button type='submit' style={{
+                            backgroundColor: 'rgb(5, 54, 69)',
+                            border: 'none'
+                        }}>Update</Button>
+                        <Link to={`/admin`}>
+                            <Button className="btn btn-primary mx-3" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Back to Product List</Button>
+                        </Link>
+                    </div>
+                </Form>
+            </div>
         </>
     )
 }
