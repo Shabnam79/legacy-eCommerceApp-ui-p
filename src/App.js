@@ -15,7 +15,7 @@ import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
 import Dashboard from './components/Admin/dashboard';
 import { Provider } from 'react-redux';
-import store from './utils/store';
+import {store, persistedStore} from './utils/store';
 import Signup from './components/Signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,6 +32,7 @@ import CreateUsers from './components/Admin/CreateUsers';
 import EditUsers from './components/Admin/EditUsers';
 import { variables } from "../src/utils/variables";
 import Footer from './components/Footer';
+import { PersistGate } from 'redux-persist/integration/react'
 
 function App() {
   const [user, setUser] = useState({});
@@ -55,6 +56,7 @@ function App() {
   return (
     <React.Fragment>
       <Provider store={store}>
+      <PersistGate persistor={persistedStore}>
         <userContext.Provider
           value={{
             user: user,
@@ -166,6 +168,7 @@ function App() {
           </div>
           <Modal />
         </userContext.Provider>
+       </PersistGate>
       </Provider>
       <ToastContainer />
       <Footer />
