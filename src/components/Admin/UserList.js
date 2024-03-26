@@ -13,6 +13,7 @@ export default function UserList() {
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
         fetchUserData();
@@ -22,7 +23,7 @@ export default function UserList() {
     const fetchUserData = async () => {
         if (user.userId) {
             setTimeout(async () => {
-        let data = await getUserData();
+                let data = await getUserData();
                 if (data != undefined) {
                     setUserData(data);
                     setLoading(false);
@@ -63,17 +64,24 @@ export default function UserList() {
         fetchUserData();
     };
 
+    const filteredUserData = UserData ? UserData.filter(item =>
+        (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
+    ) : [];
+
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 <div className='container mt-5'>
                     <div className='d-flex flex-column'>
-                        <Link className='d-grid gap-2' to='/admin/CreateUsers'>
-                            <Button className="mb-3" style={{
-                                backgroundColor: 'rgb(5, 54, 69)',
-                                border: 'none'
-                            }}>Create User</Button>
-                        </Link>
+                        <div className='d-flex justify-content-between'>
+                            <Link className='d-grid gap-2' to='/admin/CreateUsers'>
+                                <Button className="mb-3" style={{
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Create User</Button>
+                            </Link>
+                            <input type='text' className='searchbar-input mb-3' placeholder='Search Product...' onChange={(e) => setSearchInput(e.target.value)} />
+                        </div>
                         <Table striped bordered hover size='sm'>
                             <thead>
                                 <tr>
@@ -85,31 +93,29 @@ export default function UserList() {
                             </thead>
                             <tbody>
                                 {
-                                    UserData && UserData.length > 0 ? UserData.map((item) => {
-                                        return (
-                                            <tr>
-                                                <td>{item.userName}</td>
-                                                <td>{item.email}</td>
-                                                <td>{item.role}</td>
-                                                <td className='d-flex justify-content-center'>
-                                                    <div className='d-flex justify-content-end w-100 mr-1'>
-                                                        <Link to={`/admin/EditUsers/${item.UID}`}>
-                                                            <Button style={{
-                                                                backgroundColor: 'rgb(5, 54, 69)',
-                                                                border: 'none'
-                                                            }}>EDIT</Button>
-                                                        </Link>
-                                                    </div>
-                                                    <div className='d-flex justify-content-start w-100 ml-1'>
+                                    filteredUserData.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.userName}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.role}</td>
+                                            <td className='d-flex justify-content-center'>
+                                                <div className='d-flex justify-content-end w-100 mr-1'>
+                                                    <Link to={`/admin/EditUsers/${item.UID}`}>
                                                         <Button style={{
                                                             backgroundColor: 'rgb(5, 54, 69)',
                                                             border: 'none'
-                                                        }} onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    }) : null
+                                                        }}>EDIT</Button>
+                                                    </Link>
+                                                </div>
+                                                <div className='d-flex justify-content-start w-100 ml-1'>
+                                                    <Button style={{
+                                                        backgroundColor: 'rgb(5, 54, 69)',
+                                                        border: 'none'
+                                                    }} onClick={() => UserActive(item)}>{item.isActive == true ? "Active" : "Inactive"}</Button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
                                 }
                             </tbody>
                         </Table>

@@ -11,8 +11,8 @@ const Footer = () => {
                             <div className="col-xl-4 col-lg-4 mb-50">
                                 <div className="footer-widget">
                                     <div className="footer-logo">
-                                        <a href="index.html">
-                                            <img src={require('../TX-Logo.png')} className="img-fluid" alt="logo" />
+                                        <a href="/">
+                                            <img src={require('../TX-Logo.png')} style={{ backgroundColor: '#fff', padding: '7.5px 10px' }} className="img-fluid" alt="logo" />
                                         </a>
                                     </div>
                                     <div className="footer-text">
