@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { getCategoryService } from '../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
 import LoadingOverlay from 'react-loading-overlay';
+import { variables } from '../utils/variables';
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,10 @@ const ProductList = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    //const [productsPerPage] = useState(18);
 
+    const productsPerPage = variables.PAGINATION_ProductList.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
         fetchCategorylist();
@@ -28,6 +32,15 @@ const ProductList = () => {
         console.log(searchTerm)
         //   filterProductsBySearchTerm(searchTerm)
     }, []);
+
+    useEffect(() => {
+        const fetchProductData = async () => {
+            setLoading(true);
+            await dispatch(fetchProducts(''));
+            setLoading(false);
+        };
+        fetchProductData();
+    }, [dispatch]);
 
     useEffect(() => {
         setFilteredProducts(
@@ -60,6 +73,16 @@ const ProductList = () => {
     const SearchTerm = (e) => {
         setSearchTerm(e)
     }
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Logic to get current products
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
@@ -91,13 +114,26 @@ const ProductList = () => {
                             <div className='container'>
                                 <div className='mt-1 row'>
                                     {
-                                        filteredProducts.map((product) => (
+                                        currentProducts.map((product) => (
                                             <Link to='/details' className='my-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 product-card' key={product.id}>
                                                 <Product product={product} />
                                             </Link>
                                         ))
                                     }
                                 </div>
+                            </div>
+                            <div className='w-100'>
+                                <ul className='pagination justify-content-center'>
+                                    {
+                                        Array.from({ length: Math.ceil(filteredProducts.length / productsPerPage) }).map((_, index) => (
+                                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                                <button onClick={() => handlePageChange(index + 1)} className='pagination-button'>
+                                                    {index + 1}
+                                                </button>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
                             </div>
                         </div>
                     </div>

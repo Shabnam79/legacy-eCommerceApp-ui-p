@@ -4,5 +4,14 @@ export const variables = {
     //Development
     //API_URL: "https://localhost:7125/api/",
     ROLE_ADMIN: "HPlNPNZm2YT24N4CK5rG",
-    ROLE_CUSTOMER: "tMcXpUvDofmo6DVMtBeD"
+    ROLE_CUSTOMER: "tMcXpUvDofmo6DVMtBeD",
+    PAGINATION_ProductList: {
+        PRODUCTS_PER_PAGE: 18,
+    },
+    PAGINATION_ProductListAdmin: {
+        PRODUCTS_PER_PAGE: 10,
+    },
+    PAGINATION_UserListAdmin: {
+        PRODUCTS_PER_PAGE: 25,
+    },
 }

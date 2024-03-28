@@ -585,3 +585,32 @@ ul {
   font-size: 14px;
   color: #878787;
 }
+
+.pagination-button {
+  padding: 5px 15px;
+  margin: 0px 2.5px;
+  backdrop-filter: blur(8px);
+  background: rgba(243, 243, 243, 0.24);
+  box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 10px 0px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  outline: none;
+}
+
+.pagination-button:hover {
+  border-bottom: 2px solid #053645;
+}
+
+.pagination-button:focus {
+  outline: none;
+}
+
+.active .pagination-button {
+  border-bottom: 2px solid #053645;
+}
+
+.ReadMoreLess {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}

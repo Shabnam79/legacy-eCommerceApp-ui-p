@@ -14,6 +14,10 @@ export default function UserList() {
     const [UserData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchInput, setSearchInput] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    // const productsPerPage = 25;
+
+    const productsPerPage = variables.PAGINATION_UserListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
         fetchUserData();
@@ -68,6 +72,14 @@ export default function UserList() {
         (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
     ) : [];
 
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredUserData.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(filteredUserData.length / productsPerPage);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
@@ -93,7 +105,7 @@ export default function UserList() {
                             </thead>
                             <tbody>
                                 {
-                                    filteredUserData.map((item, index) => (
+                                    currentProducts.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.userName}</td>
                                             <td>{item.email}</td>
@@ -119,6 +131,19 @@ export default function UserList() {
                                 }
                             </tbody>
                         </Table>
+                        <div className='w-100'>
+                            <ul className="pagination justify-content-center">
+                                {
+                                    Array.from({ length: totalPages }, (_, i) => (
+                                        <li key={i + 1} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
+                                            <button onClick={() => paginate(i + 1)} className="pagination-button">
+                                                {i + 1}
+                                            </button>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </LoadingOverlay>
