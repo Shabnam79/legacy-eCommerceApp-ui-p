@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@preset-sdk/embedded": "^0.1.10",
     "@reduxjs/toolkit": "^1.9.6",
     "axios": "^1.6.5",
     "bootstrap": "^4.3.1",

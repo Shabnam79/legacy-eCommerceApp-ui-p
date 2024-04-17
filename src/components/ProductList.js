@@ -9,6 +9,7 @@ import { getCategoryService } from '../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
 import LoadingOverlay from 'react-loading-overlay';
 import { variables } from '../utils/variables';
+import Carousel from 'react-bootstrap/Carousel';
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -24,6 +25,24 @@ const ProductList = () => {
     //const [productsPerPage] = useState(18);
 
     const productsPerPage = variables.PAGINATION_ProductList.PRODUCTS_PER_PAGE;
+
+    const carouselImages = [
+        require('../carouselimage/Carousel-1.png'),
+        require('../carouselimage/Carousel-2.png'),
+        require('../carouselimage/Carousel-3.png'),
+        require('../carouselimage/Carousel-4.png'),
+        require('../carouselimage/Carousel-5.png'),
+        require('../carouselimage/Carousel-6.png')
+    ];
+
+    // Index state to track current image
+    const [index, setIndex] = useState(0);
+
+    // Function to handle slide change
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex);
+    };
+
 
     useEffect(() => {
         fetchCategorylist();
@@ -87,8 +106,21 @@ const ProductList = () => {
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 <div className="py-5">
-                    <div className="container">
-                        <div className="row">
+                    <div className="">
+                        <div className="row m-0">
+                            <div className='carousel-area'>
+                                <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}> {/* Set interval to 3 seconds */}
+                                    {carouselImages.map((image, idx) => (
+                                        <Carousel.Item key={idx}>
+                                            <img
+                                                className="d-block w-100"
+                                                src={image}
+                                                alt={`Slide ${idx}`}
+                                            />
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            </div>
                             <div className="container-fluid d-flex justify-content-center">
                                 <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                                     <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: '#053645' }}>
@@ -111,11 +143,11 @@ const ProductList = () => {
                                     placeholder='Search your product...' />
                                 <button className='searchbar-button'>&#128269;</button>
                             </div>
-                            <div className='container'>
-                                <div className='mt-1 row'>
+                            <div className='px-5'>
+                                <div className='mt-1 row' style={{ justifyContent: 'space-evenly' }}>
                                     {
                                         currentProducts.map((product) => (
-                                            <Link to='/details' className='my-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 product-card' key={product.id}>
+                                            <Link to='/details' className='my-4 product-card' key={product.id}>
                                                 <Product product={product} />
                                             </Link>
                                         ))

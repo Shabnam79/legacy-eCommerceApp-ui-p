@@ -61,7 +61,6 @@ const Login = () => {
                     data: payload,
 
                 }).then((response) => {
-                    debugger
                     let userData = {
                         userId: response.data.localId,
                         email: response.data.email,

@@ -36,7 +36,6 @@ export default function EditUsers() {
     });
  
     useEffect(() => {
-        debugger
         fetchUserData(UserRoleId);
         fetchRolelist();
         document.title = "Admin - Edit Users"
@@ -57,7 +56,6 @@ export default function EditUsers() {
     }
  
     const fetchUserData = async (UserRoleId) => {
-        debugger
         let data = await getUserDataByIdService(UserRoleId);
         if (data != undefined) {
             setUserRoleData(data);
@@ -80,7 +78,6 @@ export default function EditUsers() {
     };
  
     const handleSubmit = async (e) => {
-        debugger
         e.preventDefault();
         let addToUserRoleObj = {
             roleId: RoleIdValue,

@@ -33,18 +33,18 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
                 <div className="" style={{ height: '325px', padding: '0.75rem' }}>
                     <img src={img} style={{ width: "100%", height: '100%' }} className="img-fluid" alt="product" />
                 </div>
-                <div className='d-flex justify-content-between' style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
-                    <div className='d-flex flex-column'>
-                        <span className='' id="spWishlistTitle" style={{ fontSize: '20px', fontWeight: 'bold', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{title}</span>
+                <div className='d-flex justify-content-between' style={{ padding: '0 0.75rem 0.75rem 0.75rem', height: '115px' }}>
+                    <div className='d-flex flex-column' style={{ width: '80%' }}>
+                        <span className='' id="spWishlistTitle" style={{ fontSize: '1rem', fontWeight: 'bold', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{title}</span>
                         <div style={{ color: 'rgb(5, 54, 69)' }}>
                             <span style={{ ...fontsize }}>By: </span>
                             <span id="spWishlistCompany"><b>{company}</b></span>
                         </div>
                     </div>
-                    <b style={{ color: 'rgb(5, 54, 69)' }}>
+                    <strong className='text-right' style={{ color: 'rgb(5, 54, 69)', width: '15%' }}>
                         <span>$ </span>
                         <span id="spWishlistCompany">{price}</span>
-                    </b>
+                    </strong>
                 </div>
                 <div className="d-flex justify-content-end" style={{ padding: '0 0.75rem 0.75rem 0.75rem' }}>
                     <div className="d-flex justify-content-center cart-icon w-25 p-2 wishlist-card-trash-button" data-testid="trash-icon" onClick={() => removeProductHandler(item)}>

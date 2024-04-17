@@ -95,9 +95,31 @@ function AddProducts() {
  
  
     const handleMediaChange = (e) => {
-        setImageUpload(e.target.files);
         const files = Array.from(e.target.files);
-        setSelectedFiles([...selectedFiles, ...files]);
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        const maxSizeKB = 300; // Maximum size allowed in KB
+        const minSizeKB = 100; // Minimum size allowed in KB
+
+        const isValidFiles = files.every((file) => {
+            if (!allowedTypes.includes(file.type)) {
+                toast.error(`${file.name} is not a valid image file. Please upload .png, .jpg, or .jpeg files.`);
+                return false;
+            }
+
+            const fileSizeKB = file.size / 1024; // Convert bytes to KB
+            if (fileSizeKB < minSizeKB || fileSizeKB > maxSizeKB) {
+                toast.error(`${file.name} size is not within the allowed range (100KB - 300KB).`);
+                return false;
+            }
+            return true;
+        });
+
+        if (isValidFiles) {
+            setImageUpload(files);
+            setSelectedFiles([...selectedFiles, ...files]);
+        } else {
+            e.target.value = null;
+        }
     };
  
     const handleFileRemove = (index) => {

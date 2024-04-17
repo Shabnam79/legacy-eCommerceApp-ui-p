@@ -19,7 +19,6 @@ const ProductWishlist = () => {
 
     useEffect(() => {
         if (user.userId) {
-            debugger
             dispatch(fetchWishlistProducts(user.userId));
             setLoading(false);
         } else {

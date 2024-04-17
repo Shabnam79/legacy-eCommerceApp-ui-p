@@ -7,7 +7,6 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import { combineReducers } from 'redux'
 
 //import rootReducer from './reducers'
-debugger
 const persistConfig = {
     timeout: 500,
     key: 'root',

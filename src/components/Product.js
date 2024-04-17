@@ -12,7 +12,6 @@ import { FaHeart } from 'react-icons/fa';
 
 
 const Product = ({ product }) => {
-    debugger
     const { title, img, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
@@ -117,7 +116,7 @@ const Product = ({ product }) => {
         <ProducrWrapper className="tx-product-card">
             <div className="" onClick={() => handleProductDetails(product)}>
                 <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <img src={img} alt="product" className="h-100 w-auto" />
+                    <img src={img} alt="product" className="h-100 w-100" style={{ objectFit: 'cover' }} />
                 </Link>
             </div>
             <div className="my-2 d-flex align-items-start justify-content-between" style={{ height: '65px' }}>

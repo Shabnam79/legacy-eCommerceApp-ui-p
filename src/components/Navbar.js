@@ -50,7 +50,7 @@ const Navbar = () => {
             }}>
             <div className="navbar">
                 <Link to='/' className='d-flex align-items-center HomeButton'>
-                    <img id="Img-Logo" src={require('../TX-Logo.png')} width={'200px'} height={'50px'} alt="TX-Logo" className="navbar-brand" />
+                    <img id="Img-Logo" src={require('../TX-eComLogo-Cropped.png')} width={'50px'} height={'50px'} style={{ objectFit: 'cover' }} alt="TX-Logo" className="navbar-brand" />
                 </Link>
             </div>
             <div className="d-flex align-items-center" >
@@ -107,6 +107,7 @@ const Navbar = () => {
                                                     <Dropdown.Item href="/admin">Manage Product</Dropdown.Item>
                                                     <Dropdown.Item href="/admin/CategoryList">Manage Category</Dropdown.Item>
                                                     <Dropdown.Item href="/admin/UserList">Manage Users</Dropdown.Item>
+                                                    <Dropdown.Item href="/DashboardList">Dashboard</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </div>
                                         </Dropdown>

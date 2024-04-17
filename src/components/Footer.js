@@ -12,7 +12,7 @@ const Footer = () => {
                                 <div className="footer-widget">
                                     <div className="footer-logo">
                                         <a href="/">
-                                            <img src={require('../TX-Logo.png')} style={{ backgroundColor: '#fff', padding: '7.5px 10px' }} className="img-fluid" alt="logo" />
+                                            <img src={require('../TX-eComLogo-Cropped.png')} style={{ backgroundColor: '#fff', padding: '7.5px 10px' }} className="img-fluid" alt="logo" />
                                         </a>
                                     </div>
                                     <div className="footer-text">
@@ -26,7 +26,7 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                                <div className="footer-widget px-5">
+                                <div className="footer-widget">
                                     <div className="footer-widget-heading">
                                         <h3>Useful Links</h3>
                                     </div>
@@ -43,14 +43,19 @@ const Footer = () => {
                                     <div className="footer-widget-heading">
                                         <h3>TestingXperts Pvt. Ltd.</h3>
                                     </div>
-                                    <div className="footer-text mb-25">
-                                        <p>Don’t miss to buy good deals from our Application and kindly review us in the form below.</p>
+                                    <div className="footer-text">
+                                        <p>Don't miss out on great deals from our app! <br />
+                                            Make sure not to miss the fantastic deals available on our application. Take advantage of the great offers waiting for you to grab!
+                                        </p>
                                     </div>
-                                    <div className="subscribe-form">
-                                        <form action="#">
-                                            <textarea type="text" placeholder="Your Reviews" />
-                                            <button>Send Review</button>
-                                        </form>
+                                    <div className="footer-widget-heading">
+                                        <h3>Follow us on Social Media.</h3>
+                                    </div>
+                                    <div className='footer-text-icon'>
+                                        <i class="fab fa-facebook"></i>
+                                        <i class="fab fa-twitter"></i>
+                                        <i class="fab fa-linkedin"></i>
+                                        <i class="fab fa-youtube"></i>
                                     </div>
                                 </div>
                             </div>
