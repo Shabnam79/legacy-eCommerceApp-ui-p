@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { getCategoryService, getProductByProductIdService, saveUpdateProductStore } from '../../firebase/services/product.service';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
+import LoadingOverlay from 'react-loading-overlay';
 
 function EditProducts() {
 
@@ -36,6 +37,7 @@ function EditProducts() {
     const [idValue, setIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
     const [CategoryIdValue, setCategoryIdValue] = useState('');
+    const [loading, setLoading] = useState(false);
 
     //File Upload  State
     const [imageUpload, setImageUpload] = useState(null);
@@ -110,6 +112,7 @@ function EditProducts() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         let addToCartProductObj = {
             company: ProductData.company,
             info: ProductData.info,
@@ -131,6 +134,7 @@ function EditProducts() {
         else {
             await saveUpdateProductStore(addToCartProductObj, imageUpload[0]);
         }
+        setLoading(false);
 
         toast.success('Product Updated in admin list ', {
             autoClose: 1000,
@@ -139,11 +143,34 @@ function EditProducts() {
     }
 
     const handleMediaChange = (e) => {
-        setImageUpload(e.target.files);
-        const files = Array.from(e.target.files);
-        setSelectedFiles([...selectedFiles, ...files]);
+        const files = e.target.files;
+        const allowedTypes = ['image/jpeg', 'image/png']; // Allowed file types
+        const maxSizeKB = 300; // Maximum file size in KB
+        const minSizeKB = 100; // Minimum file size in KB
 
+        // Iterate through selected files
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileSizeKB = file.size / 1024; // File size in KB
+
+            // Check file type
+            if (!allowedTypes.includes(file.type)) {
+                toast.error('Only .png and .jpeg/.jpg files are allowed.');
+                return; // Stop further processing
+            }
+
+            // Check file size
+            if (fileSizeKB < minSizeKB || fileSizeKB > maxSizeKB) {
+                toast.error('File size must be between 100 KB and 300 KB.');
+                return; // Stop further processing
+            }
+        }
+
+        // If all files pass validation, update state
+        setImageUpload(files);
+        setSelectedFiles([...selectedFiles, ...Array.from(files)]);
     };
+
 
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
@@ -153,138 +180,141 @@ function EditProducts() {
 
     return (
         <>
-            <div className='container my-5'>
-                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
-                    <div className="my-3">
-                        <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                            <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
-                                {selectedValue || 'Select Categories'}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
-                                {dropdown.map((item) => (
-                                    <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                    <Form.Group className='mb-3' controlId='FormImage'>
-                        <Form.Label><b>Upload Product Image:</b></Form.Label>
-                        <Form.Control
-                            type='file'
-                            className='editproduct-input'
-                            name="img"
-                            placeholder='Upload image'
-                            accept="image/*"
-                            onChange={handleMediaChange}
-                        />
-                        <div className="d-flex flex-column my-3">
-                            <img src={imageUrls} style={{
-                                height: "auto",
-                                width: "250px"
-                            }} className="img-fluid" alt="product" />
-
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                <div className='container my-5'>
+                    <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
+                        <div className="my-3">
+                            <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                                <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
+                                    {selectedValue || 'Select Categories'}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
+                                    {dropdown.map((item) => (
+                                        <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
-                        {selectedFiles.map((file, index) => (
-                            <div className='d-flex flex-column my-3' key={index}>
-                                <strong className='mb-2'>Selected File {index + 1}:</strong>
-                                {file.type.startsWith('image/') ? (
-                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
-                                ) : null}
-                                <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
-                                    width: '100px',
-                                    backgroundColor: 'rgb(5, 54, 69)',
-                                    border: 'none'
-                                }}>Remove</Button>
+                        <Form.Group className='mb-3' controlId='FormImage'>
+                            <Form.Label><b>Upload Product Image:</b></Form.Label>
+                            <Form.Control
+                                type='file'
+                                className='editproduct-input'
+                                name="img"
+                                placeholder='Upload image'
+                                accept="image/*"
+                                onChange={handleMediaChange}
+                            />
+                            <p className='image-validation'>* Please upload .png, .jpg, or .jpeg files and size should be within the allowed range (100KB - 300KB).</p>
+                            <div className="d-flex flex-column my-3">
+                                <img src={imageUrls} style={{
+                                    height: "auto",
+                                    width: "250px"
+                                }} className="img-fluid" alt="product" />
+
                             </div>
-                        ))}
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormName'>
-                        <Form.Label><b>Enter Product Name:</b></Form.Label>
-                        <Form.Control
-                            className='editproduct-input'
-                            type='text'
-                            name="title"
-                            value={ProductData.title}
-                            placeholder='Enter Product Name'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormPrice'>
-                        <Form.Label><b>Enter Product Price:</b></Form.Label>
-                        <Form.Control
-                            className='editproduct-input'
-                            type='number'
-                            name="price"
-                            value={ProductData.price}
-                            placeholder='Enter product Price'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormQuantity'>
-                        <Form.Label><b>Enter Quantity of Product:</b></Form.Label>
-                        <Form.Control
-                            className='editproduct-input'
-                            type='number'
-                            name="quantity"
-                            value={ProductData.quantity}
-                            placeholder='Enter Quantity of Product'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormDescription'>
-                        <Form.Label><b>Enter Product Description:</b></Form.Label>
-                        <Form.Control
-                            className='editproduct-textarea'
-                            as="textarea"
-                            rows={3}
-                            placeholder="Enter Product Description..."
-                            name="info"
-                            value={ProductData.info}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormCompany'>
-                        <Form.Label><b>Enter Product Company:</b></Form.Label>
-                        <Form.Control
-                            className='editproduct-input'
-                            type='text'
-                            name="company"
-                            value={ProductData.company}
-                            placeholder='Enter Product Company...'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormisStock'>
-                        <Form.Label><b>In Stock:</b></Form.Label>
-                        <Form.Check
-                            type='checkbox'
-                            name="isStock"
-                            style={{ marginLeft: "95px", marginTop: "-29px" }}
-                            checked={isStockValue}
-                            placeholder='Select Stock...'
-                            onChange={(e) => {
-                                setIsStockValue(e.target.checked)
-                            }}
-                        />
-                    </Form.Group>
-                    <div className='pt-3'>
-                        <Button type='submit' style={{
-                            backgroundColor: 'rgb(5, 54, 69)',
-                            border: 'none'
-                        }}>Update</Button>
-                        <Link to={`/admin`}>
-                            <Button className="btn btn-primary mx-3" style={{
+                            {selectedFiles.map((file, index) => (
+                                <div className='d-flex flex-column my-3' key={index}>
+                                    <strong className='mb-2'>Selected File {index + 1}:</strong>
+                                    {file.type.startsWith('image/') ? (
+                                        <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
+                                    ) : null}
+                                    <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
+                                        width: '100px',
+                                        backgroundColor: 'rgb(5, 54, 69)',
+                                        border: 'none'
+                                    }}>Remove</Button>
+                                </div>
+                            ))}
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormName'>
+                            <Form.Label><b>Enter Product Name:</b></Form.Label>
+                            <Form.Control
+                                className='editproduct-input'
+                                type='text'
+                                name="title"
+                                value={ProductData.title}
+                                placeholder='Enter Product Name'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormPrice'>
+                            <Form.Label><b>Enter Product Price:</b></Form.Label>
+                            <Form.Control
+                                className='editproduct-input'
+                                type='number'
+                                name="price"
+                                value={ProductData.price}
+                                placeholder='Enter product Price'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormQuantity'>
+                            <Form.Label><b>Enter Quantity of Product:</b></Form.Label>
+                            <Form.Control
+                                className='editproduct-input'
+                                type='number'
+                                name="quantity"
+                                value={ProductData.quantity}
+                                placeholder='Enter Quantity of Product'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormDescription'>
+                            <Form.Label><b>Enter Product Description:</b></Form.Label>
+                            <Form.Control
+                                className='editproduct-textarea'
+                                as="textarea"
+                                rows={3}
+                                placeholder="Enter Product Description..."
+                                name="info"
+                                value={ProductData.info}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormCompany'>
+                            <Form.Label><b>Enter Product Company:</b></Form.Label>
+                            <Form.Control
+                                className='editproduct-input'
+                                type='text'
+                                name="company"
+                                value={ProductData.company}
+                                placeholder='Enter Product Company...'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormisStock'>
+                            <Form.Label><b>In Stock:</b></Form.Label>
+                            <Form.Check
+                                type='checkbox'
+                                name="isStock"
+                                style={{ marginLeft: "95px", marginTop: "-29px" }}
+                                checked={isStockValue}
+                                placeholder='Select Stock...'
+                                onChange={(e) => {
+                                    setIsStockValue(e.target.checked)
+                                }}
+                            />
+                        </Form.Group>
+                        <div className='pt-3'>
+                            <Button type='submit' style={{
                                 backgroundColor: 'rgb(5, 54, 69)',
                                 border: 'none'
-                            }}>Back to Product List</Button>
-                        </Link>
-                    </div>
-                </Form>
-            </div>
+                            }}>Update</Button>
+                            <Link to={`/admin`}>
+                                <Button className="btn btn-primary mx-3" style={{
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Back to Product List</Button>
+                            </Link>
+                        </div>
+                    </Form>
+                </div>
+            </LoadingOverlay>
         </>
     )
 }

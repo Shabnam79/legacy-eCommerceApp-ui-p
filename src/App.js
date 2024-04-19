@@ -119,6 +119,8 @@ function App() {
                       <Route path="/admin/UserList" element={<UserList />} />
                       <Route path="/admin/CreateUsers" element={<CreateUsers />} />
                       <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
+                      <Route path="/DashboardList" element={<DashboardList accessToken={accessToken} />} />
+                      <Route path="/EmbedDashboard/:id" element={<EmbedDashboard accessToken={accessToken} />} />
                     </>
                     :
                     <>
@@ -193,18 +195,7 @@ function App() {
                     <BillingAddress />
                   }
                 />
-                <Route
-                  path="/DashboardList"
-                  element={
-                    <DashboardList accessToken={accessToken} />
-                  }
-                />
-                <Route
-                  path="/EmbedDashboard/:id"
-                  element={
-                    <EmbedDashboard accessToken={accessToken} />
-                  }
-                />
+
                 <Route element={<Default />} />
               </Routes>
             </div>

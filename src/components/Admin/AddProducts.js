@@ -7,9 +7,10 @@ import { saveProductIntoStoreProductService, getCategoryService, saveUpdateProdu
 import Dropdown from 'react-bootstrap/Dropdown';
 import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from 'react-router-dom';
- 
+import LoadingOverlay from 'react-loading-overlay';
+
 function AddProducts() {
- 
+
     const borderHello = { border: "none" };
     const navigate = useNavigate();
     const { user } = useContext(userContext);
@@ -26,28 +27,29 @@ function AddProducts() {
         quantity: '',
         count: 0
     });
- 
+
     {/* Added code for Category dropdown bind - By noor */ }
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
     const [ProductIdValue, setProductIdValue] = useState('');
     const [CategoryIdValue, setCategoryIdValue] = useState('');
     const [isStockValue, setIsStockValue] = useState(true);
- 
+    const [loading, setLoading] = useState(false);
+
     //File Upload  State
     const [imageUrls, setImageUrls] = useState([]);
     const [imageUpload, setImageUpload] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
- 
+
     useEffect(() => {
         fetchCategorylist();
         GetProductGUID();
         document.title = "Admin - Add Product"
     }, [user.userId]);
- 
- 
+
+
     const handleInputChange = (e) => {
- 
+
         const { name, value } = e.target;
         setName((prevName) => ({
             ...prevName,
@@ -59,8 +61,9 @@ function AddProducts() {
             [name]: value
         }));
     };
- 
+
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         let addToProductObj = {
             ...name,
@@ -68,13 +71,14 @@ function AddProducts() {
             quantity: name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
- 
+        setLoading(false);
+
         toast.success('Product added in admin list ', {
             autoClose: 2000,
         });
         navigate('/admin');
     }
- 
+
     const fetchCategorylist = async () => {
         let data = await getCategoryService();
         if (data != undefined) {
@@ -86,19 +90,18 @@ function AddProducts() {
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
- 
+
     const GetProductGUID = () => {
-        // Generate New unique id for Product Id
         const unique_id = uuid();
         setProductIdValue(unique_id);
     }
- 
- 
+
+
     const handleMediaChange = (e) => {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-        const maxSizeKB = 300; // Maximum size allowed in KB
-        const minSizeKB = 100; // Minimum size allowed in KB
+        const maxSizeKB = 300;
+        const minSizeKB = 100;
 
         const isValidFiles = files.every((file) => {
             if (!allowedTypes.includes(file.type)) {
@@ -106,7 +109,7 @@ function AddProducts() {
                 return false;
             }
 
-            const fileSizeKB = file.size / 1024; // Convert bytes to KB
+            const fileSizeKB = file.size / 1024;
             if (fileSizeKB < minSizeKB || fileSizeKB > maxSizeKB) {
                 toast.error(`${file.name} size is not within the allowed range (100KB - 300KB).`);
                 return false;
@@ -121,135 +124,138 @@ function AddProducts() {
             e.target.value = null;
         }
     };
- 
+
     const handleFileRemove = (index) => {
         const newFiles = [...selectedFiles];
         newFiles.splice(index, 1);
         setSelectedFiles(newFiles);
     };
- 
+
     return (
         <>
-            <div className='container my-5'>
-                <Form className='d-grid gap-2' onSubmit={handleSubmit}>
-                    <div className="my-3">
-                        {/* Added code for Category dropdown bind - By noor */}
-                        <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                            <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
-                                {selectedValue || 'Select Categories'}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
-                                {dropdown.map((item) => (
-                                    <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                    <Form.Group className='mb-3' controlId='FormImage'>
-                        <Form.Control
-                            type='file'
-                            className='addproduct-input'
-                            name="img"
-                            required
-                            placeholder='Upload image'
-                            onChange={handleMediaChange}
-                        />
-                        {selectedFiles.map((file, index) => (
-                            <div className='d-flex flex-column my-3' key={index}>
-                                <strong className='mb-2'>Selected File {index + 1}:</strong>
-                                {file.type.startsWith('image/') ? (
-                                    <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
-                                ) : null}
-                                <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
-                                    width: '100px',
-                                    backgroundColor: 'rgb(5, 54, 69)',
-                                    border: 'none'
-                                }}>Remove</Button>
-                            </div>
-                        ))}
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormName'>
-                        <Form.Control
-                            type='text'
-                            name="title"
-                            className='addproduct-input'
-                            value={name.title}
-                            placeholder='Enter Product Name...'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormPrice'>
-                        <Form.Control
-                            type='number'
-                            className='addproduct-input'
-                            name="price"
-                            value={name.price}
-                            placeholder='Enter product Price'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormQuantity'>
-                        <Form.Control
-                            type='number'
-                            className='addproduct-input'
-                            name="quantity"
-                            value={name.quantity}
-                            placeholder='Enter Quantity of Product'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormInfo'>
-                        <Form.Control
-                            as="textarea"
-                            className='addproduct-textarea'
-                            rows={3}
-                            placeholder="Enter Product Description..."
-                            name="info"
-                            value={name.info}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormCompany'>
-                        <Form.Control
-                            type='text'
-                            className='addproduct-input'
-                            name="company"
-                            value={name.company}
-                            placeholder='Enter Product Company...'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group className='mb-3' controlId='FormisStock'>
-                        <Form.Label><b>In Stock:</b></Form.Label>
-                        <Form.Check
-                            type='checkbox'
-                            name="isStock"
-                            style={{ marginLeft: "95px", marginTop: "-29px" }}
-                            checked={isStockValue}
-                            placeholder='Select Stock...'
-                            onChange={(e) => {
-                                setIsStockValue(e.target.checked)
-                            }}
-                        />
-                    </Form.Group>
-                    <div className='pt-3'>
-                        <Button type='submit' style={{
-                            backgroundColor: 'rgb(5, 54, 69)',
-                            border: 'none'
-                        }}>Submit</Button>
-                        <Link to={`/admin`}>
-                            <Button className="btn btn-primary mx-3" style={{
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                <div className='container my-5'>
+                    <Form className='d-grid gap-2' onSubmit={handleSubmit}>
+                        <div className="my-3">
+                            {/* Added code for Category dropdown bind - By noor */}
+                            <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
+                                <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
+                                    {selectedValue || 'Select Categories'}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
+                                    {dropdown.map((item) => (
+                                        <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                        <Form.Group className='mb-3' controlId='FormImage'>
+                            <Form.Control
+                                type='file'
+                                className='addproduct-input'
+                                name="img"
+                                required
+                                placeholder='Upload image'
+                                onChange={handleMediaChange}
+                            />
+                            <p className='image-validation'>* Please upload .png, .jpg, or .jpeg files and size should be within the allowed range (100KB - 300KB).</p>
+                            {selectedFiles.map((file, index) => (
+                                <div className='d-flex flex-column my-3' key={index}>
+                                    <strong className='mb-2'>Selected File {index + 1}:</strong>
+                                    {file.type.startsWith('image/') ? (
+                                        <img src={URL.createObjectURL(file)} alt="Selected" rounded style={{ height: "auto", width: "250px" }} />
+                                    ) : null}
+                                    <Button className='mt-2' onClick={() => handleFileRemove(index)} style={{
+                                        width: '100px',
+                                        backgroundColor: 'rgb(5, 54, 69)',
+                                        border: 'none'
+                                    }}>Remove</Button>
+                                </div>
+                            ))}
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormName'>
+                            <Form.Control
+                                type='text'
+                                name="title"
+                                className='addproduct-input'
+                                value={name.title}
+                                placeholder='Enter Product Name...'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormPrice'>
+                            <Form.Control
+                                type='number'
+                                className='addproduct-input'
+                                name="price"
+                                value={name.price}
+                                placeholder='Enter product Price'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormQuantity'>
+                            <Form.Control
+                                type='number'
+                                className='addproduct-input'
+                                name="quantity"
+                                value={name.quantity}
+                                placeholder='Enter Quantity of Product'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormInfo'>
+                            <Form.Control
+                                as="textarea"
+                                className='addproduct-textarea'
+                                rows={3}
+                                placeholder="Enter Product Description..."
+                                name="info"
+                                value={name.info}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormCompany'>
+                            <Form.Control
+                                type='text'
+                                className='addproduct-input'
+                                name="company"
+                                value={name.company}
+                                placeholder='Enter Product Company...'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormisStock'>
+                            <Form.Label><b>In Stock:</b></Form.Label>
+                            <Form.Check
+                                type='checkbox'
+                                name="isStock"
+                                style={{ marginLeft: "95px", marginTop: "-29px" }}
+                                checked={isStockValue}
+                                placeholder='Select Stock...'
+                                onChange={(e) => {
+                                    setIsStockValue(e.target.checked)
+                                }}
+                            />
+                        </Form.Group>
+                        <div className='pt-3'>
+                            <Button type='submit' style={{
                                 backgroundColor: 'rgb(5, 54, 69)',
                                 border: 'none'
-                            }}>Back to Product List</Button>
-                        </Link>
-                    </div>
-                </Form>
-            </div>
+                            }}>Submit</Button>
+                            <Link to={`/admin`}>
+                                <Button className="btn btn-primary mx-3" style={{
+                                    backgroundColor: 'rgb(5, 54, 69)',
+                                    border: 'none'
+                                }}>Back to Product List</Button>
+                            </Link>
+                        </div>
+                    </Form>
+                </div>
+            </LoadingOverlay>
         </>
     )
 }
