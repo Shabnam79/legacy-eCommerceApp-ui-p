@@ -327,6 +327,10 @@ td p p:last-child {
   margin: 0;
 }
 
+.ql-editor.ql-blank::before {
+  font-style: normal !important;
+}
+
 .addproduct-input:focus,
 .addproduct-textarea:focus,
 .editproduct-input:focus,

@@ -273,8 +273,10 @@ function EditProducts() {
                             />
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='FormInfo'>
+                            <Form.Label><b>Enter Product Description:</b></Form.Label>
                             <ReactQuill
                                 className='editproduct-textarea'
+                                placeholder="Enter Product Description..."
                                 theme="snow"
                                 value={ProductData.info}
                                 addRange={300}

@@ -219,6 +219,7 @@ function AddProducts() {
                             <ReactQuill
                                 className='addproduct-textarea'
                                 theme="snow"
+                                placeholder="Enter Product Description..."
                                 value={name.info}
                                 addRange={300}
                                 onChange={handleEditorChange}
