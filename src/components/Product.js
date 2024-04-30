@@ -17,7 +17,6 @@ const Product = ({ product }) => {
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const wishlistItems = useSelector((store) => store.wishlist);
-    // console.log(wishlistItems.wishlist);
     const dispatch = useDispatch();
 
     useEffect(() => {

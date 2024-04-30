@@ -51,6 +51,10 @@ export default function CartTotals({ value }) {
         dispatch(removeAll());
     }
 
+    const roundToWholeNumber = (number) => {
+        return Math.round(number);
+    };
+
     return (
         <React.Fragment>
             <div data-testid='cart-totals cartTotalsArea'
@@ -72,11 +76,11 @@ export default function CartTotals({ value }) {
                         </h5>
                         <h5 className='d-flex justify-content-between w-100'>
                             <span style={{ ...fontsize }} className="">Tax: </span>
-                            <strong style={{ ...fontsize }}>$ {cartItems.cart.tax}</strong>
+                            <strong style={{ ...fontsize }}>$ {roundToWholeNumber(cartItems.cart.tax)}</strong>
                         </h5>
                         <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey' }}>
                             <span>Total Amount: </span>
-                            <strong>$ {cartItems.cart.total}</strong>
+                            <strong>$ {roundToWholeNumber(cartItems.cart.total)}</strong>
                         </h5>
 
                         <Link to="/checkout" className='w-100 mt-2'>

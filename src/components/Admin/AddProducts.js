@@ -8,6 +8,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingOverlay from 'react-loading-overlay';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function AddProducts() {
 
@@ -27,6 +29,13 @@ function AddProducts() {
         quantity: '',
         count: 0
     });
+
+    const handleEditorChange = (html) => {
+        setName(prevName => ({
+            ...prevName,
+            info: html
+        }));
+    };
 
     {/* Added code for Category dropdown bind - By noor */ }
     const [dropdown, setDropdown] = useState([]);
@@ -207,6 +216,26 @@ function AddProducts() {
                             />
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='FormInfo'>
+                            <ReactQuill
+                                className='addproduct-textarea'
+                                theme="snow"
+                                value={name.info}
+                                addRange={300}
+                                onChange={handleEditorChange}
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                                        [{ size: [] }],
+                                        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+                                        { 'indent': '-1' }, { 'indent': '+1' }],
+                                        ['link', 'image', 'video'],
+                                        ['clean']
+                                    ],
+                                }}
+                            />
+                        </Form.Group>
+                        {/* <Form.Group className='mb-3' controlId='FormInfo'>
                             <Form.Control
                                 as="textarea"
                                 className='addproduct-textarea'
@@ -216,7 +245,7 @@ function AddProducts() {
                                 value={name.info}
                                 onChange={handleInputChange}
                             />
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group className='mb-3' controlId='FormCompany'>
                             <Form.Control
                                 type='text'

@@ -8,6 +8,8 @@ import { getCategoryService, getProductByProductIdService, saveUpdateProductStor
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingOverlay from 'react-loading-overlay';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function EditProducts() {
 
@@ -107,6 +109,13 @@ function EditProducts() {
             category: selectedValue,
             isStock: isStockValue,
             [name]: value
+        }));
+    };
+
+    const handleEditorChange = (html) => {
+        setProductData(prevName => ({
+            ...prevName,
+            info: html
         }));
     };
 
@@ -263,7 +272,27 @@ function EditProducts() {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormDescription'>
+                        <Form.Group className='mb-3' controlId='FormInfo'>
+                            <ReactQuill
+                                className='editproduct-textarea'
+                                theme="snow"
+                                value={ProductData.info}
+                                addRange={300}
+                                onChange={handleEditorChange}
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                                        [{ size: [] }],
+                                        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+                                        { 'indent': '-1' }, { 'indent': '+1' }],
+                                        ['link', 'image', 'video'],
+                                        ['clean']
+                                    ],
+                                }}
+                            />
+                        </Form.Group>
+                        {/* <Form.Group className='mb-3' controlId='FormDescription'>
                             <Form.Label><b>Enter Product Description:</b></Form.Label>
                             <Form.Control
                                 className='editproduct-textarea'
@@ -272,9 +301,9 @@ function EditProducts() {
                                 placeholder="Enter Product Description..."
                                 name="info"
                                 value={ProductData.info}
-                                onChange={handleInputChange}
+                                onChange={handleEditorChange}
                             />
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group className='mb-3' controlId='FormCompany'>
                             <Form.Label><b>Enter Product Company:</b></Form.Label>
                             <Form.Control

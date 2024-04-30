@@ -18,7 +18,9 @@ code {
   transform: scale(3);
 }
 
-.carousel-indicators, .carousel-control-prev, .carousel-control-next {
+.carousel-indicators,
+.carousel-control-prev,
+.carousel-control-next {
   display: none !important;
 }
 
@@ -96,6 +98,12 @@ input[type='checkbox'] {
   backdrop-filter: blur(8px);
   background: rgba(243, 243, 243, 0.24);
   width: 350px;
+}
+
+@media (max-width: 420px) {
+  .product-card {
+    width: auto;
+  }
 }
 
 .product-card:hover {
@@ -250,6 +258,11 @@ input[type='checkbox'] {
   background-color: #f3f0eb !important;
 }
 
+.modal-backdrop {
+  height: 100% !important;
+  width: 100% !important;
+}
+
 .login-form {
   width: 300px;
 }
@@ -292,9 +305,26 @@ input[type='checkbox'] {
   border: 1.5px solid #053645 !important;
   border-radius: 2.5px !important;
   transition: 0.3s !important;
-  padding: 17.5px 7.5px !important;
-  height: 100px !important;
   font-size: small !important;
+}
+
+.ql-toolbar.ql-snow {
+  border-bottom: 1px solid #ccc !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.paragraph-description {
+  margin: 0;
+}
+
+td p p:last-child {
+  margin: 0;
 }
 
 .addproduct-input:focus,

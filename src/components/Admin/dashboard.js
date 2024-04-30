@@ -90,12 +90,12 @@ function Dashboard() {
     // Function to render item info with read more option
     const renderInfoWithReadMore = (item) => {
         const isExpanded = expandedInfo[item.productId];
-        const truncatedInfo = truncateText(item.info, 25);
+        const truncatedInfo = truncateText(item.info.replace(/<[^>]*>?/gm, ''), 25);
         const hasReadMore = item.info.split(' ').length > 25;
 
         return (
             <td style={{ maxWidth: "500px" }}>
-                {isExpanded ? item.info : truncatedInfo}
+                {isExpanded ? <p className='paragraph-description' dangerouslySetInnerHTML={{ __html: item.info }}></p> : truncatedInfo}
                 <br></br>
                 {hasReadMore && (
                     <span className='ReadMoreLess' onClick={() => toggleReadMore(item.productId)}>

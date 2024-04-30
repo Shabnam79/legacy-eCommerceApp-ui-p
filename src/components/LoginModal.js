@@ -9,7 +9,7 @@ const LoginModal = (props) => {
     const fontfamily = { fontFamily: "Times New Roman" };
     const borderHello = { border: "none" };
     return (
-        <Modal style={{ width: '50%', marginLeft: '330px' }}
+        <Modal
             {...props}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"

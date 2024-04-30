@@ -36,6 +36,8 @@ const Details = () => {
         }
     }, [user.userId]);
 
+    console.log(detailProduct);
+
     useEffect(() => {
         if (user.userId) {
             checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
@@ -212,9 +214,7 @@ const Details = () => {
                     <p className="text-capitalize font-weight-bold mt-3 mb-0">
                         Some Info About Product
                     </p>
-                    <p className="text-muted lead" style={{ ...fontsize }}>
-                        {info}
-                    </p>
+                    <p className="text-muted lead" style={{ ...fontsize }} dangerouslySetInnerHTML={{ __html: info }}></p>
                     <div>
                         <Link to="/">
                             <ButtonContainer>

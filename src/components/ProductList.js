@@ -84,7 +84,7 @@ const ProductList = () => {
     }
 
     const filterProductsBySearchTerm = (products, searchTerm) => {
-        return products.filter((product) =>
+        return products?.filter((product) =>
             product.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
@@ -100,7 +100,7 @@ const ProductList = () => {
     // Logic to get current products
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = filteredProducts?.slice(indexOfFirstProduct, indexOfLastProduct);
 
     return (
         <>
@@ -146,7 +146,7 @@ const ProductList = () => {
                             <div className='px-5'>
                                 <div className='mt-1 row' style={{ justifyContent: 'space-evenly' }}>
                                     {
-                                        currentProducts.map((product) => (
+                                        currentProducts?.map((product) => (
                                             <Link to='/details' className='my-4 product-card' key={product.id}>
                                                 <Product product={product} />
                                             </Link>
@@ -157,7 +157,7 @@ const ProductList = () => {
                             <div className='w-100'>
                                 <ul className='pagination justify-content-center'>
                                     {
-                                        Array.from({ length: Math.ceil(filteredProducts.length / productsPerPage) }).map((_, index) => (
+                                        Array.from({ length: Math.ceil(filteredProducts?.length / productsPerPage) }).map((_, index) => (
                                             <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
                                                 <button onClick={() => handlePageChange(index + 1)} className='pagination-button'>
                                                     {index + 1}
