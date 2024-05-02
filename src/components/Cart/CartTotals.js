@@ -78,7 +78,7 @@ export default function CartTotals({ value }) {
                             <span style={{ ...fontsize }} className="">Tax: </span>
                             <strong style={{ ...fontsize }}>$ {roundToWholeNumber(cartItems.cart.tax)}</strong>
                         </h5>
-                        <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey' }}>
+                        <h5 className='d-flex justify-content-between w-100 pt-2' style={{ borderTop: '1px solid grey', color: '#B12704 !important' }}>
                             <span>Total Amount: </span>
                             <strong>$ {roundToWholeNumber(cartItems.cart.total)}</strong>
                         </h5>

@@ -144,10 +144,10 @@ const ProductList = () => {
                                 <button className='searchbar-button'>&#128269;</button>
                             </div>
                             <div className='px-5'>
-                                <div className='mt-1 row' style={{ justifyContent: 'space-evenly' }}>
+                                <div className='mt-1 row'>
                                     {
                                         currentProducts?.map((product) => (
-                                            <Link to='/details' className='my-4 product-card' key={product.id}>
+                                            <Link to='/details' className='m-4 product-card' key={product.id}>
                                                 <Product product={product} />
                                             </Link>
                                         ))
