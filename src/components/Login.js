@@ -65,7 +65,7 @@ const Login = () => {
                         userId: response.data.localId,
                         email: response.data.email,
                         roleId: data.roleId,
-                        userName: data.userName                  
+                        userName: data.userName
                     };
 
                     setItem("user", JSON.stringify(userData));
@@ -74,7 +74,7 @@ const Login = () => {
                         userId: response.data.localId,
                         email: response.data.email,
                         roleId: data.roleId,
-                        userName: data.userName 
+                        userName: data.userName
 
                     });
                 }).catch(error => {
@@ -92,7 +92,7 @@ const Login = () => {
                     }
                 );
             }
-            else{
+            else {
                 toast.warning(
                     `your Account is Inactive.Please connect with Admin.`,
                     {
@@ -148,6 +148,7 @@ const Login = () => {
                                 <Form.Group controlId="validationFormik02" className='mt-2'>
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Password</Form.Label>
                                     <Form.Control
+                                        type='password'
                                         className='login-signup-input'
                                         placeholder="******"
                                         name="password"

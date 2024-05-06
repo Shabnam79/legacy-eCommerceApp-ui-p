@@ -126,7 +126,7 @@ const Signup = () => {
                                 <Form.Group controlId="validationFormik02" className='mt-2'>
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Password</Form.Label>
                                     <Form.Control style={{ ...fontsize }}
-                                        type="text"
+                                        type="password"
                                         placeholder="******"
                                         className='login-signup-input'
                                         name="password"
