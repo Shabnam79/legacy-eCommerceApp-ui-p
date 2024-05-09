@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeAll } from '../../utils/cartSlice';
 import { toast } from "react-toastify";
 import { saveCartOrderService } from '../../firebase/services/order.service';
-import { DeleteItemFromYourCart } from '../../firebase/services/cart.service';
+import { DeleteAllItemFromYourCart } from '../../firebase/services/cart.service';
 
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
@@ -45,9 +45,9 @@ export default function CartTotals({ value }) {
     }
 
     const clearCart = () => {
-        cart.forEach((data) => {
-            DeleteItemFromYourCart(data.id);
-        });
+        if (user?.userId) {
+            DeleteAllItemFromYourCart(user.userId);
+        }
         dispatch(removeAll());
     }
 

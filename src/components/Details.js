@@ -67,7 +67,7 @@ const Details = () => {
         if (user.userId) {
             if (isProductWishlisted) {
                 try {
-                    await DeleteProductFromWishList(wishlist.id);
+                    await DeleteProductFromWishList(wishlist.productId, wishlist.userId);
 
                     toast.warning(
                         `Product removed from the Wishlist`,

@@ -24,6 +24,18 @@ export const DeleteItemFromYourCart = async (id) => {
      });
 }
 
+export const DeleteAllItemFromYourCart = async (userId) => {
+    await axios.get(variables.API_URL + 'Product/ClearCart', { params: { "userId": userId } }).then((response) => {
+        toast.success(response.message, {
+            autoClose: 1000,
+        });
+    }).catch(error => {
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
+    });
+}
+
 export const saveProductIntoCartService = async (product) => {
     axios({
         method: 'post',

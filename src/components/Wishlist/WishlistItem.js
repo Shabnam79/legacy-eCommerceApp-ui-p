@@ -11,8 +11,9 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     const dispatch = useDispatch();
 
     const removeProductHandler = async (item) => {
+        console.log(item.productId, item.userId);
         try {
-            await DeleteProductFromWishList(item.id);
+            await DeleteProductFromWishList(item.productId, item.userId);
             toast.warning(
                 `Product removed from the Wishlist`,
                 {
