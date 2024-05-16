@@ -7,7 +7,7 @@ export const variables = {
     ROLE_ADMIN: "HPlNPNZm2YT24N4CK5rG",
     ROLE_CUSTOMER: "tMcXpUvDofmo6DVMtBeD",
     PAGINATION_ProductList: {
-        PRODUCTS_PER_PAGE: 18,
+        PRODUCTS_PER_PAGE: 12,
     },
     PAGINATION_ProductListAdmin: {
         PRODUCTS_PER_PAGE: 10,

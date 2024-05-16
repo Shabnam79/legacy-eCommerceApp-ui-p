@@ -114,21 +114,18 @@ const Product = ({ product }) => {
     return (
         <ProducrWrapper className="tx-product-card">
             <div className="" onClick={() => handleProductDetails(product)}>
-                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <img src={img} alt="product" className="h-100 w-100" style={{ objectFit: 'cover' }} />
+                <Link to="/details" style={{ height: '270px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <img src={img} alt="product" className="h-100 w-100" />
                 </Link>
             </div>
-            <div className="my-2 d-flex align-items-start justify-content-between" style={{ height: '65px' }}>
-                <h6 data-testid='product-title' className='w-75'>
-                    <span className="">
-                        {title}:
-                    </span>
+            <div className="d-flex flex-column product-title-area">
+                <h6 data-testid='product-title' className='product-title'>
+                    {title}:
                 </h6>
-                <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
-                    <b>
-                        <span className="mr-1">$</span>
-                        <span>{price}</span>
-                    </b>
+                <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
+                    <span>Price: </span>
+                    <span className="ml-1" style={{ fontSize: '10px', fontWeight: '100' }}>$</span>
+                    <span>{price}</span>
                 </h5>
             </div>
             {user.userId == null ?
@@ -151,7 +148,7 @@ const Product = ({ product }) => {
             </button>
             {
                 isProductInWishlist && <div style={{ position: 'absolute' }}>
-                    <FaHeart className='heartWishlistIcon' color="#FF4343" />
+                    <FaHeart className='heartWishlistIcon' color="#FF3E6C" />
                 </div>
             }
         </ProducrWrapper>

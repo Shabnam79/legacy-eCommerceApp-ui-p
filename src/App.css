@@ -13,7 +13,7 @@ body {
   /* font-family: "Raleway", sans-serif !important;
   font-family: "Anton", sans-serif !important; */
   /* background: var(--mainWhite) !important; */
-  background: #f3f0eb !important;
+  background: #FFF !important;
   color: var(--mainDark) !important;
 }
 
@@ -86,7 +86,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f3f0eb;
+  background: #FFF;
 }
 
 ::-webkit-scrollbar-thumb {

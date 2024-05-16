@@ -121,14 +121,14 @@ const ProductList = () => {
                                     ))}
                                 </Carousel>
                             </div>
-                            <div className="container-fluid d-flex justify-content-center">
+                            <div className="mb-3 container-fluid d-flex justify-content-center">
                                 <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
-                                    <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: '#053645' }}>
+                                    <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown-category'>
                                         <strong>
                                             {selectedValue || 'All'}
                                         </strong>
                                     </Dropdown.Toggle>
-                                    <Dropdown.Menu className='tx-dropdown-menu'>
+                                    <Dropdown.Menu className='tx-dropdown-menu-category'>
                                         <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
                                         {dropdown.map((item) => (
                                             <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
@@ -140,22 +140,29 @@ const ProductList = () => {
                                     className='searchbar-input'
                                     value={searchTerm}
                                     onChange={(e) => SearchTerm(e.target.value)}
-                                    placeholder='Search your product...' />
-                                <button className='searchbar-button'>&#128269;</button>
+                                    placeholder='Search your product...'
+                                    style={{
+                                        backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' x=\'0px\' y=\'0px\' width=\'20\' height=\'20\' viewBox=\'0,0,256,256\'%3E%3Cg fill=\'%23717288\' fill-rule=\'nonzero\' stroke=\'none\' stroke-width=\'1\' stroke-linecap=\'butt\' stroke-linejoin=\'miter\' stroke-miterlimit=\'10\' stroke-dasharray=\'\' stroke-dashoffset=\'0\' font-family=\'none\' font-weight=\'none\' font-size=\'none\' text-anchor=\'none\' style=\'mix-blend-mode: normal\'%3E%3Cg transform=\'scale(5.12,5.12)\'%3E%3Cpath d=\'M21,3c-9.39844,0 -17,7.60156 -17,17c0,9.39844 7.60156,17 17,17c3.35547,0 6.46094,-0.98437 9.09375,-2.65625l12.28125,12.28125l4.25,-4.25l-12.125,-12.09375c2.17969,-2.85937 3.5,-6.40234 3.5,-10.28125c0,-9.39844 -7.60156,-17 -17,-17zM21,7c7.19922,0 13,5.80078 13,13c0,7.19922 -5.80078,13 -13,13c-7.19922,0 -13,-5.80078 -13,-13c0,-7.19922 5.80078,-13 13,-13z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundPosition: '10px center',
+                                        paddingLeft: '45px',
+                                    }} />
                             </div>
-                            <div className='px-5'>
-                                <div className='mt-1 row'>
-                                    {
-                                        currentProducts?.map((product) => (
-                                            <Link to='/details' className='m-4 product-card' key={product.id}>
-                                                <Product product={product} />
-                                            </Link>
-                                        ))
-                                    }
+                            <div className='w-100 d-flex justify-content-center'>
+                                <div className='px-5'>
+                                    <div className='mt-1 d-table main-product-section'>
+                                        {
+                                            currentProducts?.map((product) => (
+                                                <Link to='/details' className='m-3 product-card' key={product.id}>
+                                                    <Product product={product} />
+                                                </Link>
+                                            ))
+                                        }
+                                    </div>
                                 </div>
                             </div>
                             <div className='w-100'>
-                                <ul className='pagination justify-content-center'>
+                                <ul className='mt-5 pagination justify-content-center'>
                                     {
                                         Array.from({ length: Math.ceil(filteredProducts?.length / productsPerPage) }).map((_, index) => (
                                             <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
