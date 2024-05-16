@@ -154,7 +154,7 @@ const CheckoutForm = ({ value }) => {
                                     <Button style={{
                                         border: 'none',
                                         backgroundColor: '#053645',
-                                        color: '#f3f0eb',
+                                        color: '#FFF',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
                                         borderRadius: '0.25rem',
@@ -170,7 +170,7 @@ const CheckoutForm = ({ value }) => {
                                         marginTop: "10px",
                                         border: 'none',
                                         backgroundColor: '#053645',
-                                        color: '#f3f0eb',
+                                        color: '#FFF',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
                                         borderRadius: '0.25rem',

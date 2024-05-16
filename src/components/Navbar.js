@@ -44,9 +44,8 @@ const Navbar = () => {
             style={{
                 position: 'fixed',
                 zIndex: '10',
-                backdropFilter: 'blur(8px)',
-                background: '#f3f3f33d',
-                boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.05)',
+                background: '#FFFFFF',
+                boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.1)',
             }}>
             <div className="navbar">
                 <Link to='/' className='d-flex align-items-center HomeButton'>
@@ -113,7 +112,7 @@ const Navbar = () => {
                                         </Dropdown>
                                         <Link to="/cart" className="d-flex align-items-end">
                                             <Button style={{
-                                                backgroundColor: '#053645',
+                                                backgroundColor: '#007185',
                                                 ...borderHello
                                             }}>
                                                 <i className="fas fa-cart-plus">&ensp;
@@ -146,7 +145,7 @@ const Navbar = () => {
                                         </Dropdown>
                                         <Link to="/cart" className="d-flex align-items-end">
                                             <Button style={{
-                                                backgroundColor: '#053645',
+                                                backgroundColor: '#007185',
                                                 ...borderHello
                                             }}>
                                                 <i className="fas fa-cart-plus">&ensp;

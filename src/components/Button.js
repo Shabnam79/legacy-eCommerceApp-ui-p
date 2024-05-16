@@ -15,7 +15,7 @@ margin: 0.2rem 0.5rem 0.2rem 0;
 transition: 0.3s;
 &:hover{
     background: ${props => props.cart ? "var(--mainYellow)" : "rgb(5, 54, 69)"};
-    color: #f3f0eb;
+    color: #FFF;
 }
 :focus{
     outline: none;
