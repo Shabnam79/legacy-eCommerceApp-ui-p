@@ -9,24 +9,21 @@ const ReviewCards = ({ review }) => {
     return (
         <Card style={{
             width: '100%',
-            color: '#053645',
-            backdropFilter: 'blur(8px)',
             borderRadius: '0px',
-            background: 'rgba(243, 243, 243, 0.24)',
-            boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px',
             border: 'none',
+            borderBottom: '1px solid #EAEAEC'
         }} className='my-3' >
             <Card.Body>
                 <div className='d-flex align-items-center'>
-                    <Card.Title className='mr-2 text-uppercase mb-0' style={{ paddingLeft: "10px" }}>{title}</Card.Title>
-                    <h2 className='mr-2'>|</h2>
+                    <Card.Title className='font-weight-bold text-uppercase mb-0' style={{ padding: "10px 10px 2.5px 10px", color: '#FF905A' }}>{title}</Card.Title>
+                    <h2 className='mr-1 font-weight-light' style={{ marginBottom: '5px', color: '#007185' }}>|</h2>
                     <StaticStarRating myProductRating={rating} />
                 </div>
-                <Card.Text style={{ paddingLeft: "10px", color: "#35363a" }}>
-                    <strong>Reviewed on:</strong> {reviewDate}
+                <Card.Text style={{ paddingLeft: "10px", color: "#35363a", fontWeight: '100' }}>
+                    <strong style={{ fontWeight: '500' }}>Reviewed on:</strong> {reviewDate}
                 </Card.Text>
-                <Card.Text style={{ paddingLeft: "10px", color: "#35363a" }}>
-                    <strong>Review:</strong> {description}
+                <Card.Text style={{ paddingLeft: "10px", color: "#35363a", fontWeight: '100' }}>
+                    <strong style={{ fontWeight: '500' }}>Review:</strong> {description}
                 </Card.Text>
                 <div className='d-flex flex-column my-3' style={{ paddingLeft: '10px' }} >
                     {img && img.length !== 0 ? (

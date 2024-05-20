@@ -26,7 +26,7 @@ const Details = () => {
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [loginmodalShow, setLoginModalShow] = useState(false);
-    const fontsize = { fontSize: 'small' };
+    const fontsize = { fontSize: '15px' };
     const fontfamily = { fontFamily: "Times New Roman" };
     useEffect(() => {
         if (user.userId) {
