@@ -13,9 +13,9 @@ const Orders = ({ orders }) => {
     });
 
     return (
-        <div className="d-flex justify-content-center my-4">
-            <div style={{ width: "90%", color: '#053645' }}>
-                <div className='row' data-testid="orders-list">
+        <div className="w-100 d-flex justify-content-center">
+            <div className='px-5'>
+                <div className='d-table orders-list' data-testid="orders-list">
                     {sortedOrders.map(item => {
                         return <OrdersItem key={item.id} item={item} />
                     })}

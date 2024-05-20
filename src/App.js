@@ -83,6 +83,16 @@ function App() {
     handleAccessToken();
   }, []);
 
+  // When the user scrolls the page, execute myFunction 
+  window.onscroll = function () { myFunction() };
+
+  function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+  }
+
   return (
     <React.Fragment>
       <Provider store={store}>
@@ -93,6 +103,11 @@ function App() {
               setUser: setUser
             }}
           >
+            <div class="header">
+              <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+              </div>
+            </div>
             <Navbar />
             <Outlet />
             <div className='w-100' style={{ position: 'relative', top: '75px' }}>

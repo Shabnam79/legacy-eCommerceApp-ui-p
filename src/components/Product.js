@@ -124,8 +124,8 @@ const Product = ({ product }) => {
                 </h6>
                 <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
                     <span>Price: </span>
-                    <span className="ml-1" style={{ fontSize: '10px', fontWeight: '100' }}>$</span>
-                    <span>{price}</span>
+                    <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>
+                    <span style={{ fontWeight: '100' }}>{price}</span>
                 </h5>
             </div>
             {user.userId == null ?
