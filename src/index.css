@@ -64,15 +64,18 @@ input[type='checkbox'] {
   color: #FFF !important;
   background-color: #EE5F73 !important;
 }
+
 .addToCartButton:hover {
   color: #EE5F73 !important;
   background-color: #FFF !important;
 }
+
 .addRemoveWishlistButton {
   border: 1px solid #EE5F73 !important;
   color: #EE5F73 !important;
   background-color: #FFF !important;
 }
+
 .addRemoveWishlistButton:hover {
   color: #FFF !important;
   background-color: #EE5F73 !important;
@@ -747,6 +750,61 @@ input[type='checkbox'] {
   color: #FFF !important;
 }
 
+.modalInputArea {
+  display: flex;
+}
+
+.modalImage {
+  display: flex;
+  align-items: center;
+}
+
+.modalImage img {
+  width: 100%;
+}
+
+
+.modalAreaEcommerce {
+  position: relative;
+  background-color: #333333D9;
+}
+
+.forgotPassword {
+  color: #33333399;
+}
+
+.forgotPassword:hover {
+  color: #33333399;
+}
+
+.modalAreaEcommerce .closeButton {
+  position: absolute;
+  top: 7.5px;
+  right: 7.5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 50%;
+  outline: none;
+}
+
+.modalAreaEcommerce .closeButton span {
+  height: 30px;
+  width: 30px;
+}
+
+.modalAreaEcommerce .modal-dialog {
+  display: flex;
+  align-items: start;
+}
+
+.modalAreaEcommerce .modal-dialog .modal-content {
+  margin-top: 0px;
+}
+
 .modal-content {
   background-color: #FFF !important;
 }
@@ -757,22 +815,35 @@ input[type='checkbox'] {
 }
 
 .login-form {
-  width: 300px;
+  width: 90%;
+}
+
+.formInputArea {
+  position: relative;
+}
+
+.formInputArea label {
+  position: absolute;
+  left: 7.5px;
+  top: 5px;
+  color: #8C7569;
 }
 
 .login-signup-input {
   background: transparent !important;
-  border: 1.5px solid #053645 !important;
+  border: 1px solid #DDD !important;
   border-radius: 2.5px !important;
   transition: 0.3s !important;
-  padding: 17.5px 7.5px !important;
-  height: 30px !important;
+  padding: 20px 7.5px 0px 7.5px !important;
+  height: 60px !important;
   font-size: small !important;
+  color: #55311C !important;
 }
 
 .login-signup-input:focus {
-  backdrop-filter: blur(20px) !important;
-  box-shadow: #727575 0px 0px 3px 0px !important;
+  /* box-shadow: #DDD 0px 0px 3px 0px !important; */
+  box-shadow: none !important;
+  border: 1px solid #8C7569 !important;
   outline: none;
 }
 

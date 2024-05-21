@@ -29,8 +29,8 @@ const Signup = () => {
     const fontfamily = { fontFamily: "Times New Roman" };
     const stylingSignupButton = {
         color: 'white',
-        backgroundColor: 'rgb(5, 54, 69)',
-        border: '1px solid #6855e0',
+        backgroundColor: '#8C7569',
+        border: '1px solid #8C7569',
         borderRadius: '5px'
     };
     const SignupButtonTrans = {
@@ -39,12 +39,11 @@ const Signup = () => {
         borderRadius: '5px',
         fontweight: '600',
         margin: '14px 0px',
-        width: '150px',
         padding: '0.375rem 0.75rem',
         boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
-    
+
     const authentication = (values) => {
         const payload = {
             email: values.email,
@@ -57,13 +56,13 @@ const Signup = () => {
             url: variables.API_URL + `Auth/SignUp?UserName=${values.userName}`,
             data: payload,
 
-        }).then((response)=> {
+        }).then((response) => {
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
             setModalShow(true);
 
-        }).catch(error =>  {
+        }).catch(error => {
             if (error.code === "ERR_BAD_REQUEST") {
                 toast.error("Email already in use.", {
                     autoClose: 1000,
@@ -74,7 +73,7 @@ const Signup = () => {
 
     return (
         <>
-            <Row className='d-flex justify-content-center'>
+            <Row className='d-flex'>
                 <div className='login-form'>
                     <Formik
                         validationSchema={schema}
@@ -82,7 +81,7 @@ const Signup = () => {
                         initialValues={{
                             email: '',
                             password: '',
-                            userName:'',
+                            userName: '',
                         }}
                     >
                         {({
@@ -92,7 +91,7 @@ const Signup = () => {
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group controlId="validationFormik00">
+                                <Form.Group controlId="validationFormik00" className='formInputArea'>
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>User Name</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -102,12 +101,13 @@ const Signup = () => {
                                         value={values.userName}
                                         onChange={handleChange}
                                         isInvalid={!!errors.userName}
+                                        autocomplete="off"
                                     />
-                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.userName}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group controlId="validationFormik01">
+                                <Form.Group controlId="validationFormik01" className='mt-2 formInputArea'>
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Email</Form.Label>
                                     <Form.Control
                                         type="email"
@@ -117,13 +117,14 @@ const Signup = () => {
                                         value={values.email}
                                         onChange={handleChange}
                                         isInvalid={!!errors.email}
+                                        autocomplete="off"
                                     />
-                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.email}
                                     </Form.Control.Feedback>
                                 </Form.Group>
 
-                                <Form.Group controlId="validationFormik02" className='mt-2'>
+                                <Form.Group controlId="validationFormik02" className='mt-2 formInputArea'>
                                     <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Password</Form.Label>
                                     <Form.Control style={{ ...fontsize }}
                                         type="password"
@@ -133,13 +134,27 @@ const Signup = () => {
                                         value={values.password}
                                         onChange={handleChange}
                                         isInvalid={!!errors.password}
+                                        autocomplete="off"
                                     />
-                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.password}
                                     </Form.Control.Feedback>
                                 </Form.Group>
 
-                                <div className='d-flex justify-content-center mt-2'>
+                                <div className='d-flex justify-content-between mt-2'>
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <span className='mr-1' style={{ fontSize: '14px', fontWeight: '200' }}>Exisiting User? </span>
+                                        <span onClick={(e) => {
+                                            e.preventDefault();
+                                            setModalShow(true);
+                                        }} style={{
+                                            fontSize: '15px',
+                                            color: '#33333399',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            textDecoration: 'underline'
+                                        }}>Click Here</span>
+                                    </div>
                                     <button style={{ ...stylingSignupButton, ...SignupButtonTrans }} type="submit">
                                         Signup
                                     </button>
@@ -149,7 +164,7 @@ const Signup = () => {
                                     show={modalShow}
                                     onHide={() => setModalShow(false)}
                                 />
-                                <div className='d-flex justify-content-center align-items-center'>
+                                {/* <div className='d-flex justify-content-center align-items-center'>
                                     <span className='mr-1' style={{ fontSize: '14px' }}>Exisiting User? </span>
                                     <span onClick={(e) => {
                                         e.preventDefault();
@@ -161,7 +176,7 @@ const Signup = () => {
                                         cursor: 'pointer',
                                         textDecoration: 'underline'
                                     }}>Click Here</span>
-                                </div>
+                                </div> */}
                             </Form>
                         )}
                     </Formik >

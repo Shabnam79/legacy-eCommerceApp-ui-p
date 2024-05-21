@@ -35,11 +35,14 @@ import Footer from './components/Footer';
 import { PersistGate } from 'redux-persist/integration/react'
 import DashboardList from './components/DashboardList';
 import EmbedDashboard from './components/EmbedDashboard';
+import { EMBED_API_URL } from './utils/embedDashboardAPI';
 
 function App() {
   const [user, setUser] = useState({});
   const { getItem } = useLocalStorage();
   const [accessToken, setAccessToken] = useState('');
+
+  const embedDashboardAPI_URL = EMBED_API_URL.EMBEDDASHBOARD_API_URL;
 
   useEffect(() => {
     let getUserData = getItem("user");
@@ -62,15 +65,15 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username: "ecomAdmin",
-          password: "password",
+          username: EMBED_API_URL.USERNAME,
+          password: EMBED_API_URL.PASSWORD,
           provider: 'db',
           refresh: true
         })
       };
 
       try {
-        const response = await fetch('http://192.168.6.235:8088/api/v1/security/login', requestOptions);
+        const response = await fetch(`${embedDashboardAPI_URL}/api/v1/security/login`, requestOptions);
         const data = await response.json();
 
         setAccessToken(data.access_token);

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { embedDashboard } from "@preset-sdk/embedded";
+import { EMBED_API_URL } from '../utils/embedDashboardAPI';
 
 const EmbedDashboard = ({ accessToken }) => {
     const [guestToken, setGuestToken] = useState('');
     const { id: dashboardUUIDs } = useParams();
 
+    const embedDashboardAPI_URL = EMBED_API_URL.EMBEDDASHBOARD_API_URL
 
     const fetchGuestTokenFromBackend = async () => {
         const requestOptions = {
@@ -31,7 +33,7 @@ const EmbedDashboard = ({ accessToken }) => {
         }
 
         try {
-            const response = await fetch('http://192.168.6.235:8088/api/v1/security/guest_token/', requestOptions);
+            const response = await fetch(`${embedDashboardAPI_URL}/api/v1/security/guest_token/`, requestOptions);
             if (response.ok) {
                 const responseData = await response.json();
                 const token = responseData.token;
@@ -49,7 +51,7 @@ const EmbedDashboard = ({ accessToken }) => {
         const embed = async () => {
             await embedDashboard({
                 id: dashboardUUIDs,
-                supersetDomain: `http://192.168.6.235:8088`,
+                supersetDomain: `${embedDashboardAPI_URL}`,
                 mountPoint: document.getElementById("my-superset-container"),
                 fetchGuestToken: () => fetchGuestTokenFromBackend(),
                 dashboardUiConfig: {
