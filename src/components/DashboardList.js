@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { EMBED_API_URL } from '../utils/embedDashboardAPI';
 
 const DashboardList = ({ accessToken }) => {
   const [dashboards, setDashboards] = useState([]);
@@ -8,10 +9,12 @@ const DashboardList = ({ accessToken }) => {
   const [dashboardIDs, setDashboardIDs] = useState({});
   const navigate = useNavigate();
 
+  const embedDashboardAPI_URL = EMBED_API_URL.EMBEDDASHBOARD_API_URL
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.6.235:8088/api/v1/dashboard/', {
+        const response = await axios.get(`${embedDashboardAPI_URL}/api/v1/dashboard/`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
@@ -20,7 +23,7 @@ const DashboardList = ({ accessToken }) => {
         setDashboards(data);
         data.forEach(async (dashboard) => {
           try {
-            const embeddedResponse = await axios.get(`http://192.168.6.235:8088/api/v1/dashboard/${dashboard.id}/embedded`, {
+            const embeddedResponse = await axios.get(`${embedDashboardAPI_URL}/api/v1/dashboard/${dashboard.id}/embedded`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`
               }
