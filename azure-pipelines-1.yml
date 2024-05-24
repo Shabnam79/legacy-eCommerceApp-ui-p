@@ -1,0 +1,48 @@
+trigger:
+- TxAutomate.Selenium.eCommerce.Tests
+
+pool:
+  name: Local-Self-Hosted
+  vmImage: ubuntu-latest
+
+variables:
+  defaultTag: "@AIEngine"
+  customTags: "[@ECOM_LoginTC_207]"
+
+steps:
+- powershell: |
+    $customTags = "$(customTags)"  # Get the customTags variable
+    $tagsArray = $customTags -split ',' | ForEach-Object { $_.Trim('[', ']') }  # Split and trim the tags
+    
+    if ($tagsArray -eq $null -or $tagsArray.Count -eq 0) {
+        $options = "$(defaultTag)"
+    } elseif ($tagsArray.Count -eq 1) {
+        $options = "-Dcucumber.filter.tags=""$tagsArray"""
+    } else {
+        $tagsString = $tagsArray -join " or "  # Join the tags with " or "
+        $options = "-Dcucumber.filter.tags=""$tagsString"""
+    }
+
+    Write-Host "Options: $options"
+    Write-Output $options  # Output options directly as a variable
+    Write-Host "##vso[task.setvariable variable=mavenOptions]$options"  # Set variable for later use
+  displayName: 'Set Maven options'
+
+- task: Maven@4
+  displayName: 'Maven clean and verify'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    options: '$(mavenOptions)'  # Use the stored variable as Maven options
+
+- task: CopyFiles@2
+  displayName: 'Copy Cucumber reports'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/ExecutionReports'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/CucumberReports'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Cucumber reports as artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/CucumberReports'
+    ArtifactName: 'CucumberReports'
