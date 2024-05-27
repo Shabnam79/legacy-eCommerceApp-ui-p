@@ -100,7 +100,7 @@ const Review = (props) => {
 
     return (
         <>
-            <div className="container">
+            <div className="container mt-5">
                 <Title className="title-text" name="Ratings & Reviews" />
                 <h4 style={{ color: '#053645' }}>Rate this product</h4>
                 <StarRating parentCallback={setRating} myProductRating={productReviewDetails.rating} />
@@ -123,14 +123,14 @@ const Review = (props) => {
                                 errors,
                             }) => (
                                 <Form noValidate onSubmit={handleSubmit}>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Title</Form.Label>
-
                                         <Form.Control
                                             className='review-input'
                                             type="text"
                                             placeholder="Review title..."
                                             name="title"
+                                            style={{ height: '60px' }}
                                             value={values.title}
                                             onChange={handleChange}
                                             isInvalid={!!errors.title} />
@@ -141,9 +141,8 @@ const Review = (props) => {
 
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlTextarea1">
                                         <Form.Label>Description</Form.Label>
-
                                         <Form.Control
                                             as="textarea"
                                             className='review-textarea'
@@ -160,11 +159,12 @@ const Review = (props) => {
 
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlFile1">
                                         <Form.Label>Photos</Form.Label>
                                         <Form.Control
                                             className='review-input'
                                             type="file"
+                                            style={{ height: '70px' }}
                                             accept="image/*, video/*"
                                             onChange={handleMediaChange}
                                         />
@@ -186,19 +186,19 @@ const Review = (props) => {
                                                 ) : null}
                                                 <Button className="mt-2" onClick={() => handleFileRemove(index)} style={{
                                                     width: '100px',
-                                                    backgroundColor: 'rgb(5, 54, 69)',
+                                                    backgroundColor: '#8C7569',
                                                     border: 'none'
                                                 }}>Remove</Button>
                                             </div>
                                         ))}
                                     </Form.Group>
                                     <Button type="submit" style={{
-                                        backgroundColor: 'rgb(5, 54, 69)',
+                                        backgroundColor: '#8C7569',
                                         border: 'none',
                                         float: 'right',
                                         marginBottom: '50px'
                                     }}>
-                                        <i className="fas fa-user">&ensp;Submit</i>
+                                        <i className="fas fa-user">&ensp;<span style={{  }}>Submit</span></i>
                                     </Button>
                                 </Form>
                             )}

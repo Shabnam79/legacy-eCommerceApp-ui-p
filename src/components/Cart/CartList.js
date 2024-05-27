@@ -30,9 +30,9 @@ export default function CartList({ value }) {
     }
 
     return (
-        <div className="container-fluid mb-5 px-4 cartItemsArea">
+        <div className="container-fluid px-0">
             <LoadingOverlay active={loading} spinner text='Loading...'>
-                <div className='row px-2'>
+                <div className='row pr-2'>
                     {CartData.map(item => {
                         return <CartItem key={item.id} item={item} value={value} fetchAddToCartData={fetchAddToCartData} />
                     })}

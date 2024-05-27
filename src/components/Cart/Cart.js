@@ -31,7 +31,7 @@ const Cart = ({ history }) => {
                             <h1 className='text-title'>Shopping Cart</h1>
                         </center>
                         <div className='mt-5 container'>
-                            <div className='d-flex justify-content-between'>
+                            <div className='cartListTotals' style={{ borderTop: '1px solid #EAEAEC' }}>
                                 <CartList value={cartItems} />
                                 <CartTotals value={cartItems} history={history} />
                             </div>

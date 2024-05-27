@@ -30,7 +30,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
 
 
     return (
-        <div className="row my-2 text-capitalize text-center">
+        <div className="row my-2 pb-2 text-capitalize text-center" style={{borderBottom: '1px solid #EAEAEC' }}>
             <div className="d-flex align-items-center justify-content-center" style={{ width: '20%' }}>
                 <img src={img} style={{ width: "5rem" }} className="img-fluid" alt="product" />
             </div>
@@ -50,7 +50,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
                 </div>
             </div>
             <div className="d-flex align-items-center justify-content-end" style={{ width: '10%' }}>
-                <strong>$ {price * count}</strong>
+                <strong>${price * count}</strong>
             </div>
         </div>
     )

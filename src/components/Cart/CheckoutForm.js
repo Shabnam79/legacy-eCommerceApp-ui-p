@@ -93,10 +93,9 @@ const CheckoutForm = ({ value }) => {
             {
                 <div className="container">
                     <div id="DivShippingInfo" className="shipping-info mt-2">
-                        <h4>Shipping Info</h4>
+                        <h4 style={{ color: '#007185' }}>Shipping Address</h4>
                         <Card className='shipping-address-area' style={{ width: '20rem' }}>
                             <Card.Body>
-                                <Card.Title>Shipping Address</Card.Title>
                                 <Card.Text>
                                     <div className="billing-info">
                                         <p>
@@ -151,9 +150,9 @@ const CheckoutForm = ({ value }) => {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button style={{
+                                    <Button className='add-new-card-button' style={{
                                         border: 'none',
-                                        backgroundColor: '#053645',
+                                        backgroundColor: '#007185',
                                         color: '#FFF',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
@@ -168,9 +167,9 @@ const CheckoutForm = ({ value }) => {
                                 <Link to="/orders">
                                     <button style={{
                                         marginTop: "10px",
-                                        border: 'none',
-                                        backgroundColor: '#053645',
-                                        color: '#FFF',
+                                        backgroundColor: '#FFF',
+                                        border: '1px solid #007185',
+                                        color: '#007185',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
                                         borderRadius: '0.25rem',

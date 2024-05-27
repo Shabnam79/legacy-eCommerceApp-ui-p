@@ -25,7 +25,7 @@ const Store = ({ history }) => {
     }, []);
 
     return (
-        <div className='container'>
+        <div className='container my-5'>
             <section className='mb-5'>
                 {
                     cartItems.cart.length > 0
@@ -39,10 +39,9 @@ const Store = ({ history }) => {
                                     <CheckoutForm value={cartItems} />
                                 </Col>
                                 <Col className='mt-2'>
-                                    <h4>Order Summary</h4>
+                                    <h4 style={{ color: '#007185' }}>Order Summary</h4>
                                     <Card className='order-summary-card' style={{ width: '45rem' }}>
                                         <Card.Body>
-                                            <Card.Title>Item In Your Cart</Card.Title>
                                             <Card.Text>
                                                 <CheckoutColumns />
                                                 <CheckoutList value={cartItems} />

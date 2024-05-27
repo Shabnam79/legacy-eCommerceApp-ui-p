@@ -7,12 +7,12 @@ function OrderSummary(props) {
     return (
         <div className="order-summary" data-testid="order-summary" style={{ float: "right" }}>
             <div className="order-total" >
-                <div className="subtotal d-flex justify-content-end">Subtotal: $ {subtotal.toFixed(2)}</div>
-                <div className="shipping d-flex justify-content-end">Shipping: $ {shippingCost.toFixed(2)}</div>
+                <div className="subtotal d-flex justify-content-end">Subtotal: ${subtotal.toFixed(2)}</div>
+                <div className="shipping d-flex justify-content-end">Shipping: ${shippingCost.toFixed(2)}</div>
             </div>
             <hr />
             <div>
-                <strong>Total Amount: $ {totalAmount.toFixed(2)}</strong>
+                <strong>Total Amount: ${totalAmount.toFixed(2)}</strong>
             </div>
         </div>
     );

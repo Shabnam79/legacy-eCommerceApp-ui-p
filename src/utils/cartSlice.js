@@ -81,6 +81,15 @@ const cartSlice = createSlice({
             getTotals(state);
             localStorage.setItem("cart", JSON.stringify(state.cart));
         },
+        updateProductQuantity: (state, action) => {
+            const item = state.cart.find(product => product.id === action.payload.id);
+            if (item) {
+                item.count = action.payload.count;
+                state.subTotal = state.cart.reduce((acc, item) => acc + item.price * item.count, 0);
+                state.tax = state.subTotal * 0.1; // Assume 10% tax
+                state.total = state.subTotal + state.tax;
+            }
+        },
     }
 });
 
@@ -108,6 +117,6 @@ function getTotals(state) {
     localStorage.setItem("total", state.total);
 }
 
-export const { addToCart, removeFromCart, removeAll, reduceProduct, incrementProduct } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeAll, reduceProduct, updateProductQuantity, incrementProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

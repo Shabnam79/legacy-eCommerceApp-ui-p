@@ -79,7 +79,7 @@ const BillingAddressForm = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <div className='row'>
         <div className="wrapper w-100">
           <h2 className='text-title'>
@@ -90,10 +90,10 @@ const BillingAddressForm = () => {
               name="id"
               value={formData.id} />
             <div className="d-flex justify-content-center w-100 my-2">
-              <div className='mr-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="firstName">First Name</label><br></br>
+              <div className='mr-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="firstName">First Name</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="firstName"
                   name="firstName"
@@ -102,10 +102,10 @@ const BillingAddressForm = () => {
                   required
                 />
               </div>
-              <div className='ml-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="lastName">Last Name</label><br></br>
+              <div className='ml-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="lastName">Last Name</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="lastName"
                   name="lastName"
@@ -116,10 +116,10 @@ const BillingAddressForm = () => {
               </div>
             </div>
             <div className="d-flex w-100 justify-content-center my-2">
-              <div className='' style={{ width: '63%' }}>
-                <label className='billing-address-label' htmlFor="address">Address 1</label><br></br>
+              <div className='billingAddressLabelInput' style={{ width: '63%' }}>
+                <label className='billing-address-label' htmlFor="address">Address 1</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="address"
                   name="address"
@@ -130,10 +130,10 @@ const BillingAddressForm = () => {
               </div>
             </div>
             <div className='d-flex w-100 justify-content-center my-2'>
-              <div className='' style={{ width: '63%' }}>
-                <label className='billing-address-label' htmlFor="address2">Address 2</label><br></br>
+              <div className=' billingAddressLabelInput' style={{ width: '63%' }}>
+                <label className='billing-address-label' htmlFor="address2">Address 2</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="address2"
                   name="address2"
@@ -144,10 +144,10 @@ const BillingAddressForm = () => {
               </div>
             </div>
             <div className="d-flex w-100 justify-content-center my-2">
-              <div className='mr-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="city">City</label><br></br>
+              <div className='mr-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="city">City</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="city"
                   name="city"
@@ -156,10 +156,10 @@ const BillingAddressForm = () => {
                   required
                 />
               </div>
-              <div className='ml-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="state">State</label><br></br>
+              <div className='ml-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="state">State</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="state"
                   name="state"
@@ -170,10 +170,10 @@ const BillingAddressForm = () => {
               </div>
             </div>
             <div className="d-flex w-100 justify-content-center my-2">
-              <div className='mr-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="state">Country</label><br></br>
+              <div className='mr-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="state">Country</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="country"
                   name="country"
@@ -182,10 +182,10 @@ const BillingAddressForm = () => {
                   required
                 />
               </div>
-              <div className='ml-3' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="zipCode">ZIP Code</label><br></br>
+              <div className='ml-3 billingAddressLabelInput' style={{ width: '30%' }}>
+                <label className='billing-address-label' htmlFor="zipCode">ZIP Code</label>
                 <input
-                  className='w-100 py-1 px-2 billing-address-input'
+                  className='w-100 billing-address-input'
                   type="text"
                   id="zipCode"
                   name="zipCode"

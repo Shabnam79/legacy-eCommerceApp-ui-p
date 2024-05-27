@@ -52,10 +52,7 @@ export default function CategoryList() {
                 <div className="container mt-5">
                     <div className="d-flex flex-column">
                         <Link className='mb-3' to='/admin/AddCategories'>
-                            <Button style={{
-                                backgroundColor: 'rgb(5, 54, 69)',
-                                border: 'none'
-                            }}>Add Category</Button>
+                            <Button className="addCategoryButton">Add Category</Button>
                         </Link>
                         <Table striped bordered hover size='sm' style={{ width: '500px' }}>
                             <thead>

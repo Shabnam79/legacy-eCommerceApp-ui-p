@@ -24,7 +24,7 @@ const OrdersItem = ({ item }) => {
                         Order Placed
                     </b>
                     <Card.Img variant="top" src={item.image} style={{ height: "270px", borderRadius: '0px' }} />
-                    <Card.Body>
+                    <Card.Body className='p-0'>
                         <div className='cardBodyArea'>
                             <Card.Title>{item.name}</Card.Title>
                             <p>
