@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export const getCartProductsService = async (userId) => {
-    return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
+    return await axios.get(variables.API_URL_NEW + 'Product/GetCartByUserId', { params: { "UserId": userId } }).then((response) => {
         return response.data;
       }).catch(error => {
         console.log(error);
@@ -13,7 +13,7 @@ export const getCartProductsService = async (userId) => {
 }
 
 export const DeleteItemFromYourCart = async (id) => {
-    await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
+    await axios.delete(variables.API_URL_NEW + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
         toast.success(response.message, {
             autoClose: 1000,
           });
@@ -39,7 +39,7 @@ export const DeleteAllItemFromYourCart = async (userId) => {
 export const saveProductIntoCartService = async (product) => {
     axios({
         method: 'post',
-        url: variables.API_URL + 'Product/AddToCart',
+        url: variables.API_URL_NEW + 'Product/AddProductToCart',
         data: {...product }, 
 
     }).then(function(response) {
@@ -61,13 +61,22 @@ export const incrementCartProductsService = async (counts) => {
     return await counts + 1; 
 }
 
-export const UpdateItemQuantity = async (id, counts) => {
-    return await axios.put(variables.API_URL + `Product/UpdateItemQuantity?id=${id}&count=${counts}`).then((response) => {
-
-      }).catch(error => {
+export const UpdateItemQuantity = async (id, quantity) => {
+    return await axios.put(variables.API_URL_NEW + 'Product/EditCartItemQuantity', {
+        id: id,
+        quantity: quantity
+    }).then((response) => {
+        toast.success(response.message, {
+            autoClose: 1000,
+        });
+    }).catch(error => {
+        toast.error(error.message, {
+            autoClose: 1000,
+        });
         console.log(error);
-      });
-}
+    });
+};
+
 
 export const decrementCartProductsService = async (counts) => {
     return await counts - 1; 

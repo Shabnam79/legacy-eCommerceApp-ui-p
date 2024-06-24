@@ -11,6 +11,7 @@ import { DeleteAllItemFromYourCart } from '../../firebase/services/cart.service'
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store.cart);
+
     const fontsize = { fontSize: 'medium' };
     const { cart } = value;
     const { user } = useContext(userContext)

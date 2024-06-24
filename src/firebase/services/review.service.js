@@ -25,7 +25,7 @@ export const getProductReviewByOrderIdService = async (orderId) => {
 }
 
 export const getProductReviewByProductIdService = async (productId) => {
-  return await axios.get(variables.API_URL + 'Product/GetAllProductReviewsById', { params: { "productId": productId } }).then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/GetByProductId', { params: { "productId": productId } }).then((response) => {
     return response.data;
   }).catch(error => {
     toast.error(error.message, {

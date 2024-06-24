@@ -25,7 +25,7 @@ export default function CategoryList() {
 
         let data = await getAllCategoryService();
         if (data != undefined) {
-            setCategoryData(data);
+            setCategoryData(data.data);
             setLoading(false);
         }
     }
@@ -65,8 +65,8 @@ export default function CategoryList() {
                                 {
                                     CategoryData && CategoryData.length > 0 ? CategoryData.map((item) => {
                                         return (
-                                            <tr>
-                                                <td>{item.Category}</td>
+                                            <tr key={item.id}>
+                                                <td>{item.name}</td>
                                                 <td className="d-flex justify-content-center">
                                                     <Link to={`/admin/EditCategory/${item.id}`}>
                                                         <Button className="mr-2" size='sm' style={{

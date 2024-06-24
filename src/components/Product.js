@@ -12,7 +12,7 @@ import { FaHeart } from 'react-icons/fa';
 
 
 const Product = ({ product }) => {
-    const { title, img, price, inCart, id } = product;
+    const { name, description, imageData, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
@@ -115,13 +115,11 @@ const Product = ({ product }) => {
         <ProducrWrapper className="tx-product-card">
             <div className="" onClick={() => handleProductDetails(product)}>
                 <Link to="/details" style={{ height: '270px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <img src={img} alt="product" className="h-100 w-100" />
+                    <img src={`data:image/png;base64, ${imageData}`} alt="product" className="h-100 w-100" />
                 </Link>
             </div>
             <div className="d-flex flex-column product-title-area">
-                <h6 data-testid='product-title' className='product-title'>
-                    {title}:
-                </h6>
+                <h6 data-testid='product-title' className='product-title'  dangerouslySetInnerHTML={{ __html: name }}></h6>
                 <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
                     <span>Price: </span>
                     <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>

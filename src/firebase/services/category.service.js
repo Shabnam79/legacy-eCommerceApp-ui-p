@@ -3,31 +3,30 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export const saveCategoryIntoProductCategoryService = async (category) => {
-    return await 
-    axios({
-        method: 'post',
-        url: variables.API_URL + 'Category/AddCategory',
-        data: category
-    }) .then(function (response) {
-        return response.data;
-    }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
+    return await
+        axios({
+            method: 'post',
+            url: variables.API_URL_NEW + 'Admin/AddCategory',
+            data: category
+        }).then(function (response) {
+            return response.data;
+        }).catch(function (error) {
+            toast.error(error.message, {
+                autoClose: 1000,
+            });
         });
-    });
 }
 
-export const updateCategoryIntoProductCategoryService = async (Category, categoryId, userId) => {
+export const updateCategoryIntoProductCategoryService = async (Category, categoryId) => {
     const postData = {
         id: categoryId,
-        category: Category,
-        userId:userId
+        name: Category,
     };
     axios({
         method: 'put',
-        url: variables.API_URL + 'Category/UpdateCategory',
+        url: variables.API_URL_NEW + 'Admin/EditCategory',
         data: postData
-    }) .then(function (response) {
+    }).then(function (response) {
         return response.data;
     }).catch(function (error) {
         toast.error(error.message, {
@@ -36,46 +35,46 @@ export const updateCategoryIntoProductCategoryService = async (Category, categor
     });
 }
 
-export const getAllCategoryService  = async () => {
-    return await axios.get(variables.API_URL + 'Category/GetProductsCategory')
-    .then(function (response) {
-        return response.data;
-    }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
+export const getAllCategoryService = async (pageNumber, pageSize) => {
+    return await axios.get(variables.API_URL_NEW + 'Admin/CategoryList', { params: { "pageNumber": pageNumber, "pageSize": pageSize } })
+        .then(function (response) {
+            return response.data;
+        }).catch(function (error) {
+            toast.error(error.message, {
+                autoClose: 1000,
+            });
         });
-    });
 }
 
 export const DeleteCategoryByIdService = async (doc) => {
-   return await axios.delete(variables.API_URL + 'Category/DeleteCategory', { params: { "id": doc.id } })
-    .then(function (response) {
-        return response.data;
-    }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
+    return await axios.delete(variables.API_URL_NEW + 'Admin/DeleteCategory', { params: { "id": doc.id } })
+        .then(function (response) {
+            return response.data;
+        }).catch(function (error) {
+            toast.error(error.message, {
+                autoClose: 1000,
+            });
         });
-    });
 
 }
 
 export const getCategoryByCategoryIdService = async (id) => {
 
-    return await axios.get(variables.API_URL + 'Category/GetCategoryById', { params: { "id": id } })
-    .then(function (response) {
-        return response.data;
-    }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetByCategoryId', { params: { "id": id } })
+        .then(function (response) {
+            return response.data;
+        }).catch(function (error) {
+            toast.error(error.message, {
+                autoClose: 1000,
+            });
         });
-    });
 
 }
 
 export const updateBillingAddressService = async (payload) => {
     return await axios({
         method: 'put',
-        url: variables.API_URL + 'Address/UpdateBillingAddress',
+        url: variables.API_URL_NEW + 'Product/EditShippingAddress',
         data: payload,
     }).then(function (response) {
         toast.success(`Billing Address Updated Successfully`, {
@@ -91,16 +90,16 @@ export const updateBillingAddressService = async (payload) => {
 export const addBillingAddressService = async (payload) => {
     return await axios({
         method: 'post',
-        url: variables.API_URL + 'Address/AddBillingAddress',
+        url: variables.API_URL_NEW + 'Product/AddShippingAddress',
         data: payload,
 
-      }).then(function (response) {
+    }).then(function (response) {
         toast.success(`Billing Address Added Successfully`, {
-          autoClose: 3000,
+            autoClose: 3000,
         });
-      }).catch(function (error) {
+    }).catch(function (error) {
         toast.error(error.message, {
-          autoClose: 1000,
-      });
+            autoClose: 1000,
+        });
     });
 }

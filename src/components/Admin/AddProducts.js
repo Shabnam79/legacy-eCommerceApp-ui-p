@@ -17,23 +17,23 @@ function AddProducts() {
     const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [name, setName] = useState({
-        category: '',
         categoryId: '',
-        company: '',
-        info: '',
+        name: '',
+        companyName: '',
+        description: '',
         price: '',
-        title: '',
-        isStock: true,
-        userId: user.userId,
-        productId: '',
-        quantity: '',
-        count: 0
+        // category: '',
+        // isStock: true,
+        // userId: user.userId,
+        // productId: '',
+        // quantity: '',
+        // count: 0
     });
 
     const handleEditorChange = (html) => {
         setName(prevName => ({
             ...prevName,
-            info: html
+            description: html
         }));
     };
 
@@ -95,7 +95,7 @@ function AddProducts() {
         }
     }
     const fetchProductCategorylist = (id) => {
-        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
+        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.name)[0];
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
@@ -153,7 +153,7 @@ function AddProducts() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                     {dropdown.map((item) => (
-                                        <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                        <Dropdown.Item eventKey={item.id}>{item.name}</Dropdown.Item>
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -162,7 +162,7 @@ function AddProducts() {
                             <Form.Control
                                 type='file'
                                 className='addproduct-input'
-                                name="img"
+                                name="pictures"
                                 required
                                 placeholder='Upload image'
                                 onChange={handleMediaChange}
@@ -185,9 +185,9 @@ function AddProducts() {
                         <Form.Group className='mb-3' controlId='FormName'>
                             <Form.Control
                                 type='text'
-                                name="title"
+                                name="name"
                                 className='addproduct-input'
-                                value={name.title}
+                                value={name.name}
                                 placeholder='Enter Product Name...'
                                 required
                                 onChange={handleInputChange}
@@ -215,12 +215,13 @@ function AddProducts() {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormInfo'>
+                        <Form.Group className='mb-3' controlId='FormDescription'>
                             <ReactQuill
                                 className='addproduct-textarea'
                                 theme="snow"
                                 placeholder="Enter Product Description..."
-                                value={name.info}
+                                name="description"
+                                value={name.description}
                                 addRange={300}
                                 onChange={handleEditorChange}
                                 modules={{
@@ -236,23 +237,12 @@ function AddProducts() {
                                 }}
                             />
                         </Form.Group>
-                        {/* <Form.Group className='mb-3' controlId='FormInfo'>
-                            <Form.Control
-                                as="textarea"
-                                className='addproduct-textarea'
-                                rows={3}
-                                placeholder="Enter Product Description..."
-                                name="info"
-                                value={name.info}
-                                onChange={handleInputChange}
-                            />
-                        </Form.Group> */}
                         <Form.Group className='mb-3' controlId='FormCompany'>
                             <Form.Control
                                 type='text'
                                 className='addproduct-input'
-                                name="company"
-                                value={name.company}
+                                name="companyName"
+                                value={name.companyName}
                                 placeholder='Enter Product Company...'
                                 required
                                 onChange={handleInputChange}

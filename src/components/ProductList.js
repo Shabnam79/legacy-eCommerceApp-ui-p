@@ -48,8 +48,7 @@ const ProductList = () => {
         fetchCategorylist();
         dispatch(fetchProducts(''));
         document.title = "Our Products";
-        console.log(searchTerm)
-        //   filterProductsBySearchTerm(searchTerm)
+        // filterProductsBySearchTerm(searchTerm)
     }, []);
 
     useEffect(() => {
@@ -77,15 +76,15 @@ const ProductList = () => {
     }
 
     const fetchProductCategorylist = (id) => {
-        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
+        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.name)[0];
         setFilteredProducts(filterProductsBySearchTerm(allproducts, searchTerm));
         setSelectedValue(filterCategoryName);
         dispatch(fetchProducts(id));
     }
 
     const filterProductsBySearchTerm = (products, searchTerm) => {
-        return products?.filter((product) =>
-            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        return products?.data?.filter((product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
 
@@ -131,7 +130,7 @@ const ProductList = () => {
                                     <Dropdown.Menu className='tx-dropdown-menu-category'>
                                         <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
                                         {dropdown.map((item) => (
-                                            <Dropdown.Item id={item.id} eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                            <Dropdown.Item id={item.id} eventKey={item.id}>{item.name}</Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>
                                 </Dropdown>

@@ -46,14 +46,15 @@ const Signup = () => {
 
     const authentication = (values) => {
         const payload = {
+            userName: values.userName,
             email: values.email,
-            password: values.password
+            password: values.password,
+            roleId: 1
         }
 
         axios({
             method: 'post',
-            //url: variables.API_URL + 'Auth/SignUp',
-            url: variables.API_URL + `Auth/SignUp?UserName=${values.userName}`,
+            url: variables.API_URL_NEW + `Auth/SignUp`,
             data: payload,
 
         }).then((response) => {
@@ -79,9 +80,10 @@ const Signup = () => {
                         validationSchema={schema}
                         onSubmit={authentication}
                         initialValues={{
+                            userName: '',
                             email: '',
                             password: '',
-                            userName: '',
+                            roleId: 1
                         }}
                     >
                         {({

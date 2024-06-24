@@ -13,12 +13,12 @@ export default function EditUsers() {
 
     const navigate = useNavigate();
     const [UserRoleData, setUserRoleData] = useState({
-        role: '',
+        name: '',
         roleId: '',
         id: '',
         email: '',
-        userName: ''
-
+        userName: '',
+        password: ''  // Add password to the state
     });
 
     let { UserRoleId } = useParams();
@@ -31,7 +31,7 @@ export default function EditUsers() {
     const [loading, setLoading] = useState(false);
 
     const [name, setName] = useState({
-        role: '',
+        name: '',
         roleId: '',
         email: '',
         userName: ''
@@ -40,19 +40,32 @@ export default function EditUsers() {
     useEffect(() => {
         fetchUserData(UserRoleId);
         fetchRolelist();
-        document.title = "Admin - Edit Users"
+        document.title = "Admin - Edit Users";
     }, []);
 
 
     const fetchRolelist = async () => {
         let data = await getRolesService();
         if (data != undefined) {
-            setDropdown(data);
+            // Map role IDs to names
+            const mappedRoles = data.map(role => {
+                switch (role.id) {
+                    case 1:
+                        return { ...role, name: 'Admin' };
+                    case 2:
+                        return { ...role, name: 'Customer' };
+                    case 3:
+                        return { ...role, name: 'Staff' };
+                    default:
+                        return role;
+                }
+            });
+            setDropdown(mappedRoles);
         }
     }
 
     const fetchRoleSelectlist = (id) => {
-        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.role)[0];
+        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.name)[0];
         setSelectedValue(filterRoleName);
         setRoleIdValue(id);
     }
@@ -60,21 +73,35 @@ export default function EditUsers() {
     const fetchUserData = async (UserRoleId) => {
         let data = await getUserDataByIdService(UserRoleId);
         if (data != undefined) {
+            // Adjust name based on role ID
+            let roleName = '';
+            switch (data.roleId) {
+                case 1:
+                    roleName = 'Admin';
+                    break;
+                case 2:
+                    roleName = 'Customer';
+                    break;
+                case 3:
+                    roleName = 'Staff';
+                    break;
+                default:
+                    roleName = data.name;
+            }
             setUserRoleData(data);
-            setSelectedValue(data.role);
+            setSelectedValue(roleName);
             setRoleIdValue(data.roleId);
-            setUserIdValue(data.UID);
+            setUserIdValue(data.id);
             setUserNameValue(data.userName);
         }
     }
 
-
     const handleInputChange = (event) => {
-        const { name, value } = event.target
+        const { name, value } = event.target;
         setUserRoleData((prevName) => ({
             ...prevName,
             roleId: RoleIdValue,
-            role: selectedValue,
+            name: selectedValue,
             [name]: value
         }));
     };
@@ -83,13 +110,14 @@ export default function EditUsers() {
         e.preventDefault();
         setLoading(true);
         let addToUserRoleObj = {
+            id: UserIdValue,
+            userName: UserRoleData.userName,
+            email: UserRoleData.email,
+            password: UserRoleData.password,
             roleId: RoleIdValue,
-            role: selectedValue,
-            userId: UserIdValue,
-            userName: UserRoleData.userName
         };
         await updateRoleUsersService(addToUserRoleObj);
-        setLoading(true);
+        setLoading(false);
         if (navigate) {
             navigate('/admin/UserList');
         } else {
@@ -105,21 +133,20 @@ export default function EditUsers() {
                         <div className="my-3">
                             <Form.Group controlId="validationFormik03">
                                 <Dropdown title="All Roles" onSelect={(e) => fetchRoleSelectlist(e)}>
-                                    <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
+                                    <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24)', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
                                         {selectedValue || 'Select Roles'}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                         {dropdown.map((item) => (
-                                            <Dropdown.Item eventKey={item.id}>{item.role}</Dropdown.Item>
+                                            <Dropdown.Item eventKey={item.id}>{item.name}</Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>
                                 </Dropdown>
-
                             </Form.Group>
                         </div>
 
                         <Form.Group className='mb-3' controlId='FormEmail'>
-                            <Form.Label>Email :</Form.Label>
+                            <Form.Label>Email:</Form.Label>
                             <Form.Control
                                 className='editusers-input'
                                 disabled
@@ -132,13 +159,25 @@ export default function EditUsers() {
                             />
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='FormUserName'>
-                            <Form.Label>User Name :</Form.Label>
+                            <Form.Label>User Name:</Form.Label>
                             <Form.Control
                                 className='editusers-input'
                                 type='text'
                                 name="userName"
                                 value={UserRoleData.userName}
                                 placeholder='userName'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='FormPassword'>
+                            <Form.Label>Password:</Form.Label>
+                            <Form.Control
+                                className='editusers-input'
+                                type='text'  // Password input field
+                                name="password"
+                                value={UserRoleData.password}
+                                placeholder='Password'
                                 required
                                 onChange={handleInputChange}
                             />

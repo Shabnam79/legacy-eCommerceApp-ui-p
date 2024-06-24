@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 export const saveProductToWishlistService = async (product) => {
   axios({
     method: 'post',
-    url: variables.API_URL + 'Product/AddProductToWishList',
+    url: variables.API_URL_NEW + 'Product/AddProductToWishlist',
     data: { ...product },
 
   }).then(function (response) {
@@ -19,15 +19,15 @@ export const saveProductToWishlistService = async (product) => {
   });
 }
 
-export const DeleteProductFromWishList = async (productId, userId) => {
-    await axios.get(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "productId": productId,  "userId": userId} }).then((response) => {
+export const DeleteProductFromWishList = async (id) => {
+    await axios.delete(variables.API_URL_NEW + 'Product/RemoveProductWishlist', { params: { "id": id } }).then((response) => {
      }).catch(error => {
        console.log(error);
      });
 }
 
 export const getWishlistService = async (userId) => {
-    return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
+    return await axios.get(variables.API_URL_NEW + 'Product/YourWishList', { params: { "UserId": userId } }).then((response) => {
         return response.data;
       }).catch(error => {
         console.log(error);

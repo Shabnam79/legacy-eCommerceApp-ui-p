@@ -37,7 +37,7 @@ export default function EditCategory() {
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
-        await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
+        await updateCategoryIntoProductCategoryService(CategoryData, categoryId);
         setLoading(false);
         toast.success('Category updated in admin list', {
             autoClose: 1000,
@@ -55,7 +55,7 @@ export default function EditCategory() {
                                 className='editcategory-input'
                                 type='text'
                                 name="category"
-                                value={CategoryData}
+                                value={CategoryData.name}
                                 placeholder='Enter Category Name'
                                 required
                                 onChange={handleInputChange}

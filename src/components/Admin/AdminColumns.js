@@ -9,8 +9,8 @@ function AdminColumns() {
                     <th>Category</th>
                     <th>Products</th>
                     <th>Name of Product</th>
+                    <th>Name of Company</th>
                     <th>Price</th>
-                    <th>Quantity</th>
                     <th>Description</th>
                     <th className='text-center'>Actions</th>
                 </tr>

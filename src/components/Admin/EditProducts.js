@@ -18,13 +18,13 @@ function EditProducts() {
     const { user } = useContext(userContext);
     const navigate = useNavigate();
     const [ProductData, setProductData] = useState({
+        name: '',
         category: '',
         categoryId: '',
-        title: '',
         price: '',
         quantity: '',
-        info: '',
-        company: '',
+        description: '',
+        companyName: '',
         isStock: true,
         userId: user.userId,
         productId: '',
@@ -55,10 +55,10 @@ function EditProducts() {
     const [name, setName] = useState({
         category: '',
         categoryId: '',
-        company: '',
-        info: '',
+        companyName: '',
+        description: '',
         price: '',
-        title: '',
+        name: '',
         isStock: true,
         userId: user.userId,
         productId: '',
@@ -75,7 +75,7 @@ function EditProducts() {
     }
 
     const fetchProductCategorylist = (id) => {
-        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.Category)[0];
+        let filterCategoryName = dropdown.filter(x => x.id == id).map(x => x.name)[0];
         setSelectedValue(filterCategoryName);
         setCategoryIdValue(id);
     }
@@ -83,23 +83,24 @@ function EditProducts() {
     const fetchStoreProductData = async (productId) => {
 
         let data = await getProductByProductIdService(productId);
+        console.log(data)
         if (data != undefined) {
             setProductData(data);
-            setSelectedValue(data.category);
+            setSelectedValue(data.categoryName);
             setCategoryIdValue(data.categoryId);
             setIsStockValue(data.isStock);
             setIdValue(data.id);
-            setImageUrls(data.img);
+            setImageUrls(data.imageData);
         }
     }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setProductData((prevName) => ({
-            company: prevName.company,
-            info: prevName.info,
+            companyName: prevName.companyName,
+            description: prevName.description,
             price: prevName.price,
-            title: prevName.title,
+            name: prevName.name,
             isStock: prevName.isStock,
             userId: user.userId,
             productId: prevName.productId,
@@ -115,7 +116,7 @@ function EditProducts() {
     const handleEditorChange = (html) => {
         setProductData(prevName => ({
             ...prevName,
-            info: html
+            description: html
         }));
     };
 
@@ -123,19 +124,19 @@ function EditProducts() {
         e.preventDefault();
         setLoading(true);
         let addToCartProductObj = {
-            company: ProductData.company,
-            info: ProductData.info,
-            price: ProductData.price,
-            title: ProductData.title,
-            isStock: ProductData.isStock,
-            userId: user.userId,
-            productId: ProductData.productId,
-            quantity: ProductData.quantity,
-            count: ProductData.count,
+            id: idValue,
             categoryId: CategoryIdValue,
-            category: selectedValue,
-            isStock: isStockValue,
-            id: idValue
+            name: ProductData.name,
+            companyName: ProductData.companyName,
+            description: ProductData.description,
+            price: ProductData.price,
+            // isStock: ProductData.isStock,
+            // userId: user.userId,
+            // productId: ProductData.productId,
+            // quantity: ProductData.quantity,
+            // count: ProductData.count,
+            // category: selectedValue,
+            // isStock: isStockValue,
         };
         if (!imageUpload || imageUpload.length == 0) {
             await saveUpdateProductStore(addToCartProductObj);
@@ -199,7 +200,7 @@ function EditProducts() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                     {dropdown.map((item) => (
-                                        <Dropdown.Item eventKey={item.id}>{item.Category}</Dropdown.Item>
+                                        <Dropdown.Item eventKey={item.id}>{item.name}</Dropdown.Item>
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -209,14 +210,14 @@ function EditProducts() {
                             <Form.Control
                                 type='file'
                                 className='editproduct-input'
-                                name="img"
+                                name="pictures"
                                 placeholder='Upload image'
                                 accept="image/*"
                                 onChange={handleMediaChange}
                             />
                             <p className='image-validation'>* Please upload .png, .jpg, or .jpeg files and size should be within the allowed range (100KB - 300KB).</p>
                             <div className="d-flex flex-column my-3">
-                                <img src={imageUrls} style={{
+                                <img src={`data:image/png;base64, ${imageUrls}`} style={{
                                     height: "auto",
                                     width: "250px"
                                 }} className="img-fluid" alt="product" />
@@ -241,8 +242,8 @@ function EditProducts() {
                             <Form.Control
                                 className='editproduct-input'
                                 type='text'
-                                name="title"
-                                value={ProductData.title}
+                                name="name"
+                                value={ProductData.name}
                                 placeholder='Enter Product Name'
                                 required
                                 onChange={handleInputChange}
@@ -260,25 +261,13 @@ function EditProducts() {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormQuantity'>
-                            <Form.Label><b>Enter Quantity of Product:</b></Form.Label>
-                            <Form.Control
-                                className='editproduct-input'
-                                type='number'
-                                name="quantity"
-                                value={ProductData.quantity}
-                                placeholder='Enter Quantity of Product'
-                                required
-                                onChange={handleInputChange}
-                            />
-                        </Form.Group>
                         <Form.Group className='mb-3' controlId='FormInfo'>
                             <Form.Label><b>Enter Product Description:</b></Form.Label>
                             <ReactQuill
                                 className='editproduct-textarea'
                                 placeholder="Enter Product Description..."
                                 theme="snow"
-                                value={ProductData.info}
+                                value={ProductData.description}
                                 addRange={300}
                                 onChange={handleEditorChange}
                                 modules={{
@@ -294,41 +283,16 @@ function EditProducts() {
                                 }}
                             />
                         </Form.Group>
-                        {/* <Form.Group className='mb-3' controlId='FormDescription'>
-                            <Form.Label><b>Enter Product Description:</b></Form.Label>
-                            <Form.Control
-                                className='editproduct-textarea'
-                                as="textarea"
-                                rows={3}
-                                placeholder="Enter Product Description..."
-                                name="info"
-                                value={ProductData.info}
-                                onChange={handleEditorChange}
-                            />
-                        </Form.Group> */}
                         <Form.Group className='mb-3' controlId='FormCompany'>
                             <Form.Label><b>Enter Product Company:</b></Form.Label>
                             <Form.Control
                                 className='editproduct-input'
                                 type='text'
-                                name="company"
-                                value={ProductData.company}
+                                name="companyName"
+                                value={ProductData.companyName}
                                 placeholder='Enter Product Company...'
                                 required
                                 onChange={handleInputChange}
-                            />
-                        </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormisStock'>
-                            <Form.Label><b>In Stock:</b></Form.Label>
-                            <Form.Check
-                                type='checkbox'
-                                name="isStock"
-                                style={{ marginLeft: "95px", marginTop: "-29px" }}
-                                checked={isStockValue}
-                                placeholder='Select Stock...'
-                                onChange={(e) => {
-                                    setIsStockValue(e.target.checked)
-                                }}
                             />
                         </Form.Group>
                         <div className='pt-3'>

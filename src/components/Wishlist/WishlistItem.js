@@ -5,23 +5,22 @@ import { toast } from "react-toastify";
 import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
-    const { id, company, title, img, price, } = item;
+    const { id, company, title, imageData, price, } = item;
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
 
     const removeProductHandler = async (item) => {
-        console.log(item.productId, item.userId);
         try {
-            await DeleteProductFromWishList(item.productId, item.userId);
+            await DeleteProductFromWishList(item.wishlistId);
+            fetchAddToWishlistData();
             toast.warning(
                 `Product removed from the Wishlist`,
                 {
                     autoClose: 1000,
                 }
             );
-            fetchAddToWishlistData();
-            dispatch(removeFromWishlist(item));
+            // dispatch(removeFromWishlist(item));
         }
         catch (e) {
             console.log(e);
@@ -32,7 +31,7 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
         <div className="m-3 wishlist-card">
             <div className='tx-wishlist-product-card'>
                 <div className="wishlistImageArea" style={{ height: '270px' }}>
-                    <img src={img} style={{ width: "100%", height: '100%' }} className="img-fluid" alt="product" />
+                    <img src={`data:image/png;base64, ${imageData}`} style={{ width: "100%", height: '100%' }} className="img-fluid" alt="product" />
                 </div>
                 <div className='d-flex flex-column' style={{ padding: '.5rem 1rem', height: '115px' }}>
                     <div className='d-flex flex-column'>

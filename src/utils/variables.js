@@ -2,6 +2,7 @@ export const variables = {
     // UAT Environment
     // API_URL: "http://192.168.3.20:8080/api/",
     API_URL: "http://192.168.6.95:8080/api/",
+    API_URL_NEW: "http://192.168.12.39:8080/api/",
     
     //Development
     //API_URL: "https://localhost:7125/api/",

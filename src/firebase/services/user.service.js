@@ -2,8 +2,8 @@ import { variables } from "../../utils/variables";
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-export const getUserData = async () => {
-    return await axios.get(variables.API_URL + 'User/GetUsers')
+export const getUserData = async (details) => {
+    return await axios.get(variables.API_URL_NEW + 'Admin/UserList')
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
@@ -13,10 +13,10 @@ export const getUserData = async () => {
         });
 }
 
-export const getRolesByEmailService = async (email) => {
-    return await axios.get(variables.API_URL + 'User/GetUserByEmailId', { params: { "email": email } })
+export const getRolesByEmailService = async (credentials) => {
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetUserByEmailId', { params: { "email": credentials.email } })
         .then(function (response) {
-            if (response?.data?.UID) {
+            if (response?.data) {
                 return response.data;
             }
             return undefined;
@@ -28,7 +28,7 @@ export const getRolesByEmailService = async (email) => {
 }
 
 export const getRolesService = async () => {
-    return await axios.get(variables.API_URL + 'User/GetRoles')
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetRoles')
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
@@ -39,7 +39,7 @@ export const getRolesService = async () => {
 }
 
 export const getUserDataByIdService = async (UserRoleId) => {
-    return await axios.get(variables.API_URL + 'User/GetUserById', { params: { "userId": UserRoleId } })
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetUserByEmailId', { params: { "email": UserRoleId } })
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
@@ -53,7 +53,7 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
     return await
         axios({
             method: 'put',
-            url: variables.API_URL + 'User/UpdateUser',
+            url: variables.API_URL_NEW + 'Admin/EditUser',
             data: addToUserRoleObj
         })
             .then(function (response) {
@@ -72,7 +72,7 @@ export const createUsersService = async (payload) => {
     return await
         axios({
             method: 'post',
-            url: variables.API_URL + 'User/AddUser',
+            url: variables.API_URL_NEW + 'Admin/AddUser',
             data: payload,
         }).then(function (response) {
             toast.success(`User Detail Added Successfully`, {

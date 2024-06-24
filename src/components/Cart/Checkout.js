@@ -14,7 +14,7 @@ const Store = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext);
-    const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.count, 0);
+    const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.quantity, 0);
     const shippingCost = 10.0; // Sample shipping cost
     const total = subtotal + shippingCost;
     const fontsize = { fontSize: 'x-small' };

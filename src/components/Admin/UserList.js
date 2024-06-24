@@ -28,8 +28,9 @@ export default function UserList() {
         if (user.userId) {
             setTimeout(async () => {
                 let data = await getUserData();
-                if (data != undefined) {
-                    setUserData(data);
+                const details = data.data;
+                if (details != undefined) {
+                    setUserData(details);
                     setLoading(false);
                 }
             }, 5000);
@@ -41,7 +42,7 @@ export default function UserList() {
     const UserActive = async (item) => {
         if (item.isActive == true) {
             alert("Please click Ok to make your Account Inactive.");
-            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${false}`)
+            await axios.delete(variables.API_URL_NEW + `Admin/UpdateUserStatus?id=${item.id}`)
                 .then(function (response) {
                     toast.success(`User Active status is Updated Successfully`, {
                         autoClose: 3000,
@@ -54,7 +55,7 @@ export default function UserList() {
         }
         else {
             alert("Please click Ok to make your Account Active.");
-            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${true}`)
+            await axios.delete(variables.API_URL_NEW + `Admin/UpdateUserStatus?id=${item.id}`)
                 .then(function (response) {
                     toast.success(`User Active status is Updated Successfully`, {
                         autoClose: 3000,
@@ -71,14 +72,6 @@ export default function UserList() {
     const filteredUserData = UserData ? UserData.filter(item =>
         (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
     ) : [];
-
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredUserData.slice(indexOfFirstProduct, indexOfLastProduct);
-
-    const totalPages = Math.ceil(filteredUserData.length / productsPerPage);
-
-    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -105,14 +98,14 @@ export default function UserList() {
                             </thead>
                             <tbody>
                                 {
-                                    currentProducts.map((item, index) => (
+                                    filteredUserData.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.userName}</td>
                                             <td>{item.email}</td>
                                             <td>{item.role}</td>
                                             <td className='d-flex justify-content-center'>
                                                 <div className='d-flex justify-content-end w-100 mr-1'>
-                                                    <Link to={`/admin/EditUsers/${item.UID}`}>
+                                                    <Link to={`/admin/EditUsers/${item.email}`}>
                                                         <Button style={{
                                                             backgroundColor: 'rgb(5, 54, 69)',
                                                             border: 'none'
@@ -131,19 +124,6 @@ export default function UserList() {
                                 }
                             </tbody>
                         </Table>
-                        <div className='w-100'>
-                            <ul className="pagination justify-content-center">
-                                {
-                                    Array.from({ length: totalPages }, (_, i) => (
-                                        <li key={i + 1} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
-                                            <button onClick={() => paginate(i + 1)} className="pagination-button">
-                                                {i + 1}
-                                            </button>
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </LoadingOverlay>

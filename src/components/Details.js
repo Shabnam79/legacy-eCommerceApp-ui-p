@@ -20,7 +20,7 @@ const Details = () => {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
     const { detailProduct } = useSelector((state) => state.allproducts);
-    const { id, company, img, info, price, title, inCart, inWishlist } = detailProduct;
+    const { id, companyName, imageData, description, price, name, inCart, inWishlist } = detailProduct;
     const [CartData, setCartData] = useState([]);
     const [wishlist, setWishlist] = useState({});
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
@@ -35,8 +35,6 @@ const Details = () => {
             console.log("Please login to see past Cart products");
         }
     }, [user.userId]);
-
-    console.log(detailProduct);
 
     useEffect(() => {
         if (user.userId) {
@@ -67,7 +65,7 @@ const Details = () => {
         if (user.userId) {
             if (isProductWishlisted) {
                 try {
-                    await DeleteProductFromWishList(wishlist.productId, wishlist.userId);
+                    await DeleteProductFromWishList(wishlist.wishlistId);
 
                     toast.warning(
                         `Product removed from the Wishlist`,
@@ -199,12 +197,12 @@ const Details = () => {
         <div className="container py-3">
             <div className="row">
                 <div style={{ height: '400px' }} className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                    <img src={img} className="img-fluid h-100" alt="product" />
+                    <img src={`data:image/png;base64, ${imageData}`} className="img-fluid h-100" alt="product" />
                 </div>
                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                    <h2>{title}</h2>
+                    <h2>{name}</h2>
                     <h4 className="text-title textMadeBy text-uppercase mt-3 mb-2">
-                        Made By: <span className="text-uppercase">{company}</span>
+                        Made By: <span className="text-uppercase">{companyName}</span>
                     </h4>
                     <h4 className="textPrice">
                         <strong>
@@ -214,13 +212,8 @@ const Details = () => {
                     <p className="text-capitalize font-weight-bold mt-3 mb-0">
                         Some Info About Product
                     </p>
-                    <p className="text-muted lead" style={{ ...fontsize }} dangerouslySetInnerHTML={{ __html: info }}></p>
+                    <p className="text-muted lead" style={{ ...fontsize }} dangerouslySetInnerHTML={{ __html: description }}></p>
                     <div>
-                        {/* <Link to="/">
-                            <ButtonContainer>
-                                Back To Products
-                            </ButtonContainer>
-                        </Link> */}
                         <ButtonContainer className='addToCartButton' cart disabled={inCart ? true : false}
                             onClick={() => {
                                 addProductIntoCart(detailProduct);

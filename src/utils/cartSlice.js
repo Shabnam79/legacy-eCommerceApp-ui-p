@@ -31,9 +31,9 @@ const cartSlice = createSlice({
                 (item) => item.id === action.payload.id
             );
             if (itemIndex >= 0) {
-                state.cart[itemIndex].count += 1;
+                state.cart[itemIndex].quantity += 1;
             } else {
-                const product = { ...action.payload, count: 1 };
+                const product = { ...action.payload, quantity: 1 };
                 state.cart.push(product);
             }
 
@@ -59,9 +59,9 @@ const cartSlice = createSlice({
                 (item) => item.id === action.payload.id
             );
 
-            if (state.cart[itemIndex].count > 1) {
-                state.cart[itemIndex].count -= 1;
-            } else if (state.cart[itemIndex].count === 1) {
+            if (state.cart[itemIndex].quantity > 1) {
+                state.cart[itemIndex].quantity -= 1;
+            } else if (state.cart[itemIndex].quantity === 1) {
                 const updatedCart = state.cart.filter(
                     (p) => p.id !== action.payload.id
                 );
@@ -75,8 +75,8 @@ const cartSlice = createSlice({
             const itemIndex = state.cart.findIndex(
                 (item) => item.id === action.payload.id
             );
-            if (state.cart[itemIndex].count >= 1) {
-                state.cart[itemIndex].count += 1;
+            if (state.cart[itemIndex].quantity >= 1) {
+                state.cart[itemIndex].quantity += 1;
             }
             getTotals(state);
             localStorage.setItem("cart", JSON.stringify(state.cart));
@@ -84,8 +84,8 @@ const cartSlice = createSlice({
         updateProductQuantity: (state, action) => {
             const item = state.cart.find(product => product.id === action.payload.id);
             if (item) {
-                item.count = action.payload.count;
-                state.subTotal = state.cart.reduce((acc, item) => acc + item.price * item.count, 0);
+                item.quantity = action.payload.quantity;
+                state.subTotal = state.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
                 state.tax = state.subTotal * 0.1; // Assume 10% tax
                 state.total = state.subTotal + state.tax;
             }
@@ -102,7 +102,7 @@ export const fetchCartProducts = createAsyncThunk("fetch/cartProducts", async (u
 function getTotals(state) {
 
     const totalPrice = state.cart.reduce(
-        (a, c) => a + c.count * c.price,
+        (a, c) => a + c.quantity * c.price,
         0
     );
     const tempTax = totalPrice * 0.1;

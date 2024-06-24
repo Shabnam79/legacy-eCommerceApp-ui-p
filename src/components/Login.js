@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import React, { useContext, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import userContext from "../utils/userContext";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import LoginModal from './LoginModal';
@@ -27,8 +27,6 @@ const Login = () => {
     const { setItem } = useLocalStorage();
     const [modalShow, setModalShow] = useState(false);
     const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
     const stylingLoginButton = {
         color: 'white',
         backgroundColor: '#8C7569',
@@ -47,59 +45,40 @@ const Login = () => {
     }
 
     const authentication = async (values) => {
-        let data = await getRolesByEmailService(values.email);
+        let data = await getRolesByEmailService(values);
         if (data != undefined) {
-            if (data.isActive == true) {
-                const payload = {
-                    email: values.email,
-                    password: values.password
-                }
+            const payload = {
+                email: values.email,
+                password: values.password
+            }
 
-                axios({
-                    method: 'post',
-                    url: variables.API_URL + 'Auth/Login',
-                    data: payload,
+            axios({
+                method: 'post',
+                url: variables.API_URL_NEW + 'Auth/Login',
+                data: payload,
 
-                }).then((response) => {
-                    let userData = {
-                        userId: response.data.localId,
-                        email: response.data.email,
-                        roleId: data.roleId,
-                        userName: data.userName
-                    };
+            }).then((response) => {
+                let userData = {
+                    email: data.email,
+                    roleId: data.roleId,
+                    userId: data.id,
+                    userName: data.userName
+                };
 
-                    setItem("user", JSON.stringify(userData));
-                    setUser({
-                        ...user,
-                        userId: response.data.localId,
-                        email: response.data.email,
-                        roleId: data.roleId,
-                        userName: data.userName
+                setItem("user", JSON.stringify(userData));
+                setUser({
+                    ...user,
+                    userId: response.data,
+                    email: response.data.email,
+                    roleId: data.roleId,
+                    userName: data.userName
 
-                    });
-                }).catch(error => {
-                    toast.error(error.message, {
-                        autoClose: 1000,
-                    });
                 });
-
-            }
-            else if (data.isActive == false) {
-                toast.warning(
-                    `your Account is Inactive.Please connect with Admin.`,
-                    {
-                        autoClose: 1000,
-                    }
-                );
-            }
-            else {
-                toast.warning(
-                    `your Account is Inactive.Please connect with Admin.`,
-                    {
-                        autoClose: 1000,
-                    }
-                );
-            }
+            }).catch(error => {
+                toast.error(error.message, {
+                    autoClose: 1000,
+                });
+            });
 
         } else {
             toast.warning(
@@ -133,7 +112,7 @@ const Login = () => {
                                     <Form.Label style={{ fontSize: '14px' }}>Email</Form.Label>
                                     <Form.Control
                                         type="email"
-                                        placeholder="jane@formik.com"
+                                        placeholder="username@mailserver.domain"
                                         className='login-signup-input'
                                         name="email"
                                         value={values.email}

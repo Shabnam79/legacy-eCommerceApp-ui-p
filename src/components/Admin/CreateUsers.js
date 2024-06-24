@@ -35,6 +35,7 @@ export default function CreateUsers() {
     const [selectedValue, setSelectedValue] = useState('');
     const [RoleIdValue, setRoleIdValue] = useState('');
     const [loading, setLoading] = useState(false);
+    const [details, setDetails] = useState('')
 
     useEffect(() => {
         fetchRolelist();
@@ -50,7 +51,7 @@ export default function CreateUsers() {
     }
 
     const fetchRoleSelectlist = (id) => {
-        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.role)[0];
+        let filterRoleName = dropdown.filter(x => x.id == id).map(x => x.name)[0];
         setSelectedValue(filterRoleName);
         setRoleIdValue(id);
     }
@@ -60,7 +61,7 @@ export default function CreateUsers() {
         const payload = {
             email: values.email,
             password: values.password,
-            role: selectedValue,
+            name: selectedValue,
             roleId: RoleIdValue,
             isActive: true,
             userName: values.userName
@@ -106,7 +107,7 @@ export default function CreateUsers() {
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
                                                         {dropdown.map((item) => (
-                                                            <Dropdown.Item key={item.id} eventKey={item.id}>{item.role}</Dropdown.Item>
+                                                            <Dropdown.Item key={item.id} eventKey={item.id}>{item.name}</Dropdown.Item>
                                                         ))}
                                                     </Dropdown.Menu>
                                                 </Dropdown>

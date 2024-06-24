@@ -24,10 +24,8 @@ export default function AddCategories() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setName(() => ({
-
             [name]: value,
-            userId: user.userId
-
+            //userId: user.userId
         }));
     };
 
@@ -56,7 +54,7 @@ export default function AddCategories() {
                             <Form.Control
                                 type='text'
                                 className='addcategories-input'
-                                name="Category"
+                                name="name"
                                 value={name.Category}
                                 placeholder='Enter Category Name'
                                 required

@@ -13,14 +13,15 @@ const BillingAddressForm = () => {
   const { user } = useContext(userContext);
   const [formData, setFormData] = useState({
     id: '',
-    firstName: '',
-    lastName: '',
-    address: '',
+    email: '',
+    gender: '',
+    address1: '',
     address2: '',
     city: '',
     state: '',
     country: '',
-    zipCode: '',
+    pinCode: '',
+    phone: ''
   });
 
   useEffect(() => {
@@ -28,53 +29,51 @@ const BillingAddressForm = () => {
     document.title = "Shipping Address";
   }, [user.userId]);
 
+  const fetchData = async () => {
+    if (user.userId) {
+      try {
+        const response = await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
+          params: { "userId": user.userId }
+        });
+        const data = response.data;
+        if (data) {
+          setFormData({
+            id: data.id || '',
+            email: data.email || '',
+            gender: data.gender || '',
+            address1: data.address1 || '',
+            address2: data.address2 || '',
+            city: data.city || '',
+            state: data.state || '',
+            country: data.country || '',
+            pinCode: data.pinCode || '',
+            phone: data.phone || ''
+          });
+        }
+      } catch (error) {
+        toast.error(error.message, {
+          autoClose: 1000,
+        });
+      }
+    }
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const fetchData = async () => {
-    if (user.userId) {
-      axios.get(variables.API_URL + 'Address/GetBillingAddressByUserId', { params: { "userId": user.userId } })
-        .then(function (response) {
-          if (response.data[0] != null) {
-            return setFormData({
-              id: response.data[0].id,
-              firstName: response.data[0].firstName,
-              lastName: response.data[0].lastName,
-              address: response.data[0].address,
-              address2: response.data[0].address2,
-              city: response.data[0].city,
-              state: response.data[0].state,
-              country: response.data[0].country,
-              zipCode: response.data[0].zipCode,
-            });
-          }
-        }).catch(function (error) {
-          toast.error(error.message, {
-            autoClose: 1000,
-          });
-        });
-    }
-  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      id: formData.id,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      address: formData.address,
-      address2: formData.address2,
-      city: formData.city,
-      state: formData.state,
-      country: formData.country,
-      zipCode: formData.zipCode,
-      userId: user.userId
-    }
-    if (user.userId && formData.id) {
-      updateBillingAddressService(payload);
-    }
-    else if (user.userId && formData.id == "") {
-      addBillingAddressService(payload);
+    if (user.userId) {
+      if (formData.id) {
+        updateBillingAddressService(formData);
+      } else {
+        addBillingAddressService({
+          userId: user.userId,
+          ...formData
+        });
+      }
     }
   }
 
@@ -86,30 +85,42 @@ const BillingAddressForm = () => {
             <center>Shipping Address</center>
           </h2>
           <form className='w-100 my-3 p-3 billing-address-form' onSubmit={handleSubmit}>
-            <input type="text" hidden id="id"
-              name="id"
-              value={formData.id} />
-            <div className="d-flex justify-content-center w-100 my-2">
+            <input type="text" hidden id="id" name="id" value={formData.id} />
+            <div className="d-flex w-100 justify-content-center my-2">
               <div className='mr-3 billingAddressLabelInput' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="firstName">First Name</label>
+                <label className='billing-address-label' htmlFor="phone">Phone</label>
                 <input
                   className='w-100 billing-address-input'
                   type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleInputChange}
                   required
                 />
               </div>
               <div className='ml-3 billingAddressLabelInput' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="lastName">Last Name</label>
+                <label className='billing-address-label' htmlFor="gender">Gender</label>
                 <input
                   className='w-100 billing-address-input'
                   type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
+                  id="gender"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className='d-flex w-100 justify-content-center my-2'>
+              <div className='billingAddressLabelInput' style={{ width: '63%' }}>
+                <label className='billing-address-label' htmlFor="email">Email</label>
+                <input
+                  className='w-100 billing-address-input'
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
                   required
                 />
@@ -117,20 +128,20 @@ const BillingAddressForm = () => {
             </div>
             <div className="d-flex w-100 justify-content-center my-2">
               <div className='billingAddressLabelInput' style={{ width: '63%' }}>
-                <label className='billing-address-label' htmlFor="address">Address 1</label>
+                <label className='billing-address-label' htmlFor="address1">Address 1</label>
                 <input
                   className='w-100 billing-address-input'
                   type="text"
-                  id="address"
-                  name="address"
-                  value={formData.address}
+                  id="address1"
+                  name="address1"
+                  value={formData.address1}
                   onChange={handleInputChange}
                   required
                 />
               </div>
             </div>
             <div className='d-flex w-100 justify-content-center my-2'>
-              <div className=' billingAddressLabelInput' style={{ width: '63%' }}>
+              <div className='billingAddressLabelInput' style={{ width: '63%' }}>
                 <label className='billing-address-label' htmlFor="address2">Address 2</label>
                 <input
                   className='w-100 billing-address-input'
@@ -171,7 +182,7 @@ const BillingAddressForm = () => {
             </div>
             <div className="d-flex w-100 justify-content-center my-2">
               <div className='mr-3 billingAddressLabelInput' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="state">Country</label>
+                <label className='billing-address-label' htmlFor="country">Country</label>
                 <input
                   className='w-100 billing-address-input'
                   type="text"
@@ -183,13 +194,13 @@ const BillingAddressForm = () => {
                 />
               </div>
               <div className='ml-3 billingAddressLabelInput' style={{ width: '30%' }}>
-                <label className='billing-address-label' htmlFor="zipCode">ZIP Code</label>
+                <label className='billing-address-label' htmlFor="pinCode">ZIP Code</label>
                 <input
                   className='w-100 billing-address-input'
                   type="text"
-                  id="zipCode"
-                  name="zipCode"
-                  value={formData.zipCode}
+                  id="pinCode"
+                  name="pinCode"
+                  value={formData.pinCode}
                   onChange={handleInputChange}
                   required
                 />
