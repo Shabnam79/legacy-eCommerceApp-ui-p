@@ -44,7 +44,7 @@ const Product = ({ product }) => {
             if (item.id === data.productId) {
                 iscart = true;
                 productIds = data.id;
-                Counts = data.count;
+                Counts = data.quantity;
                 return true; // Exit the loop early when a match is found  
             }
             return false;
@@ -53,15 +53,9 @@ const Product = ({ product }) => {
             if (!iscart) {
                 try {
                     let addToCartProductObj = {
-                        company: item.company,
-                        img: item.img,
-                        inCart: true,
-                        info: item.info,
-                        price: item.price,
                         productId: item.id,
                         userId: user.userId,
-                        title: item.title,
-                        count: item.count + 1
+                        quantity: 1
                     }
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
@@ -119,7 +113,7 @@ const Product = ({ product }) => {
                 </Link>
             </div>
             <div className="d-flex flex-column product-title-area">
-                <h6 data-testid='product-title' className='product-title'  dangerouslySetInnerHTML={{ __html: name }}></h6>
+                <h6 data-testid='product-title' className='product-title' dangerouslySetInnerHTML={{ __html: name }}></h6>
                 <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
                     <span>Price: </span>
                     <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>

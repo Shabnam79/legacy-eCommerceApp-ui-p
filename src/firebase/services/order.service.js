@@ -3,13 +3,10 @@ import { variables } from "../../utils/variables";
 import axios from 'axios';
 
 export const saveCartOrderService = async (cartArray) => {
-        let payload = {
-            productOrders: cartArray
-          };
         return await axios({
             method: 'post',
-            url: variables.API_URL + 'Product/PlaceOrder',
-            data: payload , 
+            url: variables.API_URL_NEW + 'Product/PlaceOrder',
+            data: cartArray, 
     
         }).then(function(response) {
             toast.success(`order placed successfully`, {

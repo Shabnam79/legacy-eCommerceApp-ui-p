@@ -43,22 +43,18 @@ const CheckoutForm = ({ value }) => {
 
     const placeProductOrder = async (e) => {
         if (user.userId) {
-            const dataArray = [];
+            let orderTotal = 0;
             cart.forEach(element => {
-                dataArray.push({
-                    name: element.title,
-                    orderDate: Date(),
-                    orderId: uuidv4(),
-                    price: element.price,
-                    productId: element.productId,
-                    quantity: element.count,
-                    total: element.price * element.count,
-                    userId: user.userId,
-                    image: element.img,
-                    id: element.id
-                })
+                console.log(element);
+                orderTotal = element.price * element.quantity;
             });
-            await saveCartOrderService(dataArray);
+            console.log(orderTotal);
+            let obj = {
+                userId: user.userId,
+                orderTotal: orderTotal
+            }
+            console.log(obj);
+            await saveCartOrderService(obj);
             dispatch(removeAll());
             toast.success(`Your order has been successfully placed!`, {
                 autoClose: 1000,
