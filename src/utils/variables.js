@@ -6,8 +6,9 @@ export const variables = {
     
     //Development
     //API_URL: "https://localhost:7125/api/",
-    ROLE_ADMIN: "HPlNPNZm2YT24N4CK5rG",
-    ROLE_CUSTOMER: "tMcXpUvDofmo6DVMtBeD",
+    ROLE_ADMIN: "1",
+    ROLE_STAFF: "2",
+    ROLE_CUSTOMER: "4",
     PAGINATION_ProductList: {
         PRODUCTS_PER_PAGE: 12,
     },
