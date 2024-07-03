@@ -61,7 +61,7 @@ const Product = ({ product }) => {
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    toast.success(`${item.title} is added to cart`, {
+                    toast.success(`${item.name} is added to cart`, {
                         autoClose: 1000,
                     });
                 } catch (e) {

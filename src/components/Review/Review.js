@@ -49,7 +49,7 @@ const Review = (props) => {
         const data = await getProductReviewByOrderIdService(orderId);
         if (data.length != 0) {
             setProductReviewDetails(data);
-            setImageUrls(data.img);
+            setImageUrls(data.imageData);
             setIsUpdateReview(true);
         }
         else {
@@ -59,13 +59,14 @@ const Review = (props) => {
 
     const addUpdateProductReview = async (values) => {
         let reviewObj = {
-            userId: user.userId,
-            orderId: orderId,
-            productId: productId,
+            Id: values.id,
+            Title: values.title,
+            Description: values.description,
+            ProductId: productId,
+            UserId: user.userId,
+            OrderItemId: orderId,
+            Rating: productReviewDetails.rating,
             reviewDate: Date(),
-            title: values.title,
-            description: values.description,
-            rating: productReviewDetails.rating
         }
         if (isUpdateReview == false) {
             if (!imageUpload || imageUpload.length == 0) {
@@ -170,7 +171,7 @@ const Review = (props) => {
                                         />
                                         <div className="">
                                             {imageUrls.length != 0 ? (
-                                                <img src={imageUrls} style={{
+                                                <img src={`data:image/png;base64, ${imageUrls}`} style={{
                                                     height: "auto",
                                                     width: "250px"
                                                 }} className="img-fluid mt-3" alt="product" />
@@ -198,7 +199,7 @@ const Review = (props) => {
                                         float: 'right',
                                         marginBottom: '50px'
                                     }}>
-                                        <i className="fas fa-user">&ensp;<span style={{  }}>Submit</span></i>
+                                        <i className="fas fa-user">&ensp;<span style={{}}>Submit</span></i>
                                     </Button>
                                 </Form>
                             )}

@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import StaticStarRating from './StaticStarRating';
 
 const ReviewCards = ({ review }) => {
-    const { rating, title, description, img, reviewDate } = review;
+    const { rating, title, description, imageData, reviewDate } = review;
     return (
         <Card style={{
             width: '100%',
@@ -26,8 +26,8 @@ const ReviewCards = ({ review }) => {
                     <strong style={{ fontWeight: '500' }}>Review:</strong> {description}
                 </Card.Text>
                 <div className='d-flex flex-column my-3' style={{ paddingLeft: '10px' }} >
-                    {img && img.length !== 0 ? (
-                        <img src={img} style={{ height: "auto", width: "250px" }} className="img-fluid" alt="product" />
+                    {imageData && imageData.length !== 0 ? (
+                        <img src={`data:image/png;base64, ${imageData}`} style={{ height: "auto", width: "250px" }} className="img-fluid" alt="product" />
                     ) : null}
                 </div>
             </Card.Body>

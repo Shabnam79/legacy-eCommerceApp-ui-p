@@ -147,19 +147,19 @@ const Details = () => {
                 try {
                     let addToCartProductObj = {
                         company: item.company,
-                        img: item.img,
+                        img: item.imageData,
                         inCart: true,
                         info: item.info,
                         price: item.price,
                         productId: item.id,
                         userId: user.userId,
-                        title: item.title,
+                        title: item.name,
                         count: item.count + 1
                     }
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
-                    toast.success(`${item.title} is added to cart`, {
+                    toast.success(`${item.name} is added to cart`, {
                         autoClose: 1000,
                     });
                 } catch (e) {

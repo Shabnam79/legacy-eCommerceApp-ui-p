@@ -7,25 +7,25 @@ import { toast } from "react-toastify";
 export const getCartProductsService = async (userId) => {
     return await axios.get(variables.API_URL_NEW + 'Product/GetCartByUserId', { params: { "UserId": userId } }).then((response) => {
         return response.data;
-      }).catch(error => {
+    }).catch(error => {
         console.log(error);
-      });
+    });
 }
 
 export const DeleteItemFromYourCart = async (id) => {
     await axios.delete(variables.API_URL_NEW + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
         toast.success(response.message, {
             autoClose: 1000,
-          });
-     }).catch(error => {
+        });
+    }).catch(error => {
         toast.error(error.message, {
             autoClose: 1000,
-          });
-     });
+        });
+    });
 }
 
 export const DeleteAllItemFromYourCart = async (userId) => {
-    await axios.get(variables.API_URL + 'Product/ClearCart', { params: { "userId": userId } }).then((response) => {
+    await axios.delete(variables.API_URL_NEW + 'Product/ClearCart', { params: { "UserId": userId } }).then((response) => {
         toast.success(response.message, {
             autoClose: 1000,
         });
@@ -40,16 +40,16 @@ export const saveProductIntoCartService = async (product) => {
     axios({
         method: 'post',
         url: variables.API_URL_NEW + 'Product/AddProductToCart',
-        data: {...product }, 
+        data: { ...product },
 
-    }).then(function(response) {
+    }).then(function (response) {
         toast.success(response.message, {
             autoClose: 1000,
-          });
-    }).catch(function (error){
+        });
+    }).catch(function (error) {
         toast.error(error.message, {
             autoClose: 1000,
-          });
+        });
     });
 }
 
@@ -57,8 +57,8 @@ export const getProductByIdService = async (productId) => {
     return doc(db, "addToCartStore", productId);
 }
 
-export const incrementCartProductsService = async (counts) => {    
-    return await counts + 1; 
+export const incrementCartProductsService = async (counts) => {
+    return await counts + 1;
 }
 
 export const UpdateItemQuantity = async (id, quantity) => {
@@ -79,7 +79,7 @@ export const UpdateItemQuantity = async (id, quantity) => {
 
 
 export const decrementCartProductsService = async (counts) => {
-    return await counts - 1; 
+    return await counts - 1;
 }
 
 export const getCartProductByProductIdService = async (productId) => {

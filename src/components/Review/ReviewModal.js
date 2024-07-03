@@ -11,24 +11,22 @@ const ReviewModal = (props) => {
     const [selectedOption, setSelectedOption] = useState('Top Reviews');
 
     useEffect(() => {
-        // fetchProductReviews();
+        fetchProductReviews();
     }, [selectedOption]);
 
-    // const fetchProductReviews = async () => {
-    //     let data = await getProductReviewByProductIdService(props.productId);
-    //     console.log(props.productId)
-    //     console.log(data)
-    //     if (data != undefined) {
-    //         // Sort reviews based on the selected option
-    //         if (selectedOption === 'Top Reviews') {
-    //             data.sort((a, b) => b.rating - a.rating);
-    //         } else if (selectedOption === 'Most Recent') {
-    //             data.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
-    //         }
+    const fetchProductReviews = async () => {
+        let data = await getProductReviewByProductIdService(props.productId);
+        if (data != undefined) {
+            // Sort reviews based on the selected option
+            if (selectedOption === 'Top Reviews') {
+                data.sort((a, b) => b.rating - a.rating);
+            } else if (selectedOption === 'Most Recent') {
+                data.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+            }
 
-    //         setReviews(data);
-    //     }
-    // }
+            setReviews(data);
+        }
+    }
 
     const handleSelectChange = (eventKey) => {
         setSelectedOption(eventKey);

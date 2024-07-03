@@ -27,7 +27,7 @@ const Modal = () => {
                                         item added to the cart
                                     </h3>
                                     <div className='mt-3 w-100' style={{ height: '300px' }}>
-                                        <img src={modalProduct.img} className="h-100 w-auto" alt="product" />
+                                        <img src={`data:image/png;base64, ${modalProduct.imageData}`} className="h-100 w-auto" alt="product" />
                                     </div>
                                     <h5 id="hdItemCartTitle" className='mt-3'>{modalProduct.title}</h5>
                                     <h5 id="hdItemCartPrice" className="text-muted">price : $ {modalProduct.price}</h5>

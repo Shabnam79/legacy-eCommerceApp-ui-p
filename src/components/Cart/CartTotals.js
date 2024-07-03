@@ -11,7 +11,6 @@ import { DeleteAllItemFromYourCart } from '../../firebase/services/cart.service'
 export default function CartTotals({ value }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((store) => store.cart);
-
     const fontsize = { fontSize: 'medium' };
     const { cart } = value;
     const { user } = useContext(userContext)
@@ -39,8 +38,8 @@ export default function CartTotals({ value }) {
     };
 
     const clearCart = () => {
-        if (cartItems.length > 0) {
-            DeleteAllItemFromYourCart(cartItems[0].userId);
+        if (cartItems.cart.length > 0) {
+            DeleteAllItemFromYourCart(cartItems.cart[0].userId);
         }
         dispatch(removeAll());
     };

@@ -15,7 +15,7 @@ export const getProductReviewsService = async (orderId) => {
 }
 
 export const getProductReviewByOrderIdService = async (orderId) => {
-  return await axios.get(variables.API_URL + 'Product/GetProductReviewByOrderId', { params: { "orderId": orderId } }).then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/GetProductReviewByOrderItemId', { params: { "OrderItemId": orderId } }).then((response) => {
     return response.data;
   }).catch(error => {
     toast.error(error.message, {
@@ -25,7 +25,7 @@ export const getProductReviewByOrderIdService = async (orderId) => {
 }
 
 export const getProductReviewByProductIdService = async (productId) => {
-  return await axios.get(variables.API_URL_NEW + 'Product/GetByProductId', { params: { "productId": productId } }).then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/GetProductReviewByProductId', { params: { "productId": productId } }).then((response) => {
     return response.data;
   }).catch(error => {
     toast.error(error.message, {
@@ -45,7 +45,7 @@ export const saveProductReview = async (productReview, image) => {
   });
   await axios({
     method: 'post',
-    url: variables.API_URL + 'Product/AddProductReview',
+    url: variables.API_URL_NEW + 'Product/AddRatingReviews',
     data: formData,
     headers: {
       'Accept': 'application/json',
@@ -74,7 +74,7 @@ export const updateProductReview = async (productReviewDoc, image) => {
   });
   await axios({
     method: 'put',
-    url: variables.API_URL + 'Product/UpdateProductReview',
+    url: variables.API_URL_NEW + 'Product/EditRatingReviews',
     data: formData,
     headers: {
       'Accept': 'application/json',
