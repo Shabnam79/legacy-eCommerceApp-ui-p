@@ -34,6 +34,7 @@ const Details = () => {
         } else {
             console.log("Please login to see past Cart products");
         }
+        
     }, [user.userId]);
 
     useEffect(() => {

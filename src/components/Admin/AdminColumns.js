@@ -10,8 +10,8 @@ function AdminColumns() {
                     <th>Products</th>
                     <th>Name of Product</th>
                     <th>Name of Company</th>
-                    <th>Price</th>
                     <th>Description</th>
+                    <th>Price</th>
                     <th className='text-center'>Actions</th>
                 </tr>
             </thead>
