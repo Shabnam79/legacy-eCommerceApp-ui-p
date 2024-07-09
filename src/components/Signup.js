@@ -49,7 +49,7 @@ const Signup = () => {
             userName: values.userName,
             email: values.email,
             password: values.password,
-            roleId: 1
+            roleId: 4
         }
 
         axios({

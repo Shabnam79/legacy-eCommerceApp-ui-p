@@ -36,6 +36,8 @@ const CheckoutForm = ({ value }) => {
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
 
+    console.log(address);
+
     useEffect(() => {
         fetchAddShippingDetails();
         document.title = "Checkout"
@@ -77,7 +79,7 @@ const CheckoutForm = ({ value }) => {
                     querySnapshot.forEach((doc) => {
                         shippingAddress.push(doc.data());
                     });
-                    setShippingAddress(shippingAddress);// Update the component's state with the fetched data
+                    setShippingAddress(shippingAddress);
                 })
         } else {
             console.log("Please login to see shipping address");

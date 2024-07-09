@@ -69,6 +69,19 @@ export default function UserList() {
         fetchUserData();
     };
 
+    const getRoleName = (roleId) => {
+        switch (roleId) {
+            case 1:
+                return 'Admin';
+            case 2:
+                return 'Staff';
+            case 4:
+                return 'Customer';
+            default:
+                return 'Unknown';
+        }
+    };
+
     const filteredUserData = UserData ? UserData.filter(item =>
         (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
     ) : [];
@@ -102,7 +115,7 @@ export default function UserList() {
                                         <tr key={index}>
                                             <td>{item.userName}</td>
                                             <td>{item.email}</td>
-                                            <td>{item.role}</td>
+                                            <td>{getRoleName(item.roleId)}</td>
                                             <td className='d-flex justify-content-center'>
                                                 <div className='d-flex justify-content-end w-100 mr-1'>
                                                     <Link to={`/admin/EditUsers/${item.email}`}>

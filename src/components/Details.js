@@ -28,14 +28,19 @@ const Details = () => {
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const fontsize = { fontSize: '15px' };
     const fontfamily = { fontFamily: "Times New Roman" };
+    
+    document.title = companyName;
+    
     useEffect(() => {
+        
         if (user.userId) {
             fetchAddToCartData();
         } else {
             console.log("Please login to see past Cart products");
         }
-        
+
     }, [user.userId]);
+
 
     useEffect(() => {
         if (user.userId) {
