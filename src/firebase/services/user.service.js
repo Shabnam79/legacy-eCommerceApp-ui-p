@@ -21,9 +21,7 @@ export const getRolesByEmailService = async (credentials) => {
             }
             return undefined;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error);
         });
 }
 

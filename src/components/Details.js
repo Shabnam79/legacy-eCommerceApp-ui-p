@@ -194,9 +194,6 @@ const Details = () => {
         if (user.userId) {
             setModalShow(true);
         }
-        // else {
-        //     setLoginModalShow(true);
-        // }
     }
 
     return (

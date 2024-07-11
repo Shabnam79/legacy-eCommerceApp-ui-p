@@ -80,9 +80,9 @@ const Login = () => {
 
         } else {
             toast.warning(
-                `To Login you need to signUp first`,
+                `Please check your credentials, your Email Id and Password are not matching!`,
                 {
-                    autoClose: 1000,
+                    autoClose: 3000,
                 }
             );
         }

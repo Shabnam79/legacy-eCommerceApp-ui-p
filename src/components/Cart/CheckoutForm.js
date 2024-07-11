@@ -12,6 +12,8 @@ import Card from 'react-bootstrap/Card';
 import { query, where, getDocs, collection } from "firebase/firestore";
 import { createPortal } from "react-dom";
 import { removeAll } from '../../utils/cartSlice';
+import axios from 'axios';
+import { variables } from '../../utils/variables';
 
 function IFrame({ children }) {
     const [ref, setRef] = useState();
@@ -36,7 +38,7 @@ const CheckoutForm = ({ value }) => {
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
 
-    console.log(address);
+    // console.log(address);
 
     useEffect(() => {
         fetchAddShippingDetails();
@@ -73,18 +75,30 @@ const CheckoutForm = ({ value }) => {
 
     const fetchAddShippingDetails = async () => {
         if (user.userId) {
-            await getDocs(collection(db, "shippingAddress"), where("userId", "==", user.userId))
-                .then((querySnapshot) => {
-                    const shippingAddress = [];
-                    querySnapshot.forEach((doc) => {
-                        shippingAddress.push(doc.data());
-                    });
-                    setShippingAddress(shippingAddress);
-                })
+            try {
+                const response = await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
+                    params: { "userId": user.userId }
+                });
+                const data = response.data;
+                if (data) {
+                    setShippingAddress(data);
+                }
+            } catch (error) {
+                toast.error(error.message, {
+                    autoClose: 1000,
+                });
+            }
         } else {
             console.log("Please login to see shipping address");
         }
     }
+
+    const getEmailPrefix = (email) => {
+        if (email) {
+            return email.split('@')[0];
+        }
+        return '';
+    };
 
     return (
         <section>
@@ -97,25 +111,25 @@ const CheckoutForm = ({ value }) => {
                                 <Card.Text>
                                     <div className="billing-info">
                                         <p>
-                                            <strong>Name: </strong> {address ? address.firstName + ' ' + address.lastName : ''}
+                                            <strong>Name: </strong> {getEmailPrefix(shippingAddress.email)}
                                         </p>
                                         <p>
-                                            <strong>Address 1: </strong> {address ? address.address : ''}
+                                            <strong>Address 1: </strong> {shippingAddress.address1}
                                         </p>
                                         <p>
-                                            <strong>Address 2: </strong> {address ? address.address2 : ''}
+                                            <strong>Address 2: </strong> {shippingAddress.address2}
                                         </p>
                                         <p>
-                                            <strong>City: </strong> {address ? address.city : ''}
+                                            <strong>City: </strong> {shippingAddress.city}
                                         </p>
                                         <p>
-                                            <strong>State: </strong> {address ? address.state : ''}
+                                            <strong>State: </strong> {shippingAddress.state}
                                         </p>
                                         <p>
-                                            <strong>Country: </strong> {address ? address.country : ''}
+                                            <strong>Country: </strong> {shippingAddress.country}
                                         </p>
                                         <p>
-                                            <strong>ZipCode: </strong> {address ? address.zipCode : ''}
+                                            <strong>ZipCode: </strong> {shippingAddress.pinCode}
                                         </p>
                                     </div>
                                 </Card.Text>

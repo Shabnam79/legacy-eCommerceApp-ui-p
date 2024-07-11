@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
-    const { id, company, title, imageData, price, } = item;
+    const { id, companyName, name, imageData, price, } = item;
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
@@ -35,10 +35,10 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
                 </div>
                 <div className='d-flex flex-column' style={{ padding: '.5rem 1rem', height: '115px' }}>
                     <div className='d-flex flex-column'>
-                        <span className='spWishlistTitle' id="spWishlistTitle" style={{ fontSize: '16px', fontWeight: '100', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{title}</span>
+                        <span className='spWishlistTitle' id="spWishlistTitle" style={{ fontSize: '16px', fontWeight: '100', color: 'rgb(5, 54, 69)', boxSizing: 'none' }}>{name}</span>
                         <div style={{ color: '#007185', fontSize: '14px' }}>
                             <span style={{ ...fontsize }}>By: </span>
-                            <span id="spWishlistCompany"><b>{company}</b></span>
+                            <span id="spWishlistCompany"><b>{companyName}</b></span>
                         </div>
                     </div>
                     <strong className='d-flex' style={{ color: '#007185', fontSize: '14px' }}>

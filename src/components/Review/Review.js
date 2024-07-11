@@ -73,7 +73,7 @@ const Review = (props) => {
                 await saveProductReview(reviewObj);
             }
             else {
-                await saveProductReview(reviewObj, imageUpload[0]);
+                await saveProductReview(reviewObj, imageUpload);
             }
             toast.success(`review submitted successfully`, {
                 autoClose: 1000,
@@ -199,7 +199,7 @@ const Review = (props) => {
                                         float: 'right',
                                         marginBottom: '50px'
                                     }}>
-                                        <i className="fas fa-user">&ensp;<span style={{}}>Submit</span></i>
+                                        <i className="fas fa-user">&ensp;<span>Submit</span></i>
                                     </Button>
                                 </Form>
                             )}
