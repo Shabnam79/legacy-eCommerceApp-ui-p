@@ -51,9 +51,6 @@ export const DeleteCategoryByIdService = async (doc) => {
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
         });
 
 }

@@ -129,14 +129,7 @@ function EditProducts() {
             name: ProductData.name,
             companyName: ProductData.companyName,
             description: ProductData.description,
-            price: ProductData.price,
-            // isStock: ProductData.isStock,
-            // userId: user.userId,
-            // productId: ProductData.productId,
-            // quantity: ProductData.quantity,
-            // count: ProductData.count,
-            // category: selectedValue,
-            // isStock: isStockValue,
+            price: ProductData.price
         };
         if (!imageUpload || imageUpload.length == 0) {
             await saveUpdateProductStore(addToCartProductObj);
@@ -209,7 +202,7 @@ function EditProducts() {
                             <Form.Label><b>Upload Product Image:</b></Form.Label>
                             <Form.Control
                                 type='file'
-                                className='editproduct-input'
+                                className='editproduct-upload'
                                 name="pictures"
                                 placeholder='Upload image'
                                 accept="image/*"
