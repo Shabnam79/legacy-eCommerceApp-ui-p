@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
 import userContext from '../../utils/userContext';

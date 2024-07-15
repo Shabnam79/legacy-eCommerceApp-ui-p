@@ -18,7 +18,7 @@ const schema = yup.object().shape({
         .required(),
     password: yup.string()
         .min(6, 'Must be greater than 6 characters')
-        .max(10, 'Must be less than or equal to 10 characters')
+        .max(40, 'Must be less than or equal to 40 characters')
         .required(),
 });
 
@@ -95,8 +95,8 @@ const Login = () => {
                     <Formik validationSchema={schema}
                         onSubmit={authentication}
                         initialValues={{
-                            email: 'noorsre@gmail.com',
-                            password: '12345678',
+                            email: '',
+                            password: '',
                         }} >
                         {({
                             handleSubmit,

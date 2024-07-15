@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import StarRating from './StarRating';
-import { getProductReviewByOrderIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
+import { getProductReviewByOrderIdService, getProductReviewByProductIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
 
@@ -45,17 +45,22 @@ const Review = (props) => {
         setSelectedFiles(newFiles);
     };
 
-    const fetchProductReview = async (orderId) => {
-        const data = await getProductReviewByOrderIdService(orderId);
-        if (data.length != 0) {
-            setProductReviewDetails(data);
-            setImageUrls(data.imageData);
+    const fetchProductReview = async (OrderItemId, ProductItemId) => {
+        const orderData = await getProductReviewByOrderIdService(OrderItemId);
+
+        if (orderData) {
+            setProductReviewDetails(orderData);
+            setImageUrls(orderData.imageData);
             setIsUpdateReview(true);
+        } else {
+            const productData = await getProductReviewByProductIdService(ProductItemId);
+            if (productData) {
+                setProductReviewDetails(productData);
+                setIsUpdateReview(false);
+            }
         }
-        else {
-            setIsUpdateReview(false);
-        }
-    }
+    };
+
 
     const addUpdateProductReview = async (values) => {
         let reviewObj = {

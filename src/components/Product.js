@@ -106,44 +106,46 @@ const Product = ({ product }) => {
     const isProductInWishlist = wishlistItems.wishlist.find(wishlistItem => wishlistItem.id === id);
 
     return (
-        <ProducrWrapper className="tx-product-card">
-            <div className="" onClick={() => handleProductDetails(product)}>
-                <Link to="/details" style={{ height: '270px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <img src={`data:image/png;base64, ${imageData}`} alt="product" className="h-100 w-100" />
-                </Link>
-            </div>
-            <div className="d-flex flex-column product-title-area">
-                <h6 data-testid='product-title' className='product-title' dangerouslySetInnerHTML={{ __html: name }}></h6>
-                <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
-                    <span>Price: </span>
-                    <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>
-                    <span style={{ fontWeight: '100' }}>{price}</span>
-                </h5>
-            </div>
-            {user.userId == null ?
-                <LoginModal name="Login"
-                    show={loginmodalShow}
-                    onHide={() => setLoginModalShow(false)} />
-                : null
-            }
-            <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
-                onClick={(e) => {
-                    e.preventDefault();
-                    addProductIntoCart(product);
-                    openCartModal(product);
-                }}>
-                {inCart ? (
-                    <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
-                ) : (
-                    <p className='m-0'>ADD TO CART</p>
-                )}
-            </button>
-            {
-                isProductInWishlist && <div style={{ position: 'absolute' }}>
-                    <FaHeart className='heartWishlistIcon' color="#FF3E6C" />
+        <Link to="/details" onClick={() => handleProductDetails(product)}>
+            <ProducrWrapper className="tx-product-card">
+                <div className="">
+                    <div style={{ height: '270px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <img src={`data:image/png;base64, ${imageData}`} alt="product" className="h-100 w-100" />
+                    </div>
                 </div>
-            }
-        </ProducrWrapper>
+                <div className="d-flex flex-column product-title-area">
+                    <h6 data-testid='product-title' className='product-title' dangerouslySetInnerHTML={{ __html: name }}></h6>
+                    <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
+                        <span>Price: </span>
+                        <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>
+                        <span style={{ fontWeight: '100' }}>{price}</span>
+                    </h5>
+                </div>
+                {user.userId == null ?
+                    <LoginModal name="Login"
+                        show={loginmodalShow}
+                        onHide={() => setLoginModalShow(false)} />
+                    : null
+                }
+                <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        addProductIntoCart(product);
+                        openCartModal(product);
+                    }}>
+                    {inCart ? (
+                        <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
+                    ) : (
+                        <p className='m-0'>ADD TO CART</p>
+                    )}
+                </button>
+                {
+                    isProductInWishlist && <div style={{ position: 'absolute' }}>
+                        <FaHeart className='heartWishlistIcon' color="#FF3E6C" />
+                    </div>
+                }
+            </ProducrWrapper>
+        </Link>
     );
 }
 

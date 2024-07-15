@@ -14,13 +14,11 @@ export const getProductReviewsService = async (orderId) => {
     .map((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
-export const getProductReviewByOrderIdService = async (orderId) => {
-  return await axios.get(variables.API_URL_NEW + 'Product/GetProductReviewByOrderItemId', { params: { "OrderItemId": orderId } }).then((response) => {
+export const getProductReviewByOrderIdService = async (OrderItemId) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/GetProductReviewByOrderItemId', { params: { "OrderItemId": OrderItemId } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error);
   });
 }
 
@@ -28,9 +26,7 @@ export const getProductReviewByProductIdService = async (productId) => {
   return await axios.get(variables.API_URL_NEW + 'Product/GetProductReviewByProductId', { params: { "productId": productId } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error);
   });
 }
 
@@ -66,7 +62,7 @@ export const saveProductReview = async (productReview, image) => {
 export const updateProductReview = async (productReviewDoc, image) => {
   const formData = new FormData();
   if (image != undefined) {
-    formData.append('image', image);
+    formData.append('Pictures', image);
   }
 
   Object.keys(productReviewDoc).forEach((key) => {
