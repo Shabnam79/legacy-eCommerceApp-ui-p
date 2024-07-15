@@ -47,20 +47,7 @@ export default function EditUsers() {
     const fetchRolelist = async () => {
         let data = await getRolesService();
         if (data != undefined) {
-            // Map role IDs to names
-            const mappedRoles = data.map(role => {
-                switch (role.id) {
-                    case 1:
-                        return { ...role, name: 'Admin' };
-                    case 2:
-                        return { ...role, name: 'Customer' };
-                    case 3:
-                        return { ...role, name: 'Staff' };
-                    default:
-                        return role;
-                }
-            });
-            setDropdown(mappedRoles);
+            setDropdown(data);
         }
     }
 
@@ -73,23 +60,8 @@ export default function EditUsers() {
     const fetchUserData = async (UserRoleId) => {
         let data = await getUserDataByIdService(UserRoleId);
         if (data != undefined) {
-            // Adjust name based on role ID
-            let roleName = '';
-            switch (data.roleId) {
-                case 1:
-                    roleName = 'Admin';
-                    break;
-                case 2:
-                    roleName = 'Customer';
-                    break;
-                case 3:
-                    roleName = 'Staff';
-                    break;
-                default:
-                    roleName = data.name;
-            }
             setUserRoleData(data);
-            setSelectedValue(roleName);
+            setSelectedValue(data.roleName);
             setRoleIdValue(data.roleId);
             setUserIdValue(data.id);
             setUserNameValue(data.userName);
@@ -170,7 +142,7 @@ export default function EditUsers() {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormPassword'>
+                        {/* <Form.Group className='mb-3' controlId='FormPassword'>
                             <Form.Label>Password:</Form.Label>
                             <Form.Control
                                 className='editusers-input'
@@ -181,7 +153,7 @@ export default function EditUsers() {
                                 required
                                 onChange={handleInputChange}
                             />
-                        </Form.Group>
+                        </Form.Group> */}
                         <Button type='submit' style={{
                             backgroundColor: 'rgb(5, 54, 69)',
                             border: 'none'

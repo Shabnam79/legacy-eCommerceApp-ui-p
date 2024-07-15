@@ -21,13 +21,7 @@ function AddProducts() {
         name: '',
         companyName: '',
         description: '',
-        price: '',
-        // category: '',
-        // isStock: true,
-        // userId: user.userId,
-        // productId: '',
-        // quantity: '',
-        // count: 0
+        price: ''
     });
 
     const handleEditorChange = (html) => {
@@ -161,7 +155,7 @@ function AddProducts() {
                         <Form.Group className='mb-3' controlId='FormImage'>
                             <Form.Control
                                 type='file'
-                                className='addproduct-input'
+                                className='addproduct-upload'
                                 name="pictures"
                                 required
                                 placeholder='Upload image'

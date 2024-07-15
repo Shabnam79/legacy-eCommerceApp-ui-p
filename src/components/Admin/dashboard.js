@@ -32,10 +32,16 @@ function Dashboard() {
     }, [user.userId]);
 
     const fetchStoreProductData = async () => {
-        let data = await getProductsService();
-        if (data != undefined) {
-            setProductData(data);
-            setLoading(false);
+        if (user.userId) {
+            setTimeout(async () => {
+                let data = await getProductsService();
+                if (data != undefined) {
+                    setProductData(data);
+                    setLoading(false);
+                }
+            }, 5000);
+        } else {
+            console.log("Please login to see past Product");
         }
     }
 

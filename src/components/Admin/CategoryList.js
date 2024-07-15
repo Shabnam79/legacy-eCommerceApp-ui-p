@@ -19,27 +19,44 @@ export default function CategoryList() {
     useEffect(() => {
         fetchStoreCategoryData();
         document.title = "Admin - Category List"
-    }, []);
+    }, [user.userId]);
 
     const fetchStoreCategoryData = async () => {
-
-        let data = await getAllCategoryService();
-        if (data != undefined) {
-            setCategoryData(data.data);
-            setLoading(false);
+        if (user.userId) {
+            setTimeout(async () => {
+                let data = await getAllCategoryService();
+                const details = data.data;
+                if (details != undefined) {
+                    setCategoryData(details);
+                    setLoading(false);
+                }
+            }, 5000);
+        } else {
+            console.log("Please login to see past Category");
         }
+
     }
 
     const removeCategoryHandler = async (item) => {
         try {
-            await DeleteCategoryByIdService(item);
-
+            let data = await DeleteCategoryByIdService(item);
+            if (data != undefined) {
             toast.warning(
                 `Category removed from the List`,
                 {
                     autoClose: 1000,
                 }
             );
+        }
+        else
+        {
+            toast.warning(
+                `Unable to remove Category from the List`,
+                {
+                    autoClose: 1000,
+                }
+            );
+        }
             fetchStoreCategoryData();
         }
         catch (e) {
@@ -51,8 +68,15 @@ export default function CategoryList() {
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 <div className="container mt-5">
                     <div className="d-flex flex-column">
-                        <Link className='mb-3' to='/admin/AddCategories'>
+                        {/* <Link className='mb-3' to='/admin/AddCategories'>
                             <Button className="addCategoryButton">Add Category</Button>
+                        </Link> */}
+                        
+                        <Link className='d-grid gap-2'style={{padding : '20px 0px 20px 0px'}} to='/admin/AddCategories'>
+                            <Button size="md" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'                                
+                            }}>Add Category</Button>
                         </Link>
                         <Table striped bordered hover size='sm' style={{ width: '500px' }}>
                             <thead>
