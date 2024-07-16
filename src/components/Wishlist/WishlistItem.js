@@ -3,8 +3,11 @@ import { useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { DeleteProductFromWishList } from '../../firebase/services/wishlist.service';
+import { saveProductIntoCartService } from '../../firebase/services/cart.service';
+import userContext from "../../utils/userContext";
 
 export default function WishlistItem({ item, value, fetchAddToWishlistData, removeWishlist }) {
+    const { user } = useContext(userContext);
     const { id, companyName, name, imageData, price, } = item;
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
@@ -26,6 +29,41 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
             console.log(e);
         }
     };
+
+    const productRemovedFromWishlist = async (item) => {
+        try {
+            await DeleteProductFromWishList(item.wishlistId);
+            fetchAddToWishlistData();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const productMoveToCart = async () => {
+        try {
+            let productObj = {
+                productId: id,
+                userId: user.userId,
+                quantity: 1
+            }
+            await saveProductIntoCartService(productObj);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const productMoveToCartAndRemovedFromWishlist = (item) => {
+        productMoveToCart();
+        productRemovedFromWishlist(item);
+        toast.success(
+            `Product is moved to cart`,
+            {
+                autoClose: 1000,
+            }
+        );
+    }
 
     return (
         <div className="m-3 wishlist-card">
@@ -53,7 +91,7 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
                     </div>
                 </div>
                 <div className='moveToBag'>
-                    <button>MOVE TO BAG</button>
+                    <button onClick={() => productMoveToCartAndRemovedFromWishlist(item)}>MOVE TO BAG</button>
                 </div>
             </div>
         </div>

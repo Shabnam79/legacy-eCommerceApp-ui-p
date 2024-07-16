@@ -143,7 +143,7 @@ const Login = () => {
                                 </Form.Group>
 
                                 <div className='d-flex justify-content-between align-items-center'>
-                                    <Link className='forgotPassword' style={{ textDecoration: 'underline' }}>Forgot your password?</Link>
+                                    {/* <Link className='forgotPassword' style={{ textDecoration: 'underline' }}>Forgot your password?</Link> */}
                                     <button style={{ ...stylingLoginButton, ...loginButtonTrans }} type="submit">
                                         <span>Login</span>
                                     </button>
