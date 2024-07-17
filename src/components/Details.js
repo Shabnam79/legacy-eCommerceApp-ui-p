@@ -28,11 +28,9 @@ const Details = () => {
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const fontsize = { fontSize: '15px' };
     const fontfamily = { fontFamily: "Times New Roman" };
-    
-    document.title = companyName;
-    
+
     useEffect(() => {
-        
+
         if (user.userId) {
             fetchAddToCartData();
         } else {
@@ -45,7 +43,7 @@ const Details = () => {
     useEffect(() => {
         if (user.userId) {
             checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
-            document.title = detailProduct.title;
+            document.title = detailProduct.name;
         } else {
             console.log("Please login to see past Cart products");
         }

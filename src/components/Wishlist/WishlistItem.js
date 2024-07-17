@@ -91,7 +91,7 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
                     </div>
                 </div>
                 <div className='moveToBag'>
-                    <button onClick={() => productMoveToCartAndRemovedFromWishlist(item)}>MOVE TO BAG</button>
+                    <button onClick={() => productMoveToCartAndRemovedFromWishlist(item)}>MOVE TO CART</button>
                 </div>
             </div>
         </div>
