@@ -16,27 +16,28 @@ function Dashboard() {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
     const [ProductData, setProductData] = useState([]);
-    const [ProductIdValue, setProductIdValue] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [imageUrls, setImageUrls] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
     const [expandedInfo, setExpandedInfo] = useState({});
-    // const productsPerPage = 10;
 
     const productsPerPage = variables.PAGINATION_ProductListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
-        fetchStoreProductData();
+        fetchStoreProductData(currentPage,productsPerPage,searchQuery);
         document.title = "Admin - Product Management"
     }, [user.userId]);
 
-    const fetchStoreProductData = async () => {
+    const fetchStoreProductData = async (currentPage,productsPerPage,searchQuery) => {
         if (user.userId) {
             setTimeout(async () => {
-                let data = await getProductsService();
+                let data = await getProductsService(currentPage,productsPerPage,searchQuery);
                 if (data != undefined) {
                     setProductData(data);
+                    setTotalPage(data.totalPages);
+                    setCurrentPage(data.pageNumber);
+                    setSearchQuery(data.searchKeyword);
                     setLoading(false);
                 }
             }, 5000);
@@ -84,6 +85,31 @@ function Dashboard() {
         }));
     };
 
+    const setPageNumber = async (item) => {
+        debugger
+        try {
+            setLoading(true);
+            setTimeout(async () => {
+                fetchStoreProductData(item,productsPerPage,searchQuery);
+                
+            }, 1000);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const setSearching = async (Searchitem) => {
+        debugger
+        try {
+                fetchStoreProductData(currentPage,productsPerPage,Searchitem); 
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+
     return (
         <>
             <LoadingOverlay active={loading} spinner text='Loading...'>
@@ -95,7 +121,7 @@ function Dashboard() {
                                 border: 'none'
                             }}>Add Product</Button>
                         </Link>
-                        <input type='text' className='searchbar-input' placeholder='Search Product...' onChange={(e) => setSearchQuery(e.target.value)} />
+                        <input type='text' className='searchbar-input' placeholder='Search Product...' onChange={(e) => setSearching(e.target.value)} />
                     </div>
                     <div style={{ overflowX: "scroll", minWidth: "200px" }}>
                         <Table striped bordered hover style={{ marginTop: "20px" }}>
@@ -142,10 +168,23 @@ function Dashboard() {
                                                 </td>
                                             </tr>
                                         );
-                                    }) : null
+                                    }): null
                                 }
                             </tbody>
                         </Table>
+                    </div>
+                    <div className='w-100'>
+                        <ul className="pagination justify-content-center">
+                            {
+                                Array.from({ length: totalPage }, (_, i) => (
+                                    <li key={i + 1} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
+                                        <button onClick={() => setPageNumber(i + 1)} className="pagination-button">
+                                            {i + 1}
+                                        </button>
+                                    </li>
+                                ))
+                            }
+                        </ul>
                     </div>
                 </div>
             </LoadingOverlay >

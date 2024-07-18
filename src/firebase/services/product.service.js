@@ -24,9 +24,9 @@ export const getProductsByCategoryIdService = async (categoryId) => {
   });
 }
 
-export const getProductsService = async () => {
+export const getProductsService = async (pageNumber,productsPerPage,searchQuery) => {
   // return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
-  return await axios.get(variables.API_URL_NEW + 'Admin/ProductList').then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Admin/ProductList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) => {
     return response.data;
   }).catch(error => {
     toast.error(error.message, {
