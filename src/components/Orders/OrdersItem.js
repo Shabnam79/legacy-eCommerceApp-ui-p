@@ -83,7 +83,7 @@ const OrdersItem = ({ items }) => {
                                     <Card.Img variant="top" src={`data:image/png;base64, ${item.imageData}`} style={{ height: "270px", borderRadius: '0px' }} />
                                     <Card.Body className='p-0'>
                                         <div className='cardBodyArea'>
-                                            <Card.Title>{item.name}</Card.Title>
+                                            <Card.Title className='product-title'>{item.name}</Card.Title>
                                             <p>
                                                 <b className='mr-1'>Company Name:</b>
                                                 <span>{item.companyName}</span>

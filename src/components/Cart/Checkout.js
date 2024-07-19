@@ -22,7 +22,7 @@ const Store = ({ history }) => {
     const shippingCost = 10.0; // Sample shipping cost
     const tax = roundToWholeNumber(cartItems.tax)
     const total = subtotal + tax + shippingCost;
-    const totalCost = subtotal + tax + shippingCost + 10;
+    const totalCost = subtotal + tax + shippingCost;
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
 
