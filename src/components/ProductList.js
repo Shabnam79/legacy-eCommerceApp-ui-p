@@ -41,18 +41,9 @@ const ProductList = () => {
 
     useEffect(() => {
         fetchCategorylist();
-        dispatch(fetchProducts(''));
+        fetchProductData();
         document.title = "Our Products";
     }, []);
-
-    useEffect(() => {
-        const fetchProductData = async () => {
-            setLoading(true);
-            await dispatch(fetchProducts(''));
-            setLoading(false);
-        };
-        fetchProductData();
-    }, [dispatch]);
 
     useEffect(() => {
         setFilteredProducts(filterProductsBySearchTerm(allproducts?.data, searchTerm));
@@ -71,6 +62,12 @@ const ProductList = () => {
             setDropdown(data);
             setLoading(false);
         }
+    };
+
+    const fetchProductData = async () => {
+        setLoading(true);
+        await dispatch(fetchProducts(''));
+        setLoading(false);
     };
 
     const fetchProductCategorylist = (id) => {
@@ -161,16 +158,18 @@ const ProductList = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='pagination-container'>
-                                {Array.from({ length: Math.ceil(filteredProducts?.length / productsPerPage) }).map((_, index) => (
-                                    <button
-                                        key={index + 1}
-                                        onClick={() => handlePageChange(index + 1)}
-                                        className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
-                                    >
-                                        {index + 1}
-                                    </button>
-                                ))}
+                            <div className='w-100'>
+                                <ul className='mt-5 pagination justify-content-center'>
+                                    {
+                                        Array.from({ length: Math.ceil(filteredProducts?.length / productsPerPage) }).map((_, index) => (
+                                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                                <button onClick={() => handlePageChange(index + 1)} className='pagination-button'>
+                                                    {index + 1}
+                                                </button>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
                             </div>
                         </div>
                     </div>

@@ -10,10 +10,10 @@ export const variables = {
     ROLE_STAFF: "2",
     ROLE_CUSTOMER: "4",
     PAGINATION_ProductList: {
-        PRODUCTS_PER_PAGE: 12,
+        PRODUCTS_PER_PAGE: 2,
     },
     PAGINATION_ProductListAdmin: {
-        PRODUCTS_PER_PAGE: 10,
+        PRODUCTS_PER_PAGE: 2,
     },
     PAGINATION_UserListAdmin: {
         PRODUCTS_PER_PAGE: 25,

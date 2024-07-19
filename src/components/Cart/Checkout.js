@@ -11,14 +11,21 @@ import { Col, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
 const Store = ({ history }) => {
+    const roundToWholeNumber = (number) => {
+        return Math.round(number);
+    };
+
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext);
     const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.quantity, 0);
     const shippingCost = 10.0; // Sample shipping cost
-    const total = subtotal + shippingCost;
+    const tax = roundToWholeNumber(cartItems.tax)
+    const total = subtotal + tax + shippingCost;
+    const totalAmount = subtotal + tax + shippingCost + 10;
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
+
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
         document.title = "CheckOut";
@@ -45,7 +52,7 @@ const Store = ({ history }) => {
                                             <Card.Text>
                                                 <CheckoutColumns />
                                                 <CheckoutList value={cartItems} />
-                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} shippingCost={shippingCost} totalAmount={total} />
+                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} tax={tax} shippingCost={shippingCost} total={total} totalAmount={totalAmount} />
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

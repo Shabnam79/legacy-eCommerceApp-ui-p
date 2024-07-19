@@ -14,7 +14,9 @@ const OrdersItem = ({ items }) => {
         if (items && items.length > 0) {
             setRefNumber(items[0].orderRefNo);
             setOrderTotal(items[0].orderTotal);
-            setDateTime(items[0].orderDate);
+            // Format date and time
+            const formattedDateTime = formatDate(items[0].orderDate);
+            setDateTime(formattedDateTime);
         }
     }, [items]);
 
@@ -25,6 +27,27 @@ const OrdersItem = ({ items }) => {
     const openInNewTab = (url) => {
         window.open(url, '_blank', 'noreferrer');
     };
+
+    // Function to format date and time with month name
+    const formatDate = (dateTimeString) => {
+        const date = new Date(dateTimeString);
+
+        // Get day, month, year
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'long' });
+        const year = date.getFullYear();
+
+        // Get time
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        const time = `${hours}:${minutes}:${seconds}`;
+
+        // Format the date
+        const formattedDateTime = `${day} ${month} ${year} ${time}`;
+        return formattedDateTime;
+    };
+
 
     return (
         <Accordion>

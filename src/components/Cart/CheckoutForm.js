@@ -40,6 +40,9 @@ const CheckoutForm = ({ value }) => {
 
     // console.log(address);
 
+    console.log(cartItems.cart);
+    console.log(cartItems.cart.totalAmount);
+
     useEffect(() => {
         fetchAddShippingDetails();
         document.title = "Checkout"
