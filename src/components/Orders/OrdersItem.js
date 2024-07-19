@@ -38,13 +38,14 @@ const OrdersItem = ({ items }) => {
         const year = date.getFullYear();
 
         // Get time
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        const seconds = date.getSeconds().toString().padStart(2, '0');
-        const time = `${hours}:${minutes}:${seconds}`;
+        // const hours = date.getHours().toString().padStart(2, '0');
+        // const minutes = date.getMinutes().toString().padStart(2, '0');
+        // const seconds = date.getSeconds().toString().padStart(2, '0');
+        // const time = `${hours}:${minutes}:${seconds}`;
 
         // Format the date
-        const formattedDateTime = `${day} ${month} ${year} ${time}`;
+        //const formattedDateTime = `${day} ${month} ${year} ${time}`;
+        const formattedDateTime = `${day} ${month} ${year}`;
         return formattedDateTime;
     };
 
@@ -88,8 +89,8 @@ const OrdersItem = ({ items }) => {
                                                 <span>{item.companyName}</span>
                                             </p>
                                             <p>
-                                                <b className='mr-1'>Order Id:</b>
-                                                <span>{item.orderId}</span>
+                                                <b className='mr-1'>Price:</b>
+                                                <span>$ {item.price}</span>
                                             </p>
                                         </div>
                                         <div className='mt-3 d-flex justify-content-between align-items-center'>

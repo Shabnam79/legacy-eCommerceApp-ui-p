@@ -21,7 +21,7 @@ const ReviewModal = (props) => {
             if (selectedOption === 'Top Reviews') {
                 data.sort((a, b) => b.rating - a.rating);
             } else if (selectedOption === 'Most Recent') {
-                data.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+                data.sort((a, b) => new Date(b.reviewedDate) - new Date(a.reviewedDate));
             }
 
             setReviews(data);
@@ -29,6 +29,7 @@ const ReviewModal = (props) => {
     }
 
     const handleSelectChange = (eventKey) => {
+        debugger
         setSelectedOption(eventKey);
     };
     return (

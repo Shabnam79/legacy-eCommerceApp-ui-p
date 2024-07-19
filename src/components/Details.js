@@ -42,28 +42,28 @@ const Details = () => {
 
     useEffect(() => {
         if (user.userId) {
-            checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+            //checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
             document.title = detailProduct.name;
         } else {
             console.log("Please login to see past Cart products");
         }
     }, [user.userId]);
 
-    const checkIsProductAvailableInWishlist = async (userId, productId) => {
-        if (userId && productId) {
-            const collectionRef = query(
-                collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
-            )
-            return await getDocs(collectionRef).then((storeProduct) => {
-                const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-                setWishlist(wishlistProducts[0]);
-                if (wishlistProducts.length > 0)
-                    setIsProductWishlisted(true);
-                else
-                    setIsProductWishlisted(false);
-            })
-        }
-    }
+    // const checkIsProductAvailableInWishlist = async (userId, productId) => {
+    //     if (userId && productId) {
+    //         const collectionRef = query(
+    //             collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
+    //         )
+    //         return await getDocs(collectionRef).then((storeProduct) => {
+    //             const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    //             setWishlist(wishlistProducts[0]);
+    //             if (wishlistProducts.length > 0)
+    //                 setIsProductWishlisted(true);
+    //             else
+    //                 setIsProductWishlisted(false);
+    //         })
+    //     }
+    // }
 
     const addProductToWishlist = async (value) => {
         if (user.userId) {
@@ -104,7 +104,7 @@ const Details = () => {
                     dispatch(addToWishlist(value));
                     setIsProductWishlisted(true);
                     isProductWishlisted = true;
-                    checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+                    //checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
                     toast.success(`${value.title} is added to wishlist`, {
                         autoClose: 1000,
