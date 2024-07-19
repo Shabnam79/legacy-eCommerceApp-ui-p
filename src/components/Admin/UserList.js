@@ -13,24 +13,28 @@ export default function UserList() {
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchInput, setSearchInput] = useState('');
+    const [totalPage, setTotalPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    // const productsPerPage = 25;
+    const [searchQueryUser, setSearchQueryUser] = useState('');
 
     const productsPerPage = variables.PAGINATION_UserListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
-        fetchUserData();
+        fetchUserData(currentPage,productsPerPage,searchQueryUser);
         document.title = "Admin - User Management"
     }, [user.userId]);
 
-    const fetchUserData = async () => {
+    const fetchUserData = async (currentPage,productsPerPage,searchQueryUser) => {
+        
         if (user.userId) {
             setTimeout(async () => {
-                let data = await getUserData();
+                let data = await getUserData(currentPage,productsPerPage,searchQueryUser);
                 const details = data.data;
                 if (details != undefined) {
                     setUserData(details);
+                    setTotalPage(data.totalPages);
+                    setCurrentPage(data.pageNumber);
+                    setSearchQueryUser(data.searchKeyword);
                     setLoading(false);
                 }
             }, 5000);
@@ -66,12 +70,31 @@ export default function UserList() {
                     });
                 });
         }
-        fetchUserData();
+        fetchUserData(currentPage,productsPerPage,searchQueryUser);
     };
 
-    const filteredUserData = UserData ? UserData.filter(item =>
-        (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
-    ) : [];
+    const setPageNumber = async (item) => {
+        try {
+            setLoading(true);
+            setTimeout(async () => {
+                fetchUserData(item,productsPerPage,searchQueryUser);
+                
+            }, 1000);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const setSearching = async (Searchitem) => {
+        try {
+            fetchUserData(currentPage,productsPerPage,Searchitem); 
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
 
     return (
         <>
@@ -85,7 +108,7 @@ export default function UserList() {
                                     border: 'none'
                                 }}>Create User</Button>
                             </Link>
-                            <input type='text' className='searchbar-input mb-3' placeholder='Search User...' onChange={(e) => setSearchInput(e.target.value)} />
+                            <input type='text' className='searchbar-input mb-3' placeholder='Search User...' onChange={(e) => setSearching(e.target.value)} />
                         </div>
                         <Table striped bordered hover size='sm'>
                             <thead>
@@ -98,7 +121,7 @@ export default function UserList() {
                             </thead>
                             <tbody>
                                 {
-                                    filteredUserData.map((item, index) => (
+                                    UserData.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.userName}</td>
                                             <td>{item.email}</td>
@@ -124,6 +147,19 @@ export default function UserList() {
                                 }
                             </tbody>
                         </Table>
+                    </div>
+                    <div className='w-100'>
+                        <ul className="pagination justify-content-center">
+                            {
+                                Array.from({ length: totalPage }, (_, i) => (
+                                    <li key={i + 1} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
+                                        <button onClick={() => setPageNumber(i + 1)} className="pagination-button">
+                                            {i + 1}
+                                        </button>
+                                    </li>
+                                ))
+                            }
+                        </ul>
                     </div>
                 </div>
             </LoadingOverlay>

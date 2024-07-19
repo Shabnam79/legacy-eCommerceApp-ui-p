@@ -56,7 +56,7 @@ function Dashboard() {
                     autoClose: 1000,
                 }
             );
-            fetchStoreProductData();
+            fetchStoreProductData(currentPage,productsPerPage,searchQuery);
             dispatch(removeFromCart(item));
         }
         catch (e) {
