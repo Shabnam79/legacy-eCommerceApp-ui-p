@@ -55,7 +55,7 @@ const OrdersItem = ({ items }) => {
                 <div className='referenceNumberArea' onClick={toggleAccordion}>
                     <div>
                         <p className='m-0'><b>Reference Number:</b> {refNumber}</p>
-                        <p className='m-0 pt-2'><b>Date/Time:</b> {dateTime}</p>
+                        <p className='m-0 pt-2'><b>Order Date:</b> {dateTime}</p>
                     </div>
                     <div className='d-flex flex-column align-items-end'>
                         <div className='symbol'>

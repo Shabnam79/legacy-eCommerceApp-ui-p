@@ -22,7 +22,7 @@ const Store = ({ history }) => {
     const shippingCost = 10.0; // Sample shipping cost
     const tax = roundToWholeNumber(cartItems.tax)
     const total = subtotal + tax + shippingCost;
-    const totalAmount = subtotal + tax + shippingCost + 10;
+    const totalCost = subtotal + tax + shippingCost + 10;
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
 
@@ -52,7 +52,7 @@ const Store = ({ history }) => {
                                             <Card.Text>
                                                 <CheckoutColumns />
                                                 <CheckoutList value={cartItems} />
-                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} tax={tax} shippingCost={shippingCost} total={total} totalAmount={totalAmount} />
+                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} tax={tax} shippingCost={shippingCost} total={total} totalCost={totalCost} />
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

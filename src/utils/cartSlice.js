@@ -8,6 +8,7 @@ const cartSlice = createSlice({
         subTotal: localStorage.getItem("subTotal") != null ? localStorage.getItem("subTotal") : 0,
         tax: localStorage.getItem("tax") != null ? localStorage.getItem("tax") : 0,
         total: localStorage.getItem("total") != null ? localStorage.getItem("total") : 0,
+        totalCost: localStorage.getItem("totalCost") != null ? localStorage.getItem("totalCost") : 0,
         status: ""
     },
     extraReducers: (builder) => {
@@ -88,6 +89,7 @@ const cartSlice = createSlice({
                 state.subTotal = state.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
                 state.tax = state.subTotal * 0.1; // Assume 10% tax
                 state.total = state.subTotal + state.tax;
+                state.totalCost = state.total + 10;
             }
         },
     }
@@ -111,10 +113,12 @@ function getTotals(state) {
     state.subTotal = totalPrice;
     state.tax = tempTax.toFixed(2);
     state.total = total;
+    state.totalCost = total + 10;
 
     localStorage.setItem("subTotal", state.subTotal);
     localStorage.setItem("tax", state.tax);
     localStorage.setItem("total", state.total);
+    localStorage.setItem("totalCost", state.totalCost);
 }
 
 export const { addToCart, removeFromCart, removeAll, reduceProduct, updateProductQuantity, incrementProduct } = cartSlice.actions;

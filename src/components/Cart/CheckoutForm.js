@@ -38,10 +38,12 @@ const CheckoutForm = ({ value }) => {
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
 
-    // console.log(address);
+    const roundToWholeNumber = (number) => {
+        return Math.round(number);
+    };
 
-    console.log(cartItems.cart);
-    console.log(cartItems.cart.totalAmount);
+    const totalOrderAmount = roundToWholeNumber(cartItems.cart.totalCost);
+    
 
     useEffect(() => {
         fetchAddShippingDetails();
@@ -52,15 +54,14 @@ const CheckoutForm = ({ value }) => {
         if (user.userId) {
             let orderTotal = 0;
             cart.forEach(element => {
-                console.log(element);
                 orderTotal = element.price * element.quantity;
             });
-            console.log(orderTotal);
+            
             let obj = {
                 userId: user.userId,
-                orderTotal: orderTotal
+                orderTotal: totalOrderAmount
             }
-            console.log(obj);
+            
             await saveCartOrderService(obj);
             dispatch(removeAll());
             toast.success(`Your order has been successfully placed!`, {

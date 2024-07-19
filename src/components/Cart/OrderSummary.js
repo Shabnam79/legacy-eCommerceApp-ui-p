@@ -1,7 +1,7 @@
 import React from 'react';
 
 function OrderSummary(props) {
-    const { cartItems, subtotal, tax, shippingCost, totalAmount } = props;
+    const { cartItems, subtotal, tax, shippingCost, totalCost } = props;
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     return (
@@ -13,7 +13,7 @@ function OrderSummary(props) {
             </div>
             <hr />
             <div>
-                <strong>Total Amount: ${totalAmount.toFixed(2)}</strong>
+                <strong>Total Amount: ${totalCost.toFixed(2)}</strong>
             </div>
         </div>
     );
