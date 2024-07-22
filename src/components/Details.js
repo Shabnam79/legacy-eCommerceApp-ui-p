@@ -38,7 +38,11 @@ const Details = () => {
 
     }, [user.userId]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
+      
     useEffect(() => {
         if (user.userId) {
             checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
@@ -85,21 +89,15 @@ const Details = () => {
             else {
                 try {
                     let productObj = {
-                        company: value.company,
-                        img: value.img,
-                        inWishlist: true,
-                        info: value.info,
-                        price: value.price,
                         productId: value.id,
                         userId: user.userId,
-                        title: value.title,
+                        inWishlist: true
                     }
 
-                    const docRef = await saveProductToWishlistService(productObj);
-debugger
+                    await saveProductToWishlistService(productObj);
+
                     dispatch(addToWishlist(value));
                     setIsProductWishlisted(true);
-                    isProductWishlisted = true;
                     checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
                     toast.success(`${value.name} is added to wishlist`, {
@@ -159,6 +157,9 @@ debugger
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
+                    // toast.success(`${item.name} is added to cart`, {
+                    //     autoClose: 1000,
+                    // });
                     toast.success(`${item.name} is added to cart`, {
                         autoClose: 1000,
                     });
