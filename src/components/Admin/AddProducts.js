@@ -24,6 +24,10 @@ function AddProducts() {
         price: ''
     });
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const handleEditorChange = (html) => {
         setName(prevName => ({
             ...prevName,

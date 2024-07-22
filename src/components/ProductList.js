@@ -24,6 +24,10 @@ const ProductList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = variables.PAGINATION_ProductList.PRODUCTS_PER_PAGE;
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     const carouselImages = [
         require('../carouselimage/Carousel-1.png'),
         require('../carouselimage/Carousel-2.png'),

@@ -22,6 +22,10 @@ export default function EditCategory() {
         document.title = "Admin - Edit Category"
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const fetchProductCategoryData = async (categoryId) => {
 
         let data = await getCategoryByCategoryIdService(categoryId);

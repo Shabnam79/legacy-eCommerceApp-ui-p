@@ -25,6 +25,10 @@ const BillingAddressForm = () => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchData();
     document.title = "Shipping Address";
   }, [user.userId]);

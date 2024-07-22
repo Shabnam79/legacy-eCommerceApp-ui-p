@@ -11,6 +11,10 @@ export default function CheckoutList({ value }) {
     const { user } = useContext(userContext);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchAddToCartData();
         document.title = "Check Out List";
     }, user.userId, []);

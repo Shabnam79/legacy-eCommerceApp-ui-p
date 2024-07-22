@@ -11,6 +11,10 @@ const OrdersItem = ({ items }) => {
     const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         if (items && items.length > 0) {
             setRefNumber(items[0].orderRefNo);
             setOrderTotal(items[0].orderTotal);

@@ -10,6 +10,10 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
     const userId = user && Object.keys(user).length > 0 ? user.userId : null
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchAddToWishlistData();
         document.title = "Favourite List";
     }, [user.userId]);

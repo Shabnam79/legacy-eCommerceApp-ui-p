@@ -10,10 +10,15 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
     }, [user.userId]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const fetchOrders = async () => {
         if (user.userId) {

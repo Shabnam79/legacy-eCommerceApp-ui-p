@@ -52,6 +52,10 @@ function EditProducts() {
         document.title = "Admin - Edit Product"
     }, [user.userId]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const [name, setName] = useState({
         category: '',
         categoryId: '',

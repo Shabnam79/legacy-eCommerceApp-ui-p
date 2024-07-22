@@ -21,6 +21,10 @@ const Cart = ({ history }) => {
         document.title = "Shopping Cart";
     }, [user.userId]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <section>
             {

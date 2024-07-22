@@ -15,8 +15,9 @@ export default function AddCategories() {
     const [name, setName] = useState({
         Category: ''
     });
-
+    
     useEffect(() => {
+        window.scrollTo(0, 0);
         document.title = "Admin - Add Category"
     }, []);
 

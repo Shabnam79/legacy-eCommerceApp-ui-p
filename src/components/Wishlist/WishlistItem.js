@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../utils/wishlistSlice';
 import { toast } from "react-toastify";
@@ -12,6 +12,10 @@ export default function WishlistItem({ item, value, fetchAddToWishlistData, remo
     const fontsize = { fontSize: 'small' };
     const fontfamily = { fontFamily: "Times New Roman" };
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const removeProductHandler = async (item) => {
         try {

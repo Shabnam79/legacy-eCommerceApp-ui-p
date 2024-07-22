@@ -12,6 +12,10 @@ const DashboardList = ({ accessToken }) => {
   const embedDashboardAPI_URL = EMBED_API_URL.EMBEDDASHBOARD_API_URL
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${embedDashboardAPI_URL}/api/v1/dashboard/`, {

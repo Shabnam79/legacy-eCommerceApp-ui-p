@@ -28,6 +28,10 @@ const Review = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchProductReview(orderId);
         document.title = "Ratings & Reviews";
     }, [user.userId]);

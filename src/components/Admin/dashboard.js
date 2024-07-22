@@ -25,14 +25,18 @@ function Dashboard() {
     const productsPerPage = variables.PAGINATION_ProductListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
-        fetchStoreProductData(currentPage,productsPerPage,searchQuery);
+        fetchStoreProductData(currentPage, productsPerPage, searchQuery);
         document.title = "Admin - Product Management"
     }, [user.userId]);
 
-    const fetchStoreProductData = async (currentPage,productsPerPage,searchQuery) => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const fetchStoreProductData = async (currentPage, productsPerPage, searchQuery) => {
         if (user.userId) {
             setTimeout(async () => {
-                let data = await getProductsService(currentPage,productsPerPage,searchQuery);
+                let data = await getProductsService(currentPage, productsPerPage, searchQuery);
                 if (data != undefined) {
                     setProductData(data);
                     setTotalPage(data.totalPages);
@@ -56,7 +60,7 @@ function Dashboard() {
                     autoClose: 1000,
                 }
             );
-            fetchStoreProductData(currentPage,productsPerPage,searchQuery);
+            fetchStoreProductData(currentPage, productsPerPage, searchQuery);
             dispatch(removeFromCart(item));
         }
         catch (e) {
@@ -90,8 +94,8 @@ function Dashboard() {
         try {
             setLoading(true);
             setTimeout(async () => {
-                fetchStoreProductData(item,productsPerPage,searchQuery);
-                
+                fetchStoreProductData(item, productsPerPage, searchQuery);
+
             }, 1000);
         }
         catch (e) {
@@ -102,7 +106,7 @@ function Dashboard() {
     const setSearching = async (Searchitem) => {
         debugger
         try {
-                fetchStoreProductData(currentPage,productsPerPage,Searchitem); 
+            fetchStoreProductData(currentPage, productsPerPage, Searchitem);
         }
         catch (e) {
             console.log(e);
@@ -168,7 +172,7 @@ function Dashboard() {
                                                 </td>
                                             </tr>
                                         );
-                                    }): null
+                                    }) : null
                                 }
                             </tbody>
                         </Table>

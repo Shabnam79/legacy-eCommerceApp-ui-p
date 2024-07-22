@@ -42,6 +42,10 @@ export default function CreateUsers() {
         document.title = "Admin - Create Users"
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
 
     const fetchRolelist = async () => {
         let data = await getRolesService();

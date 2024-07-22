@@ -13,6 +13,10 @@ export default function CartList({ value }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchAddToCartData();
         document.title = "Cart List";
     }, [userId]);

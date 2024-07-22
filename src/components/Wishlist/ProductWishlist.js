@@ -18,6 +18,10 @@ const ProductWishlist = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         if (user.userId) {
             dispatch(fetchWishlistProducts(user.userId));
             setLoading(false);

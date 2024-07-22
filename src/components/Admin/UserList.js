@@ -20,15 +20,19 @@ export default function UserList() {
     const productsPerPage = variables.PAGINATION_UserListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
-        fetchUserData(currentPage,productsPerPage,searchQueryUser);
+        fetchUserData(currentPage, productsPerPage, searchQueryUser);
         document.title = "Admin - User Management"
     }, [user.userId]);
 
-    const fetchUserData = async (currentPage,productsPerPage,searchQueryUser) => {
-        
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const fetchUserData = async (currentPage, productsPerPage, searchQueryUser) => {
+
         if (user.userId) {
             setTimeout(async () => {
-                let data = await getUserData(currentPage,productsPerPage,searchQueryUser);
+                let data = await getUserData(currentPage, productsPerPage, searchQueryUser);
                 const details = data.data;
                 if (details != undefined) {
                     setUserData(details);
@@ -70,15 +74,15 @@ export default function UserList() {
                     });
                 });
         }
-        fetchUserData(currentPage,productsPerPage,searchQueryUser);
+        fetchUserData(currentPage, productsPerPage, searchQueryUser);
     };
 
     const setPageNumber = async (item) => {
         try {
             setLoading(true);
             setTimeout(async () => {
-                fetchUserData(item,productsPerPage,searchQueryUser);
-                
+                fetchUserData(item, productsPerPage, searchQueryUser);
+
             }, 1000);
         }
         catch (e) {
@@ -88,7 +92,7 @@ export default function UserList() {
 
     const setSearching = async (Searchitem) => {
         try {
-            fetchUserData(currentPage,productsPerPage,Searchitem); 
+            fetchUserData(currentPage, productsPerPage, Searchitem);
         }
         catch (e) {
             console.log(e);

@@ -31,6 +31,10 @@ const Store = ({ history }) => {
         document.title = "CheckOut";
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className='container my-5'>
             <section className='mb-5'>

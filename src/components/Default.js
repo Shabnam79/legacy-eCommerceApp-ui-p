@@ -1,6 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 
 const Default = ({ location }) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     return (
         <div className="container">

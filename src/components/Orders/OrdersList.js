@@ -1,7 +1,11 @@
-import React from 'react'
+import React,  { useEffect } from 'react'
 import OrdersItem from './OrdersItem';
 
 const OrdersList = ({ orders }) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // Group orders by orderRefNo
     const groupedOrders = orders.reduce((acc, order) => {

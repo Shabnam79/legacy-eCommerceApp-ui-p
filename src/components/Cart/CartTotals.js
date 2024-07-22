@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +14,10 @@ export default function CartTotals({ value }) {
     const fontsize = { fontSize: 'medium' };
     const { cart } = value;
     const { user } = useContext(userContext)
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const placeProductOrder = async () => {
         if (cartItems.length > 0) {

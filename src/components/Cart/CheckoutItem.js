@@ -12,6 +12,10 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
         setQuantity(item.quantity || 1);
     }, [item]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const { id, name, imageData, price, total } = item;
 
     const removeProductHandler = async (item) => {
@@ -36,7 +40,7 @@ export default function CheckoutItem({ item, value, fetchAddToCartData }) {
 
 
     return (
-        <div className="row my-2 pb-2 text-capitalize text-center" style={{borderBottom: '1px solid #EAEAEC' }}>
+        <div className="row my-2 pb-2 text-capitalize text-center" style={{ borderBottom: '1px solid #EAEAEC' }}>
             <div className="d-flex align-items-center justify-content-center" style={{ width: '20%' }}>
                 <img src={`data:image/png;base64, ${imageData}`} style={{ width: "5rem" }} className="img-fluid" alt="product" />
             </div>

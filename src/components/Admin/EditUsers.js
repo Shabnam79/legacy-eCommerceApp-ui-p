@@ -43,6 +43,10 @@ export default function EditUsers() {
         document.title = "Admin - Edit Users";
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
 
     const fetchRolelist = async () => {
         let data = await getRolesService();

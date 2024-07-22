@@ -6,6 +6,10 @@ import { incrementCartProductsService, decrementCartProductsService, getProductB
 
 export default function CartItem({ item, value, fetchAddToCartData }) {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(item.quantity || 1);
 
@@ -45,7 +49,7 @@ export default function CartItem({ item, value, fetchAddToCartData }) {
             console.log(e);
         }
     };
-    
+
 
     return (
         <div className='w-100 cartItemsArea'>
