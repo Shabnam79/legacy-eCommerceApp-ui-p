@@ -10,7 +10,7 @@ import { openModal } from '../utils/productSlice';
 import { addToWishlist, removeFromWishlist } from '../utils/wishlistSlice';
 import { toast } from "react-toastify";
 import { saveProductIntoCartService, getCartProductsService, incrementCartProductsService, getProductByIdService } from '../firebase/services/cart.service';
-import { saveProductToWishlistService, DeleteProductFromWishList } from '../firebase/services/wishlist.service';
+import { saveProductToWishlistService, DeleteProductFromWishList, ProductAvailableInWishlist } from '../firebase/services/wishlist.service';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config/firebase.config';
 import LoginModal from './LoginModal';
@@ -27,7 +27,6 @@ const Details = () => {
     const [modalShow, setModalShow] = useState(false);
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const fontsize = { fontSize: '15px' };
-    const fontfamily = { fontFamily: "Times New Roman" };
 
     useEffect(() => {
 
@@ -42,39 +41,36 @@ const Details = () => {
 
     useEffect(() => {
         if (user.userId) {
-            //checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+            checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
             document.title = detailProduct.name;
         } else {
             console.log("Please login to see past Cart products");
         }
     }, [user.userId]);
 
-    // const checkIsProductAvailableInWishlist = async (userId, productId) => {
-    //     if (userId && productId) {
-    //         const collectionRef = query(
-    //             collection(db, "storeWishlist"), where("userId", "==", userId), where("productId", "==", productId)
-    //         )
-    //         return await getDocs(collectionRef).then((storeProduct) => {
-    //             const wishlistProducts = storeProduct.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    //             setWishlist(wishlistProducts[0]);
-    //             if (wishlistProducts.length > 0)
-    //                 setIsProductWishlisted(true);
-    //             else
-    //                 setIsProductWishlisted(false);
-    //         })
-    //     }
-    // }
+    const checkIsProductAvailableInWishlist = async (userId, productId) => {
+        if (userId && productId) {
+            debugger
+            let data = await ProductAvailableInWishlist(userId,productId);
+            setWishlist(data);
+            if (data != undefined)
+                setIsProductWishlisted(true);
+            else
+                setIsProductWishlisted(false);
+        }
+    }
 
     const addProductToWishlist = async (value) => {
         if (user.userId) {
             if (isProductWishlisted) {
+                debugger
                 try {
-                    await DeleteProductFromWishList(wishlist.wishlistId);
+                    await DeleteProductFromWishList(wishlist.id);
 
                     toast.warning(
                         `Product removed from the Wishlist`,
                         {
-                            autoClose: 1000,
+                            autoClose: 4000,
                         }
                     );
 
@@ -100,14 +96,14 @@ const Details = () => {
                     }
 
                     const docRef = await saveProductToWishlistService(productObj);
-
+debugger
                     dispatch(addToWishlist(value));
                     setIsProductWishlisted(true);
                     isProductWishlisted = true;
-                    //checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
+                    checkIsProductAvailableInWishlist(user.userId, detailProduct.id);
 
-                    toast.success(`${value.title} is added to wishlist`, {
-                        autoClose: 1000,
+                    toast.success(`${value.name} is added to wishlist`, {
+                        autoClose: 4000,
                     });
                 } catch (e) {
                     console.error("Error adding document: ", e);
