@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
-import { db } from "../../firebase/config/firebase.config";
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
@@ -35,8 +35,7 @@ const CheckoutForm = ({ value }) => {
     const { user } = useContext(userContext);
     const [shippingAddress, setShippingAddress] = useState([]);
     const address = shippingAddress[0];
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
+    const navigate = useNavigate();
 
     const roundToWholeNumber = (number) => {
         return Math.round(number);
@@ -46,6 +45,7 @@ const CheckoutForm = ({ value }) => {
     
 
     useEffect(() => {
+        debugger
         fetchAddShippingDetails();
         document.title = "Checkout"
     }, [user.userId]);
@@ -64,9 +64,9 @@ const CheckoutForm = ({ value }) => {
             
             await saveCartOrderService(obj);
             dispatch(removeAll());
-            toast.success(`Your order has been successfully placed!`, {
-                autoClose: 1000,
-            });
+            // toast.success(`Your order has been successfully placed!`, {
+            //     autoClose: 1000,
+            // });
         } else {
             toast.warning(
                 `To make order you need to login first`,
@@ -78,20 +78,27 @@ const CheckoutForm = ({ value }) => {
     }
 
     const fetchAddShippingDetails = async () => {
+        debugger
         if (user.userId) {
-            try {
-                const response = await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
+           
+             await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
                     params: { "userId": user.userId }
-                });
-                const data = response.data;
-                if (data) {
-                    setShippingAddress(data);
-                }
-            } catch (error) {
-                toast.error(error.message, {
-                    autoClose: 1000,
-                });
-            }
+                }).then((response) => {
+                    debugger
+                    const data = response.data;
+                    console.log(data);
+                        if (data) {
+                            setShippingAddress(data);
+                        }
+                  }).catch(error => {
+debugger
+                        if (error.code === "ERR_BAD_REQUEST") {
+                            toast.error("Please add the shipping Address before placing Order.", {
+                                autoClose: 3000,
+                            });
+                          navigate(`/BillingAddress/`);
+                        }
+                    });
         } else {
             console.log("Please login to see shipping address");
         }

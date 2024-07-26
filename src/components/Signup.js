@@ -45,11 +45,12 @@ const Signup = () => {
     }
 
     const authentication = (values) => {
+        debugger
         const payload = {
             userName: values.userName,
             email: values.email,
             password: values.password,
-            roleId: 4
+            roleId: variables.ROLE_CUSTOMER
         }
 
         axios({
@@ -58,15 +59,17 @@ const Signup = () => {
             data: payload,
 
         }).then((response) => {
+            debugger
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
             setModalShow(true);
 
         }).catch(error => {
-            if (error.code === "ERR_BAD_REQUEST") {
-                toast.error("Email already in use.", {
-                    autoClose: 1000,
+            debugger
+            if (error.code === "ERR_BAD_RESPONSE") {
+                toast.error("Username or Email already exists.", {
+                    autoClose: 3000,
                 });
             }
         });
