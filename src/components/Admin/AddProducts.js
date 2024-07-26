@@ -70,8 +70,15 @@ function AddProducts() {
     };
 
     const handleSubmit = async (e) => {
-        setLoading(true);
+
         e.preventDefault();
+        if (!name.name || !name.price || !name.quantity || !name.description || !name.companyName || !selectedValue || imageUpload.length === 0) {
+            toast.error('Please fill in all fields, select a category, and upload an image.', {
+                autoClose: 2000,
+            });
+            return;
+        }
+        setLoading(true);
         let addToProductObj = {
             ...name,
             isStock: isStockValue,
@@ -80,7 +87,7 @@ function AddProducts() {
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
         setLoading(false);
 
-        toast.success('Product added in admin list ', {
+        toast.success('Product added to admin list.', {
             autoClose: 2000,
         });
         navigate('/admin');
@@ -106,30 +113,9 @@ function AddProducts() {
 
     const handleMediaChange = (e) => {
         const files = Array.from(e.target.files);
-        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-        const maxSizeKB = 300;
-        const minSizeKB = 100;
 
-        const isValidFiles = files.every((file) => {
-            if (!allowedTypes.includes(file.type)) {
-                toast.error(`${file.name} is not a valid image file. Please upload .png, .jpg, or .jpeg files.`);
-                return false;
-            }
-
-            const fileSizeKB = file.size / 1024;
-            if (fileSizeKB < minSizeKB || fileSizeKB > maxSizeKB) {
-                toast.error(`${file.name} size is not within the allowed range (100KB - 300KB).`);
-                return false;
-            }
-            return true;
-        });
-
-        if (isValidFiles) {
-            setImageUpload(files);
-            setSelectedFiles([...selectedFiles, ...files]);
-        } else {
-            e.target.value = null;
-        }
+        setImageUpload(files);
+        setSelectedFiles([...selectedFiles, ...files]);
     };
 
     const handleFileRemove = (index) => {
@@ -144,7 +130,6 @@ function AddProducts() {
                 <div className='container my-5'>
                     <Form className='d-grid gap-2' onSubmit={handleSubmit}>
                         <div className="my-3">
-                            {/* Added code for Category dropdown bind - By noor */}
                             <Dropdown title="All Category" onSelect={(e) => fetchProductCategorylist(e)}>
                                 <Dropdown.Toggle id="dropdown-basic" className='font-weight-bold tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: 'black' }}>
                                     {selectedValue || 'Select Categories'}

@@ -28,6 +28,8 @@ const Details = () => {
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const fontsize = { fontSize: '15px' };
 
+    console.log(user);
+
     useEffect(() => {
 
         if (user.userId) {

@@ -151,29 +151,7 @@ function EditProducts() {
 
     const handleMediaChange = (e) => {
         const files = e.target.files;
-        const allowedTypes = ['image/jpeg', 'image/png']; // Allowed file types
-        const maxSizeKB = 300; // Maximum file size in KB
-        const minSizeKB = 100; // Minimum file size in KB
-
-        // Iterate through selected files
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const fileSizeKB = file.size / 1024; // File size in KB
-
-            // Check file type
-            if (!allowedTypes.includes(file.type)) {
-                toast.error('Only .png and .jpeg/.jpg files are allowed.');
-                return; // Stop further processing
-            }
-
-            // Check file size
-            if (fileSizeKB < minSizeKB || fileSizeKB > maxSizeKB) {
-                toast.error('File size must be between 100 KB and 300 KB.');
-                return; // Stop further processing
-            }
-        }
-
-        // If all files pass validation, update state
+        
         setImageUpload(files);
         setSelectedFiles([...selectedFiles, ...Array.from(files)]);
     };

@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import LoginModal from './LoginModal';
+import userContext from '../utils/userContext';
 
 const Footer = () => {
+    const { user } = useContext(userContext);
+    const [modalShow, setModalShow] = useState(false);
+
+    const handleLinkClick = (e, path) => {
+        if (user.userId == null) {
+            e.preventDefault();
+            setModalShow(true);
+        } else {
+            setModalShow(false);
+        }
+    };
+
     return (
         <>
             <footer className="footer-section">
@@ -32,9 +46,9 @@ const Footer = () => {
                                     </div>
                                     <ul className='d-flex flex-column'>
                                         <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/wishlist">Wishlist</Link></li>
-                                        <li><Link to="/orders">Orders</Link></li>
-                                        <li><Link to="/cart">Cart</Link></li>
+                                        <li><Link to="/wishlist" onClick={(e) => handleLinkClick(e, '/wishlist')}>Wishlist</Link></li>
+                                        <li><Link to="/orders" onClick={(e) => handleLinkClick(e, '/orders')}>Orders</Link></li>
+                                        <li><Link to="/cart" onClick={(e) => handleLinkClick(e, '/cart')}>Cart</Link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -52,10 +66,10 @@ const Footer = () => {
                                         <h3>Follow us on Social Media.</h3>
                                     </div>
                                     <div className='footer-text-icon'>
-                                        <i class="fab fa-facebook"></i>
-                                        <i class="fab fa-twitter"></i>
-                                        <i class="fab fa-linkedin"></i>
-                                        <i class="fab fa-youtube"></i>
+                                        <i className="fab fa-facebook"></i>
+                                        <i className="fab fa-twitter"></i>
+                                        <i className="fab fa-linkedin"></i>
+                                        <i className="fab fa-youtube"></i>
                                     </div>
                                 </div>
                             </div>
@@ -70,22 +84,17 @@ const Footer = () => {
                                     <p>Copyright &copy; 2024, All Right Reserved <a href="https://www.testingxperts.com/">TestingXperts</a></p>
                                 </div>
                             </div>
-                            <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
-                                <div className="footer-menu">
-                                    <ul>
-                                        <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/wishlist">Wishlist</Link></li>
-                                        <li><Link to="/orders">Orders</Link></li>
-                                        <li><Link to="/cart">Cart</Link></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </footer>
+            <LoginModal
+                name="Login"
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
         </>
-    )
+    );
 }
 
 export default Footer;

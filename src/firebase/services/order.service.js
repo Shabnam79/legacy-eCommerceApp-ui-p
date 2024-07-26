@@ -9,7 +9,7 @@ export const saveCartOrderService = async (cartArray) => {
         data: cartArray,
 
     }).then(function (response) {
-        toast.success(`order placed successfully`, {
+        toast.success(`Your order has been successfully placed!`, {
             autoClose: 1000,
         });
 

@@ -110,20 +110,7 @@ const ProductList = () => {
                 <div className="py-5">
                     <div className="">
                         <div className="row m-0">
-                            <div className='carousel-area'>
-                                <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}>
-                                    {carouselImages.map((image, idx) => (
-                                        <Carousel.Item key={idx}>
-                                            <img
-                                                className="d-block w-100"
-                                                src={image}
-                                                alt={`Slide ${idx}`}
-                                            />
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
-                            </div>
-                            <div className="mb-3 container-fluid d-flex justify-content-center">
+                            <div className="mb-3 container-fluid d-flex justify-content-start">
                                 <Dropdown onSelect={(e) => fetchProductCategorylist(e)}>
                                     <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown-category'>
                                         <strong>{selectedValue || 'All'}</strong>
@@ -148,6 +135,19 @@ const ProductList = () => {
                                         padding: '12px 20px 12px 40px'
                                     }}
                                 />
+                            </div>
+                            <div className='carousel-area'>
+                                <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}>
+                                    {carouselImages.map((image, idx) => (
+                                        <Carousel.Item key={idx}>
+                                            <img
+                                                className="d-block w-100"
+                                                src={image}
+                                                alt={`Slide ${idx}`}
+                                            />
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
                             </div>
                             <div className='w-100 d-flex justify-content-center'>
                                 <div className='px-5'>

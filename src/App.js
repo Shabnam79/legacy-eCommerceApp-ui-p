@@ -217,12 +217,12 @@ function App() {
                 <Route element={<Default />} />
               </Routes>
             </div>
+            <Footer />
             <Modal />
           </userContext.Provider>
         </PersistGate>
       </Provider>
       <ToastContainer />
-      <Footer />
     </React.Fragment>
   );
 }
