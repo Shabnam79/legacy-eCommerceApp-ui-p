@@ -7,9 +7,7 @@ export const getUserData = async (pageNumber,productsPerPage,searchQuery) => {
     return await axios.get(variables.API_URL_NEW + 'Admin/UserList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) =>{
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -30,9 +28,7 @@ export const getRolesService = async () => {
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -41,9 +37,7 @@ export const getUserDataByIdService = async (UserRoleId) => {
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -60,9 +54,7 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
                 });
                 return response.data;
             }).catch(function (error) {
-                toast.error(error.message, {
-                    autoClose: 1000,
-                });
+                console.error(error.message);
             });
 }
 
@@ -77,8 +69,6 @@ export const createUsersService = async (payload) => {
                 autoClose: 3000,
             });
         }).catch((error) => {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }

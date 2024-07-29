@@ -150,7 +150,7 @@ function AddProducts() {
                                 placeholder='Upload image'
                                 onChange={handleMediaChange}
                             />
-                            <p className='image-validation'>* Please upload .png, .jpg, or .jpeg files and size should be within the allowed range (100KB - 300KB).</p>
+
                             {selectedFiles.map((file, index) => (
                                 <div className='d-flex flex-column my-3' key={index}>
                                     <strong className='mb-2'>Selected File {index + 1}:</strong>

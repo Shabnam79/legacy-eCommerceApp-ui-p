@@ -18,9 +18,7 @@ export const DeleteItemFromYourCart = async (id) => {
             autoClose: 1000,
         });
     }).catch(error => {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }
 
@@ -30,9 +28,7 @@ export const DeleteAllItemFromYourCart = async (userId) => {
             autoClose: 1000,
         });
     }).catch(error => {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }
 
@@ -47,9 +43,7 @@ export const saveProductIntoCartService = async (product) => {
             autoClose: 1000,
         });
     }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }
 
@@ -70,9 +64,7 @@ export const UpdateItemQuantity = async (id, quantity) => {
             autoClose: 1000,
         });
     }).catch(error => {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
         console.log(error);
     });
 };

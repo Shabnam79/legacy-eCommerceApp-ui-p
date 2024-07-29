@@ -33,7 +33,7 @@ export const getProductReviewByProductIdService = async (productId) => {
 export const saveProductReview = async (productReview, image) => {
   const formData = new FormData();
   if (image != undefined) {
-    formData.append('image', image);
+    formData.append('Pictures', image);
   }
 
   Object.keys(productReview).forEach((key) => {
@@ -53,9 +53,7 @@ export const saveProductReview = async (productReview, image) => {
         autoClose: 1000,
       });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }
 
@@ -82,8 +80,6 @@ export const updateProductReview = async (productReviewDoc, image) => {
         autoClose: 1000,
       });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }

@@ -8,9 +8,7 @@ export const getCategoryService = async () => {
   return await axios.get(variables.API_URL_NEW + 'Admin/GetAllCategory').then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error.message);
   });
 }
 
@@ -18,9 +16,7 @@ export const getProductsByCategoryIdService = async (categoryId) => {
   return await axios.get(variables.API_URL + 'Product/GetProductsByCategoryId', { params: { "categoryId": categoryId } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error.message);
   });
 }
 
@@ -29,9 +25,7 @@ export const getProductsService = async (pageNumber,productsPerPage,searchQuery)
   return await axios.get(variables.API_URL_NEW + 'Admin/ProductList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error.message);
   });
 }
 
@@ -46,9 +40,7 @@ export const getProductByProductIdService = async (id) => {
   return await axios.get(variables.API_URL_NEW + 'Admin/GetByProductId', { params: { "id": id } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error.message);
   });
 }
 
@@ -73,9 +65,7 @@ export const saveProductIntoStoreProductService = async (product, image) => {
         autoClose: 1000,
       });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }
 
@@ -106,8 +96,6 @@ export const saveUpdateProductStore = async (product, image) => {
         autoClose: 1000,
       });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }

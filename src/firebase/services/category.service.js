@@ -11,9 +11,7 @@ export const saveCategoryIntoProductCategoryService = async (category) => {
         }).then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -29,9 +27,7 @@ export const updateCategoryIntoProductCategoryService = async (Category, categor
     }).then(function (response) {
         return response.data;
     }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }
 
@@ -40,9 +36,7 @@ export const getAllCategoryService = async (pageNumber, pageSize) => {
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -61,9 +55,7 @@ export const getCategoryByCategoryIdService = async (id) => {
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 
 }
@@ -78,9 +70,7 @@ export const updateBillingAddressService = async (payload) => {
             autoClose: 3000,
         });
     }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }
 
@@ -95,8 +85,6 @@ export const addBillingAddressService = async (payload) => {
             autoClose: 3000,
         });
     }).catch(function (error) {
-        toast.error(error.message, {
-            autoClose: 1000,
-        });
+        console.error(error.message);
     });
 }

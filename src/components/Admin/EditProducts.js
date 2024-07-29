@@ -190,7 +190,7 @@ function EditProducts() {
                                 accept="image/*"
                                 onChange={handleMediaChange}
                             />
-                            <p className='image-validation'>* Please upload .png, .jpg, or .jpeg files and size should be within the allowed range (100KB - 300KB).</p>
+                            
                             <div className="d-flex flex-column my-3">
                                 <img src={`data:image/png;base64, ${imageUrls}`} style={{
                                     height: "auto",
