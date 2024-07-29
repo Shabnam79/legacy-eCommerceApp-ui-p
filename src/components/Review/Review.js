@@ -67,33 +67,45 @@ const Review = (props) => {
 
 
     const addUpdateProductReview = async (values) => {
-        let reviewObj = {
-            Id: values.id,
-            Title: values.title,
-            Description: values.description,
-            ProductId: productId,
-            UserId: user.userId,
-            OrderItemId: orderId,
-            Rating: productReviewDetails.rating,
-            reviewDate: Date(),
-        }
+
         if (isUpdateReview == false) {
+            
+            let reviewObj = {
+                Title: values.title,
+                Description: values.description,
+                ProductId: productId,
+                UserId: user.userId,
+                OrderItemId: orderId,
+                Rating: productReviewDetails.rating,
+                reviewDate: Date(),
+            }
+
             if (!imageUpload || imageUpload.length == 0) {
                 await saveProductReview(reviewObj);
             }
             else {
-                await saveProductReview(reviewObj, imageUpload);
+                await saveProductReview(reviewObj, imageUpload[0]);
             }
             toast.success(`review submitted successfully`, {
                 autoClose: 1000,
             });
         }
         else if (isUpdateReview == true) {
+            let reviewUPObj = {
+                Id: values.id,
+                Title: values.title,
+                Description: values.description,
+                ProductId: productId,
+                UserId: user.userId,
+                OrderItemId: orderId,
+                Rating: productReviewDetails.rating,
+                reviewDate: Date(),
+            }
             if (!imageUpload || imageUpload.length == 0) {
-                await updateProductReview(reviewObj);
+                await updateProductReview(reviewUPObj);
             }
             else {
-                await updateProductReview(reviewObj, imageUpload[0]);
+                await updateProductReview(reviewUPObj, imageUpload[0]);
             }
             toast.success(`review updated successfully`, {
                 autoClose: 1000,
