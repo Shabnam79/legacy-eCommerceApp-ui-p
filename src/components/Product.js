@@ -109,7 +109,7 @@ const Product = ({ product }) => {
         <Link to="/details" onClick={() => handleProductDetails(product)}>
             <ProducrWrapper className="tx-product-card">
                 <div className="">
-                    <div style={{ height: '270px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <div className='imageContainer' style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                         <img src={`data:image/png;base64, ${imageData}`} alt="product" className="h-100 w-100" />
                     </div>
                 </div>
@@ -140,7 +140,7 @@ const Product = ({ product }) => {
                     )}
                 </button>
                 {
-                    isProductInWishlist && <div style={{ position: 'absolute' }}>
+                    isProductInWishlist && <div className='wishlistArea'>
                         <FaHeart className='heartWishlistIcon' color="#FF3E6C" />
                     </div>
                 }

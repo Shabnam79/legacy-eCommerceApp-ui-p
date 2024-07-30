@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoginModal from './LoginModal';
 import userContext from '../utils/userContext';
@@ -7,12 +7,16 @@ const Footer = () => {
     const { user } = useContext(userContext);
     const [modalShow, setModalShow] = useState(false);
 
-    const handleLinkClick = (e, path) => {
-        if (user.userId == null) {
+    useEffect(() => {
+        if (user.userId) {
+            setModalShow(false); // Close the modal if user is logged in
+        }
+    }, [user.userId]);
+
+    const handleLinkClick = (e) => {
+        if (!user.userId) {
             e.preventDefault();
             setModalShow(true);
-        } else {
-            setModalShow(false);
         }
     };
 
@@ -46,9 +50,9 @@ const Footer = () => {
                                     </div>
                                     <ul className='d-flex flex-column'>
                                         <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/wishlist" onClick={(e) => handleLinkClick(e, '/wishlist')}>Wishlist</Link></li>
-                                        <li><Link to="/orders" onClick={(e) => handleLinkClick(e, '/orders')}>Orders</Link></li>
-                                        <li><Link to="/cart" onClick={(e) => handleLinkClick(e, '/cart')}>Cart</Link></li>
+                                        <li><Link to="/wishlist" onClick={handleLinkClick}>Wishlist</Link></li>
+                                        <li><Link to="/orders" onClick={handleLinkClick}>Orders</Link></li>
+                                        <li><Link to="/cart" onClick={handleLinkClick}>Cart</Link></li>
                                     </ul>
                                 </div>
                             </div>

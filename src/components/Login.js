@@ -56,7 +56,6 @@ const Login = () => {
                 method: 'post',
                 url: variables.API_URL_NEW + 'Auth/Login',
                 data: payload,
-
             }).then((response) => {
                 let userData = {
                     email: data.email,
@@ -72,8 +71,9 @@ const Login = () => {
                     email: response.data.email,
                     roleId: data.roleId,
                     userName: data.userName
-
                 });
+
+                setModalShow(false); // Close the modal on successful login
             }).catch(error => {
                 console.error(error.message);
             });
@@ -116,7 +116,7 @@ const Login = () => {
                                         value={values.email}
                                         onChange={handleChange}
                                         isInvalid={!!errors.email}
-                                        autocomplete="off"
+                                        autoComplete="off"
                                     />
                                     <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.email}
@@ -133,7 +133,7 @@ const Login = () => {
                                         value={values.password}
                                         onChange={handleChange}
                                         isInvalid={!!errors.password}
-                                        autocomplete="off"
+                                        autoComplete="off"
                                     />
 
                                     <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
@@ -143,7 +143,6 @@ const Login = () => {
                                 </Form.Group>
 
                                 <div className='d-flex justify-content-between align-items-center'>
-                                    {/* <Link className='forgotPassword' style={{ textDecoration: 'underline' }}>Forgot your password?</Link> */}
                                     <button style={{ ...stylingLoginButton, ...loginButtonTrans }} type="submit">
                                         <span>Login</span>
                                     </button>
@@ -153,7 +152,6 @@ const Login = () => {
                                     name="Signup"
                                     show={modalShow}
                                     onHide={() => setModalShow(false)}
-
                                 />
                                 <div className='d-flex justify-content-center align-items-center mt-4'>
                                     <span className='mr-1' style={{ fontSize: '14px', fontWeight: '200' }}>Don't have an account? </span>

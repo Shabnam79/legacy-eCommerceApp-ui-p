@@ -16,17 +16,16 @@ const ProductList = () => {
     const { allproducts } = useSelector((state) => state.allproducts);
     const [dropdown, setDropdown] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [showCarousel, setShowCarousel] = useState(true); // State for carousel visibility
     const productsPerPage = variables.PAGINATION_ProductList.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
         window.scrollTo(0, 0);
-      }, []);
+    }, []);
 
     const carouselImages = [
         require('../carouselimage/Carousel-1.png'),
@@ -50,7 +49,9 @@ const ProductList = () => {
     }, []);
 
     useEffect(() => {
-        setFilteredProducts(filterProductsBySearchTerm(allproducts?.data, searchTerm));
+        const products = filterProductsBySearchTerm(allproducts?.data, searchTerm);
+        setFilteredProducts(products);
+        setShowCarousel(searchTerm.length === 0); // Hide carousel when search term is not empty
     }, [searchTerm, allproducts]);
 
     useEffect(() => {
@@ -136,29 +137,35 @@ const ProductList = () => {
                                     }}
                                 />
                             </div>
-                            <div className='carousel-area'>
-                                <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}>
-                                    {carouselImages.map((image, idx) => (
-                                        <Carousel.Item key={idx}>
-                                            <img
-                                                className="d-block w-100"
-                                                src={image}
-                                                alt={`Slide ${idx}`}
-                                            />
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
-                            </div>
+                            {showCarousel && ( // Conditionally render carousel
+                                <div className='carousel-area'>
+                                    <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}>
+                                        {carouselImages.map((image, idx) => (
+                                            <Carousel.Item key={idx}>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image}
+                                                    alt={`Slide ${idx}`}
+                                                />
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                </div>
+                            )}
                             <div className='w-100 d-flex justify-content-center'>
                                 <div className='px-5'>
                                     <div className='mt-1 d-table main-product-section'>
-                                        {currentProducts && currentProducts.map((product) => (
-                                            <div className='m-3 product-card' key={product.id}>
-                                                <Product
-                                                    product={product}
-                                                />
-                                            </div>
-                                        ))}
+                                        {currentProducts?.length > 0 ? (
+                                            currentProducts.map((product) => (
+                                                <div className='product-card' key={product.id}>
+                                                    <Product
+                                                        product={product}
+                                                    />
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p style={{ textAlign: 'center' }}>No items available related to your search.</p> // Display message when no items are available
+                                        )}
                                     </div>
                                 </div>
                             </div>
