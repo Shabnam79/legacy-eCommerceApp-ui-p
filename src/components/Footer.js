@@ -6,17 +6,20 @@ import userContext from '../utils/userContext';
 const Footer = () => {
     const { user } = useContext(userContext);
     const [modalShow, setModalShow] = useState(false);
+    const [redirectAfterLogin, setRedirectAfterLogin] = useState('');
 
     useEffect(() => {
         if (user.userId) {
-            setModalShow(false); // Close the modal if user is logged in
+            setModalShow(false);
         }
     }, [user.userId]);
 
-    const handleLinkClick = (e) => {
+    const handleLinkClick = (e, path) => {
         if (!user.userId) {
             e.preventDefault();
             setModalShow(true);
+            setRedirectAfterLogin(path);
+            console.log(path);
         }
     };
 
@@ -50,9 +53,9 @@ const Footer = () => {
                                     </div>
                                     <ul className='d-flex flex-column'>
                                         <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/wishlist" onClick={handleLinkClick}>Wishlist</Link></li>
-                                        <li><Link to="/orders" onClick={handleLinkClick}>Orders</Link></li>
-                                        <li><Link to="/cart" onClick={handleLinkClick}>Cart</Link></li>
+                                        <li><Link to="/wishlist" onClick={(e) => handleLinkClick(e, '/wishlist')}>Wishlist</Link></li>
+                                        <li><Link to="/orders" onClick={(e) => handleLinkClick(e, '/orders')}>Orders</Link></li>
+                                        <li><Link to="/cart" onClick={(e) => handleLinkClick(e, '/cart')}>Cart</Link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -96,6 +99,7 @@ const Footer = () => {
                 name="Login"
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                redirectAfterLogin={redirectAfterLogin}
             />
         </>
     );

@@ -1,7 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
-import React from 'react'
-import Login from "../components/Login"
-import { ButtonContainer } from './Button';
+import React from 'react';
+import Login from "../components/Login";
 import Signup from './Signup';
 
 const LoginModal = (props) => {
@@ -16,7 +15,7 @@ const LoginModal = (props) => {
             centered
             className='modalAreaEcommerce'
         >
-            <button type="button" onClick={props.onHide} class="close closeButton" aria-label="Close">
+            <button type="button" onClick={props.onHide} className="close closeButton" aria-label="Close">
                 <span>&times;</span>
             </button>
             <div className='w-100 modalInputArea p-4'>
@@ -26,7 +25,7 @@ const LoginModal = (props) => {
                     </span>
                     <p className='m-0'>Discover the latest deals and exclusive offers at our E-Commerce! {props.name} now to start shopping and save big!</p>
                     <Modal.Body className='mb-2'>
-                        {props.name == "Login" ? <Login /> : <Signup />}
+                        {props.name === "Login" ? <Login redirectAfterLogin={props.redirectAfterLogin} /> : <Signup />}
                     </Modal.Body>
                 </div>
                 <div className='w-50 modalImage'>

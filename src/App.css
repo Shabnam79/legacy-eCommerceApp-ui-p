@@ -15,6 +15,7 @@ body {
   /* background: var(--mainWhite) !important; */
   background: #FFF !important;
   color: var(--mainDark) !important;
+  overflow-x: hidden;
 }
 
 .text-title {
@@ -83,6 +84,8 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #FF3E6C;
 }
+
+
 
 .header {
   position: fixed;

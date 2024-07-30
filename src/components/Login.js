@@ -1,8 +1,9 @@
-import Form from 'react-bootstrap/Form';
+import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import React, { useContext, useState } from 'react';
+import Form from 'react-bootstrap/Form';
 import { Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import userContext from "../utils/userContext";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import LoginModal from './LoginModal';
@@ -10,21 +11,16 @@ import { toast } from "react-toastify";
 import { variables } from "../utils/variables";
 import axios from 'axios';
 import { getRolesByEmailService } from '../firebase/services/user.service';
-import { Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
-    email: yup.string()
-        .email()
-        .required(),
-    password: yup.string()
-        .min(6, 'Must be greater than 6 characters')
-        .max(40, 'Must be less than or equal to 40 characters')
-        .required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(6, 'Must be greater than 6 characters').max(40, 'Must be less than or equal to 40 characters').required(),
 });
 
-const Login = () => {
+const Login = ({ redirectAfterLogin }) => {
     const { user, setUser } = useContext(userContext);
     const { setItem } = useLocalStorage();
+    const navigate = useNavigate();
     const [modalShow, setModalShow] = useState(false);
     const fontsize = { fontSize: 'x-small' };
     const stylingLoginButton = {
@@ -37,10 +33,10 @@ const Login = () => {
         cursor: 'pointer',
         border: '0',
         borderRadius: '5px',
-        fontweight: '600',
+        fontWeight: '600',
         margin: '14px 0px',
         padding: '0.375rem 0.75rem',
-        boxshadow: '0 0 20px #6855e0',
+        boxShadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
 
@@ -73,7 +69,9 @@ const Login = () => {
                     userName: data.userName
                 });
 
-                setModalShow(false); // Close the modal on successful login
+                setModalShow(false);
+                navigate(redirectAfterLogin || '/');
+                window.location.reload();
             }).catch(error => {
                 console.error(error.message);
             });
