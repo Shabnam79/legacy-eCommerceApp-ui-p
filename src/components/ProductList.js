@@ -1,5 +1,3 @@
-// ProductList.js
-
 import React, { useEffect, useState } from 'react';
 import Product from "./Product";
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +18,7 @@ const ProductList = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [showCarousel, setShowCarousel] = useState(true); // State for carousel visibility
+    const [showCarousel, setShowCarousel] = useState(true);
     const productsPerPage = variables.PAGINATION_ProductList.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
@@ -49,16 +47,8 @@ const ProductList = () => {
     }, []);
 
     useEffect(() => {
-        const products = filterProductsBySearchTerm(allproducts?.data, searchTerm);
-        setFilteredProducts(products);
-        setShowCarousel(searchTerm.length === 0); // Hide carousel when search term is not empty
-    }, [searchTerm, allproducts]);
-
-    useEffect(() => {
-        if (selectedValue) {
-            fetchProductCategorylist(dropdown.find(category => category.name === selectedValue)?.id || '');
-        }
-    }, [selectedValue, allproducts]);
+        filterProducts();
+    }, [searchTerm, selectedValue, allproducts]);
 
     const fetchCategorylist = async () => {
         setLoading(true);
@@ -75,26 +65,32 @@ const ProductList = () => {
         setLoading(false);
     };
 
-    const fetchProductCategorylist = (id) => {
-        let filterCategoryName = dropdown.find(x => x.id == id)?.name || 'All';
-        setSelectedValue(filterCategoryName);
-
-        if (id) {
-            const filteredByCategory = allproducts?.data?.filter(product => product.categoryId == id);
-            setFilteredProducts(filterProductsBySearchTerm(filteredByCategory, searchTerm));
-        } else {
-            setFilteredProducts(filterProductsBySearchTerm(allproducts?.data, searchTerm));
+    const filterProducts = () => {
+        let products = allproducts || [];
+        
+        if (selectedValue && selectedValue !== 'All') {
+            const selectedCategory = dropdown.find(category => category.name === selectedValue);
+            if (selectedCategory) {
+                products = products.filter(product => product.categoryId === selectedCategory.id);
+            }
         }
+
+        if (searchTerm) {
+            products = products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        setFilteredProducts(products);
+        setShowCarousel(!searchTerm);
     };
 
-    const filterProductsBySearchTerm = (products, searchTerm) => {
-        return products?.filter((product) =>
-            product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+    const handleSearchTermChange = (e) => {
+        setSearchTerm(e.target.value);
+        setCurrentPage(1);  // Reset to first page on search
     };
 
-    const SearchTerm = (e) => {
-        setSearchTerm(e);
+    const handleCategorySelect = (category) => {
+        setSelectedValue(category);
+        setCurrentPage(1);  // Reset to first page on category change
     };
 
     const handlePageChange = (pageNumber) => {
@@ -112,14 +108,14 @@ const ProductList = () => {
                     <div className="">
                         <div className="row m-0">
                             <div className="mb-3 container-fluid d-flex justify-content-start">
-                                <Dropdown onSelect={(e) => fetchProductCategorylist(e)}>
+                                <Dropdown onSelect={handleCategorySelect}>
                                     <Dropdown.Toggle id="dropdown-basic" className='tx-dropdown-category'>
                                         <strong>{selectedValue || 'All'}</strong>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu className='tx-dropdown-menu-category'>
-                                        <Dropdown.Item eventKey="">{'All'}</Dropdown.Item>
+                                        <Dropdown.Item eventKey="All">{'All'}</Dropdown.Item>
                                         {dropdown.map((item) => (
-                                            <Dropdown.Item key={item.id} eventKey={item.id}>{item.name}</Dropdown.Item>
+                                            <Dropdown.Item key={item.id} eventKey={item.name}>{item.name}</Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>
                                 </Dropdown>
@@ -127,7 +123,7 @@ const ProductList = () => {
                                 <input type='text'
                                     className='searchbar-input'
                                     value={searchTerm}
-                                    onChange={(e) => SearchTerm(e.target.value)}
+                                    onChange={handleSearchTermChange}
                                     placeholder='Search your product...'
                                     style={{
                                         backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' x=\'0px\' y=\'0px\' width=\'20\' height=\'20\' viewBox=\'0,0,256,256\'%3E%3Cg fill=\'%23717288\' fill-rule=\'nonzero\' stroke=\'none\' stroke-width=\'1\' stroke-linecap=\'butt\' stroke-linejoin=\'miter\' stroke-miterlimit=\'10\' stroke-dasharray=\'\' stroke-dashoffset=\'0\' font-family=\'none\' font-weight=\'none\' font-size=\'none\' text-anchor=\'none\' style=\'mix-blend-mode: normal\'%3E%3Cg transform=\'scale(5.12,5.12)\'%3E%3Cpath d=\'M21,3c-9.39844,0 -17,7.60156 -17,17c0,9.39844 7.60156,17 17,17c3.35547,0 6.46094,-0.98437 9.09375,-2.65625l12.28125,12.28125l4.25,-4.25l-12.125,-12.09375c2.17969,-2.85937 3.5,-6.40234 3.5,-10.28125c0,-9.39844 -7.60156,-17 -17,-17zM21,7c7.19922,0 13,5.80078 13,13c0,7.19922 -5.80078,13 -13,13c-7.19922,0 -13,-5.80078 -13,-13c0,-7.19922 5.80078,-13 13,-13z\'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
@@ -137,7 +133,7 @@ const ProductList = () => {
                                     }}
                                 />
                             </div>
-                            {showCarousel && ( // Conditionally render carousel
+                            {showCarousel && (
                                 <div className='carousel-area'>
                                     <Carousel activeIndex={index} onSelect={handleSelect} interval={1500}>
                                         {carouselImages.map((image, idx) => (
@@ -158,13 +154,11 @@ const ProductList = () => {
                                         {currentProducts?.length > 0 ? (
                                             currentProducts.map((product) => (
                                                 <div className='product-card' key={product.id}>
-                                                    <Product
-                                                        product={product}
-                                                    />
+                                                    <Product product={product} />
                                                 </div>
                                             ))
                                         ) : (
-                                            <p style={{ textAlign: 'center' }}>No items available related to your search.</p> // Display message when no items are available
+                                            <p style={{ textAlign: 'center' }}>No items available related to your search.</p>
                                         )}
                                     </div>
                                 </div>

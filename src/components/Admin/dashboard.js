@@ -2,7 +2,7 @@ import { Button, Table } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from 'react';
 import userContext from "../../utils/userContext.js";
-import { getProductsService, DeleteItemFromProduct } from '../../firebase/services/product.service';
+import { getProductsServiceAdmin, DeleteItemFromProduct } from '../../firebase/services/product.service';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { removeFromCart } from '../../utils/cartSlice';
@@ -36,7 +36,7 @@ function Dashboard() {
     const fetchStoreProductData = async (currentPage, productsPerPage, searchQuery) => {
         if (user.userId) {
             setTimeout(async () => {
-                let data = await getProductsService(currentPage, productsPerPage, searchQuery);
+                let data = await getProductsServiceAdmin(currentPage, productsPerPage, searchQuery);
                 if (data != undefined) {
                     setProductData(data);
                     setTotalPage(data.totalPages);

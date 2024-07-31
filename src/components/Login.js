@@ -36,7 +36,6 @@ const Login = ({ redirectAfterLogin }) => {
         fontWeight: '600',
         margin: '14px 0px',
         padding: '0.375rem 0.75rem',
-        boxShadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
 

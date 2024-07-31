@@ -20,9 +20,15 @@ export const getProductsByCategoryIdService = async (categoryId) => {
   });
 }
 
-export const getProductsService = async (pageNumber,productsPerPage,searchQuery) => {
-  // return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
-  return await axios.get(variables.API_URL_NEW + 'Admin/ProductList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) => {
+export const getProductsService = async () => {
+  return await axios.get(variables.API_URL_NEW + 'Product/StoreProducts').then((response) => {
+    return response.data;
+  }).catch(error => {
+    console.error(error.message);
+  });
+}
+export const getProductsServiceAdmin = async (pageNumber, productsPerPage, searchQuery) => {
+  return await axios.get(variables.API_URL_NEW + 'Admin/ProductList', { params: { "pageNumber": pageNumber, "pageSize": productsPerPage, "searchKeyword": searchQuery } }).then((response) => {
     return response.data;
   }).catch(error => {
     console.error(error.message);
