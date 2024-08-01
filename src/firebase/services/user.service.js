@@ -3,7 +3,6 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export const getUserData = async (pageNumber,productsPerPage,searchQuery) => {
-    debugger
     return await axios.get(variables.API_URL_NEW + 'Admin/UserList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) =>{
             return response.data;
         }).catch(function (error) {

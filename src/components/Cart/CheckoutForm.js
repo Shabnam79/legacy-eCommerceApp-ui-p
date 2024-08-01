@@ -45,7 +45,6 @@ const CheckoutForm = ({ value }) => {
     
 
     useEffect(() => {
-        debugger
         fetchAddShippingDetails();
         document.title = "Checkout"
     }, [user.userId]);
@@ -78,20 +77,17 @@ const CheckoutForm = ({ value }) => {
     }
 
     const fetchAddShippingDetails = async () => {
-        debugger
         if (user.userId) {
            
              await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
                     params: { "userId": user.userId }
                 }).then((response) => {
-                    debugger
                     const data = response.data;
                     console.log(data);
                         if (data) {
                             setShippingAddress(data);
                         }
                   }).catch(error => {
-debugger
                         if (error.code === "ERR_BAD_REQUEST") {
                             toast.error("Please add the shipping Address before placing Order.", {
                                 autoClose: 3000,

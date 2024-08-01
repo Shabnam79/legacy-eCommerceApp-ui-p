@@ -29,7 +29,6 @@ const ReviewModal = (props) => {
     }
 
     const handleSelectChange = (eventKey) => {
-        debugger
         setSelectedOption(eventKey);
     };
     return (

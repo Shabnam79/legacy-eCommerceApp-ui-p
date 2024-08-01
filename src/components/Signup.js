@@ -45,7 +45,6 @@ const Signup = () => {
     }
 
     const authentication = (values) => {
-        debugger
         const payload = {
             userName: values.userName,
             email: values.email,
@@ -59,14 +58,13 @@ const Signup = () => {
             data: payload,
 
         }).then((response) => {
-            debugger
+            
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });
             setModalShow(true);
 
         }).catch(error => {
-            debugger
             if (error.code === "ERR_BAD_RESPONSE") {
                 toast.error("Username or Email already exists.", {
                     autoClose: 3000,

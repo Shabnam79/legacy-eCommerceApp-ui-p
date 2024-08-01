@@ -33,7 +33,6 @@ export const getWishlistService = async (userId) => {
 }
 
 export const ProductAvailableInWishlist = async (userId, ProductId) => {
-  debugger
   return await axios.get(variables.API_URL_NEW + 'Product/CheckIsProductAvailableInWishlist', { params: { "UserId": userId, "productId": ProductId } }).then((response) => {
     return response.data;
   }).catch(error => {

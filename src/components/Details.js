@@ -56,7 +56,6 @@ const Details = () => {
 
     const checkIsProductAvailableInWishlist = async (userId, productId) => {
         if (userId && productId) {
-            debugger
             let data = await ProductAvailableInWishlist(userId,productId);
             setWishlist(data);
             if (data != undefined)
@@ -69,7 +68,6 @@ const Details = () => {
     const addProductToWishlist = async (value) => {
         if (user.userId) {
             if (isProductWishlisted) {
-                debugger
                 try {
                     await DeleteProductFromWishList(wishlist.id);
 

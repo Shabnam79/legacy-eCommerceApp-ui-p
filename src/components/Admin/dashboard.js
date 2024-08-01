@@ -90,7 +90,6 @@ function Dashboard() {
     };
 
     const setPageNumber = async (item) => {
-        debugger
         try {
             setLoading(true);
             setTimeout(async () => {
@@ -104,7 +103,6 @@ function Dashboard() {
     };
 
     const setSearching = async (Searchitem) => {
-        debugger
         try {
             fetchStoreProductData(currentPage, productsPerPage, Searchitem);
         }
