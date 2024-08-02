@@ -121,7 +121,8 @@ export const detailProduct = {
   inCart: false,
   inWishlist: false,
   count: 0,
-  total: 0
+  total: 0,
+  productId: 1
 };
 export const storeWishlist = {
   title: "Google Pixel - Black",

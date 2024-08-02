@@ -45,6 +45,16 @@ const Signup = () => {
     }
 
     const authentication = (values) => {
+        if (!values.email.endsWith('@testingxperts.com')) {
+            toast.warning(
+                "We accept to signup with '@testingxperts' domain name only!",
+                {
+                    autoClose: 3000,
+                }
+            );
+            return;
+        }
+
         const payload = {
             userName: values.userName,
             email: values.email,
@@ -58,7 +68,7 @@ const Signup = () => {
             data: payload,
 
         }).then((response) => {
-            
+
             toast.success(`Signup successfully`, {
                 autoClose: 3000,
             });

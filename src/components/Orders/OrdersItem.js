@@ -3,12 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
+import { handleDetail } from '../../utils/productSlice';
+import { useDispatch } from 'react-redux';
 
 const OrdersItem = ({ items }) => {
+
     const [refNumber, setRefNumber] = useState();
     const [orderTotal, setOrderTotal] = useState();
     const [dateTime, setDateTime] = useState();
     const [expanded, setExpanded] = useState(false);
+    const { name, description, imageData, price, inCart, id } = items;
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -41,18 +45,15 @@ const OrdersItem = ({ items }) => {
         const month = date.toLocaleString('en-US', { month: 'long' });
         const year = date.getFullYear();
 
-        // Get time
-        // const hours = date.getHours().toString().padStart(2, '0');
-        // const minutes = date.getMinutes().toString().padStart(2, '0');
-        // const seconds = date.getSeconds().toString().padStart(2, '0');
-        // const time = `${hours}:${minutes}:${seconds}`;
-
-        // Format the date
-        //const formattedDateTime = `${day} ${month} ${year} ${time}`;
         const formattedDateTime = `${day} ${month} ${year}`;
         return formattedDateTime;
     };
 
+    const dispatch = useDispatch();
+
+    const handleProductDetails = (item) => {
+        dispatch(handleDetail(item))
+    }
 
     return (
         <Accordion>
@@ -72,39 +73,41 @@ const OrdersItem = ({ items }) => {
                 <Accordion.Collapse eventKey="0" in={expanded}>
                     <div>
                         {items.map(item => (
-                            <div key={item.id} className='m-3 ordersCard'>
-                                <Card className='placedOrder-Card'>
-                                    <b style={{
-                                        position: "absolute",
-                                        top: "10px",
-                                        right: "0px",
-                                        backgroundColor: "#FFFFFF",
-                                        padding: "5px 7.5px",
-                                        color: '#007185'
-                                    }}>
-                                        Order Placed
-                                    </b>
-                                    <Card.Img variant="top" src={`data:image/png;base64, ${item.imageData}`} style={{ height: "270px", borderRadius: '0px' }} />
-                                    <Card.Body className='p-0'>
-                                        <div className='cardBodyArea'>
-                                            <Card.Title className='product-title'>{item.name}</Card.Title>
-                                            <p>
-                                                <b className='mr-1'>Company Name:</b>
-                                                <span>{item.companyName}</span>
-                                            </p>
-                                            <p>
-                                                <b className='mr-1'>Price:</b>
-                                                <span>$ {item.price}</span>
-                                            </p>
-                                        </div>
-                                        <div className='mt-3 d-flex justify-content-between align-items-center'>
-                                            <Link className='rateProductButton' onClick={() => openInNewTab(`/review/${item.productId}/${item.orderId}`)}>
-                                                <Button className='RateProduct-Button'>&#9733; Rate Product</Button>
-                                            </Link>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </div>
+                            <Link to="/details" onClick={() => handleProductDetails(item)}>
+                                <div key={item.id} className='m-3 ordersCard'>
+                                    <Card className='placedOrder-Card'>
+                                        <b style={{
+                                            position: "absolute",
+                                            top: "10px",
+                                            right: "0px",
+                                            backgroundColor: "#FFFFFF",
+                                            padding: "5px 7.5px",
+                                            color: '#007185'
+                                        }}>
+                                            Order Placed
+                                        </b>
+                                        <Card.Img variant="top" src={`data:image/png;base64, ${item.imageData}`} style={{ height: "270px", borderRadius: '0px' }} />
+                                        <Card.Body className='p-0'>
+                                            <div className='cardBodyArea'>
+                                                <Card.Title className='product-title'>{item.name}</Card.Title>
+                                                <p>
+                                                    <b className='mr-1'>Company Name:</b>
+                                                    <span>{item.companyName}</span>
+                                                </p>
+                                                <p>
+                                                    <b className='mr-1'>Price:</b>
+                                                    <span>$ {item.price}</span>
+                                                </p>
+                                            </div>
+                                            <div className='mt-3 d-flex justify-content-between align-items-center'>
+                                                <Link className='rateProductButton' onClick={() => openInNewTab(`/review/${item.productId}/${item.orderId}`)}>
+                                                    <Button className='RateProduct-Button'>&#9733; Rate Product</Button>
+                                                </Link>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 </Accordion.Collapse>

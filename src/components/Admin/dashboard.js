@@ -35,16 +35,14 @@ function Dashboard() {
 
     const fetchStoreProductData = async (currentPage, productsPerPage, searchQuery) => {
         if (user.userId) {
-            setTimeout(async () => {
-                let data = await getProductsServiceAdmin(currentPage, productsPerPage, searchQuery);
-                if (data != undefined) {
-                    setProductData(data);
-                    setTotalPage(data.totalPages);
-                    setCurrentPage(data.pageNumber);
-                    setSearchQuery(data.searchKeyword);
-                    setLoading(false);
-                }
-            }, 5000);
+            let data = await getProductsServiceAdmin(currentPage, productsPerPage, searchQuery);
+            if (data != undefined) {
+                setProductData(data);
+                setTotalPage(data.totalPages);
+                setCurrentPage(data.pageNumber);
+                setSearchQuery(data.searchKeyword);
+                setLoading(false);
+            }
         } else {
             console.log("Please login to see past Product");
         }

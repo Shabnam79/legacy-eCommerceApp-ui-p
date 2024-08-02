@@ -4,6 +4,7 @@ import userContext from "../../utils/userContext";
 import Button from 'react-bootstrap/Button';
 import { variables } from "../../utils/variables";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate hook
 import {
   addBillingAddressService,
   updateBillingAddressService
@@ -11,6 +12,7 @@ import {
 
 const BillingAddressForm = () => {
   const { user } = useContext(userContext);
+  const navigate = useNavigate();  // Initialize the useNavigate hook
   const [formData, setFormData] = useState({
     id: '',
     email: '',
@@ -65,19 +67,28 @@ const BillingAddressForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (user.userId) {
-      if (formData.id) {
-        updateBillingAddressService(formData);
-      } else {
-        addBillingAddressService({
-          userId: user.userId,
-          ...formData
-        });
+      try {
+        if (formData.id) {
+          await updateBillingAddressService(formData);
+        } else {
+          await addBillingAddressService({
+            userId: user.userId,
+            ...formData
+          });
+        }
+        toast.success("Address saved successfully");
+        navigate('/checkout');  // Redirect to checkout page after successful form submission
+      } catch (error) {
+        console.error(error);
+        toast.error("Error saving address");
       }
+    } else {
+      toast.warning("Please log in to save the address");
     }
-  }
+  };
 
   return (
     <div className='container mt-5'>
@@ -210,7 +221,7 @@ const BillingAddressForm = () => {
             </div>
             <div className='d-flex justify-content-center w-100 my-3'>
               <div style={{ width: '63%' }}>
-                <Button className="billing-address-submit-button" type="submit">Submit</Button>
+                  <Button className="billing-address-submit-button" type="submit">Submit</Button>
               </div>
             </div>
           </form>

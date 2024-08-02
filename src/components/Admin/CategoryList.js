@@ -27,14 +27,13 @@ export default function CategoryList() {
 
     const fetchStoreCategoryData = async () => {
         if (user.userId) {
-            setTimeout(async () => {
-                let data = await getAllCategoryService();
-                const details = data.data;
-                if (details != undefined) {
-                    setCategoryData(details);
-                    setLoading(false);
-                }
-            }, 5000);
+            let data = await getAllCategoryService();
+            const details = data.data;
+            if (details != undefined) {
+                setCategoryData(details);
+                setLoading(false);
+            }
+
         } else {
             console.log("Please login to see past Category");
         }

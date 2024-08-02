@@ -20,7 +20,7 @@ const Details = () => {
     const { user } = useContext(userContext);
     const dispatch = useDispatch();
     const { detailProduct } = useSelector((state) => state.allproducts);
-    const { id, companyName, imageData, description, price, name, inCart, inWishlist } = detailProduct;
+    const { id, companyName, imageData, description, price, name, inCart, inWishlist, productId } = detailProduct;
     const [CartData, setCartData] = useState([]);
     const [wishlist, setWishlist] = useState({});
     const [isProductWishlisted, setIsProductWishlisted] = useState(false);
@@ -28,7 +28,7 @@ const Details = () => {
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const fontsize = { fontSize: '15px' };
 
-    console.log(user);
+    console.log(productId);
 
     useEffect(() => {
 
@@ -236,7 +236,7 @@ const Details = () => {
             <ReviewModal
                 name="Review"
                 show={modalShow}
-                productId={id}
+                productId={id || productId}
             />
             {user.userId == null
                 ?

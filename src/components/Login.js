@@ -40,6 +40,16 @@ const Login = ({ redirectAfterLogin }) => {
     }
 
     const authentication = async (values) => {
+        if (!values.email.endsWith('@testingxperts.com')) {
+            toast.warning(
+                "We accept to login with '@testingxperts' domain name only!",
+                {
+                    autoClose: 3000,
+                }
+            );
+            return;
+        }
+
         let data = await getRolesByEmailService(values);
         if (data != undefined) {
             const payload = {
@@ -72,7 +82,9 @@ const Login = ({ redirectAfterLogin }) => {
                 navigate(redirectAfterLogin || '/');
                 window.location.reload();
             }).catch(error => {
-                console.error(error.message);
+                toast.error("Oops! Looks like your Email or Password took a vacation without you. Try again!", {
+                    autoClose: 3000,
+                });
             });
 
         } else {
@@ -84,6 +96,8 @@ const Login = ({ redirectAfterLogin }) => {
             );
         }
     }
+
+
 
     return (
         <>

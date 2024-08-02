@@ -72,7 +72,7 @@ function AddProducts() {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        if (!name.name || !name.price || !name.quantity || !name.description || !name.companyName || !selectedValue || imageUpload.length === 0) {
+        if (!name.name || !name.price || !name.description || !name.companyName || !selectedValue || imageUpload.length === 0) {
             toast.error('Please fill in all fields, select a category, and upload an image.', {
                 autoClose: 2000,
             });
@@ -82,7 +82,6 @@ function AddProducts() {
         let addToProductObj = {
             ...name,
             isStock: isStockValue,
-            quantity: name.quantity
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
         setLoading(false);
@@ -183,17 +182,6 @@ function AddProducts() {
                                 name="price"
                                 value={name.price}
                                 placeholder='Enter product Price'
-                                required
-                                onChange={handleInputChange}
-                            />
-                        </Form.Group>
-                        <Form.Group className='mb-3' controlId='FormQuantity'>
-                            <Form.Control
-                                type='number'
-                                className='addproduct-input'
-                                name="quantity"
-                                value={name.quantity}
-                                placeholder='Enter Quantity of Product'
                                 required
                                 onChange={handleInputChange}
                             />

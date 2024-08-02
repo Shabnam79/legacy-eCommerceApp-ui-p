@@ -31,17 +31,15 @@ export default function UserList() {
     const fetchUserData = async (currentPage, productsPerPage, searchQueryUser) => {
 
         if (user.userId) {
-            setTimeout(async () => {
-                let data = await getUserData(currentPage, productsPerPage, searchQueryUser);
-                const details = data.data;
-                if (details != undefined) {
-                    setUserData(details);
-                    setTotalPage(data.totalPages);
-                    setCurrentPage(data.pageNumber);
-                    setSearchQueryUser(data.searchKeyword);
-                    setLoading(false);
-                }
-            }, 5000);
+            let data = await getUserData(currentPage, productsPerPage, searchQueryUser);
+            const details = data.data;
+            if (details != undefined) {
+                setUserData(details);
+                setTotalPage(data.totalPages);
+                setCurrentPage(data.pageNumber);
+                setSearchQueryUser(data.searchKeyword);
+                setLoading(false);
+            }
         } else {
             console.log("Please login to see past orders");
         }
