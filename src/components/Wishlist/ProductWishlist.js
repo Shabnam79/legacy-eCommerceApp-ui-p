@@ -6,17 +6,25 @@ import FavouriteList from "./FavouriteList";
 import { fetchWishlistProducts } from '../../utils/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingOverlay from 'react-loading-overlay';
-import { toast } from "react-toastify";
+import LoginModal from '../LoginModal';
 
 const ProductWishlist = () => {
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
     const { user } = useContext(userContext);
     const wishlistItems = useSelector((store) => store.wishlist);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
 
+    useEffect(() => {
+        if (user.userId) {
+            setModalShow(false);
+        }
+        else
+        {
+            setModalShow(true);
+        }
+    }, [user.userId]);
+    
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -33,6 +41,7 @@ const ProductWishlist = () => {
 
 
     return (
+        <>
         <section className='mb-5 mt-5'>
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 {
@@ -50,6 +59,13 @@ const ProductWishlist = () => {
                 }
             </LoadingOverlay>
         </section>
+         <LoginModal
+         name="Login"
+         show={modalShow}
+         onHide={() => setModalShow(false)}
+         
+        />
+     </>
     );
 }
 export default ProductWishlist;

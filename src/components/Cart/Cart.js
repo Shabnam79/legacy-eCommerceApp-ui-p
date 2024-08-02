@@ -1,16 +1,28 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import EmptyCart from './EmptyCart';
 import CartList from './CartList';
 import CartTotals from "./CartTotals";
 import { useDispatch, useSelector } from 'react-redux';
 import userContext from "../../utils/userContext";
 import { fetchCartProducts } from '../../utils/cartSlice'
-import { toast } from "react-toastify";
+import LoginModal from '../LoginModal';
 
 const Cart = ({ history }) => {
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext);
+    const [modalShow, setModalShow] = useState(false);
+
+
+    useEffect(() => {
+        if (user.userId) {
+            setModalShow(false);
+        }
+        else
+        {
+            setModalShow(true);
+        }
+    }, [user.userId]);
 
     useEffect(() => {
         if (user.userId) {
@@ -26,6 +38,7 @@ const Cart = ({ history }) => {
     }, []);
 
     return (
+        <>
         <section>
             {
                 cartItems.cart.length > 0
@@ -45,6 +58,14 @@ const Cart = ({ history }) => {
                     <EmptyCart />
             }
         </section>
+        
+            <LoginModal
+            name="Login"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            
+            />
+        </>
     );
 }
 
