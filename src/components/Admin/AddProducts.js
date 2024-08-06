@@ -81,14 +81,12 @@ function AddProducts() {
         setLoading(true);
         let addToProductObj = {
             ...name,
+            categoryId: CategoryIdValue,
+            category: selectedValue,
             isStock: isStockValue,
         };
         let docRef = await saveProductIntoStoreProductService(addToProductObj, imageUpload[0]);
         setLoading(false);
-
-        toast.success('Product added to admin list.', {
-            autoClose: 2000,
-        });
         navigate('/admin');
     }
 

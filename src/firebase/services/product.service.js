@@ -67,8 +67,8 @@ export const saveProductIntoStoreProductService = async (product, image) => {
     }
   })
     .then(function (response) {
-      toast.success(response.message, {
-        autoClose: 1000,
+      toast.success('Product added to admin list.', {
+        autoClose: 2000,
       });
     }).catch(function (error) {
       console.error(error.message);
@@ -98,9 +98,10 @@ export const saveUpdateProductStore = async (product, image) => {
     }
   })
     .then(function (response) {
-      toast.success(response.message, {
+      debugger
+      toast.success('Product Updated in admin list ', {
         autoClose: 1000,
-      });
+    });
     }).catch(function (error) {
       console.error(error.message);
     });
