@@ -2,50 +2,41 @@ import { variables } from "../../utils/variables";
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-export const getUserData = async () => {
-    return await axios.get(variables.API_URL + 'User/GetUsers')
-        .then(function (response) {
+export const getUserData = async (pageNumber,productsPerPage,searchQuery) => {
+    return await axios.get(variables.API_URL_NEW + 'Admin/UserList', { params: { "pageNumber": pageNumber ,"pageSize": productsPerPage , "searchKeyword": searchQuery }  }).then((response) =>{
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
-export const getRolesByEmailService = async (email) => {
-    return await axios.get(variables.API_URL + 'User/GetUserByEmailId', { params: { "email": email } })
+export const getRolesByEmailService = async (credentials) => {
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetUserByEmailId', { params: { "email": credentials.email } })
         .then(function (response) {
-            if (response?.data?.UID) {
+            if (response?.data) {
                 return response.data;
             }
             return undefined;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error);
         });
 }
 
 export const getRolesService = async () => {
-    return await axios.get(variables.API_URL + 'User/GetRoles')
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetRoles')
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
 export const getUserDataByIdService = async (UserRoleId) => {
-    return await axios.get(variables.API_URL + 'User/GetUserById', { params: { "userId": UserRoleId } })
+    return await axios.get(variables.API_URL_NEW + 'Admin/GetUserByEmailId', { params: { "email": UserRoleId } })
         .then(function (response) {
             return response.data;
         }).catch(function (error) {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }
 
@@ -53,7 +44,7 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
     return await
         axios({
             method: 'put',
-            url: variables.API_URL + 'User/UpdateUser',
+            url: variables.API_URL_NEW + 'Admin/EditUser',
             data: addToUserRoleObj
         })
             .then(function (response) {
@@ -62,9 +53,7 @@ export const updateRoleUsersService = async (addToUserRoleObj) => {
                 });
                 return response.data;
             }).catch(function (error) {
-                toast.error(error.message, {
-                    autoClose: 1000,
-                });
+                console.error(error.message);
             });
 }
 
@@ -72,15 +61,13 @@ export const createUsersService = async (payload) => {
     return await
         axios({
             method: 'post',
-            url: variables.API_URL + 'User/AddUser',
+            url: variables.API_URL_NEW + 'Admin/AddUser',
             data: payload,
         }).then(function (response) {
             toast.success(`User Detail Added Successfully`, {
                 autoClose: 3000,
             });
         }).catch((error) => {
-            toast.error(error.message, {
-                autoClose: 1000,
-            });
+            console.error(error.message);
         });
 }

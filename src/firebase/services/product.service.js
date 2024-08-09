@@ -5,12 +5,10 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export const getCategoryService = async () => {
-  return await axios.get(variables.API_URL + 'Category/GetProductsCategory').then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Admin/GetAllCategory').then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-  });
+    console.error(error.message);
   });
 }
 
@@ -18,49 +16,50 @@ export const getProductsByCategoryIdService = async (categoryId) => {
   return await axios.get(variables.API_URL + 'Product/GetProductsByCategoryId', { params: { "categoryId": categoryId } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-  });
+    console.error(error.message);
   });
 }
 
 export const getProductsService = async () => {
-  return await axios.get(variables.API_URL + 'Product/StoreProducts').then((response) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/StoreProducts').then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
+    console.error(error.message);
   });
+}
+export const getProductsServiceAdmin = async (pageNumber, productsPerPage, searchQuery) => {
+  return await axios.get(variables.API_URL_NEW + 'Admin/ProductList', { params: { "pageNumber": pageNumber, "pageSize": productsPerPage, "searchKeyword": searchQuery } }).then((response) => {
+    return response.data;
+  }).catch(error => {
+    console.error(error.message);
   });
 }
 
 export const DeleteItemFromProduct = async (id) => {
-    await axios.delete(variables.API_URL + 'Admin/DeleteProduct', { params: { "itemId": id } }).then((response) => {
-     }).catch(error => {
-       console.log(error);
-     });
+  await axios.delete(variables.API_URL_NEW + 'Admin/DeleteProduct', { params: { "id": id } }).then((response) => {
+  }).catch(error => {
+    console.log(error);
+  });
 }
 
-export const getProductByProductIdService = async (productId) => {
-  return await axios.get(variables.API_URL + 'Product/GetProductDetailbyId', { params: { "productId": productId } }).then((response) => {
+export const getProductByProductIdService = async (id) => {
+  return await axios.get(variables.API_URL_NEW + 'Admin/GetByProductId', { params: { "id": id } }).then((response) => {
     return response.data;
   }).catch(error => {
-    toast.error(error.message, {
-      autoClose: 1000,
-  });
+    console.error(error.message);
   });
 }
 
 export const saveProductIntoStoreProductService = async (product, image) => {
   const formData = new FormData();
-  formData.append('image', image);
+  formData.append('pictures', image);
 
   Object.keys(product).forEach((key) => {
     formData.append(key, product[key]);
   });
   await axios({
     method: 'post',
-    url: variables.API_URL + 'Admin/AddProduct',
+    url: variables.API_URL_NEW + 'Admin/AddProduct',
     data: formData,
     headers: {
       'Accept': 'application/json',
@@ -68,13 +67,11 @@ export const saveProductIntoStoreProductService = async (product, image) => {
     }
   })
     .then(function (response) {
-      toast.success(response.message, {
-        autoClose: 1000,
+      toast.success('Product added to admin list.', {
+        autoClose: 2000,
       });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }
 
@@ -85,7 +82,7 @@ export const getProductByIdService = async (productId) => {
 export const saveUpdateProductStore = async (product, image) => {
   const formData = new FormData();
   if (image != undefined) {
-    formData.append('image', image);
+    formData.append('pictures', image);
   }
 
   Object.keys(product).forEach((key) => {
@@ -93,7 +90,7 @@ export const saveUpdateProductStore = async (product, image) => {
   });
   await axios({
     method: 'put',
-    url: variables.API_URL + 'Admin/UpdateProduct',
+    url: variables.API_URL_NEW + 'Admin/EditProduct',
     data: formData,
     headers: {
       'Accept': 'application/json',
@@ -101,12 +98,11 @@ export const saveUpdateProductStore = async (product, image) => {
     }
   })
     .then(function (response) {
-      toast.success(response.message, {
+      debugger
+      toast.success('Product Updated in admin list ', {
         autoClose: 1000,
-      });
+    });
     }).catch(function (error) {
-      toast.error(error.message, {
-        autoClose: 1000,
-      });
+      console.error(error.message);
     });
 }

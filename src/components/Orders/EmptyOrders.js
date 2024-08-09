@@ -4,6 +4,10 @@ const EmptyOrders = () => {
     const [showText, setShowText] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const timer = setTimeout(() => {
             setShowText(true);
         }, 5000);

@@ -11,21 +11,32 @@ import { Col, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
 const Store = ({ history }) => {
+    const roundToWholeNumber = (number) => {
+        return Math.round(number);
+    };
+
     const cartItems = useSelector((store) => store.cart);
     const dispatch = useDispatch();
     const { user } = useContext(userContext);
-    const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.count, 0);
+    const subtotal = cartItems.cart.reduce((total, item) => total + item.price * item.quantity, 0);
     const shippingCost = 10.0; // Sample shipping cost
-    const total = subtotal + shippingCost;
+    const tax = roundToWholeNumber(cartItems.tax)
+    const total = subtotal + tax + shippingCost;
+    const totalCost = subtotal + tax + shippingCost;
     const fontsize = { fontSize: 'x-small' };
     const fontfamily = { fontFamily: "Times New Roman" };
+
     useEffect(() => {
         dispatch(fetchCartProducts(user.userId));
         document.title = "CheckOut";
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
-        <div className='container'>
+        <div className='container my-5'>
             <section className='mb-5'>
                 {
                     cartItems.cart.length > 0
@@ -39,14 +50,13 @@ const Store = ({ history }) => {
                                     <CheckoutForm value={cartItems} />
                                 </Col>
                                 <Col className='mt-2'>
-                                    <h4>Order Summary</h4>
+                                    <h4 style={{ color: '#007185' }}>Order Summary</h4>
                                     <Card className='order-summary-card' style={{ width: '45rem' }}>
                                         <Card.Body>
-                                            <Card.Title>Item In Your Cart</Card.Title>
                                             <Card.Text>
                                                 <CheckoutColumns />
                                                 <CheckoutList value={cartItems} />
-                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} shippingCost={shippingCost} totalAmount={total} />
+                                                <OrderSummary cartItems={cartItems.cart} subtotal={subtotal} tax={tax} shippingCost={shippingCost} total={total} totalCost={totalCost} />
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

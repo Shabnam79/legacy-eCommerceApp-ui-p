@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 export default function EmptyCart() {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className="container mt-5" data-testid="empty-cart">
             <div className="row">

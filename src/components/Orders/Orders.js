@@ -1,19 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import EmptyOrders from "./EmptyOrders";
 import OrdersList from "./OrdersList";
 import userContext from '../../utils/userContext';
 import { getOrderService } from '../../firebase/services/order.service';
 import LoadingOverlay from 'react-loading-overlay';
-import { toast } from "react-toastify";
+import LoginModal from '../LoginModal';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(userContext);
     const [loading, setLoading] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
+
+    useEffect(() => {
+        if (user.userId) {
+            setModalShow(false);
+        }
+        else
+        {
+            setModalShow(true);
+        }
+    }, [user.userId]);
+
     useEffect(() => {
         fetchOrders();
         document.title = "Your Orders";
     }, [user.userId]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const fetchOrders = async () => {
         if (user.userId) {
@@ -23,13 +39,14 @@ const Orders = () => {
                     setOrders(data);
                     setLoading(false);
                 }
-            }, 4000);
+            }, 3000);
         } else {
             console.log("Please login to see past orders");
         }
     }
 
     return (
+        <>
         <section>
             <LoadingOverlay active={loading} spinner text='Loading...'>
                 {
@@ -42,6 +59,13 @@ const Orders = () => {
                 }
             </LoadingOverlay>
         </section>
+            <LoginModal
+            name="Login"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            
+        />
+       </>
     );
 }
 

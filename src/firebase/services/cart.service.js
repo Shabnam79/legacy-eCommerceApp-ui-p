@@ -5,39 +5,45 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export const getCartProductsService = async (userId) => {
-    return await axios.get(variables.API_URL + 'Product/GetYourCart', { params: { "userId": userId } }).then((response) => {
+    return await axios.get(variables.API_URL_NEW + 'Product/GetCartByUserId', { params: { "UserId": userId } }).then((response) => {
         return response.data;
-      }).catch(error => {
+    }).catch(error => {
         console.log(error);
-      });
+    });
 }
 
 export const DeleteItemFromYourCart = async (id) => {
-    await axios.delete(variables.API_URL + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
+    await axios.delete(variables.API_URL_NEW + 'Product/DeleteItemFromYourCart', { params: { "id": id } }).then((response) => {
         toast.success(response.message, {
             autoClose: 1000,
-          });
-     }).catch(error => {
-        toast.error(error.message, {
+        });
+    }).catch(error => {
+        console.error(error.message);
+    });
+}
+
+export const DeleteAllItemFromYourCart = async (userId) => {
+    await axios.delete(variables.API_URL_NEW + 'Product/ClearCart', { params: { "UserId": userId } }).then((response) => {
+        toast.success(response.message, {
             autoClose: 1000,
-          });
-     });
+        });
+    }).catch(error => {
+        console.error(error.message);
+    });
 }
 
 export const saveProductIntoCartService = async (product) => {
     axios({
         method: 'post',
-        url: variables.API_URL + 'Product/AddToCart',
-        data: {...product }, 
+        url: variables.API_URL_NEW + 'Product/AddProductToCart',
+        data: { ...product },
 
-    }).then(function(response) {
+    }).then(function (response) {
         toast.success(response.message, {
             autoClose: 1000,
-          });
-    }).catch(function (error){
-        toast.error(error.message, {
-            autoClose: 1000,
-          });
+        });
+    }).catch(function (error) {
+        console.error(error.message);
     });
 }
 
@@ -45,20 +51,27 @@ export const getProductByIdService = async (productId) => {
     return doc(db, "addToCartStore", productId);
 }
 
-export const incrementCartProductsService = async (counts) => {    
-    return await counts + 1; 
+export const incrementCartProductsService = async (counts) => {
+    return await counts + 1;
 }
 
-export const UpdateItemQuantity = async (id, counts) => {
-    return await axios.put(variables.API_URL + `Product/UpdateItemQuantity?id=${id}&count=${counts}`).then((response) => {
-
-      }).catch(error => {
+export const UpdateItemQuantity = async (id, quantity) => {
+    return await axios.put(variables.API_URL_NEW + 'Product/EditCartItemQuantity', {
+        id: id,
+        quantity: quantity
+    }).then((response) => {
+        toast.success(response.message, {
+            autoClose: 1000,
+        });
+    }).catch(error => {
+        console.error(error.message);
         console.log(error);
-      });
-}
+    });
+};
+
 
 export const decrementCartProductsService = async (counts) => {
-    return await counts - 1; 
+    return await counts - 1;
 }
 
 export const getCartProductByProductIdService = async (productId) => {

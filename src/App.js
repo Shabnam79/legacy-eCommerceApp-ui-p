@@ -15,7 +15,7 @@ import Orders from './components/Orders/Orders';
 import ProductWishlist from './components/Wishlist/ProductWishlist';
 import Dashboard from './components/Admin/dashboard';
 import { Provider } from 'react-redux';
-import {store, persistedStore} from './utils/store';
+import { store, persistedStore } from './utils/store';
 import Signup from './components/Signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,10 +33,16 @@ import EditUsers from './components/Admin/EditUsers';
 import { variables } from "../src/utils/variables";
 import Footer from './components/Footer';
 import { PersistGate } from 'redux-persist/integration/react'
+import DashboardList from './components/DashboardList';
+import EmbedDashboard from './components/EmbedDashboard';
+import { EMBED_API_URL } from './utils/embedDashboardAPI';
 
 function App() {
   const [user, setUser] = useState({});
   const { getItem } = useLocalStorage();
+  const [accessToken, setAccessToken] = useState('');
+
+  const embedDashboardAPI_URL = EMBED_API_URL.EMBEDDASHBOARD_API_URL;
 
   useEffect(() => {
     let getUserData = getItem("user");
@@ -53,125 +59,170 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const handleAccessToken = async () => {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: EMBED_API_URL.USERNAME,
+          password: EMBED_API_URL.PASSWORD,
+          provider: 'db',
+          refresh: true
+        })
+      };
+
+      try {
+        const response = await fetch(`${embedDashboardAPI_URL}/api/v1/security/login`, requestOptions);
+        const data = await response.json();
+
+        setAccessToken(data.access_token);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    handleAccessToken();
+  }, []);
+
+  // When the user scrolls the page, execute myFunction 
+  window.onscroll = function () { myFunction() };
+
+  function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+  }
+
   return (
     <React.Fragment>
       <Provider store={store}>
-      <PersistGate persistor={persistedStore}>
-        <userContext.Provider
-          value={{
-            user: user,
-            setUser: setUser
-          }}
-        >
-          <Navbar />
-          <Outlet />
-          <div className='w-100' style={{ position: 'relative', top: '75px' }}>
-            <Routes>
-              {
-                user.roleId == variables.ROLE_ADMIN
-                  ?
-                  <>
-                    <Route exact path="/" element={<ProductList />} />
-                    <Route path="/details" element={<Details />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/wishlist" element={<ProductWishlist />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/review/:productId/:orderId" element={<Review />} />
+        <PersistGate persistor={persistedStore}>
+          <userContext.Provider
+            value={{
+              user: user,
+              setUser: setUser
+            }}
+          >
+            <div class="header">
+              <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+              </div>
+            </div>
+            <Navbar />
+            <Outlet />
+            <div className='w-100' style={{ position: 'relative', top: '75px' }}>
+              <Routes>
+                {
+                  user.roleId == variables.ROLE_ADMIN
+                    ?
+                    <>
+                      <Route exact path="/" element={<ProductList />} />
+                      <Route path="/details" element={<Details />} />
+                      <Route path="/cart" element={<Cart />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/orders" element={<Orders />} />
+                      <Route path="/wishlist" element={<ProductWishlist />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/review/:productId/:orderId" element={<Review />} />
 
-                    <Route path="/admin" element={<Dashboard />} />
-                    <Route path="/admin/addproduct" element={<AddProducts />} />
-                    <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
-                    <Route path="/admin/CategoryList" element={<CategoryList />} />
-                    <Route path="/admin/AddCategories" element={<AddCategories />} />
-                    <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
-                    <Route path="/admin/UserList" element={<UserList />} />
-                    <Route path="/admin/CreateUsers" element={<CreateUsers />} />
-                    <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
-                  </>
-                  :
-                  <>
-                    <Route exact path="/" element={<ProductList />} />
-                    <Route path="/details" element={<Details />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/wishlist" element={<ProductWishlist />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/review/:productId/:orderId" element={<Review />} />
-                  </>
-              }
+                      <Route path="/admin" element={<Dashboard />} />
+                      <Route path="/admin/addproduct" element={<AddProducts />} />
+                      <Route path="/admin/editproduct/:productId" element={<EditProducts />} />
+                      <Route path="/admin/CategoryList" element={<CategoryList />} />
+                      <Route path="/admin/AddCategories" element={<AddCategories />} />
+                      <Route path="/admin/EditCategory/:categoryId" element={<EditCategory />} />
+                      <Route path="/admin/UserList" element={<UserList />} />
+                      <Route path="/admin/CreateUsers" element={<CreateUsers />} />
+                      <Route path="/admin/EditUsers/:UserRoleId" element={<EditUsers />} />
+                      <Route path="/DashboardList" element={<DashboardList accessToken={accessToken} />} />
+                      <Route path="/EmbedDashboard/:id" element={<EmbedDashboard accessToken={accessToken} />} />
+                    </>
+                    :
+                    <>
+                      <Route exact path="/" element={<ProductList />} />
+                      <Route path="/details" element={<Details />} />
+                      <Route path="/cart" element={<Cart />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/orders" element={<Orders />} />
+                      <Route path="/wishlist" element={<ProductWishlist />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/review/:productId/:orderId" element={<Review />} />
+                    </>
+                }
 
-              <Route exact
-                path="/"
-                element={
-                  <ProductList />
-                }
-              />
-              <Route
-                path="/details"
-                element={
-                  <Details />
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <Cart />
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <Login />
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <Orders />
-                }
-              />
-              <Route
-                path="/wishlist"
-                element={
-                  <ProductWishlist />
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <Signup />
-                }
-              />
-              <Route
-                path="/review/:productId/:orderId"
-                element={
-                  <Review />
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <Checkout />
-                }
-              />
-              <Route
-                path="/billingAddress"
-                element={
-                  <BillingAddress />
-                }
-              />
-              <Route element={<Default />} />
-            </Routes>
-          </div>
-          <Modal />
-        </userContext.Provider>
-       </PersistGate>
+                <Route exact
+                  path="/"
+                  element={
+                    <ProductList />
+                  }
+                />
+                <Route
+                  path="/details"
+                  element={
+                    <Details />
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <Cart />
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <Login />
+                  }
+                />
+                <Route
+                  path="/orders"
+                  element={
+                    <Orders />
+                  }
+                />
+                <Route
+                  path="/wishlist"
+                  element={
+                    <ProductWishlist />
+                  }
+                />
+                <Route
+                  path="/signup"
+                  element={
+                    <Signup />
+                  }
+                />
+                <Route
+                  path="/review/:productId/:orderId"
+                  element={
+                    <Review />
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <Checkout />
+                  }
+                />
+                <Route
+                  path="/billingAddress"
+                  element={
+                    <BillingAddress />
+                  }
+                />
+
+                <Route element={<Default />} />
+              </Routes>
+            </div>
+            <Footer />
+            <Modal />
+          </userContext.Provider>
+        </PersistGate>
       </Provider>
       <ToastContainer />
-      <Footer />
     </React.Fragment>
   );
 }

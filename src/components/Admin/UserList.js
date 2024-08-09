@@ -13,22 +13,33 @@ export default function UserList() {
     const { user } = useContext(userContext);
     const [UserData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchInput, setSearchInput] = useState('');
+    const [totalPage, setTotalPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQueryUser, setSearchQueryUser] = useState('');
+
+    const productsPerPage = variables.PAGINATION_UserListAdmin.PRODUCTS_PER_PAGE;
 
     useEffect(() => {
-        fetchUserData();
+        fetchUserData(currentPage, productsPerPage, searchQueryUser);
         document.title = "Admin - User Management"
     }, [user.userId]);
 
-    const fetchUserData = async () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const fetchUserData = async (currentPage, productsPerPage, searchQueryUser) => {
+
         if (user.userId) {
-            setTimeout(async () => {
-                let data = await getUserData();
-                if (data != undefined) {
-                    setUserData(data);
-                    setLoading(false);
-                }
-            }, 5000);
+            let data = await getUserData(currentPage, productsPerPage, searchQueryUser);
+            const details = data.data;
+            if (details != undefined) {
+                setUserData(details);
+                setTotalPage(data.totalPages);
+                setCurrentPage(data.pageNumber);
+                setSearchQueryUser(data.searchKeyword);
+                setLoading(false);
+            }
         } else {
             console.log("Please login to see past orders");
         }
@@ -37,7 +48,7 @@ export default function UserList() {
     const UserActive = async (item) => {
         if (item.isActive == true) {
             alert("Please click Ok to make your Account Inactive.");
-            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${false}`)
+            await axios.delete(variables.API_URL_NEW + `Admin/UpdateUserStatus?id=${item.id}`)
                 .then(function (response) {
                     toast.success(`User Active status is Updated Successfully`, {
                         autoClose: 3000,
@@ -50,7 +61,7 @@ export default function UserList() {
         }
         else {
             alert("Please click Ok to make your Account Active.");
-            await axios.put(variables.API_URL + `User/UpdateIsActive?userId=${item.UID}&isActive=${true}`)
+            await axios.delete(variables.API_URL_NEW + `Admin/UpdateUserStatus?id=${item.id}`)
                 .then(function (response) {
                     toast.success(`User Active status is Updated Successfully`, {
                         autoClose: 3000,
@@ -61,12 +72,31 @@ export default function UserList() {
                     });
                 });
         }
-        fetchUserData();
+        fetchUserData(currentPage, productsPerPage, searchQueryUser);
     };
 
-    const filteredUserData = UserData ? UserData.filter(item =>
-        (item.email && item.email.toLowerCase().includes(searchInput.toLowerCase()))
-    ) : [];
+    const setPageNumber = async (item) => {
+        try {
+            setLoading(true);
+            setTimeout(async () => {
+                fetchUserData(item, productsPerPage, searchQueryUser);
+
+            }, 1000);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const setSearching = async (Searchitem) => {
+        try {
+            fetchUserData(currentPage, productsPerPage, Searchitem);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
 
     return (
         <>
@@ -80,7 +110,7 @@ export default function UserList() {
                                     border: 'none'
                                 }}>Create User</Button>
                             </Link>
-                            <input type='text' className='searchbar-input mb-3' placeholder='Search Product...' onChange={(e) => setSearchInput(e.target.value)} />
+                            <input type='text' className='searchbar-input mb-3' placeholder='Search User...' onChange={(e) => setSearching(e.target.value)} />
                         </div>
                         <Table striped bordered hover size='sm'>
                             <thead>
@@ -93,14 +123,14 @@ export default function UserList() {
                             </thead>
                             <tbody>
                                 {
-                                    filteredUserData.map((item, index) => (
+                                    UserData.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.userName}</td>
                                             <td>{item.email}</td>
-                                            <td>{item.role}</td>
+                                            <td>{item.roleName}</td>
                                             <td className='d-flex justify-content-center'>
                                                 <div className='d-flex justify-content-end w-100 mr-1'>
-                                                    <Link to={`/admin/EditUsers/${item.UID}`}>
+                                                    <Link to={`/admin/EditUsers/${item.email}`}>
                                                         <Button style={{
                                                             backgroundColor: 'rgb(5, 54, 69)',
                                                             border: 'none'
@@ -119,6 +149,19 @@ export default function UserList() {
                                 }
                             </tbody>
                         </Table>
+                    </div>
+                    <div className='w-100'>
+                        <ul className="pagination justify-content-center">
+                            {
+                                Array.from({ length: totalPage }, (_, i) => (
+                                    <li key={i + 1} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
+                                        <button onClick={() => setPageNumber(i + 1)} className="pagination-button">
+                                            {i + 1}
+                                        </button>
+                                    </li>
+                                ))
+                            }
+                        </ul>
                     </div>
                 </div>
             </LoadingOverlay>

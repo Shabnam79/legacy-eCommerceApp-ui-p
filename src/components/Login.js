@@ -1,8 +1,9 @@
-import Form from 'react-bootstrap/Form';
+import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import React, { useContext, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import { Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import userContext from "../utils/userContext";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import LoginModal from './LoginModal';
@@ -12,115 +13,101 @@ import axios from 'axios';
 import { getRolesByEmailService } from '../firebase/services/user.service';
 
 const schema = yup.object().shape({
-    email: yup.string()
-        .email()
-        .required(),
-    password: yup.string()
-        .min(6, 'Must be greater than 6 characters')
-        .max(10, 'Must be less than or equal to 10 characters')
-        .required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(6, 'Must be greater than 6 characters').max(40, 'Must be less than or equal to 40 characters').required(),
 });
 
-const Login = () => {
+const Login = ({ redirectAfterLogin }) => {
     const { user, setUser } = useContext(userContext);
     const { setItem } = useLocalStorage();
+    const navigate = useNavigate();
     const [modalShow, setModalShow] = useState(false);
     const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
-    const borderHello = { border: "none" };
     const stylingLoginButton = {
         color: 'white',
-        backgroundColor: 'rgb(5, 54, 69)',
-        border: '1px solid #6855e0',
+        backgroundColor: '#8C7569',
+        border: '1px solid #8C7569',
         borderRadius: '5px'
     };
     const loginButtonTrans = {
         cursor: 'pointer',
         border: '0',
         borderRadius: '5px',
-        fontweight: '600',
+        fontWeight: '600',
         margin: '14px 0px',
-        width: '150px',
         padding: '0.375rem 0.75rem',
-        boxshadow: '0 0 20px #6855e0',
         transition: '0.4s',
     }
 
     const authentication = async (values) => {
-        let data = await getRolesByEmailService(values.email);
-        if (data != undefined) {
-            if (data.isActive == true) {
-                const payload = {
-                    email: values.email,
-                    password: values.password
+        if (!values.email.endsWith('@testingxperts.com')) {
+            toast.warning(
+                "We accept to login with '@testingxperts' domain name only!",
+                {
+                    autoClose: 3000,
                 }
+            );
+            return;
+        }
 
-                axios({
-                    method: 'post',
-                    url: variables.API_URL + 'Auth/Login',
-                    data: payload,
+        let data = await getRolesByEmailService(values);
+        if (data != undefined) {
+            const payload = {
+                email: values.email,
+                password: values.password
+            }
 
-                }).then((response) => {
-                    debugger
-                    let userData = {
-                        userId: response.data.localId,
-                        email: response.data.email,
-                        roleId: data.roleId,
-                        userName: data.userName                  
-                    };
+            axios({
+                method: 'post',
+                url: variables.API_URL_NEW + 'Auth/Login',
+                data: payload,
+            }).then((response) => {
+                let userData = {
+                    email: data.email,
+                    roleId: data.roleId,
+                    userId: data.id,
+                    userName: data.userName
+                };
 
-                    setItem("user", JSON.stringify(userData));
-                    setUser({
-                        ...user,
-                        userId: response.data.localId,
-                        email: response.data.email,
-                        roleId: data.roleId,
-                        userName: data.userName 
-
-                    });
-                }).catch(error => {
-                    toast.error(error.message, {
-                        autoClose: 1000,
-                    });
+                setItem("user", JSON.stringify(userData));
+                setUser({
+                    ...user,
+                    userId: response.data,
+                    email: response.data.email,
+                    roleId: data.roleId,
+                    userName: data.userName
                 });
 
-            }
-            else if (data.isActive == false) {
-                toast.warning(
-                    `your Account is Inactive.Please connect with Admin.`,
-                    {
-                        autoClose: 1000,
-                    }
-                );
-            }
-            else{
-                toast.warning(
-                    `your Account is Inactive.Please connect with Admin.`,
-                    {
-                        autoClose: 1000,
-                    }
-                );
-            }
+                setModalShow(false);
+                navigate(redirectAfterLogin || '/');
+                window.location.reload();
+            }).catch(error => {
+                toast.error("Oops! Looks like your Email or Password took a vacation without you. Try again!", {
+                    autoClose: 3000,
+                });
+            });
 
         } else {
             toast.warning(
-                `To Login you need to signUp first`,
+                `Please check your credentials, your Email Id and Password are not matching!`,
                 {
-                    autoClose: 1000,
+                    autoClose: 3000,
                 }
             );
         }
     }
 
+
+
     return (
         <>
-            <Row className='d-flex justify-content-center'>
+            <Row className='d-flex'>
                 <div className='login-form'>
                     <Formik validationSchema={schema}
                         onSubmit={authentication}
                         initialValues={{
-                            email: 'noorsre@gmail.com',
-                            password: '12345678',
+                            email: '',
+                            password: '',
                         }} >
                         {({
                             handleSubmit,
@@ -130,40 +117,43 @@ const Login = () => {
                             errors,
                         }) => (
                             <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group controlId="validationFormik01">
-                                    <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Email</Form.Label>
+                                <Form.Group className='formInputArea' controlId="validationFormik01">
+                                    <Form.Label style={{ fontSize: '14px' }}>Email</Form.Label>
                                     <Form.Control
                                         type="email"
-                                        placeholder="jane@formik.com"
+                                        placeholder="username@mailserver.domain"
                                         className='login-signup-input'
                                         name="email"
                                         value={values.email}
                                         onChange={handleChange}
                                         isInvalid={!!errors.email}
+                                        autoComplete="off"
                                     />
-                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize }}>
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.email}
                                     </Form.Control.Feedback>
                                 </Form.Group>
 
-                                <Form.Group controlId="validationFormik02" className='mt-2'>
-                                    <Form.Label style={{ fontSize: '16px', fontWeight: 'bold' }}>Password</Form.Label>
+                                <Form.Group controlId="validationFormik02" className='mt-2 formInputArea'>
+                                    <Form.Label style={{ fontSize: '14px' }}>Password</Form.Label>
                                     <Form.Control
+                                        type='password'
                                         className='login-signup-input'
                                         placeholder="******"
                                         name="password"
                                         value={values.password}
                                         onChange={handleChange}
                                         isInvalid={!!errors.password}
+                                        autoComplete="off"
                                     />
 
-                                    <Form.Control.Feedback type="invalid">
+                                    <Form.Control.Feedback type="invalid" style={{ ...fontsize, textTransform: 'uppercase' }}>
                                         {errors.password}
                                     </Form.Control.Feedback>
 
                                 </Form.Group>
 
-                                <div className='d-flex justify-content-center mt-2'>
+                                <div className='d-flex justify-content-between align-items-center'>
                                     <button style={{ ...stylingLoginButton, ...loginButtonTrans }} type="submit">
                                         <span>Login</span>
                                     </button>
@@ -173,20 +163,19 @@ const Login = () => {
                                     name="Signup"
                                     show={modalShow}
                                     onHide={() => setModalShow(false)}
-
                                 />
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <span className='mr-1' style={{ fontSize: '14px' }}>New User? </span>
+                                <div className='d-flex justify-content-center align-items-center mt-4'>
+                                    <span className='mr-1' style={{ fontSize: '14px', fontWeight: '200' }}>Don't have an account? </span>
                                     <span onClick={(e) => {
                                         e.preventDefault();
                                         setModalShow(true);
                                     }} style={{
                                         fontSize: '15px',
-                                        color: 'blue',
+                                        color: '#33333399',
                                         fontWeight: '600',
                                         cursor: 'pointer',
                                         textDecoration: 'underline'
-                                    }}>Click Here
+                                    }}>Sign up now
                                     </span>
                                 </div>
                             </Form>

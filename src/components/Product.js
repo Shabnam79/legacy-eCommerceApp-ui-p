@@ -12,13 +12,11 @@ import { FaHeart } from 'react-icons/fa';
 
 
 const Product = ({ product }) => {
-    debugger
-    const { title, img, price, inCart, id } = product;
+    const { name, description, imageData, price, inCart, id } = product;
     const { user } = useContext(userContext);
     const [CartData, setCartData] = useState([]);
     const [loginmodalShow, setLoginModalShow] = useState(false);
     const wishlistItems = useSelector((store) => store.wishlist);
-    // console.log(wishlistItems.wishlist);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -46,7 +44,7 @@ const Product = ({ product }) => {
             if (item.id === data.productId) {
                 iscart = true;
                 productIds = data.id;
-                Counts = data.count;
+                Counts = data.quantity;
                 return true; // Exit the loop early when a match is found  
             }
             return false;
@@ -55,21 +53,15 @@ const Product = ({ product }) => {
             if (!iscart) {
                 try {
                     let addToCartProductObj = {
-                        company: item.company,
-                        img: item.img,
-                        inCart: true,
-                        info: item.info,
-                        price: item.price,
                         productId: item.id,
                         userId: user.userId,
-                        title: item.title,
-                        count: item.count + 1
+                        quantity: 1
                     }
 
                     let docRef = await saveProductIntoCartService(addToCartProductObj);
                     dispatch(addToCart(item));
 
-                    toast.success(`${item.title} is added to cart`, {
+                    toast.success(`${item.name} is added to cart`, {
                         autoClose: 1000,
                     });
                 } catch (e) {
@@ -114,49 +106,46 @@ const Product = ({ product }) => {
     const isProductInWishlist = wishlistItems.wishlist.find(wishlistItem => wishlistItem.id === id);
 
     return (
-        <ProducrWrapper className="tx-product-card">
-            <div className="" onClick={() => handleProductDetails(product)}>
-                <Link to="/details" style={{ height: '325px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <img src={img} alt="product" className="h-100 w-auto" />
-                </Link>
-            </div>
-            <div className="my-2 d-flex align-items-start justify-content-between" style={{ height: '65px' }}>
-                <h6 data-testid='product-title' className='w-75'>
-                    <span className="">
-                        {title}:
-                    </span>
-                </h6>
-                <h5 className="d-flex" style={{ borderBottom: '2px solid #053645' }} data-testid='product-price'>
-                    <b>
-                        <span className="mr-1">$</span>
-                        <span>{price}</span>
-                    </b>
-                </h5>
-            </div>
-            {user.userId == null ?
-                <LoginModal name="Login"
-                    show={loginmodalShow}
-                    onHide={() => setLoginModalShow(false)} />
-                : null
-            }
-            <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
-                onClick={(e) => {
-                    e.preventDefault();
-                    addProductIntoCart(product);
-                    openCartModal(product);
-                }}>
-                {inCart ? (
-                    <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
-                ) : (
-                    <p className='m-0'>ADD TO CART</p>
-                )}
-            </button>
-            {
-                isProductInWishlist && <div style={{ position: 'absolute' }}>
-                    <FaHeart className='heartWishlistIcon' color="#FF4343" />
+        <Link to="/details" onClick={() => handleProductDetails(product)}>
+            <ProducrWrapper className="tx-product-card">
+                <div className="">
+                    <div className='imageContainer' style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <img src={`data:image/png;base64, ${imageData}`} alt="product" className="h-100 w-100" />
+                    </div>
                 </div>
-            }
-        </ProducrWrapper>
+                <div className="d-flex flex-column product-title-area">
+                    <h6 data-testid='product-title' className='product-title' dangerouslySetInnerHTML={{ __html: name }}></h6>
+                    <h5 className="d-flex amount-area" style={{ width: 'fit-content', }} data-testid='product-price'>
+                        <span>Price: </span>
+                        <span className="ml-1" style={{ fontSize: '12px', fontWeight: '100' }}>$</span>
+                        <span style={{ fontWeight: '100' }}>{price}</span>
+                    </h5>
+                </div>
+                {user.userId == null ?
+                    <LoginModal name="Login"
+                        show={loginmodalShow}
+                        onHide={() => setLoginModalShow(false)} />
+                    : null
+                }
+                <button data-testid="add-to-cart-button" className="add-to-cart-button" disabled={inCart ? true : false}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        addProductIntoCart(product);
+                        openCartModal(product);
+                    }}>
+                    {inCart ? (
+                        <p className="text-capitalize mb-0" disabled>{""}in Cart</p>
+                    ) : (
+                        <p className='m-0'>ADD TO CART</p>
+                    )}
+                </button>
+                {
+                    isProductInWishlist && <div className='wishlistArea'>
+                        <FaHeart className='heartWishlistIcon' color="#FF3E6C" />
+                    </div>
+                }
+            </ProducrWrapper>
+        </Link>
     );
 }
 

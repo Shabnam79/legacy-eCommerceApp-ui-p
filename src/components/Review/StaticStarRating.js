@@ -18,6 +18,7 @@ const StaticStarRating = ({ myProductRating }) => {
                         disabled
                         type="button"
                         key={index}
+                        style={{ paddingTop: '0px', paddingBottom: '0px' }}
                         className={index <= (rating)
                             ? "star-rating-button star-rating-on px-1"
                             : " star-rating-button star-rating-off px-1"}

@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import StarRating from './StarRating';
-import { getProductReviewByOrderIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
+import { getProductReviewByOrderIdService, getProductReviewByProductIdService, saveProductReview, updateProductReview } from '../../firebase/services/review.service';
 import { toast } from 'react-toastify';
 import userContext from '../../utils/userContext';
 
@@ -28,6 +28,10 @@ const Review = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchProductReview(orderId);
         document.title = "Ratings & Reviews";
     }, [user.userId]);
@@ -45,29 +49,37 @@ const Review = (props) => {
         setSelectedFiles(newFiles);
     };
 
-    const fetchProductReview = async (orderId) => {
-        const data = await getProductReviewByOrderIdService(orderId);
-        if (data.length != 0) {
-            setProductReviewDetails(data);
-            setImageUrls(data.img);
+    const fetchProductReview = async (OrderItemId, ProductItemId) => {
+        const orderData = await getProductReviewByOrderIdService(OrderItemId);
+
+        if (orderData) {
+            setProductReviewDetails(orderData);
+            setImageUrls(orderData.imageData);
             setIsUpdateReview(true);
+        } else {
+            const productData = await getProductReviewByProductIdService(ProductItemId);
+            if (productData) {
+                setProductReviewDetails(productData);
+                setIsUpdateReview(false);
+            }
         }
-        else {
-            setIsUpdateReview(false);
-        }
-    }
+    };
+
 
     const addUpdateProductReview = async (values) => {
-        let reviewObj = {
-            userId: user.userId,
-            orderId: orderId,
-            productId: productId,
-            reviewDate: Date(),
-            title: values.title,
-            description: values.description,
-            rating: productReviewDetails.rating
-        }
+
         if (isUpdateReview == false) {
+            
+            let reviewObj = {
+                Title: values.title,
+                Description: values.description,
+                ProductId: productId,
+                UserId: user.userId,
+                OrderItemId: orderId,
+                Rating: productReviewDetails.rating,
+                reviewDate: Date(),
+            }
+
             if (!imageUpload || imageUpload.length == 0) {
                 await saveProductReview(reviewObj);
             }
@@ -79,11 +91,21 @@ const Review = (props) => {
             });
         }
         else if (isUpdateReview == true) {
+            let reviewUPObj = {
+                Id: values.id,
+                Title: values.title,
+                Description: values.description,
+                ProductId: productId,
+                UserId: user.userId,
+                OrderItemId: orderId,
+                Rating: productReviewDetails.rating,
+                reviewDate: Date(),
+            }
             if (!imageUpload || imageUpload.length == 0) {
-                await updateProductReview(reviewObj);
+                await updateProductReview(reviewUPObj);
             }
             else {
-                await updateProductReview(reviewObj, imageUpload[0]);
+                await updateProductReview(reviewUPObj, imageUpload[0]);
             }
             toast.success(`review updated successfully`, {
                 autoClose: 1000,
@@ -100,7 +122,7 @@ const Review = (props) => {
 
     return (
         <>
-            <div className="container">
+            <div className="container mt-5">
                 <Title className="title-text" name="Ratings & Reviews" />
                 <h4 style={{ color: '#053645' }}>Rate this product</h4>
                 <StarRating parentCallback={setRating} myProductRating={productReviewDetails.rating} />
@@ -123,14 +145,14 @@ const Review = (props) => {
                                 errors,
                             }) => (
                                 <Form noValidate onSubmit={handleSubmit}>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Title</Form.Label>
-
                                         <Form.Control
                                             className='review-input'
                                             type="text"
                                             placeholder="Review title..."
                                             name="title"
+                                            style={{ height: '60px' }}
                                             value={values.title}
                                             onChange={handleChange}
                                             isInvalid={!!errors.title} />
@@ -141,9 +163,8 @@ const Review = (props) => {
 
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlTextarea1">
                                         <Form.Label>Description</Form.Label>
-
                                         <Form.Control
                                             as="textarea"
                                             className='review-textarea'
@@ -160,17 +181,18 @@ const Review = (props) => {
 
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
+                                    <Form.Group className="mb-3 reviewLabelInput" controlId="exampleForm.ControlFile1">
                                         <Form.Label>Photos</Form.Label>
                                         <Form.Control
                                             className='review-input'
                                             type="file"
+                                            style={{ height: '70px' }}
                                             accept="image/*, video/*"
                                             onChange={handleMediaChange}
                                         />
                                         <div className="">
                                             {imageUrls.length != 0 ? (
-                                                <img src={imageUrls} style={{
+                                                <img src={`data:image/png;base64, ${imageUrls}`} style={{
                                                     height: "auto",
                                                     width: "250px"
                                                 }} className="img-fluid mt-3" alt="product" />
@@ -186,19 +208,19 @@ const Review = (props) => {
                                                 ) : null}
                                                 <Button className="mt-2" onClick={() => handleFileRemove(index)} style={{
                                                     width: '100px',
-                                                    backgroundColor: 'rgb(5, 54, 69)',
+                                                    backgroundColor: '#8C7569',
                                                     border: 'none'
                                                 }}>Remove</Button>
                                             </div>
                                         ))}
                                     </Form.Group>
                                     <Button type="submit" style={{
-                                        backgroundColor: 'rgb(5, 54, 69)',
+                                        backgroundColor: '#8C7569',
                                         border: 'none',
                                         float: 'right',
                                         marginBottom: '50px'
                                     }}>
-                                        <i className="fas fa-user">&ensp;Submit</i>
+                                        <i className="fas fa-user">&ensp;<span>Submit</span></i>
                                     </Button>
                                 </Form>
                             )}

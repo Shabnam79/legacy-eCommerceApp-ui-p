@@ -6,10 +6,11 @@ import userContext from '../../utils/userContext';
 import { useParams } from 'react-router-dom';
 import { getCategoryByCategoryIdService, updateCategoryIntoProductCategoryService } from '../../firebase/services/category.service';
 import { Link, useNavigate } from 'react-router-dom';
-
+import LoadingOverlay from 'react-loading-overlay';
 
 export default function EditCategory() {
 
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { user } = useContext(userContext);
     const [CategoryData, setCategoryData] = useState("");
@@ -19,6 +20,10 @@ export default function EditCategory() {
     useEffect(() => {
         fetchProductCategoryData(categoryId);
         document.title = "Admin - Edit Category"
+    }, []);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
     }, []);
 
     const fetchProductCategoryData = async (categoryId) => {
@@ -34,8 +39,10 @@ export default function EditCategory() {
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
-        await updateCategoryIntoProductCategoryService(CategoryData, categoryId, user.userId);
+        await updateCategoryIntoProductCategoryService(CategoryData, categoryId);
+        setLoading(false);
         toast.success('Category updated in admin list', {
             autoClose: 1000,
         });
@@ -44,31 +51,33 @@ export default function EditCategory() {
 
     return (
         <>
-            <div className='container mt-5'>
-                <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
-                    <Form.Group className='mb-3'>
-                        <Form.Control
-                            className='editcategory-input'
-                            type='text'
-                            name="category"
-                            value={CategoryData}
-                            placeholder='Enter Category Name'
-                            required
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Button type='submit' style={{
-                        backgroundColor: 'rgb(5, 54, 69)',
-                        border: 'none'
-                    }}>Update</Button>
-                    <Link to={`/admin/CategoryList`}>
-                        <Button className="btn btn-primary mx-3" style={{
+            <LoadingOverlay active={loading} spinner text='Loading...'>
+                <div className='container mt-5'>
+                    <Form className='d-grid gap-2' onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className='mb-3'>
+                            <Form.Control
+                                className='editcategory-input'
+                                type='text'
+                                name="category"
+                                value={CategoryData.name}
+                                placeholder='Enter Category Name'
+                                required
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Button type='submit' style={{
                             backgroundColor: 'rgb(5, 54, 69)',
                             border: 'none'
-                        }}>Back to Category List</Button>
-                    </Link>
-                </Form>
-            </div>
+                        }}>Update</Button>
+                        <Link to={`/admin/CategoryList`}>
+                            <Button className="btn btn-primary mx-3" style={{
+                                backgroundColor: 'rgb(5, 54, 69)',
+                                border: 'none'
+                            }}>Back to Category List</Button>
+                        </Link>
+                    </Form>
+                </div>
+            </LoadingOverlay>
         </>
     )
 }

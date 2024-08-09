@@ -44,13 +44,13 @@ const Navbar = () => {
             style={{
                 position: 'fixed',
                 zIndex: '10',
-                backdropFilter: 'blur(8px)',
-                background: '#f3f3f33d',
-                boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.05)',
+                marginTop: '5px',
+                background: '#FFFFFF',
+                boxShadow: '1px 1px 10px 0 rgba(0, 0, 0, 0.1)',
             }}>
             <div className="navbar">
                 <Link to='/' className='d-flex align-items-center HomeButton'>
-                    <img id="Img-Logo" src={require('../TX-Logo.png')} width={'200px'} height={'50px'} alt="TX-Logo" className="navbar-brand" />
+                    <img id="Img-Logo" src={require('../TX-eComLogo.png')} width={'50px'} height={'50px'} style={{ objectFit: 'cover' }} alt="TX-Logo" className="navbar-brand" />
                 </Link>
             </div>
             <div className="d-flex align-items-center" >
@@ -107,12 +107,13 @@ const Navbar = () => {
                                                     <Dropdown.Item href="/admin">Manage Product</Dropdown.Item>
                                                     <Dropdown.Item href="/admin/CategoryList">Manage Category</Dropdown.Item>
                                                     <Dropdown.Item href="/admin/UserList">Manage Users</Dropdown.Item>
+                                                    <Dropdown.Item href="/DashboardList">Dashboard</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </div>
                                         </Dropdown>
                                         <Link to="/cart" className="d-flex align-items-end">
                                             <Button style={{
-                                                backgroundColor: '#053645',
+                                                backgroundColor: '#007185',
                                                 ...borderHello
                                             }}>
                                                 <i className="fas fa-cart-plus">&ensp;
@@ -145,7 +146,7 @@ const Navbar = () => {
                                         </Dropdown>
                                         <Link to="/cart" className="d-flex align-items-end">
                                             <Button style={{
-                                                backgroundColor: '#053645',
+                                                backgroundColor: '#007185',
                                                 ...borderHello
                                             }}>
                                                 <i className="fas fa-cart-plus">&ensp;

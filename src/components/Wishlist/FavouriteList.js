@@ -10,6 +10,10 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
     const userId = user && Object.keys(user).length > 0 ? user.userId : null
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         fetchAddToWishlistData();
         document.title = "Favourite List";
     }, [user.userId]);
@@ -25,8 +29,8 @@ const FavouriteList = ({ wishlist, removeWishlist }) => {
         }
     }
     return (
-        <div className='container my-4'>
-            <div className="row" data-testid="wishlist-items">
+        <div className='wishlistSection my-4'>
+            <div className="d-table main-wishlist-section" data-testid="wishlist-items">
                 {WishlistData.map(item => {
                     return <WishlistItem key={item.id} item={item} wishlist={wishlist} fetchAddToWishlistData={fetchAddToWishlistData} />
                 })}

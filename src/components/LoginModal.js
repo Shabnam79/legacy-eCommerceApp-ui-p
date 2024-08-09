@@ -1,7 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
-import React from 'react'
-import Login from "../components/Login"
-import { ButtonContainer } from './Button';
+import React from 'react';
+import Login from "../components/Login";
 import Signup from './Signup';
 
 const LoginModal = (props) => {
@@ -9,23 +8,30 @@ const LoginModal = (props) => {
     const fontfamily = { fontFamily: "Times New Roman" };
     const borderHello = { border: "none" };
     return (
-        <Modal style={{ width: '50%', marginLeft: '330px' }}
+        <Modal
             {...props}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className='modalAreaEcommerce'
         >
-            <Modal.Header>
-                <button type="button" onClick={props.onHide} class="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </Modal.Header>
-            <span className='text-center text-title mt-3' style={{ fontSize: '20px', fontWeight: 'bold' }} id="contained-modal-title-vcenter">
-                {props.name}
-            </span>
-            <Modal.Body className='mb-2'>
-                {props.name == "Login" ? <Login /> : <Signup />}
-            </Modal.Body>
+            <button type="button" onClick={props.onHide} className="close closeButton" aria-label="Close">
+                <span>&times;</span>
+            </button>
+            <div className='w-100 modalInputArea p-4'>
+                <div className='w-50'>
+                    <span className='text-center mt-3' style={{ fontSize: '32px', color: '#55311C', fontWeight: 'bold' }} id="contained-modal-title-vcenter">
+                        {props.name}!
+                    </span>
+                    <p className='m-0'>Discover the latest deals and exclusive offers at our E-Commerce! {props.name} now to start shopping and save big!</p>
+                    <Modal.Body className='mb-2'>
+                        {props.name === "Login" ? <Login redirectAfterLogin={props.redirectAfterLogin} /> : <Signup />}
+                    </Modal.Body>
+                </div>
+                <div className='w-50 modalImage'>
+                    <img src={require('../img/eCommerceLoginModal.png')} alt='e Commerce Illustartion' />
+                </div>
+            </div>
         </Modal>
     );
 }

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 export const saveProductToWishlistService = async (product) => {
   axios({
     method: 'post',
-    url: variables.API_URL + 'Product/AddProductToWishList',
+    url: variables.API_URL_NEW + 'Product/AddProductToWishlist',
     data: { ...product },
 
   }).then(function (response) {
@@ -13,23 +13,29 @@ export const saveProductToWishlistService = async (product) => {
       autoClose: 1000,
     });
   }).catch(function (error) {
-    toast.error(error.message, {
-      autoClose: 1000,
-    });
+    console.error(error.message);
   });
 }
 
 export const DeleteProductFromWishList = async (id) => {
-    await axios.delete(variables.API_URL + 'Product/DeleteProductFromWishList', { params: { "id": id } }).then((response) => {
-     }).catch(error => {
-       console.log(error);
-     });
+  await axios.delete(variables.API_URL_NEW + 'Product/RemoveProductWishlist', { params: { "id": id } }).then((response) => {
+  }).catch(error => {
+    console.log(error);
+  });
 }
 
 export const getWishlistService = async (userId) => {
-    return await axios.get(variables.API_URL + 'Product/YourWishList', { params: { "userId": userId } }).then((response) => {
-        return response.data;
-      }).catch(error => {
-        console.log(error);
-      });
+  return await axios.get(variables.API_URL_NEW + 'Product/YourWishList', { params: { "UserId": userId } }).then((response) => {
+    return response.data;
+  }).catch(error => {
+    console.log(error);
+  });
+}
+
+export const ProductAvailableInWishlist = async (userId, ProductId) => {
+  return await axios.get(variables.API_URL_NEW + 'Product/CheckIsProductAvailableInWishlist', { params: { "UserId": userId, "productId": ProductId } }).then((response) => {
+    return response.data;
+  }).catch(error => {
+    console.log(error);
+  });
 }

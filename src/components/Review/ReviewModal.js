@@ -21,7 +21,7 @@ const ReviewModal = (props) => {
             if (selectedOption === 'Top Reviews') {
                 data.sort((a, b) => b.rating - a.rating);
             } else if (selectedOption === 'Most Recent') {
-                data.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+                data.sort((a, b) => new Date(b.reviewedDate) - new Date(a.reviewedDate));
             }
 
             setReviews(data);
@@ -38,7 +38,7 @@ const ReviewModal = (props) => {
                 <center>Reviews</center>
             </h1>
             <Dropdown onSelect={handleSelectChange}>
-                <Dropdown.Toggle className='tx-dropdown' style={{ background: 'rgba(243, 243, 243, 0.24', backdropFilter: '20px', boxShadow: 'rgba(0, 0, 0, 0.05) 1px 1px 10px 0px', ...borderHello, color: '#053645' }}>
+                <Dropdown.Toggle className='tx-dropdown reviewDropDown' style={{ border: '1px solid #007185 !important' }}>
                     {selectedOption}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className='tx-dropdown-menu'>

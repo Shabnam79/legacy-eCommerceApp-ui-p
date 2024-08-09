@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
-import { db } from "../../firebase/config/firebase.config";
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import userContext from "../../utils/userContext";
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +12,8 @@ import Card from 'react-bootstrap/Card';
 import { query, where, getDocs, collection } from "firebase/firestore";
 import { createPortal } from "react-dom";
 import { removeAll } from '../../utils/cartSlice';
+import axios from 'axios';
+import { variables } from '../../utils/variables';
 
 function IFrame({ children }) {
     const [ref, setRef] = useState();
@@ -33,8 +35,14 @@ const CheckoutForm = ({ value }) => {
     const { user } = useContext(userContext);
     const [shippingAddress, setShippingAddress] = useState([]);
     const address = shippingAddress[0];
-    const fontsize = { fontSize: 'x-small' };
-    const fontfamily = { fontFamily: "Times New Roman" };
+    const navigate = useNavigate();
+
+    const roundToWholeNumber = (number) => {
+        return Math.round(number);
+    };
+
+    const totalOrderAmount = roundToWholeNumber(cartItems.cart.totalCost);
+    
 
     useEffect(() => {
         fetchAddShippingDetails();
@@ -43,26 +51,21 @@ const CheckoutForm = ({ value }) => {
 
     const placeProductOrder = async (e) => {
         if (user.userId) {
-            const dataArray = [];
+            let orderTotal = 0;
             cart.forEach(element => {
-                dataArray.push({
-                    name: element.title,
-                    orderDate: Date(),
-                    orderId: uuidv4(),
-                    price: element.price,
-                    productId: element.productId,
-                    quantity: element.count,
-                    total: element.price * element.count,
-                    userId: user.userId,
-                    image: element.img,
-                    id: element.id
-                })
+                orderTotal = element.price * element.quantity;
             });
-            await saveCartOrderService(dataArray);
+            
+            let obj = {
+                userId: user.userId,
+                orderTotal: totalOrderAmount
+            }
+            
+            await saveCartOrderService(obj);
             dispatch(removeAll());
-            toast.success(`Your order has been successfully placed!`, {
-                autoClose: 1000,
-            });
+            // toast.success(`Your order has been successfully placed!`, {
+            //     autoClose: 1000,
+            // });
         } else {
             toast.warning(
                 `To make order you need to login first`,
@@ -75,50 +78,65 @@ const CheckoutForm = ({ value }) => {
 
     const fetchAddShippingDetails = async () => {
         if (user.userId) {
-            await getDocs(collection(db, "shippingAddress"), where("userId", "==", user.userId))
-                .then((querySnapshot) => {
-                    const shippingAddress = [];
-                    querySnapshot.forEach((doc) => {
-                        shippingAddress.push(doc.data());
+           
+             await axios.get(variables.API_URL_NEW + 'Product/GetShippingAddressByUserId', {
+                    params: { "userId": user.userId }
+                }).then((response) => {
+                    const data = response.data;
+                    console.log(data);
+                        if (data) {
+                            setShippingAddress(data);
+                        }
+                  }).catch(error => {
+                        if (error.code === "ERR_BAD_REQUEST") {
+                            toast.error("Please add the shipping Address before placing Order.", {
+                                autoClose: 3000,
+                            });
+                          navigate(`/BillingAddress/`);
+                        }
                     });
-                    setShippingAddress(shippingAddress);// Update the component's state with the fetched data
-                })
         } else {
             console.log("Please login to see shipping address");
         }
     }
+
+    const getEmailPrefix = (email) => {
+        if (email) {
+            return email.split('@')[0];
+        }
+        return '';
+    };
 
     return (
         <section>
             {
                 <div className="container">
                     <div id="DivShippingInfo" className="shipping-info mt-2">
-                        <h4>Shipping Info</h4>
+                        <h4 style={{ color: '#007185' }}>Shipping Address</h4>
                         <Card className='shipping-address-area' style={{ width: '20rem' }}>
                             <Card.Body>
-                                <Card.Title>Shipping Address</Card.Title>
                                 <Card.Text>
                                     <div className="billing-info">
                                         <p>
-                                            <strong>Name: </strong> {address ? address.firstName + ' ' + address.lastName : ''}
+                                            <strong>Name: </strong> {getEmailPrefix(shippingAddress.email)}
                                         </p>
                                         <p>
-                                            <strong>Address 1: </strong> {address ? address.address : ''}
+                                            <strong>Address 1: </strong> {shippingAddress.address1}
                                         </p>
                                         <p>
-                                            <strong>Address 2: </strong> {address ? address.address2 : ''}
+                                            <strong>Address 2: </strong> {shippingAddress.address2}
                                         </p>
                                         <p>
-                                            <strong>City: </strong> {address ? address.city : ''}
+                                            <strong>City: </strong> {shippingAddress.city}
                                         </p>
                                         <p>
-                                            <strong>State: </strong> {address ? address.state : ''}
+                                            <strong>State: </strong> {shippingAddress.state}
                                         </p>
                                         <p>
-                                            <strong>Country: </strong> {address ? address.country : ''}
+                                            <strong>Country: </strong> {shippingAddress.country}
                                         </p>
                                         <p>
-                                            <strong>ZipCode: </strong> {address ? address.zipCode : ''}
+                                            <strong>ZipCode: </strong> {shippingAddress.pinCode}
                                         </p>
                                     </div>
                                 </Card.Text>
@@ -151,10 +169,10 @@ const CheckoutForm = ({ value }) => {
                                             </div>
                                         ))}
                                     </Card.Text>
-                                    <Button style={{
+                                    <Button className='add-new-card-button' style={{
                                         border: 'none',
-                                        backgroundColor: '#053645',
-                                        color: '#f3f0eb',
+                                        backgroundColor: '#007185',
+                                        color: '#FFF',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
                                         borderRadius: '0.25rem',
@@ -168,9 +186,9 @@ const CheckoutForm = ({ value }) => {
                                 <Link to="/orders">
                                     <button style={{
                                         marginTop: "10px",
-                                        border: 'none',
-                                        backgroundColor: '#053645',
-                                        color: '#f3f0eb',
+                                        backgroundColor: '#FFF',
+                                        border: '1px solid #007185',
+                                        color: '#007185',
                                         padding: '0.375rem 0.75rem',
                                         fontSize: '1rem',
                                         borderRadius: '0.25rem',
