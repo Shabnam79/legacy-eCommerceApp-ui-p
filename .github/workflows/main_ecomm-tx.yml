@@ -26,8 +26,8 @@ jobs:
           npm install
           # setx CI false
           CI=false npm run build
-          env:
-            CI: false
+          # env:
+          #   CI: false
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -62,6 +62,7 @@ jobs:
           app-name: 'ecomm-tx'
           slot-name: 'Production'
           package: .
+
 
 
 
