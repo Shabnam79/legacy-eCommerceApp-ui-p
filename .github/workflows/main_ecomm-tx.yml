@@ -1,5 +1,4 @@
-
-name: Build and deploy Node.js app to Azure Web App - ecomm-tx
+name: Build and Deploy React App to Azure Web App - ecomm-tx
 
 on:
   push:
@@ -8,65 +7,68 @@ on:
   workflow_dispatch:
 
 jobs:
+  # -----------------------------
+  # 🔹 BUILD JOB
+  # -----------------------------
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      # ✅ Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      # ✅ Setup Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '24.x'
+          node-version: '22.x' # or the Node version used locally
 
-      - name: npm install, build
+      # ✅ Install dependencies and build
+      - name: Install dependencies and build
         run: |
           npm install
-          # setx CI false
           CI=false npm run build
-          # env:
-          #   CI: false
-      
-      - name: Upload artifact for deployment job
+
+      # ✅ Upload build artifact for deployment
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: react-build
+          path: build
 
+  # -----------------------------
+  # 🔹 DEPLOY JOB
+  # -----------------------------
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
-      - name: Download artifact from build job
+      # ✅ Download the build artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: node-app
-      
-      - name: Login to Azure
+          name: react-build
+          path: build
+
+      # ✅ Log in to Azure using federated credentials
+      - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_316958F0B9A540A98086CEAF34C812C1 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9643D911694A4CF9BF42F325A51AC8FC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7A11965E4CFF43B0A1C0C49454494E92 }}
 
-      - name: 'Deploy to Azure Web App'
+      # ✅ Deploy the build folder to Azure Web App
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'ecomm-tx'
           slot-name: 'Production'
-          package: .
-
-
-
-
-
-
-
-
+          package: build
