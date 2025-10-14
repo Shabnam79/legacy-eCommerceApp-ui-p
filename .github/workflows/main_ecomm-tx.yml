@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -24,8 +24,8 @@ jobs:
       - name: npm install, build
         run: |
           npm install
-          setx CI false
-          npm run build
+          # setx CI false
+          CI=false npm run build
           env:
             CI: false
       
@@ -62,6 +62,7 @@ jobs:
           app-name: 'ecomm-tx'
           slot-name: 'Production'
           package: .
+
 
 
 
