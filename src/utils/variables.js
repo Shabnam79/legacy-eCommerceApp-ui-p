@@ -5,7 +5,7 @@ export const variables = {
     //API_URL_NEW: "http://192.168.12.39:8080/api/",
 
     // Production Environment
-    API_URL_NEW: "backend-tx-ecm-brabeybucmfsfxby.canadacentral-01.azurewebsites.net/api",
+    API_URL_NEW: "https://backend-tx-ecm-brabeybucmfsfxby.canadacentral-01.azurewebsites.net/api/",
     
     //Development
     //API_URL: "https://localhost:7125/api/",
