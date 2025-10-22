@@ -61,9 +61,9 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_316958F0B9A540A98086CEAF34C812C1 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9643D911694A4CF9BF42F325A51AC8FC }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7A11965E4CFF43B0A1C0C49454494E92 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C4705FDE3FBB4669B1DD3C6F9B7471FC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_784DC525B74840C486F7CC9294B1DBAF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B7381DC28E264FC1B0BA232D5C90B498 }}
 
       # ✅ Deploy the build folder to Azure Web App
       - name: Deploy to Azure Web App
@@ -72,3 +72,4 @@ jobs:
           app-name: 'ecomm-tx'
           slot-name: 'Production'
           package: build
+
