@@ -88,13 +88,13 @@ const Navbar = () => {
                                             </Dropdown.Toggle>
                                             <div className='w-100'>
                                                 <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
-                                                    <Dropdown.Item id="ddllogout" onClick={() => logout()} as={Link} to="/">
+                                                    <Dropdown.Item id="ddllogout" onClick={() => logout()} href="/">
                                                         Logout</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/wishlist">Your Wishlist</Dropdown.Item>
-                                                    <Dropdown.Item onClick={() => setModalShow(false)} as={Link} to="/orders">
+                                                    <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">
                                                         Your Orders</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/cart">Your Cart</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/billingAddress">Shipping Address</Dropdown.Item>
+                                                    <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                                    <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </div>
                                         </Dropdown>
@@ -104,10 +104,10 @@ const Navbar = () => {
                                             </Dropdown.Toggle>
                                             <div className='w-100'>
                                                 <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu2' style={{ ...borderHello }}>
-                                                    <Dropdown.Item as={Link} to="/admin">Manage Product</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/admin/CategoryList">Manage Category</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/admin/UserList">Manage Users</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/DashboardList">Dashboard</Dropdown.Item>
+                                                    <Dropdown.Item href="/admin">Manage Product</Dropdown.Item>
+                                                    <Dropdown.Item href="/admin/CategoryList">Manage Category</Dropdown.Item>
+                                                    <Dropdown.Item href="/admin/UserList">Manage Users</Dropdown.Item>
+                                                    <Dropdown.Item href="/DashboardList">Dashboard</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </div>
                                         </Dropdown>
@@ -134,13 +134,13 @@ const Navbar = () => {
                                             </Dropdown.Toggle>
                                             <div className='w-100'>
                                                 <Dropdown.Menu className='tx-dropdown-menu tx-dropdown-menu4' style={{ ...borderHello }}>
-                                                    <Dropdown.Item id="ddllogout" onClick={() => logout()} as={Link} to="/">
+                                                    <Dropdown.Item id="ddllogout" onClick={() => logout()} href="/">
                                                         Logout</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/wishlist">Your Wishlist</Dropdown.Item>
-                                                    <Dropdown.Item onClick={() => setModalShow(false)} as={Link} to="/orders">
+                                                    <Dropdown.Item href="/wishlist">Your Wishlist</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => setModalShow(false)} href="/orders">
                                                         Your Orders</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/cart">Your Cart</Dropdown.Item>
-                                                    <Dropdown.Item as={Link} to="/billingAddress">Shipping Address</Dropdown.Item>
+                                                    <Dropdown.Item href="/cart">Your Cart</Dropdown.Item>
+                                                    <Dropdown.Item href="/billingAddress">Shipping Address</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </div>
                                         </Dropdown>
